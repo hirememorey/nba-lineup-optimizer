@@ -1,0 +1,214 @@
+[
+    {
+        "step_num": 1,
+        "description": "Populate Teams",
+        "module_name": ".populate_teams",
+        "function_name": "populate_teams_data",
+        "table_name": "Teams",
+        "check_season_data": false,
+        "takes_season_arg": false,
+        "row_threshold": 25
+    },
+    {
+        "step_num": 2,
+        "description": "Populate Players",
+        "module_name": ".populate_core_players",
+        "function_name": "populate_all_players_data",
+        "table_name": "Players",
+        "check_season_data": false,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 3,
+        "description": "Populate Player Wingspan",
+        "module_name": ".populate_player_wingspan",
+        "function_name": "populate_player_wingspan",
+        "table_name": "Players",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "column_name": "wingspan",
+        "row_threshold": 100,
+        "special_check": true
+    },
+    {
+        "step_num": 4,
+        "description": "Populate Games",
+        "module_name": ".populate_games",
+        "function_name": "populate_games_for_season",
+        "table_name": "Games",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 800
+    },
+    {
+        "step_num": 5,
+        "description": "Populate Player Season Raw and Advanced Stats",
+        "module_name": ".populate_player_season_stats",
+        "function_name": "populate_player_season_stats",
+        "table_name": "PlayerSeasonRawStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 6,
+        "description": "Populate Player Drive Stats",
+        "module_name": ".populate_player_drive_stats",
+        "function_name": "populate_player_drive_stats",
+        "table_name": "PlayerSeasonDriveStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 7,
+        "description": "Populate Player Hustle Stats",
+        "module_name": ".populate_player_hustle_stats",
+        "function_name": "populate_player_hustle_stats",
+        "table_name": "PlayerSeasonHustleStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 8,
+        "description": "Populate Player Opponent Shooting Stats",
+        "module_name": ".populate_opponent_shooting_stats",
+        "function_name": "populate_opponent_shooting_stats",
+        "table_name": "PlayerSeasonOpponentShootingStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 9,
+        "description": "Populate Player Passing Stats",
+        "module_name": ".populate_player_passing_stats",
+        "function_name": "populate_player_passing_stats",
+        "table_name": "PlayerSeasonPassingStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 10,
+        "description": "Populate Player Rebounding Stats",
+        "module_name": ".populate_player_rebounding_stats",
+        "function_name": "populate_player_rebounding_stats",
+        "table_name": "PlayerSeasonReboundingStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 11,
+        "description": "Populate Player Shooting Distance Stats",
+        "module_name": ".populate_player_shooting_distance_stats",
+        "function_name": "populate_player_shooting_distance_stats",
+        "table_name": "PlayerSeasonShootingDistanceStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 12,
+        "description": "Populate Player Tracking Touches Stats",
+        "module_name": ".populate_player_tracking_touches_stats",
+        "function_name": "populate_player_tracking_touches_stats",
+        "table_name": "PlayerSeasonTrackingTouchesStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 13,
+        "description": "Populate Player Catch and Shoot Stats",
+        "module_name": ".populate_player_catch_shoot_stats",
+        "function_name": "populate_player_catch_shoot_stats",
+        "table_name": "PlayerSeasonCatchAndShootStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 14,
+        "description": "Populate Player Pull Up Stats",
+        "module_name": ".populate_player_pull_up_stats",
+        "function_name": "populate_player_pull_up_stats",
+        "table_name": "PlayerSeasonPullUpStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 15,
+        "description": "Populate Player Post Up Stats",
+        "module_name": ".populate_player_post_up_stats",
+        "function_name": "populate_player_post_up_stats",
+        "table_name": "PlayerSeasonPostUpStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 16,
+        "description": "Populate Player Paint Touch Stats",
+        "module_name": ".populate_player_paint_touch_stats",
+        "function_name": "populate_player_paint_touch_stats",
+        "table_name": "PlayerSeasonPaintTouchStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 17,
+        "description": "Populate Player Elbow Touch Stats",
+        "module_name": ".populate_player_elbow_touch_stats",
+        "function_name": "populate_player_elbow_touch_stats",
+        "table_name": "PlayerSeasonElbowTouchStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 400
+    },
+    {
+        "step_num": 18,
+        "description": "Populate Lineup Stats",
+        "module_name": ".populate_lineup_stats",
+        "function_name": "populate_lineup_stats",
+        "table_name": "PlayerLineupStats",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 100
+    },
+    {
+        "step_num": 19,
+        "description": "Populate Player Shot Charts",
+        "module_name": ".populate_player_shot_charts",
+        "function_name": "populate_player_shot_charts",
+        "table_name": "PlayerShotChart",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 500
+    },
+    {
+        "step_num": 20,
+        "description": "Populate Player Skill Ratings (DARKO, etc.)",
+        "module_name": ".populate_player_skill",
+        "function_name": "populate_player_skill",
+        "table_name": "PlayerSeasonSkill",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 100
+    },
+    {
+        "step_num": 21,
+        "description": "Populate Possessions Data",
+        "module_name": ".populate_possessions",
+        "function_name": "populate_possessions",
+        "table_name": "Possessions",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 20000
+    }
+] 
