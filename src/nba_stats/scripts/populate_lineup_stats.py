@@ -22,10 +22,27 @@ def _fetch_and_aggregate_lineup_stats(client, season: str) -> dict:
     aggregated_stats = {}
     measure_types = ["Base", "Advanced", "Misc", "Four Factors", "Scoring"]
 
+    try:
+        start_year = int(season.split('-')[0])
+        date_from = f"10/01/{start_year}"
+        date_to = f"04/30/{start_year + 1}"
+    except (ValueError, IndexError):
+        logger.error(f"Invalid season format: {season}. Expected format 'YYYY-YY'.")
+        return {}
+
     for measure in measure_types:
         logger.info(f"Fetching {measure} lineup stats for {season} season.")
         try:
-            data = client.get_lineup_stats(season=season, measure_type=measure)
+            data = client.get_lineup_stats(
+                season=season, 
+                measure_type=measure,
+                date_from=date_from,
+                date_to=date_to
+            )
+
+            if measure == "Base":
+                logger.info(f"Received data for Base measure type: {data}")
+                
             if not data or "resultSets" not in data or not data["resultSets"]:
                 logger.warning(f"No data for measure type: {measure}")
                 continue

@@ -1,12 +1,19 @@
 """Script to populate the PlayerSeasonRawStats and PlayerSeasonAdvancedStats tables."""
 
+# Standard libs
 import sqlite3
 import time
 import random
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
+# Ensure project root is on sys.path so that relative imports work
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+# Local imports (after path fix)
+from nba_stats.scripts.common_utils import get_db_connection, get_nba_stats_client, logger, settings
 
 def _insert_stats(conn: sqlite3.Connection, player_id: int, season: str, team_id: int, stats: Dict):
     """Inserts both raw and advanced stats for a player for a given season."""
@@ -16,13 +23,28 @@ def _insert_stats(conn: sqlite3.Connection, player_id: int, season: str, team_id
         raw_cursor.execute("""
             INSERT OR REPLACE INTO PlayerSeasonRawStats (
                 player_id, season, team_id, games_played, minutes_played, field_goal_percentage,
-                three_point_percentage, free_throw_percentage, total_rebounds, assists,
-                steals, blocks, points, plus_minus
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                three_point_percentage, free_throw_percentage,
+                field_goals_made, field_goals_attempted,
+                three_pointers_made, three_pointers_attempted,
+                free_throws_made, free_throws_attempted,
+                offensive_rebounds, defensive_rebounds, total_rebounds,
+                assists, steals, blocks, turnovers, personal_fouls,
+                points, plus_minus
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            player_id, season, team_id, stats.get('GP'), stats.get('MIN'), stats.get('FG_PCT'),
-            stats.get('FG3_PCT'), stats.get('FT_PCT'), stats.get('REB'), stats.get('AST'),
-            stats.get('STL'), stats.get('BLK'), stats.get('PTS'), stats.get('PLUS_MINUS')
+            player_id, season, team_id,
+            stats.get('GP'),
+            stats.get('MIN'),
+            stats.get('FG_PCT'),
+            stats.get('FG3_PCT'),
+            stats.get('FT_PCT'),
+            stats.get('FGM'), stats.get('FGA'),
+            stats.get('FG3M'), stats.get('FG3A'),
+            stats.get('FTM'), stats.get('FTA'),
+            stats.get('OREB'), stats.get('DREB'), stats.get('REB'),
+            stats.get('AST'), stats.get('STL'), stats.get('BLK'),
+            stats.get('TOV'), stats.get('PF'),
+            stats.get('PTS'), stats.get('PLUS_MINUS')
         ))
 
         adv_cursor = conn.cursor()
@@ -55,35 +77,45 @@ def _fetch_player_stats_task(player_info: Tuple[int, str], season: str) -> Dict:
         
         # Consolidate API calls
         player_info = client.get_player_info(player_id)
-        # Fetch stats in "Totals" mode to get season aggregates
-        player_stats = client.get_player_stats(player_id, season, per_mode="Totals")
         
-        if not player_info or not player_stats:
+        # Fetch both base and advanced stats and merge them
+        base_stats_raw = client.get_player_stats(player_id, season, per_mode="Totals", measure_type="Base")
+        advanced_stats_raw = client.get_player_stats(player_id, season, per_mode="Totals", measure_type="Advanced")
+
+        if not player_info or not base_stats_raw or not advanced_stats_raw:
             logger.warning(f"Could not retrieve full stats for player {player_id}")
             return {}
 
         team_id = player_info.get('TEAM_ID')
         
-        # Combine all stats into a single dictionary
+        # Helper to extract the primary rowSet from a raw API response
+        def _extract_row_set(raw_data: Dict) -> Dict:
+            if not raw_data or 'resultSets' not in raw_data:
+                return {}
+            
+            for result_set in raw_data.get('resultSets', []):
+                if result_set.get('name') == 'OverallPlayerDashboard' and result_set.get('rowSet'):
+                    headers = [h.upper() for h in result_set['headers']] # Normalize headers to upper
+                    row = result_set['rowSet'][0]
+                    return dict(zip(headers, row))
+            return {}
+
+        # Extract and merge base and advanced stats
+        base_stats = _extract_row_set(base_stats_raw)
+        advanced_stats = _extract_row_set(advanced_stats_raw)
+        
+        if not base_stats or not advanced_stats:
+            logger.warning(f"Could not find 'OverallPlayerDashboard' in raw stats for player {player_id}")
+            return {}
+
         all_stats = {
             'player_id': player_id,
             'season': season,
             'team_id': team_id
         }
         
-        # Find the 'OverallPlayerDashboard' result set for season totals
-        overall_stats_found = False
-        for result_set in player_stats.get('resultSets', []):
-            if result_set.get('name') == 'OverallPlayerDashboard' and result_set.get('rowSet'):
-                headers = result_set['headers']
-                row = result_set['rowSet'][0]
-                all_stats.update(dict(zip(headers, row)))
-                overall_stats_found = True
-                break # Found the overall stats, no need to continue
-        
-        if not overall_stats_found:
-            logger.warning(f"Could not find 'OverallPlayerDashboard' stats for player {player_id}")
-            return {}
+        all_stats.update(base_stats)
+        all_stats.update(advanced_stats)
             
         return all_stats
 

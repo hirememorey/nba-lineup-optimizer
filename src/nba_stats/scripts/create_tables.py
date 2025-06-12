@@ -452,22 +452,19 @@ def create_player_season_post_up_stats_table(conn: sqlite3.Connection) -> None:
         player_id INTEGER NOT NULL,
         season TEXT NOT NULL,
         team_id INTEGER NOT NULL,
-        post_up_touches REAL,
-        post_up_pts REAL,
-        post_up_fgm REAL,
-        post_up_fga REAL,
-        post_up_fg_pct REAL,
-        post_up_ftm REAL,
-        post_up_fta REAL,
-        post_up_ft_pct REAL,
-        post_up_pass REAL,
-        post_up_pass_pct REAL,
-        post_up_ast REAL,
-        post_up_ast_pct REAL,
-        post_up_tov REAL,
-        post_up_tov_pct REAL,
-        post_up_pf REAL,
-        post_up_pf_pct REAL,
+        possessions REAL,
+        points REAL,
+        fgm REAL,
+        fga REAL,
+        fg_pct REAL,
+        ft_frequency_pct REAL,
+        tov_frequency_pct REAL,
+        sf_frequency_pct REAL,
+        pass_frequency_pct REAL,
+        assists REAL,
+        assist_pct REAL,
+        points_per_possession REAL,
+        frequency_pct REAL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (player_id, season, team_id),
@@ -542,6 +539,99 @@ def create_player_season_elbow_touch_stats_table(conn: sqlite3.Connection) -> No
     )
     ''')
     logger.info("PlayerSeasonElbowTouchStats table checked/created.")
+
+def create_player_archetype_features_table(conn: sqlite3.Connection) -> None:
+    """Create the PlayerArchetypeFeatures table."""
+    cursor = conn.cursor()
+    # This table will store the 48 features used for clustering.
+    # Column names are based on the paper, transformed to be SQL-friendly.
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS PlayerArchetypeFeatures (
+        player_id INTEGER NOT NULL,
+        season TEXT NOT NULL,
+        FTPCT REAL, TSPCT REAL, THPAr REAL, FTr REAL, TRBPCT REAL, ASTPCT REAL,
+        AVGDIST REAL, Zto3r REAL, THto10r REAL, TENto16r REAL, SIXTto3PTr REAL,
+        HEIGHT REAL, WINGSPAN REAL, FRNTCTTCH REAL, TOP REAL, AVGSECPERTCH REAL,
+        AVGDRIBPERTCH REAL, ELBWTCH REAL, POSTUPS REAL, PNTTOUCH REAL, DRIVES REAL,
+        DRFGA REAL, DRPTSPCT REAL, DRPASSPCT REAL, DRASTPCT REAL, DRTOVPCT REAL,
+        DRPFPCT REAL, DRIMFGPCT REAL, CSFGA REAL, CS3PA REAL, PASSESMADE REAL,
+        SECAST REAL, POTAST REAL, PUFGA REAL, PU3PA REAL, PSTUPFGA REAL,
+        PSTUPPTSPCT REAL, PSTUPPASSPCT REAL, PSTUPASTPCT REAL, PSTUPTOVPCT REAL,
+        PNTTCHS REAL, PNTFGA REAL, PNTPTSPCT REAL, PNTPASSPCT REAL, PNTASTPCT REAL,
+        PNTTVPCT REAL, AVGFGATTEMPTEDAGAINSTPERGAME REAL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (player_id, season),
+        FOREIGN KEY (player_id) REFERENCES Players(player_id)
+    )
+    """)
+    logger.info("PlayerArchetypeFeatures table checked/created.")
+
+def create_archetypes_table(conn: sqlite3.Connection) -> None:
+    """Create the Archetypes table to store archetype definitions."""
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Archetypes (
+        archetype_id INTEGER PRIMARY KEY,
+        archetype_name TEXT NOT NULL UNIQUE
+    )
+    """)
+    logger.info("Archetypes table checked/created.")
+
+def create_player_season_archetypes_table(conn: sqlite3.Connection) -> None:
+    """Create the PlayerSeasonArchetypes table to link players to archetypes."""
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS PlayerSeasonArchetypes (
+        player_id INTEGER NOT NULL,
+        season TEXT NOT NULL,
+        archetype_id INTEGER NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (player_id, season),
+        FOREIGN KEY (player_id) REFERENCES Players(player_id),
+        FOREIGN KEY (archetype_id) REFERENCES Archetypes(archetype_id)
+    )
+    """)
+    logger.info("PlayerSeasonArchetypes table checked/created.")
+
+def create_lineup_superclusters_table(conn: sqlite3.Connection) -> None:
+    """Create the LineupSuperclusters table to store supercluster definitions."""
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS LineupSuperclusters (
+        supercluster_id INTEGER PRIMARY KEY,
+        supercluster_name TEXT NOT NULL UNIQUE
+    )
+    """)
+    logger.info("LineupSuperclusters table checked/created.")
+
+def create_archetype_lineups_table(conn: sqlite3.Connection) -> None:
+    """
+    Create the ArchetypeLineups table to store stats for each unique
+    combination of 5 player archetypes.
+    """
+    cursor = conn.cursor()
+    # The columns are based on the lineup stats from the paper, prefixed with 'W'
+    # to denote weighted averages.
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS ArchetypeLineups (
+        archetype_lineup_id TEXT PRIMARY KEY, -- e.g., "0-1-2-3-4"
+        season TEXT NOT NULL,
+        total_minutes REAL,
+        WFGMPercUAST REAL, WFGMPercAST REAL, WThreeFGMPercUAST REAL,
+        WThreeFGMPercAST REAL, WTwoFGMPercUAST REAL, WTwoFGMPercAST REAL,
+        WPercPTSPITP REAL, WPercPTSOffTO REAL, WPercPTSFT REAL,
+        WPercPTSFBPS REAL, WPercPTS3PT REAL, WPercPTSMR REAL,
+        WPercPTS2PT REAL, WPercFGA3PT REAL, WPercFGA2PT REAL,
+        WOppTORATIOpercent REAL, WOppFTARATE REAL, WPACE REAL,
+        supercluster_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (supercluster_id) REFERENCES LineupSuperclusters(supercluster_id)
+    )
+    """)
+    logger.info("ArchetypeLineups table checked/created.")
 
 def create_player_shot_chart_table(conn: sqlite3.Connection) -> None:
     """Create the PlayerShotChart table to store granular shot data for each player."""
@@ -637,6 +727,18 @@ def create_possessions_table(conn: sqlite3.Connection) -> None:
             player3_team_city TEXT,
             player3_team_nickname TEXT,
             player3_team_abbreviation TEXT,
+            home_player_1_id INTEGER,
+            home_player_2_id INTEGER,
+            home_player_3_id INTEGER,
+            home_player_4_id INTEGER,
+            home_player_5_id INTEGER,
+            away_player_1_id INTEGER,
+            away_player_2_id INTEGER,
+            away_player_3_id INTEGER,
+            away_player_4_id INTEGER,
+            away_player_5_id INTEGER,
+            offensive_team_id INTEGER,
+            defensive_team_id INTEGER,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (game_id, event_num),
@@ -665,6 +767,11 @@ def create_all_tables(conn: sqlite3.Connection):
     create_player_season_post_up_stats_table(conn)
     create_player_season_paint_touch_stats_table(conn)
     create_player_season_elbow_touch_stats_table(conn)
+    create_player_archetype_features_table(conn)
+    create_archetypes_table(conn)
+    create_player_season_archetypes_table(conn)
+    create_lineup_superclusters_table(conn)
+    create_archetype_lineups_table(conn)
     create_player_shot_chart_table(conn)
     create_player_season_skill_table(conn)
     create_possessions_table(conn)

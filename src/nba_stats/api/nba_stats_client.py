@@ -317,36 +317,25 @@ class NBAStatsClient:
             return {'resultSets': []}
     
     def get_player_stats(
-        self,
-        player_id: int,
-        season: str,
-        season_type: str = "Regular Season",
-        per_mode: str = "PerGame"
-    ) -> Optional[Dict[str, Any]]:
+        self, player_id: int, season: str, per_mode: str = "PerGame", measure_type: str = "Base"
+    ) -> Dict:
         """
-        Get player statistics for a given season.
-        
-        Args:
-            player_id: The NBA player ID
-            season: The NBA season in YYYY-YY format
-            
-        Returns:
-            Dict containing player statistics or None if the request failed
+        Retrieves comprehensive player stats for a season.
+        Corresponds to different tabs on a player's dashboard (e.g., Base, Advanced).
         """
-        endpoint = "/playerdashboardbygeneralsplits"
         params = {
             "PlayerID": str(player_id),
             "Season": season,
-            "SeasonType": season_type,
-            "MeasureType": "Base",
+            "SeasonType": "Regular Season",
+            "MeasureType": measure_type,
             "PerMode": per_mode,
+            "PlusMinus": "N",
             "LeagueID": "00",
             "LastNGames": "0",
             "Month": "0",
             "OpponentTeamID": "0",
             "PaceAdjust": "N",
             "Period": "0",
-            "PlusMinus": "N",
             "Rank": "N",
             "SeasonSegment": "",
             "DateFrom": "",
@@ -357,7 +346,7 @@ class NBAStatsClient:
             "VsConference": "",
             "VsDivision": ""
         }
-        return self.make_request(endpoint, params)
+        return self.make_request("/playerdashboardbygeneralsplits", params)
     
     def get_player_advanced_stats(
         self,
@@ -1135,7 +1124,9 @@ class NBAStatsClient:
         per_mode: str = "Per100Possessions", # As per paper's likely need for rate stats
         measure_type: str = "Base", # Can also be "Advanced", "Four Factors", etc.
         season_type: str = "Regular Season",
-        group_quantity: int = 5 # For 5-man lineups
+        group_quantity: int = 5, # For 5-man lineups
+        date_from: str = "",
+        date_to: str = ""
     ) -> Optional[Dict[str, Any]]:
         """Fetch lineup statistics."""
         endpoint = "/leaguedashlineups"
@@ -1146,8 +1137,8 @@ class NBAStatsClient:
             "SeasonType": season_type,
             "GroupQuantity": group_quantity,
             "LeagueID": "00",
-            "DateFrom": "",
-            "DateTo": "",
+            "DateFrom": date_from,
+            "DateTo": date_to,
             "GameSegment": "",
             "LastNGames": 0,
             "Location": "",

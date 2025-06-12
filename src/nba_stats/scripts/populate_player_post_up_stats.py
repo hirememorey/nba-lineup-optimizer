@@ -2,6 +2,13 @@
 Fetches and stores player post-up stats for a given season.
 """
 import sqlite3
+import logging
+from pathlib import Path
+import sys
+
+# Add project root to sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from .common_utils import get_db_connection, get_nba_stats_client, logger
 
 def populate_player_post_up_stats(season_to_load: str):
@@ -90,7 +97,18 @@ def populate_player_post_up_stats(season_to_load: str):
 
 
 if __name__ == '__main__':
+    import argparse
+    from src.nba_stats.config import settings
+
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    # This is an example, the season will be passed by the orchestrator script
-    current_season = "2023-24" 
-    populate_player_post_up_stats(current_season) 
+    
+    parser = argparse.ArgumentParser(description="Populate player post-up stats for a given season.")
+    parser.add_argument(
+        "--season",
+        type=str,
+        default=settings.SEASON_ID,
+        help=f"The season to populate stats for (e.g., '{settings.SEASON_ID}')."
+    )
+    args = parser.parse_args()
+
+    populate_player_post_up_stats(args.season) 

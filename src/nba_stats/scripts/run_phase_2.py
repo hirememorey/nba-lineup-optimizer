@@ -9,6 +9,9 @@ import logging
 import sys
 import os
 
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
 # Add the project root to the Python path
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
@@ -30,27 +33,85 @@ def get_player_archetype_features(conn: sqlite3.Connection) -> pd.DataFrame:
     """
     logging.info("--- Fetching Player Features for Archetype Clustering ---")
 
-    # Base query to get players who meet the minutes threshold
     query = f"""
     SELECT
-        ps.player_id,
-        p.player_name
+        *
     FROM
-        PlayerSeasonRawStats ps
-    JOIN
-        Players p ON ps.player_id = p.player_id
+        PlayerArchetypeFeatures
     WHERE
-        ps.season = '{SEASON_ID}'
-        AND ps.minutes_played >= {MIN_MINUTES_THRESHOLD}
+        season = '{SEASON_ID}'
     """
     
-    players_df = pd.read_sql(query, conn)
-    logging.info(f"Found {len(players_df)} players who meet the {MIN_MINUTES_THRESHOLD} minute threshold.")
+    features_df = pd.read_sql(query, conn)
+    logging.info(f"Found features for {len(features_df)} players.")
     
-    # We will incrementally join all feature tables onto this base DataFrame.
-    # This will be expanded in the next step.
+    return features_df
+
+def run_archetype_clustering(conn: sqlite3.Connection, features_df: pd.DataFrame):
+    """
+    Performs K-means clustering and stores the resulting archetypes in the database.
+    """
+    logging.info("--- Starting Player Archetype Clustering ---")
     
-    return players_df
+    if 'player_id' not in features_df.columns or 'season' not in features_df.columns:
+        logging.error("The features DataFrame must contain 'player_id' and 'season' columns.")
+        return
+
+    player_ids = features_df['player_id']
+    season = features_df['season'].iloc[0]
+    
+    # Impute missing values with the median of the column (as a fallback)
+    for col in features_df.columns:
+        if features_df[col].isnull().any():
+            median_val = features_df[col].median()
+            if pd.isna(median_val):
+                logging.warning(f"Median for '{col}' is NaN. Filling with 0 instead.")
+                features_df[col] = features_df[col].fillna(0)
+            else:
+                logging.info(f"Imputed missing values in '{col}' with median value {median_val:.2f}")
+                features_df[col] = features_df[col].fillna(median_val)
+
+    # Drop non-feature columns
+    feature_cols = features_df.drop(columns=['player_id', 'season'])
+
+    # Scale features
+    scaler = StandardScaler()
+    scaled_features = scaler.fit_transform(feature_cols)
+    
+    # K-means clustering
+    kmeans = KMeans(n_clusters=8, random_state=42, n_init=10)
+    clusters = kmeans.fit_predict(scaled_features)
+    
+    # --- Store Archetypes in Database ---
+    cursor = conn.cursor()
+
+    # 1. Populate Archetypes table
+    archetype_names = [
+        "Scoring Wings", "Non-Shooting, Defensive Minded Bigs", "Offensive Minded Bigs",
+        "Versatile Frontcourt Players", "Offensive Juggernauts", "3&D",
+        "Defensive Minded Guards", "Playmaking, Initiating Guards"
+    ]
+    
+    try:
+        for i, name in enumerate(archetype_names):
+            cursor.execute("INSERT OR IGNORE INTO Archetypes (archetype_id, archetype_name) VALUES (?, ?)", (i, name))
+        
+        # 2. Populate PlayerSeasonArchetypes table
+        player_archetypes = []
+        for player_id, cluster_id in zip(player_ids, clusters):
+            player_archetypes.append((player_id, season, cluster_id))
+
+        cursor.executemany("""
+            INSERT OR REPLACE INTO PlayerSeasonArchetypes (player_id, season, archetype_id)
+            VALUES (?, ?, ?)
+        """, player_archetypes)
+
+        conn.commit()
+        logging.info(f"Successfully clustered and stored archetypes for {len(player_archetypes)} players.")
+
+    except sqlite3.Error as e:
+        logging.error(f"Database error during archetype storage: {e}")
+        conn.rollback()
 
 def main():
     """Main function to execute Phase 2."""
@@ -60,7 +121,10 @@ def main():
     if conn:
         try:
             player_features = get_player_archetype_features(conn)
-            # Further steps (like clustering) will be added here.
+            if not player_features.empty:
+                run_archetype_clustering(conn, player_features)
+            else:
+                logging.warning("No player features found, a common cause for this is not running Phase 1, skipping clustering.")
         finally:
             conn.close()
             logging.info("Database connection closed.")
