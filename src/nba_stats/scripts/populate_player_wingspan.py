@@ -25,10 +25,22 @@ def _parse_wingspan_to_inches(wingspan_val) -> float:
         logger.warning(f"Could not parse wingspan value: {wingspan_str}")
         return 0.0
 
-def populate_player_wingspan(start_year: int, end_year: int):
+def populate_player_wingspan(season_to_load: str = None):
     """
     Fetches draft combine stats for a range of seasons and updates player wingspans in the database.
     """
+    current_year = datetime.now().year
+    start_year = 2000
+    end_year = current_year
+    
+    if season_to_load:
+        try:
+            start_year = int(season_to_load.split('-')[0])
+            end_year = start_year
+        except (ValueError, IndexError):
+            logger.warning(f"Could not parse season '{season_to_load}'. Defaulting to full range 2000-{current_year}.")
+
+
     logger.info(f"Starting to populate player wingspans for draft years: {start_year}-{end_year}")
     conn = get_db_connection()
     if conn is None:
@@ -114,8 +126,7 @@ if __name__ == "__main__":
     current_year = datetime.now().year
     
     parser = argparse.ArgumentParser(description="Populate player wingspans for a specific season.")
-    parser.add_argument("--start_year", type=int, default=2000, help="The start year for fetching draft data.")
-    parser.add_argument("--end_year", type=int, default=current_year, help="The end year for fetching draft data.")
+    parser.add_argument("--season", type=str, default=f"2000-{current_year}", help="The season range to fetch data for (e.g., '2023-24' or '2000-2023').")
     args = parser.parse_args()
 
-    populate_player_wingspan(start_year=args.start_year, end_year=args.end_year) 
+    populate_player_wingspan(season_to_load=args.season) 

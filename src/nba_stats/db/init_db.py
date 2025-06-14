@@ -4,11 +4,11 @@ import logging
 import sqlite3
 from pathlib import Path
 
-from ..config.settings import DB_FILE
+from ..config.settings import DB_PATH
 from ..scripts.create_tables import create_all_tables
 
 
-def init_database(db_path: str = DB_FILE) -> None:
+def init_database(db_path: str = DB_PATH) -> None:
     """Initialize the NBA stats database with all necessary tables.
     
     Args:

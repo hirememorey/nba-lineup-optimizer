@@ -81,6 +81,7 @@ def _get_feature_query(season: str, min_minutes: int) -> str:
         passing.potential_assists AS POTAST,
         pull_up.pull_up_fga AS PUFGA,
         pull_up.pull_up_3pa AS PU3PA,
+        oss.opp_fgm_lt_5ft,
         oss.opp_fga_lt_5ft,
         oss.opp_fga_5_9ft,
         oss.opp_fga_10_14ft,
@@ -187,9 +188,14 @@ def generate_features(season: str):
             axis=1
         )
 
-        # Handle PNTTCHS (assumed to be same as PNTTOUCH) and DRIMFGPCT (missing data)
+        # Handle PNTTCHS (assumed to be same as PNTTOUCH)
         features_df['PNTTCHS'] = features_df['PNTTOUCH']
-        features_df['DRIMFGPCT'] = 0.0 # Data not available in current tables
+        
+        # Calculate DRIMFGPCT
+        features_df['DRIMFGPCT'] = features_df.apply(
+            lambda row: row['opp_fgm_lt_5ft'] / row['opp_fga_lt_5ft'] if row['opp_fga_lt_5ft'] and row['opp_fga_lt_5ft'] > 0 else 0.0,
+            axis=1
+        )
 
         # --- Final Feature Selection & Cleaning ---
         

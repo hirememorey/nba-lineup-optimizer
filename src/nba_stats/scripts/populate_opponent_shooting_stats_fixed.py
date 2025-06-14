@@ -4,19 +4,20 @@ import sqlite3
 from .common_utils import get_db_connection, get_nba_stats_client, logger
 import pandas as pd
 
-def _transform_row_to_db_data(row_data: dict, season: str, team_id: int, games_played: int) -> dict:
+def _transform_row_to_db_data(row_data: dict, season: str, team_id: int) -> dict:
     """Transforms a single row of API data into a dictionary for database insertion."""
     
-    total_fga_against = sum(
-        float(row_data.get(key, 0) or 0) for key in row_data if key.startswith('OPP_FGA_')
-    )
-    avg_fga_per_game = total_fga_against / float(games_played) if games_played and float(games_played) > 0 else 0
+    player_id = row_data.get('PLAYER_ID')
+    try:
+        player_id = int(player_id)
+    except (ValueError, TypeError):
+        logger.warning(f"Could not parse player_id '{player_id}'. Skipping record.")
+        return None
 
     return {
-        "player_id": row_data.get('PLAYER_ID'),
+        "player_id": player_id,
         "season": season,
         "team_id": team_id,
-        "avg_fg_attempted_against_per_game": avg_fga_per_game,
         "opp_fgm_lt_5ft": row_data.get('OPP_FGM_Less_Than_5_ft'),
         "opp_fga_lt_5ft": row_data.get('OPP_FGA_Less_Than_5_ft'),
         "opp_fg_pct_lt_5ft": row_data.get('OPP_FG_PCT_Less_Than_5_ft'),
@@ -46,16 +47,7 @@ def populate_opponent_shooting_stats(season_to_load: str):
 
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT player_id FROM Players")
-        db_player_ids = {row[0] for row in cursor.fetchall()}
         
-        cursor.execute("SELECT team_abbreviation, team_id FROM Teams")
-        team_abbr_to_id = {row[0]: row[1] for row in cursor.fetchall()}
-
-        # Fetch games played for all players
-        cursor.execute("SELECT player_id, games_played FROM PlayerSeasonRawStats WHERE season = ?", (season_to_load,))
-        player_games_played = {row[0]: row[1] for row in cursor.fetchall()}
-
         client = get_nba_stats_client()
         response = client.get_player_opponent_shooting_stats(season=season_to_load)
 
@@ -72,14 +64,18 @@ def populate_opponent_shooting_stats(season_to_load: str):
             return
 
         try:
-            shot_zones = headers[0]['columnNames']
+            # The first header object gives us the shot distance labels
+            shot_zones = headers[0]['columnNames'] 
+            # The second header object gives us the stat types (FGM, FGA, FG_PCT)
             all_column_names = headers[1]['columnNames']
-            general_headers = all_column_names[:6]
-            metric_headers = all_column_names[6:9]
+            general_headers = all_column_names[:6] # PLAYER_ID, NAME, TEAM_ID, etc.
+            metric_headers = all_column_names[6:9] # FGM, FGA, FG_PCT
             
+            # Combine the general headers with the shot zone specific metrics
             actual_headers = general_headers.copy()
             for zone in shot_zones:
                 for metric in metric_headers:
+                    # Sanitize the zone name to create a valid key
                     zone_key = zone.replace(' ', '_').replace('.', '').replace('-', '_')
                     actual_headers.append(f"{metric}_{zone_key}")
         except (IndexError, KeyError) as e:
@@ -89,17 +85,9 @@ def populate_opponent_shooting_stats(season_to_load: str):
         stats_to_insert = []
         for row in rows:
             row_data = dict(zip(actual_headers, row))
-            player_id = row_data.get('PLAYER_ID')
-
-            games_played = player_games_played.get(player_id)
-            if games_played is None:
-                logger.warning(f"Skipping player {player_id} due to missing GP data in PlayerSeasonRawStats.")
-                continue
-
-            team_abbr = row_data.get('TEAM_ABBREVIATION')
-            if player_id in db_player_ids and team_abbr in team_abbr_to_id:
-                team_id = team_abbr_to_id[team_abbr]
-                db_data = _transform_row_to_db_data(row_data, season_to_load, team_id, games_played)
+            team_id = row_data.get('TEAM_ID')
+            db_data = _transform_row_to_db_data(row_data, season_to_load, team_id)
+            if db_data:
                 stats_to_insert.append(db_data)
         
         if not stats_to_insert:

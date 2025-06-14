@@ -74,7 +74,7 @@
     {
         "step_num": 8,
         "description": "Populate Player Opponent Shooting Stats",
-        "module_name": ".populate_opponent_shooting_stats",
+        "module_name": ".populate_opponent_shooting_stats_fixed",
         "function_name": "populate_opponent_shooting_stats",
         "table_name": "PlayerSeasonOpponentShootingStats",
         "check_season_data": true,
@@ -103,16 +103,6 @@
     },
     {
         "step_num": 11,
-        "description": "Populate Player Shooting Distance Stats",
-        "module_name": ".populate_player_shooting_distance_stats",
-        "function_name": "populate_player_shooting_distance_stats",
-        "table_name": "PlayerSeasonShootingDistanceStats",
-        "check_season_data": true,
-        "takes_season_arg": true,
-        "row_threshold": 400
-    },
-    {
-        "step_num": 12,
         "description": "Populate Player Tracking Touches Stats",
         "module_name": ".populate_player_tracking_touches_stats",
         "function_name": "populate_player_tracking_touches_stats",
@@ -122,7 +112,7 @@
         "row_threshold": 400
     },
     {
-        "step_num": 13,
+        "step_num": 12,
         "description": "Populate Player Catch and Shoot Stats",
         "module_name": ".populate_player_catch_shoot_stats",
         "function_name": "populate_player_catch_shoot_stats",
@@ -132,7 +122,7 @@
         "row_threshold": 400
     },
     {
-        "step_num": 14,
+        "step_num": 13,
         "description": "Populate Player Pull Up Stats",
         "module_name": ".populate_player_pull_up_stats",
         "function_name": "populate_player_pull_up_stats",
@@ -142,7 +132,7 @@
         "row_threshold": 400
     },
     {
-        "step_num": 15,
+        "step_num": 14,
         "description": "Populate Player Post Up Stats",
         "module_name": ".populate_player_post_up_stats",
         "function_name": "populate_player_post_up_stats",
@@ -152,7 +142,7 @@
         "row_threshold": 400
     },
     {
-        "step_num": 16,
+        "step_num": 15,
         "description": "Populate Player Paint Touch Stats",
         "module_name": ".populate_player_paint_touch_stats",
         "function_name": "populate_player_paint_touch_stats",
@@ -162,7 +152,7 @@
         "row_threshold": 400
     },
     {
-        "step_num": 17,
+        "step_num": 16,
         "description": "Populate Player Elbow Touch Stats",
         "module_name": ".populate_player_elbow_touch_stats",
         "function_name": "populate_player_elbow_touch_stats",
@@ -172,7 +162,7 @@
         "row_threshold": 400
     },
     {
-        "step_num": 18,
+        "step_num": 17,
         "description": "Populate Lineup Stats",
         "module_name": ".populate_lineup_stats",
         "function_name": "populate_lineup_stats",
@@ -182,7 +172,7 @@
         "row_threshold": 100
     },
     {
-        "step_num": 19,
+        "step_num": 18,
         "description": "Populate Player Shot Charts",
         "module_name": ".populate_player_shot_charts",
         "function_name": "populate_player_shot_charts",
@@ -192,7 +182,7 @@
         "row_threshold": 500
     },
     {
-        "step_num": 20,
+        "step_num": 19,
         "description": "Populate Player Skill Ratings (DARKO, etc.)",
         "module_name": ".populate_player_skill",
         "function_name": "populate_player_skill",
@@ -202,7 +192,7 @@
         "row_threshold": 100
     },
     {
-        "step_num": 21,
+        "step_num": 20,
         "description": "Populate Possessions Data",
         "module_name": ".populate_possessions",
         "function_name": "populate_possessions",
