@@ -8,6 +8,7 @@ import pandas as pd
 import logging
 import sys
 import os
+from pathlib import Path
 
 # Add the project root to the Python path
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
@@ -15,6 +16,11 @@ sys.path.append(PROJECT_ROOT)
 
 from src.nba_stats.db.database import get_db_connection
 from src.nba_stats.config.settings import DB_PATH, SEASON_ID
+
+# --- New imports for clustering ---
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -233,6 +239,92 @@ def verify_archetype_features(conn: sqlite3.Connection):
     except Exception as e:
         logging.error(f"An error occurred during feature verification: {e}")
 
+def cluster_player_archetypes(conn: sqlite3.Connection, season_id: str):
+    """
+    Performs K-means clustering on player archetype features to assign archetypes.
+    """
+    logging.info("--- Clustering Player Archetypes ---")
+    
+    try:
+        # 1. Load data from PlayerArchetypeFeatures
+        features_df = pd.read_sql_query(f"SELECT * FROM PlayerArchetypeFeatures WHERE season = '{season_id}'", conn)
+        
+        if features_df.empty:
+            logging.error(f"No feature data found for season {season_id}. Aborting clustering.")
+            return
+
+        logging.info(f"Loaded {len(features_df)} players for clustering.")
+        
+        # 2. Define the 48 features for clustering
+        feature_columns = [
+            'FTPCT', 'TSPCT', 'THPAr', 'FTr', 'TRBPCT', 'ASTPCT', 'AVGDIST', 'Zto3r',
+            'THto10r', 'TENto16r', 'SIXTto3PTr', 'HEIGHT', 'WINGSPAN', 'FRNTCTTCH',
+            'TOP', 'AVGSECPERTCH', 'AVGDRIBPERTCH', 'ELBWTCH', 'POSTUPS', 'PNTTOUCH',
+            'DRIVES', 'DRFGA', 'DRPTSPCT', 'DRPASSPCT', 'DRASTPCT', 'DRTOVPCT',
+            'DRPFPCT', 'DRIMFGPCT', 'CSFGA', 'CS3PA', 'PASSESMADE', 'SECAST',
+            'POTAST', 'PUFGA', 'PU3PA', 'PSTUPFGA', 'PSTUPPTSPCT', 'PSTUPPASSPCT',
+            'PSTUPASTPCT', 'PSTUPTOVPCT', 'PNTTCHS', 'PNTFGA', 'PNTPTSPCT',
+            'PNTPASSPCT', 'PNTASTPCT', 'PNTTVPCT', 'AVGFGATTEMPTEDAGAINSTPERGAME'
+        ]
+
+        # Check if all feature columns exist in the DataFrame
+        missing_cols = [col for col in feature_columns if col not in features_df.columns]
+        if missing_cols:
+            logging.error(f"The following required feature columns are missing from 'PlayerArchetypeFeatures': {missing_cols}")
+            return
+            
+        # 3. Prepare data for clustering
+        X = features_df[feature_columns].copy()
+        X.fillna(0, inplace=True) # Ensure no NaN values are passed to the scaler
+
+        # 4. Standardize the features
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        logging.info("Standardized feature data.")
+
+        # 5. Determine K using the Elbow Method and create plot
+        sse = []
+        k_range = range(1, 16)
+        for k in k_range:
+            kmeans = KMeans(n_clusters=k, random_state=42, n_init='auto')
+            kmeans.fit(X_scaled)
+            sse.append(kmeans.inertia_)
+
+        # Plotting the elbow curve
+        plt.figure(figsize=(10, 6))
+        plt.plot(k_range, sse, marker='o')
+        plt.title('Elbow Method for Optimal K')
+        plt.xlabel('Number of Clusters (K)')
+        plt.ylabel('Sum of Squared Errors (SSE)')
+        plt.xticks(k_range)
+        plt.grid(True)
+        
+        # Save the plot
+        plot_dir = Path(PROJECT_ROOT) / "src" / "nba_stats" / "data" / "plots"
+        plot_dir.mkdir(parents=True, exist_ok=True)
+        plot_path = plot_dir / "archetype_elbow_plot.png"
+        plt.savefig(plot_path)
+        logging.info(f"Saved elbow plot to {plot_path}")
+        plt.close()
+
+        # 6. Perform K-means clustering with K=8
+        K = 8
+        kmeans = KMeans(n_clusters=K, random_state=42, n_init='auto')
+        kmeans.fit(X_scaled)
+        logging.info(f"Performed K-means clustering with K={K}.")
+
+        # 7. Save the results to the database
+        results_df = features_df[['player_id', 'season']].copy()
+        results_df['archetype_id'] = kmeans.labels_ # Labels are 0-indexed
+
+        # Create and populate the new table
+        results_df.to_sql('PlayerSeasonArchetypes', conn, if_exists='replace', index=False)
+        
+        logging.info(f"Successfully saved {len(results_df)} player archetype assignments to 'PlayerSeasonArchetypes' table.")
+
+    except Exception as e:
+        logging.error(f"An error occurred during player archetype clustering: {e}", exc_info=True)
+
 def main():
     """
     Main function to run Phase 1 steps.
@@ -246,13 +338,14 @@ def main():
         acquire_external_data(conn)
         acquire_salary_data(conn)
         verify_archetype_features(conn)
+        cluster_player_archetypes(conn, SEASON_ID)
         
     except sqlite3.Error as e:
-        logging.error(f"Database connection failed: {e}")
+        logging.error(f"A database error occurred: {e}")
     finally:
         if conn:
             conn.close()
-            logging.info("Database connection closed.")
+        logging.info("--- Phase 1 Finished ---")
 
 if __name__ == "__main__":
     main() 
