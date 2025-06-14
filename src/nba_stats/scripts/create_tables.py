@@ -159,41 +159,6 @@ def create_player_season_advanced_stats_table(conn: sqlite3.Connection) -> None:
     ''')
     logger.info("PlayerSeasonAdvancedStats table checked/created.")
 
-def create_player_season_shooting_distance_stats_table(conn: sqlite3.Connection) -> None:
-    """Create the PlayerSeasonShootingDistanceStats table."""
-    cursor = conn.cursor()
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS PlayerSeasonShootingDistanceStats (
-        player_id INTEGER NOT NULL,
-        season TEXT NOT NULL,
-        team_id INTEGER NOT NULL,
-        restricted_area_fgm INTEGER,
-        restricted_area_fga INTEGER,
-        restricted_area_fg_pct REAL,
-        in_the_paint_non_ra_fgm INTEGER,
-        in_the_paint_non_ra_fga INTEGER,
-        in_the_paint_non_ra_fg_pct REAL,
-        mid_range_fgm INTEGER,
-        mid_range_fga INTEGER,
-        mid_range_fg_pct REAL,
-        left_corner_3_fgm INTEGER,
-        left_corner_3_fga INTEGER,
-        left_corner_3_fg_pct REAL,
-        right_corner_3_fgm INTEGER,
-        right_corner_3_fga INTEGER,
-        right_corner_3_fg_pct REAL,
-        above_the_break_3_fgm INTEGER,
-        above_the_break_3_fga INTEGER,
-        above_the_break_3_fg_pct REAL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (player_id, season, team_id),
-        FOREIGN KEY (player_id) REFERENCES Players(player_id),
-        FOREIGN KEY (team_id) REFERENCES Teams(team_id)
-    )
-    ''')
-    logger.info("PlayerSeasonShootingDistanceStats table checked/created.")
-
 def create_player_season_drive_stats_table(conn: sqlite3.Connection) -> None:
     """Create the PlayerSeasonDriveStats table."""
     cursor = conn.cursor()
@@ -755,7 +720,6 @@ def create_all_tables(conn: sqlite3.Connection):
     create_players_table(conn)
     create_player_season_raw_stats_table(conn)
     create_player_season_advanced_stats_table(conn)
-    create_player_season_shooting_distance_stats_table(conn)
     create_player_season_drive_stats_table(conn)
     create_player_season_hustle_stats_table(conn)
     create_player_season_opponent_shooting_stats_table(conn)
