@@ -49,6 +49,7 @@ def calculate_and_update_avg_shot_distance(
             team_id=team_id,
             season=season,
         )
+        print(shot_chart_data)
 
         if not shot_chart_data or "resultSets" not in shot_chart_data:
             logger.warning(f"No shot chart data returned for Player ID: {player_id}, Season: {season}")

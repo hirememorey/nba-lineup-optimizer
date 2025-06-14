@@ -713,22 +713,14 @@ class NBAStatsClient:
         }
         return division_map.get(team_id, 'Unknown')
     
-    def get_all_players(self, season: str, is_only_current_season: str = "1") -> Optional[Dict[str, Any]]:
+    def get_all_players(self, season: str) -> Optional[Dict[str, Any]]:
         """
-        Get all players for a given season.
-        
-        Args:
-            season: The NBA season in YYYY-YY format (e.g., "2024-25")
-            is_only_current_season: Flag to get only current season players ("1" for yes, "0" for no)
-            
-        Returns:
-            Dict containing player data or None if the request failed
+        Fetches all players for a given season.
         """
         endpoint = "commonallplayers"
         params = {
-            "LeagueID": "00",
-            "Season": season,
-            "IsOnlyCurrentSeason": is_only_current_season
+            'LeagueID': '00',
+            'Season': season,
         }
         return self.make_request(endpoint, params)
     
@@ -1240,9 +1232,11 @@ class NBAStatsClient:
         season_type: str = "Regular Season"
     ) -> Optional[Dict[str, Any]]:
         """
-        Fetches opponent shooting statistics for players, league-wide.
-        Data is from the leaguedashplayershotlocations endpoint with MeasureType="Opponent".
+        Fetches league-wide opponent shooting stats for all players for a given season.
+        This endpoint provides opponent shooting stats broken down by distance ranges.
         """
+        logger.info(f"Fetching league-wide opponent shooting locations for Season {season} with simplified params.")
+        
         endpoint = "leaguedashplayershotlocations"
         params = {
             "MeasureType": "Opponent",
@@ -1250,7 +1244,7 @@ class NBAStatsClient:
             "Season": season,
             "SeasonType": season_type,
             "PlayerOrTeam": "Player",
-            "DistanceRange": "By Zone",
+            "DistanceRange": "5ft Range", # Explicitly set to get 5ft range breakdown
             "LeagueID": "00",
             "PaceAdjust": "N",
             "PlusMinus": "N",
@@ -1260,11 +1254,9 @@ class NBAStatsClient:
             "OpponentTeamID": 0,
             "Period": 0,
             "TeamID": 0,
-            "PORound": 0
+            "PORound": 0,
         }
-        
-        logger.info(f"Fetching league-wide opponent shooting locations for Season {season} with simplified params.")
-        return self.make_request(endpoint, params)
+        return self.make_request(endpoint, params=params)
 
     def get_league_player_advanced_stats(self, season: str, season_type: str = "Regular Season") -> Optional[Dict[str, Any]]:
         """
@@ -1376,5 +1368,15 @@ class NBAStatsClient:
         params = {
             "LeagueID": "00",
             "SeasonYear": season_year
+        }
+        return self.make_request(endpoint, params) 
+
+    def get_common_player_info(self, player_id: int) -> Optional[Dict[str, Any]]:
+        """
+        Fetches common player info for a given player_id, including height, weight, etc.
+        """
+        endpoint = "commonplayerinfo"
+        params = {
+            'PlayerID': player_id
         }
         return self.make_request(endpoint, params) 

@@ -70,6 +70,7 @@ def create_players_table(conn: sqlite3.Connection) -> None:
             position TEXT,
             team_id INTEGER,
             wingspan REAL,
+            draft_year TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (team_id) REFERENCES Teams(team_id)

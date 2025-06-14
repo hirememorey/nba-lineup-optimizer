@@ -115,7 +115,13 @@ def _fetch_player_stats_task(player_info: Tuple[int, str], season: str) -> Dict:
         }
         
         all_stats.update(base_stats)
-        all_stats.update(advanced_stats)
+        
+        # Only add keys from advanced_stats that are not already in all_stats
+        # This prevents overwriting 'MIN' (total minutes) from base_stats
+        # with 'MIN' (average minutes) from advanced_stats.
+        for key, value in advanced_stats.items():
+            if key not in all_stats:
+                all_stats[key] = value
             
         return all_stats
 
@@ -123,8 +129,11 @@ def _fetch_player_stats_task(player_info: Tuple[int, str], season: str) -> Dict:
         logger.error(f"Exception in thread for player {player_name} (ID: {player_id}): {e}")
         return {}
 
-def populate_player_season_stats(season_to_load: str):
-    """Fetches and stores basic and advanced season stats for all players using parallel requests."""
+def populate_player_season_stats(season_to_load: str, player_ids: list[int] | None = None):
+    """
+    Fetches and stores basic and advanced season stats for all players using parallel requests.
+    If player_ids is provided, only fetches for those players.
+    """
     logger.info(f"Starting player season stats fetch for season {season_to_load}.")
     conn = get_db_connection()
     if conn is None:
@@ -132,7 +141,14 @@ def populate_player_season_stats(season_to_load: str):
 
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT player_id, player_name FROM Players")
+        if player_ids:
+            # Create a string of placeholders for the query
+            placeholders = ','.join('?' for _ in player_ids)
+            query = f"SELECT player_id, player_name FROM Players WHERE player_id IN ({placeholders})"
+            cursor.execute(query, player_ids)
+        else:
+            cursor.execute("SELECT player_id, player_name FROM Players")
+        
         players_to_process = cursor.fetchall()
 
         if not players_to_process:
@@ -167,6 +183,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Populate player season stats for a specific NBA season.")
     parser.add_argument("--season", type=str, default=settings.SEASON_ID, help="The season to populate stats for, e.g., '2024-25'.")
+    parser.add_argument("--players", type=int, nargs='*', help="Optional list of player IDs to process.")
     args = parser.parse_args()
     
-    populate_player_season_stats(season_to_load=args.season) 
+    populate_player_season_stats(season_to_load=args.season, player_ids=args.players) 

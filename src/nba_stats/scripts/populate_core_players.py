@@ -16,10 +16,16 @@ def _insert_player(conn: sqlite3.Connection, player: Player) -> None:
         last_name = name_parts[1] if len(name_parts) > 1 else ''
 
         cursor.execute("""
-            INSERT OR REPLACE INTO Players (
+            INSERT INTO Players (
                 player_id, player_name, first_name, last_name, team_id, position,
                 height, weight, birth_date, updated_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(player_id) DO UPDATE SET
+                team_id=excluded.team_id,
+                position=excluded.position,
+                updated_at=excluded.updated_at,
+                height=CASE WHEN excluded.height IS NOT NULL THEN excluded.height ELSE Players.height END,
+                weight=CASE WHEN excluded.weight IS NOT NULL THEN excluded.weight ELSE Players.weight END
         """, (
             player.player_id,
             player.player_name,

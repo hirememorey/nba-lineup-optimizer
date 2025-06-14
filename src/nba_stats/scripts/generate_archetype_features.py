@@ -37,102 +37,85 @@ def _get_feature_query(season: str, min_minutes: int) -> str:
     SELECT
         p.player_id,
         p.player_name,
-        COALESCE(p.height, '0-0') as height,
-        p.wingspan,
-        -- Raw Stats
+        p.height,
+        p.wingspan AS WINGSPAN,
         rs.minutes_played,
         rs.games_played,
-        COALESCE(rs.field_goals_attempted, 0) as field_goals_attempted,
-        COALESCE(rs.three_pointers_attempted, 0) as three_pointers_attempted,
-        COALESCE(rs.free_throws_attempted, 0) as free_throws_attempted,
-        COALESCE(rs.free_throw_percentage, 0) AS FTPCT,
-        COALESCE(rs.points, 0) AS points,
-        -- Advanced Stats
-        COALESCE(adv.true_shooting_percentage, 0) AS TSPCT,
-        COALESCE(adv.rebound_percentage, 0) AS TRBPCT,
-        COALESCE(adv.assist_percentage, 0) AS ASTPCT,
-        -- Avg Shot Distance
-        COALESCE(rs.avg_shot_distance, 0) AS AVGDIST,
-        -- Shooting Distance Stats
-        COALESCE(sds.restricted_area_fga, 0) as restricted_area_fga,
-        COALESCE(sds.in_the_paint_non_ra_fga, 0) as in_the_paint_non_ra_fga,
-        COALESCE(sds.mid_range_fga, 0) as mid_range_fga,
-        -- Tracking Touches Stats
-        COALESCE(tts.front_ct_touches, 0) AS FRNTCTTCH,
-        COALESCE(tts.time_of_poss, 0) AS TOP,
-        COALESCE(tts.avg_sec_per_touch, 0) AS AVGSECPERTCH,
-        COALESCE(tts.avg_drib_per_touch, 0) AS AVGDRIBPERTCH,
-        -- Elbow Touch Stats
-        COALESCE(ets.elbow_touches, 0) AS ELBWTCH,
-        -- Post Up Stats
-        COALESCE(pus.possessions, 0) AS POSTUPS,
-        COALESCE(pus.fga, 0) AS PSTUPFGA,
-        COALESCE(pus.fg_pct, 0) AS PSTUPPTSPCT,
-        COALESCE(pus.pass_frequency_pct, 0) AS PSTUPPASSPCT,
-        COALESCE(pus.assist_pct, 0) AS PSTUPASTPCT,
-        COALESCE(pus.tov_frequency_pct, 0) AS PSTUPTOVPCT,
-        -- Paint Touch Stats
-        COALESCE(pts.paint_touches, 0) AS PNTTOUCH,
-        COALESCE(pts.paint_touch_fga, 0) AS PNTFGA,
-        COALESCE(pts.paint_touch_fg_pct, 0) AS PNTPTSPCT,
-        COALESCE(pts.paint_touch_pass_pct, 0) AS PNTPASSPCT,
-        COALESCE(pts.paint_touch_ast_pct, 0) AS PNTASTPCT,
-        COALESCE(pts.paint_touch_tov_pct, 0) AS PNTTVPCT,
-        -- Drive Stats
-        COALESCE(ds.drives, 0) AS DRIVES,
-        COALESCE(ds.drive_fga, 0) AS DRFGA,
-        COALESCE(ds.drive_fg_pct, 0) AS DRPTSPCT,
-        COALESCE(ds.drive_pass_pct, 0) AS DRPASSPCT,
-        COALESCE(ds.drive_ast_pct, 0) AS DRASTPCT,
-        COALESCE(ds.drive_tov_pct, 0) AS DRTOVPCT,
-        COALESCE(ds.drive_pf_pct, 0) AS DRPFPCT,
-        -- Catch & Shoot Stats
-        COALESCE(css.catch_shoot_fga, 0) AS CSFGA,
-        COALESCE(css.catch_shoot_3pa, 0) AS CS3PA,
-        -- Passing Stats
-        COALESCE(passing.passes_made, 0) AS PASSESMADE,
-        COALESCE(passing.secondary_assists, 0) AS SECAST,
-        COALESCE(passing.potential_assists, 0) AS POTAST,
-        -- Pull Up Stats
-        COALESCE(pull_up.pull_up_fga, 0) AS PUFGA,
-        COALESCE(pull_up.pull_up_3pa, 0) AS PU3PA,
-        -- Opponent Shooting
-        COALESCE(oss.opp_fga_lt_5ft, 0) as opp_fga_lt_5ft,
-        COALESCE(oss.opp_fga_5_9ft, 0) as opp_fga_5_9ft,
-        COALESCE(oss.opp_fga_10_14ft, 0) as opp_fga_10_14ft,
-        COALESCE(oss.opp_fga_15_19ft, 0) as opp_fga_15_19ft,
-        COALESCE(oss.opp_fga_20_24ft, 0) as opp_fga_20_24ft,
-        COALESCE(oss.opp_fga_25_29ft, 0) as opp_fga_25_29ft,
-        p.created_at,
-        p.updated_at
+        rs.field_goals_attempted,
+        rs.three_pointers_attempted,
+        rs.free_throws_attempted,
+        rs.free_throw_percentage AS FTPCT,
+        rs.points,
+        adv.true_shooting_percentage AS TSPCT,
+        adv.rebound_percentage AS TRBPCT,
+        adv.assist_percentage AS ASTPCT,
+        rs.avg_shot_distance AS AVGDIST,
+        sds.restricted_area_fga,
+        sds.in_the_paint_non_ra_fga,
+        sds.mid_range_fga,
+        tts.front_ct_touches AS FRNTCTTCH,
+        tts.time_of_poss AS TOP,
+        tts.avg_sec_per_touch AS AVGSECPERTCH,
+        tts.avg_drib_per_touch AS AVGDRIBPERTCH,
+        ets.elbow_touches AS ELBWTCH,
+        pus.possessions AS POSTUPS,
+        pus.fga AS PSTUPFGA,
+        pus.fg_pct AS PSTUPPTSPCT,
+        pus.pass_frequency_pct AS PSTUPPASSPCT,
+        pus.assist_pct AS PSTUPASTPCT,
+        pus.tov_frequency_pct AS PSTUPTOVPCT,
+        pts.paint_touches AS PNTTOUCH,
+        pts.paint_touch_fga AS PNTFGA,
+        pts.paint_touch_fg_pct AS PNTPTSPCT,
+        pts.paint_touch_pass_pct AS PNTPASSPCT,
+        pts.paint_touch_ast_pct AS PNTASTPCT,
+        pts.paint_touch_tov_pct AS PNTTVPCT,
+        ds.drives AS DRIVES,
+        ds.drive_fga AS DRFGA,
+        ds.drive_fg_pct AS DRPTSPCT,
+        ds.drive_pass_pct AS DRPASSPCT,
+        ds.drive_ast_pct AS DRASTPCT,
+        ds.drive_tov_pct AS DRTOVPCT,
+        ds.drive_pf_pct AS DRPFPCT,
+        css.catch_shoot_fga AS CSFGA,
+        css.catch_shoot_3pa AS CS3PA,
+        passing.passes_made AS PASSESMADE,
+        passing.secondary_assists AS SECAST,
+        passing.potential_assists AS POTAST,
+        pull_up.pull_up_fga AS PUFGA,
+        pull_up.pull_up_3pa AS PU3PA,
+        oss.opp_fga_lt_5ft,
+        oss.opp_fga_5_9ft,
+        oss.opp_fga_10_14ft,
+        oss.opp_fga_15_19ft,
+        oss.opp_fga_20_24ft,
+        oss.opp_fga_25_29ft
     FROM
         Players p
-    JOIN
-        PlayerSeasonRawStats rs ON p.player_id = rs.player_id AND rs.season = '{season}'
+    INNER JOIN
+        PlayerSeasonRawStats rs ON p.player_id = rs.player_id AND rs.season = '{season}' AND rs.minutes_played >= {min_minutes}
     LEFT JOIN
-        PlayerSeasonAdvancedStats adv ON p.player_id = adv.player_id AND adv.season = '{season}'
+        PlayerSeasonAdvancedStats adv ON p.player_id = adv.player_id AND adv.season = rs.season
     LEFT JOIN
-        PlayerSeasonShootingDistanceStats sds ON p.player_id = sds.player_id AND sds.season = '{season}'
+        PlayerSeasonShootingDistanceStats sds ON p.player_id = sds.player_id AND sds.season = rs.season
     LEFT JOIN
-        PlayerSeasonTrackingTouchesStats tts ON p.player_id = tts.player_id AND tts.season = '{season}'
+        PlayerSeasonTrackingTouchesStats tts ON p.player_id = tts.player_id AND tts.season = rs.season
     LEFT JOIN
-        PlayerSeasonElbowTouchStats ets ON p.player_id = ets.player_id AND ets.season = '{season}'
+        PlayerSeasonElbowTouchStats ets ON p.player_id = ets.player_id AND ets.season = rs.season
     LEFT JOIN
-        PlayerSeasonPostUpStats pus ON p.player_id = pus.player_id AND pus.season = '{season}'
+        PlayerSeasonPostUpStats pus ON p.player_id = pus.player_id AND pus.season = rs.season
     LEFT JOIN
-        PlayerSeasonPaintTouchStats pts ON p.player_id = pts.player_id AND pts.season = '{season}'
+        PlayerSeasonPaintTouchStats pts ON p.player_id = pts.player_id AND pts.season = rs.season
     LEFT JOIN
-        PlayerSeasonDriveStats ds ON p.player_id = ds.player_id AND ds.season = '{season}'
+        PlayerSeasonDriveStats ds ON p.player_id = ds.player_id AND ds.season = rs.season
     LEFT JOIN
-        PlayerSeasonCatchAndShootStats css ON p.player_id = css.player_id AND css.season = '{season}'
+        PlayerSeasonCatchAndShootStats css ON p.player_id = css.player_id AND css.season = rs.season
     LEFT JOIN
-        PlayerSeasonPassingStats passing ON p.player_id = passing.player_id AND passing.season = '{season}'
+        PlayerSeasonPassingStats passing ON p.player_id = passing.player_id AND passing.season = rs.season
     LEFT JOIN
-        PlayerSeasonPullUpStats pull_up ON p.player_id = pull_up.player_id AND pull_up.season = '{season}'
+        PlayerSeasonPullUpStats pull_up ON p.player_id = pull_up.player_id AND pull_up.season = rs.season
     LEFT JOIN
-        PlayerSeasonOpponentShootingStats oss ON p.player_id = oss.player_id AND oss.season = '{season}'
-    WHERE
-        rs.minutes_played >= {min_minutes}
+        PlayerSeasonOpponentShootingStats oss ON p.player_id = oss.player_id AND oss.season = rs.season;
     """
 
 
@@ -152,13 +135,7 @@ def generate_features(season: str):
     Queries the database, calculates the 48 archetype features,
     and saves them to the PlayerArchetypeFeatures table.
     """
-    conn = get_db_connection()
-    if not conn:
-        return
-
-    try:
-        logger.info(f"Generating archetype features for season: {season}")
-
+    with get_db_connection() as conn:
         query = _get_feature_query(season, settings.MIN_MINUTES_THRESHOLD)
         features_df = pd.read_sql_query(query, conn)
 
@@ -196,7 +173,7 @@ def generate_features(season: str):
         # Calculate AVGFGATTEMPTEDAGAINSTPERGAME
         opp_fga_cols = ['opp_fga_lt_5ft', 'opp_fga_5_9ft', 'opp_fga_10_14ft', 'opp_fga_15_19ft', 'opp_fga_20_24ft', 'opp_fga_25_29ft']
         features_df['AVGFGATTEMPTEDAGAINSTPERGAME'] = features_df.apply(
-            lambda row: sum(row[c] for c in opp_fga_cols) / row['games_played'] if row['games_played'] > 0 else 0,
+            lambda row: sum(row[c] if row[c] is not None else 0 for c in opp_fga_cols) / row['games_played'] if row['games_played'] > 0 else 0,
             axis=1
         )
 
@@ -243,13 +220,6 @@ def generate_features(season: str):
         # --- Save to Database ---
         final_features_df.to_sql('PlayerArchetypeFeatures', conn, if_exists='replace', index=False)
         logger.info(f"Successfully generated and saved archetype features for {len(final_features_df)} players.")
-
-    except (pd.errors.DatabaseError, sqlite3.Error) as e:
-        logger.error(f"A database error occurred: {e}")
-    finally:
-        if conn:
-            conn.close()
-            logger.info("Database connection closed.")
 
 def main():
     """Main function to run the script."""
