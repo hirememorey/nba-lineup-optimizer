@@ -63,8 +63,8 @@ def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> p
     """Fetches play-by-play data for a single game and enriches it with lineup information."""
     logger.info(f"Fetching play-by-play for game_id: {game_id}")
     try:
-        # Increase the timeout to 60 seconds for the API call
-        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=60)
+        # Increase the timeout to 120 seconds for the API call to handle slow responses
+        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=120)
         pbp_df = pbp.get_data_frames()[0]
 
         if pbp_df.empty:
@@ -104,12 +104,27 @@ def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> p
                 player_out_id = row['PLAYER1_ID']
                 player_in_id = row['PLAYER2_ID']
                 
-                if player_out_id in home_players:
-                    home_players.remove(player_out_id)
-                    home_players.add(player_in_id)
-                elif player_out_id in away_players:
-                    away_players.remove(player_out_id)
-                    away_players.add(player_in_id)
+                # --- START FIX V2: Defend against anomalous substitution data ---
+                sub_team_id = row['PLAYER1_TEAM_ID']
+
+                if sub_team_id == home_team_id:
+                    # ANOMALY CHECK: If the player subbing in is already on the court,
+                    # do nothing to prevent corrupting the player set to 4 members.
+                    if player_in_id in home_players:
+                        logger.warning(f"ANOMALY in Game {row['GAME_ID']} Event {row['EVENTNUM']}: Player {player_in_id} subbing in is already on court. Skipping substitution to maintain state integrity.")
+                    elif player_out_id in home_players:
+                        home_players.remove(player_out_id)
+                        home_players.add(player_in_id)
+                
+                elif sub_team_id == away_team_id:
+                    # ANOMALY CHECK: If the player subbing in is already on the court,
+                    # do nothing to prevent corrupting the player set to 4 members.
+                    if player_in_id in away_players:
+                        logger.warning(f"ANOMALY in Game {row['GAME_ID']} Event {row['EVENTNUM']}: Player {player_in_id} subbing in is already on court. Skipping substitution to maintain state integrity.")
+                    elif player_out_id in away_players:
+                        away_players.remove(player_out_id)
+                        away_players.add(player_in_id)
+                # --- END FIX V2 ---
 
         return pd.DataFrame(enriched_rows)
 
@@ -163,9 +178,11 @@ def populate_possessions(season_to_load: str) -> None:
                     logger.warning(f"No data returned for game {game['game_id']}. Skipping.")
                     continue
                 
-                # --- ARCHITECTURAL CHANGE FOR INCREMENTAL SAVING ---
-                # 3. Process and save data for one game at a time
-                
+                # --- START FINAL FIX V3: Deduplicate source data ---
+                # The API can occasionally return duplicate events. We must remove them before insertion.
+                pbp_df.drop_duplicates(subset=['GAME_ID', 'EVENTNUM'], keep='first', inplace=True)
+                # --- END FINAL FIX V3 ---
+
                 # Rename columns
                 column_mapping = {
                     'GAME_ID': 'game_id', 'EVENTNUM': 'event_num', 'EVENTMSGTYPE': 'event_type',
@@ -185,8 +202,25 @@ def populate_possessions(season_to_load: str) -> None:
                 table_columns = {info[1] for info in cursor.fetchall()}
                 df_to_insert = pbp_df[[col for col in pbp_df.columns if col in table_columns]]
                 
-                # Save to DB
-                df_to_insert.to_sql('Possessions', conn, if_exists='append', index=False)
+                # --- START FINAL FIX V2: Manual INSERT ---
+                cursor = conn.cursor()
+                try:
+                    cursor.execute("BEGIN")
+                    # 1. Clean up any partial data from a previous failed run for this game
+                    cursor.execute("DELETE FROM Possessions WHERE game_id = ?", (game['game_id'],))
+                    
+                    # 2. Insert the new, complete data using executemany for true atomicity
+                    cols = ', '.join(df_to_insert.columns)
+                    placeholders = ', '.join(['?'] * len(df_to_insert.columns))
+                    sql = f"INSERT INTO Possessions ({cols}) VALUES ({placeholders})"
+                    cursor.executemany(sql, df_to_insert.to_records(index=False).tolist())
+                    
+                    conn.commit()
+                except Exception:
+                    conn.rollback()
+                    raise # Reraise the exception to be handled by the outer loop
+                # --- END FINAL FIX V2 ---
+                
                 logger.info(f"Successfully inserted {len(df_to_insert)} plays for game {game['game_id']}.")
 
             except RetryError as e:

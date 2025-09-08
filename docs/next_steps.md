@@ -22,7 +22,7 @@ This document outlines the immediate, high-priority tasks required to prepare th
 
 - **Status**: ✅ **Done.**
 - **Objective**: Populate the `Possessions` table with granular, play-by-play data for the entire season by running `src/nba_stats/scripts/populate_possessions.py`.
-- **Resolution**: The script was failing due to a breaking change in the `nba_api` library, which removed the `.game_summary` attribute used to fetch team IDs. The script was refactored to query the local `Games` table for the `home_team_id` and `away_team_id` and pass them directly to the processing function, resolving the issue.
+- **Resolution**: The script was failing due to a breaking change in the `nba_api` library, which removed the `.game_summary` attribute used to fetch team IDs. The script was refactored to query the local `Games` table for the `home_team_id` and `away_team_id` and pass them directly to the processing function, resolving the issue. After this initial fix, the script was further hardened to handle anomalous substitution data, network timeouts, and non-atomic writes, making it fully robust.
 
 ---
 
@@ -30,7 +30,7 @@ This document outlines the immediate, high-priority tasks required to prepare th
 
 - **Status**: ✅ **Done.**
 - **Objective**: Ensure all required data for the 2024-25 season is present in the database.
-- **Resolution**: The full pipeline was executed successfully after significant architectural hardening. Key challenges and solutions are now documented in `docs/data_pipeline.md`.
+- **Resolution**: The full pipeline was executed successfully after significant architectural hardening. The `Possessions` table is now fully populated with all 1,230 games.
 
 ### Task 5: Run the Analysis
 

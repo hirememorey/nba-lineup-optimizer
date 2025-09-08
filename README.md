@@ -18,10 +18,8 @@ The project uses a combination of NBA statistics, player tracking data, and adva
 - ✅ **Initial Analysis Pipeline**: Phase 1 and Phase 2 scripts (`run_phase_1.py`, `run_phase_2.py`) run successfully, generating initial archetype data.
 - ✅ **Full Data Pipeline Execution**: The full data pipeline, including the architecturally hardened `populate_possessions.py` script, has been successfully run for the 2024-25 season. All data is now in the database.
 
-### In Progress
-- 🚧 **Bayesian Regression Model Implementation** (Section 2.2)
-
 ### Pending
+- 🚧 **Run the Analysis**: Generate player archetypes, lineup superclusters, and run the Bayesian model as described in `docs/running_the_analysis.md`.
 - ⏳ **Player Acquisition Analysis** (Section 3)
 
 ## Project Structure
