@@ -31,18 +31,13 @@ def _get_starters(game_id: str, home_team_id: int, away_team_id: int) -> tuple[l
         return [], []
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
-def _fetch_pbp_for_game(game_id: str) -> pd.DataFrame:
+def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> pd.DataFrame:
     """Fetches play-by-play data for a single game and enriches it with lineup information."""
     logger.info(f"Fetching play-by-play for game_id: {game_id}")
     try:
         # Increase the timeout to 60 seconds for the API call
         pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=60)
         pbp_df = pbp.get_data_frames()[0]
-
-        # First, get game summary to find home and away team IDs
-        game_summary_df = pbp.game_summary.get_data_frames()[0]
-        home_team_id = game_summary_df['HOME_TEAM_ID'].iloc[0]
-        away_team_id = game_summary_df['VISITOR_TEAM_ID'].iloc[0]
 
         # Now, fetch starters with the correct team IDs
         home_starters, away_starters = _get_starters(game_id, home_team_id, away_team_id)
@@ -103,12 +98,12 @@ def populate_possessions(season_to_load: str) -> None:
         return
 
     try:
-        games_df = pd.read_sql_query(f"SELECT game_id FROM Games WHERE season = '{season_to_load}'", conn)
-        game_ids = games_df['game_id'].tolist()
-        logger.info(f"Found {len(game_ids)} games for season {season_to_load}.")
+        games_df = pd.read_sql_query(f"SELECT game_id, home_team_id, away_team_id FROM Games WHERE season = '{season_to_load}'", conn)
+        logger.info(f"Found {len(games_df)} games for season {season_to_load}.")
 
-        if game_ids:
+        if not games_df.empty:
             # Clear existing data for this season's games to prevent duplicates
+            game_ids = games_df['game_id'].tolist()
             game_ids_placeholder = ','.join('?' for _ in game_ids)
             delete_query = f"DELETE FROM Possessions WHERE game_id IN ({game_ids_placeholder})"
             cursor = conn.cursor()
@@ -118,13 +113,13 @@ def populate_possessions(season_to_load: str) -> None:
 
         all_plays_df = pd.DataFrame()
         # Note: Running this without ThreadPoolExecutor for now to avoid rate-limiting issues with the API
-        for game_id in game_ids:
+        for index, game in games_df.iterrows():
             try:
-                pbp_df = _fetch_pbp_for_game(game_id)
+                pbp_df = _fetch_pbp_for_game(game['game_id'], game['home_team_id'], game['away_team_id'])
                 if not pbp_df.empty:
                     all_plays_df = pd.concat([all_plays_df, pbp_df], ignore_index=True)
             except RetryError as e:
-                logger.error(f"Failed to fetch PBP for game {game_id} after multiple retries: {e}")
+                logger.error(f"Failed to fetch PBP for game {game['game_id']} after multiple retries: {e}")
             time.sleep(random.uniform(0.6, 1.0)) # Be respectful of the API
         
         if all_plays_df.empty:

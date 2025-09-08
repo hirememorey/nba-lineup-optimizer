@@ -18,7 +18,7 @@ The project uses a combination of NBA statistics, player tracking data, and adva
 - ✅ **Initial Analysis Pipeline**: Phase 1 and Phase 2 scripts (`run_phase_1.py`, `run_phase_2.py`) run successfully, generating initial archetype data.
 
 ### In Progress
-- 🚧 **Possession-Level Data Collection (Blocked)**: The `populate_possessions.py` script is the current focus. It is failing due to breaking changes in the `nba_api` library's data structures. This is the primary blocker for the project. See `docs/next_steps.md` for a detailed debugging plan.
+- 🚧 **Data Pipeline Execution**: The full data pipeline, including the now-fixed possession data script, needs to be run for the 2024-25 season. See `docs/next_steps.md`.
 
 ### Pending
 - ⏳ **Bayesian Regression Model Implementation** (Section 2.2)

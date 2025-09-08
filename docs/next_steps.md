@@ -18,26 +18,15 @@ This document outlines the immediate, high-priority tasks required to prepare th
 
 ---
 
-### **`[CURRENT TASK]`** Task 3: Debug and Fix Possession Data Population
+**`[COMPLETED]`** ~~### Task 3: Debug and Fix Possession Data Population~~
 
-- **Status**: 🚧 **BLOCKED**
+- **Status**: ✅ **Done.**
 - **Objective**: Populate the `Possessions` table with granular, play-by-play data for the entire season by running `src/nba_stats/scripts/populate_possessions.py`.
-- **The Blocker**: The script is currently failing. Initial debugging revealed that the structure of the data objects returned by the `nba_api` library has likely changed since the script was originally written. The script's assumptions about where to find data (e.g., a `.game_summary` attribute) are no longer valid, causing `AttributeError` exceptions.
-
-#### **Recommended Next Action: API Health Check**
-
-Before attempting further fixes, the immediate next step is to investigate and validate the current structure of the `nba_api` objects.
-
-1.  **Isolate the Problem**: Create a temporary test script (e.g., `api_test.py`).
-2.  **Instantiate Core Objects**: In the test script, import `playbyplayv2` and `boxscoretraditionalv2` and instantiate them with a single, hard-coded `game_id`.
-3.  **Inspect Live Objects**: Use tools like `dir()` and `vars()` to thoroughly inspect the live `pbp` and `boxscore` objects. The goal is to answer:
-    -   Where is the game summary data (home/away team IDs) located now?
-    -   How are the actual DataFrames (box score, play-by-play events) meant to be accessed? Is it still `.get_data_frames()`?
-4.  **Update the Script**: Once the correct data access patterns are discovered, refactor `populate_possessions.py` to match the *actual* current API contract.
+- **Resolution**: The script was failing due to a breaking change in the `nba_api` library, which removed the `.game_summary` attribute used to fetch team IDs. The script was refactored to query the local `Games` table for the `home_team_id` and `away_team_id` and pass them directly to the processing function, resolving the issue.
 
 ---
 
-### Task 4: Run Full Data Pipeline for 2024-25
+### **`[CURRENT TASK]`** Task 4: Run Full Data Pipeline for 2024-25
 
 - **Status**: ⏳ PENDING (Blocked by Task 3)
 - **Objective**: Ensure all required data for the 2024-25 season is present in the database.
