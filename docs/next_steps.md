@@ -1,5 +1,10 @@
 # Next Steps for 2024-25 Season Analysis
 
+**Project Status as of Monday, September 8, 2025:**
+- The 2024-25 NBA regular season and playoffs are **complete**.
+- All data for this season *should* be available via the `stats.nba.com` API.
+- Current development is focused on completing the data pipeline and running the final analysis.
+
 This document outlines the immediate, high-priority tasks required to prepare the project for the analysis of the 2024-25 NBA season.
 
 **`[COMPLETED]`** ~~## Task 1: Database Migration (Critical Blocker)~~

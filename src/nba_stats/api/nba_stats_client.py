@@ -129,7 +129,7 @@ class NBAStatsClient:
             response = self.session.get(
                 url,
                 params=params,
-                timeout=30,
+                timeout=120,
                 allow_redirects=True
             )
             

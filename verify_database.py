@@ -1,113 +1,153 @@
 import sqlite3
 import pandas as pd
-from tabulate import tabulate
+import logging
+from typing import List, Dict, Tuple
 
-DB_FILE = "nba_lineup_data.db"
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def get_db_connection():
-    """Creates and returns a database connection."""
-    try:
-        conn = sqlite3.connect(DB_FILE)
-        conn.row_factory = sqlite3.Row
-        return conn
-    except sqlite3.Error as e:
-        print(f"Database connection error: {e}")
-        return None
+# Assuming the script is run from the root of the project
+DB_PATH = "src/nba_stats/db/nba_stats.db"
 
-def verify_database():
-    """Verifies database structure and data completeness."""
-    conn = get_db_connection()
-    if not conn:
-        return
+class DatabaseVerifier:
+    """
+    Connects to the NBA stats database and performs a series of checks to
+    verify data integrity and readiness for the analysis phase.
+    """
+    def __init__(self, db_path: str):
+        self.db_path = db_path
+        self.conn = None
+        self.failed_checks = 0
 
-    try:
-        cursor = conn.cursor()
-        
-        # 1. Check table structure
-        print("\n=== Database Structure ===")
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        tables = cursor.fetchall()
-        print(f"Found {len(tables)} tables:")
-        for table in tables:
-            table_name = table['name']
-            cursor.execute(f"PRAGMA table_info({table_name})")
+    def connect(self):
+        """Establish a connection to the database."""
+        try:
+            self.conn = sqlite3.connect(self.db_path)
+            self.conn.row_factory = sqlite3.Row
+            logging.info(f"Successfully connected to the database at {self.db_path}.")
+        except sqlite3.Error as e:
+            logging.error(f"Failed to connect to the database: {e}")
+            raise
+
+    def close(self):
+        """Close the database connection."""
+        if self.conn:
+            self.conn.close()
+            logging.info("Database connection closed.")
+
+    def _run_check(self, check_function, *args, **kwargs):
+        """Wrapper to run a check function and handle exceptions."""
+        try:
+            check_function(*args, **kwargs)
+        except AssertionError as e:
+            logging.error(f"FAILED: {e}")
+            self.failed_checks += 1
+        except Exception as e:
+            logging.error(f"An unexpected error occurred during check: {e}")
+            self.failed_checks += 1
+            
+    def get_table_schema(self, table_name: str) -> Dict[str, str]:
+        """Retrieve the schema for a given table."""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(f"PRAGMA table_info({table_name});")
             columns = cursor.fetchall()
-            print(f"\n{table_name} ({len(columns)} columns):")
-            print(tabulate(columns, headers=['cid', 'name', 'type', 'notnull', 'dflt_value', 'pk']))
+            if not columns:
+                 raise ValueError(f"Table '{table_name}' not found or has no columns.")
+            return {col['name']: col['type'] for col in columns}
+        except Exception as e:
+            logging.error(f"Could not get schema for table {table_name}: {e}")
+            return {}
 
-        # 2. Count records in each table
-        print("\n=== Record Counts ===")
-        for table in tables:
-            table_name = table['name']
-            cursor.execute(f"SELECT COUNT(*) as count FROM {table_name}")
-            count = cursor.fetchone()['count']
-            print(f"{table_name}: {count} records")
+    def verify_table_schemas(self):
+        """
+        Phase 1: Ground Truth - Verify the schema of critical tables.
+        The schema is the law.
+        """
+        logging.info("--- Phase 1: Verifying Table Schemas (Ground Truth) ---")
+        
+        # Check 1: Games table schema
+        games_schema = self.get_table_schema("Games")
+        assert 'season_id' in games_schema, "Games table MUST have a 'season_id' column."
+        logging.info("PASSED: `Games` table has a `season_id` column.")
 
-        # 3. Check Teams table completeness
-        print("\n=== Teams Table Verification ===")
+        # Check 2: PlayerSalaries table schema
+        salaries_schema = self.get_table_schema("PlayerSalaries")
+        assert 'player_id' in salaries_schema, "PlayerSalaries table MUST have a 'player_id' column."
+        assert 'season_id' in salaries_schema, "PlayerSalaries table MUST have a 'season_id' column."
+        logging.info("PASSED: `PlayerSalaries` table has `player_id` and `season_id` columns.")
+
+        # Check 3: PlayerSkills table schema
+        skills_schema = self.get_table_schema("PlayerSkills")
+        assert 'player_id' in skills_schema, "PlayerSkills table MUST have a 'player_id' column."
+        assert 'season_id' in skills_schema, "PlayerSkills table MUST have a 'season_id' column."
+        logging.info("PASSED: `PlayerSkills` table has `player_id` and `season_id` columns.")
+
+    def verify_data_content(self):
+        """
+        Phase 2: Content Verification - Check row counts and data integrity.
+        This runs only if the schema verification is successful.
+        """
+        logging.info("\n--- Phase 2: Verifying Data Content ---")
+
+        cursor = self.conn.cursor()
+
+        # Check 1: Team count
+        cursor.execute("SELECT COUNT(*) FROM Teams;")
+        team_count = cursor.fetchone()[0]
+        assert team_count == 30, f"Expected 30 teams, but found {team_count}."
+        logging.info(f"PASSED: Found {team_count} teams, as expected.")
+
+        # Check 2: Game count for the 2024-25 season
+        cursor.execute("SELECT COUNT(*) FROM Games WHERE season_id = '2024-25';")
+        game_count = cursor.fetchone()[0]
+        assert game_count == 1230, f"Expected 1230 games for '2024-25' season, but found {game_count}."
+        logging.info(f"PASSED: Found {game_count} games for the 2024-25 season, as expected.")
+        
+        # Check 3: PlayerSalaries are all for the correct season
+        cursor.execute("SELECT COUNT(*) FROM PlayerSalaries WHERE season_id != '2024-25';")
+        bad_salary_seasons = cursor.fetchone()[0]
+        assert bad_salary_seasons == 0, f"Found {bad_salary_seasons} records in PlayerSalaries not for the '2024-25' season."
+        logging.info("PASSED: All `PlayerSalaries` records are for the '2024-25' season.")
+
+        # Check 4: PlayerSkills are all for the correct season
+        cursor.execute("SELECT COUNT(*) FROM PlayerSkills WHERE season_id != '2024-25';")
+        bad_skill_seasons = cursor.fetchone()[0]
+        assert bad_skill_seasons == 0, f"Found {bad_skill_seasons} records in PlayerSkills not for the '2024-25' season."
+        logging.info("PASSED: All `PlayerSkills` records are for the '2024-25' season.")
+
+        # Check 5: Foreign key integrity for PlayerSalaries
         cursor.execute("""
-            SELECT COUNT(*) as total,
-                   COUNT(DISTINCT team_id) as unique_ids,
-                   COUNT(DISTINCT team_abbreviation) as unique_abbrs
-            FROM Teams
+            SELECT COUNT(*) FROM PlayerSalaries ps
+            LEFT JOIN Players p ON ps.player_id = p.player_id
+            WHERE p.player_id IS NULL;
         """)
-        team_stats = cursor.fetchone()
-        print(f"Total teams: {team_stats['total']}")
-        print(f"Unique team IDs: {team_stats['unique_ids']}")
-        print(f"Unique team abbreviations: {team_stats['unique_abbrs']}")
+        orphaned_salaries = cursor.fetchone()[0]
+        assert orphaned_salaries == 0, f"Found {orphaned_salaries} orphaned records in PlayerSalaries."
+        logging.info("PASSED: No orphaned records found in `PlayerSalaries`.")
 
-        # 4. Check PlayerSeasonRawStats completeness
-        print("\n=== Player Stats Verification ===")
-        cursor.execute("""
-            SELECT 
-                COUNT(*) as total_players,
-                COUNT(DISTINCT player_id) as unique_players,
-                COUNT(CASE WHEN minutes_played >= 1000 THEN 1 END) as players_1000_min,
-                COUNT(CASE WHEN FTPCT IS NOT NULL THEN 1 END) as players_with_ftpct,
-                COUNT(CASE WHEN TSPCT IS NOT NULL THEN 1 END) as players_with_tspct,
-                COUNT(CASE WHEN AVGFGATTEMPTEDAGAINSTPERGAME IS NOT NULL THEN 1 END) as players_with_defense
-            FROM PlayerSeasonRawStats
-        """)
-        stats = cursor.fetchone()
-        print(f"Total player records: {stats['total_players']}")
-        print(f"Unique players: {stats['unique_players']}")
-        print(f"Players with 1000+ minutes: {stats['players_1000_min']}")
-        print(f"Players with free throw %: {stats['players_with_ftpct']}")
-        print(f"Players with true shooting %: {stats['players_with_tspct']}")
-        print(f"Players with defensive stats: {stats['players_with_defense']}")
+    def run_all_checks(self):
+        """Run all verification checks in sequence."""
+        self.connect()
+        if not self.conn:
+            return
 
-        # 5. Sample some player data
-        print("\n=== Sample Player Data ===")
-        cursor.execute("""
-            SELECT p.player_id, p.minutes_played, p.FTPCT, p.TSPCT, p.AVGFGATTEMPTEDAGAINSTPERGAME,
-                   t.team_abbreviation
-            FROM PlayerSeasonRawStats p
-            JOIN Teams t ON p.team_id = t.team_id
-            WHERE p.minutes_played >= 1000
-            ORDER BY p.minutes_played DESC
-            LIMIT 5
-        """)
-        sample_players = cursor.fetchall()
-        print("\nTop 5 players by minutes played:")
-        print(tabulate(sample_players, headers='keys', tablefmt='grid'))
+        self._run_check(self.verify_table_schemas)
+        
+        # Only proceed to content checks if schema is okay
+        if self.failed_checks == 0:
+            self._run_check(self.verify_data_content)
+        else:
+            logging.warning("Skipping content verification due to schema validation failures.")
+        
+        self.close()
 
-        # 6. Check for any missing critical data
-        print("\n=== Missing Data Check ===")
-        cursor.execute("""
-            SELECT COUNT(*) as count
-            FROM PlayerSeasonRawStats
-            WHERE minutes_played IS NULL 
-               OR FTPCT IS NULL 
-               OR TSPCT IS NULL 
-               OR AVGFGATTEMPTEDAGAINSTPERGAME IS NULL
-        """)
-        missing_data = cursor.fetchone()['count']
-        print(f"Players with missing critical stats: {missing_data}")
+        if self.failed_checks > 0:
+            logging.error(f"\nVerification finished with {self.failed_checks} failed check(s).")
+        else:
+            logging.info("\nVerification finished successfully. All checks passed!")
 
-    except sqlite3.Error as e:
-        print(f"Database error during verification: {e}")
-    finally:
-        conn.close()
 
 if __name__ == "__main__":
-    verify_database() 
+    verifier = DatabaseVerifier(DB_PATH)
+    verifier.run_all_checks() 
