@@ -13,22 +13,16 @@ The project uses a combination of NBA statistics, player tracking data, and adva
 ## Current Status
 
 ### Completed
-- ✅ Database initialization and schema setup
-- ✅ Phase 1 Data Population
-  - Teams, players, and games data
-  - Player season stats (528 players processed)
-- ✅ Phase 2 Feature Engineering (Initial)
-  - Identified 270 players meeting 1,000-minute threshold
-  - Ready for archetype clustering
+- ✅ **Database Migration**: The schema for `PlayerSalaries` and `PlayerSkills` has been updated to be season-aware.
+- ✅ **Core Data Population**: Scripts for populating salaries and DARKO skill ratings from local CSVs for the 2024-25 season have been updated and successfully run.
+- ✅ **Initial Analysis Pipeline**: Phase 1 and Phase 2 scripts (`run_phase_1.py`, `run_phase_2.py`) run successfully, generating initial archetype data.
 
 ### In Progress
-- 🔄 Player Archetype Clustering (Section 2.4)
-- 🔄 Lineup Supercluster Analysis (Section 2.5)
-- 🔄 Possession-Level Data Collection (Section 2.1)
+- 🚧 **Possession-Level Data Collection (Blocked)**: The `populate_possessions.py` script is the current focus. It is failing due to breaking changes in the `nba_api` library's data structures. This is the primary blocker for the project. See `docs/next_steps.md` for a detailed debugging plan.
 
 ### Pending
-- ⏳ Bayesian Regression Model Implementation (Section 2.2)
-- ⏳ Player Acquisition Analysis (Section 3)
+- ⏳ **Bayesian Regression Model Implementation** (Section 2.2)
+- ⏳ **Player Acquisition Analysis** (Section 3)
 
 ## Project Structure
 

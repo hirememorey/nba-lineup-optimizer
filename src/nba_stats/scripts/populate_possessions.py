@@ -9,27 +9,43 @@ from .common_utils import get_db_connection, get_nba_stats_client, logger, setti
 import time
 import random
 
-def _get_starters(game_id: str):
+# Add a retry decorator
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+
+
+def _get_starters(game_id: str, home_team_id: int, away_team_id: int) -> tuple[list[int], list[int]]:
     """Fetches the starting lineups for a given game."""
     try:
-        boxscore = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id=game_id)
+        # Increase the timeout for this specific, potentially slow endpoint
+        boxscore = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id=game_id, timeout=60)
         starters = boxscore.get_data_frames()[0]
         starters = starters[starters['START_POSITION'].notna()]
-        home_starters = starters[starters['TEAM_ID'] == boxscore.game_summary.get_data_frames()[0]['HOME_TEAM_ID'].iloc[0]]['PLAYER_ID'].tolist()
-        away_starters = starters[starters['TEAM_ID'] == boxscore.game_summary.get_data_frames()[0]['VISITOR_TEAM_ID'].iloc[0]]['PLAYER_ID'].tolist()
+        
+        # Use the passed-in team IDs to correctly identify starters
+        home_starters = starters[starters['TEAM_ID'] == home_team_id]['PLAYER_ID'].tolist()
+        away_starters = starters[starters['TEAM_ID'] == away_team_id]['PLAYER_ID'].tolist()
+        
         return home_starters, away_starters
     except Exception as e:
         logger.error(f"Error fetching starters for game {game_id}: {e}", exc_info=True)
         return [], []
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def _fetch_pbp_for_game(game_id: str) -> pd.DataFrame:
     """Fetches play-by-play data for a single game and enriches it with lineup information."""
     logger.info(f"Fetching play-by-play for game_id: {game_id}")
     try:
-        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id)
+        # Increase the timeout to 60 seconds for the API call
+        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=60)
         pbp_df = pbp.get_data_frames()[0]
 
-        home_starters, away_starters = _get_starters(game_id)
+        # First, get game summary to find home and away team IDs
+        game_summary_df = pbp.game_summary.get_data_frames()[0]
+        home_team_id = game_summary_df['HOME_TEAM_ID'].iloc[0]
+        away_team_id = game_summary_df['VISITOR_TEAM_ID'].iloc[0]
+
+        # Now, fetch starters with the correct team IDs
+        home_starters, away_starters = _get_starters(game_id, home_team_id, away_team_id)
         if not home_starters or not away_starters:
             logger.warning(f"Could not determine starters for game {game_id}. Skipping.")
             return pd.DataFrame()
@@ -44,12 +60,11 @@ def _fetch_pbp_for_game(game_id: str) -> pd.DataFrame:
             # Assumes the team of PLAYER1_ID is the offensive team.
             offensive_team_id = row.get('PLAYER1_TEAM_ID')
             if pd.isna(offensive_team_id) and row['HOMEDESCRIPTION'] is not None:
-                 offensive_team_id = pbp.game_summary.get_data_frames()[0]['HOME_TEAM_ID'].iloc[0]
+                 offensive_team_id = home_team_id
             elif pd.isna(offensive_team_id) and row['VISITORDESCRIPTION'] is not None:
-                offensive_team_id = pbp.game_summary.get_data_frames()[0]['VISITOR_TEAM_ID'].iloc[0]
+                offensive_team_id = away_team_id
 
-            home_team_id = pbp.game_summary.get_data_frames()[0]['HOME_TEAM_ID'].iloc[0]
-            defensive_team_id = home_team_id if offensive_team_id != home_team_id else pbp.game_summary.get_data_frames()[0]['VISITOR_TEAM_ID'].iloc[0]
+            defensive_team_id = home_team_id if offensive_team_id != home_team_id else away_team_id
 
             row_data = row.to_dict()
             row_data['home_player_1_id'], row_data['home_player_2_id'], row_data['home_player_3_id'], row_data['home_player_4_id'], row_data['home_player_5_id'] = sorted(list(home_players))
@@ -74,8 +89,8 @@ def _fetch_pbp_for_game(game_id: str) -> pd.DataFrame:
         return pd.DataFrame(enriched_rows)
 
     except Exception as e:
-        logger.error(f"Error processing PBP for game {game_id}: {e}", exc_info=True)
-        return pd.DataFrame()
+        logger.error(f"Error processing PBP for game {game_id}: {e}", exc_info=False) # exc_info=False to avoid noisy tracebacks on retry
+        raise # Reraise the exception to trigger the retry mechanism
 
 
 def populate_possessions(season_to_load: str) -> None:
@@ -104,9 +119,12 @@ def populate_possessions(season_to_load: str) -> None:
         all_plays_df = pd.DataFrame()
         # Note: Running this without ThreadPoolExecutor for now to avoid rate-limiting issues with the API
         for game_id in game_ids:
-            pbp_df = _fetch_pbp_for_game(game_id)
-            if not pbp_df.empty:
-                all_plays_df = pd.concat([all_plays_df, pbp_df], ignore_index=True)
+            try:
+                pbp_df = _fetch_pbp_for_game(game_id)
+                if not pbp_df.empty:
+                    all_plays_df = pd.concat([all_plays_df, pbp_df], ignore_index=True)
+            except RetryError as e:
+                logger.error(f"Failed to fetch PBP for game {game_id} after multiple retries: {e}")
             time.sleep(random.uniform(0.6, 1.0)) # Be respectful of the API
         
         if all_plays_df.empty:

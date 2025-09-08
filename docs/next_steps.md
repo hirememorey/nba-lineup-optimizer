@@ -2,45 +2,49 @@
 
 This document outlines the immediate, high-priority tasks required to prepare the project for the analysis of the 2024-25 NBA season.
 
-## Task 1: Database Migration (Critical Blocker)
+**`[COMPLETED]`** ~~## Task 1: Database Migration (Critical Blocker)~~
 
-The single most important and urgent task is to fix the database schema for the `PlayerSalaries` and `PlayerSkills` tables.
-
+- **Status**: ✅ Done.
 - **Objective**: Alter the tables to include `player_id` and `season_id` columns to enable proper data storage and querying.
-- **Details**: Specific instructions and the required schema are detailed in the `docs/database_setup.md` file.
-- **Implementation**: This logic should be implemented within the existing `src/nba_stats/scripts/migrate_db.py` script. The script should be idempotent, meaning it can be run multiple times without causing errors (e.g., it should check if the columns already exist before trying to add them).
+- **Implementation**: The `src/nba_stats/scripts/migrate_db.py` script now safely handles this, archiving old tables if they exist.
 
-## Task 2: Update Data Population Scripts
+**`[COMPLETED]`** ~~## Task 2: Update Data Population Scripts~~
 
-Once the database migration is complete, the scripts for populating salaries and skills must be updated.
+- **Status**: ✅ Done.
+- **Objective**: Modify the population scripts to load the 2024-25 CSV data into the new table structures.
+- **Implementation**:
+    - `populate_salaries.py` now reads directly from `data/player_salaries_2024-25.csv`.
+    - `populate_player_skill.py` now reads directly from `data/darko_dpm_2024-25.csv`.
 
-### `populate_salaries.py`
-- **Objective**: Modify this script to parse the `data/player_salaries_2024-25.csv` file and load its contents into the newly structured `PlayerSalaries` table.
-- **Key Changes**:
-    - The script must map `PlayerName` to a `player_id`. A lookup from the `Players` table will be necessary.
-    - It must insert the correct `season_id` ('2024-25') for every record.
+---
 
-### `populate_player_skill.py` (New or Modified Script)
-- **Objective**: Create a new script (or modify the existing placeholder) to load the DARKO skill ratings.
-- **Source File**: `data/darko_dpm_2024-25.csv`
-- **Key Changes**:
-    - The script must parse the CSV.
-    - It needs to map player names to `player_id`.
-    - It must load the `Offensive DARKO` and `Defensive DARKO` ratings into the `offensive_skill_rating` and `defensive_skill_rating` columns, respectively.
-    - It must insert the `season_id` ('2024-25') for all records.
+### **`[CURRENT TASK]`** Task 3: Debug and Fix Possession Data Population
 
-## Task 3: Run Full Data Pipeline for 2024-25
+- **Status**: 🚧 **BLOCKED**
+- **Objective**: Populate the `Possessions` table with granular, play-by-play data for the entire season by running `src/nba_stats/scripts/populate_possessions.py`.
+- **The Blocker**: The script is currently failing. Initial debugging revealed that the structure of the data objects returned by the `nba_api` library has likely changed since the script was originally written. The script's assumptions about where to find data (e.g., a `.game_summary` attribute) are no longer valid, causing `AttributeError` exceptions.
 
-After the database and scripts are updated, the full data pipeline must be run to populate the database for the new season.
+#### **Recommended Next Action: API Health Check**
 
+Before attempting further fixes, the immediate next step is to investigate and validate the current structure of the `nba_api` objects.
+
+1.  **Isolate the Problem**: Create a temporary test script (e.g., `api_test.py`).
+2.  **Instantiate Core Objects**: In the test script, import `playbyplayv2` and `boxscoretraditionalv2` and instantiate them with a single, hard-coded `game_id`.
+3.  **Inspect Live Objects**: Use tools like `dir()` and `vars()` to thoroughly inspect the live `pbp` and `boxscore` objects. The goal is to answer:
+    -   Where is the game summary data (home/away team IDs) located now?
+    -   How are the actual DataFrames (box score, play-by-play events) meant to be accessed? Is it still `.get_data_frames()`?
+4.  **Update the Script**: Once the correct data access patterns are discovered, refactor `populate_possessions.py` to match the *actual* current API contract.
+
+---
+
+### Task 4: Run Full Data Pipeline for 2024-25
+
+- **Status**: ⏳ PENDING (Blocked by Task 3)
 - **Objective**: Ensure all required data for the 2024-25 season is present in the database.
-- **Instructions**: Follow the step-by-step guide in `docs/data_pipeline.md`.
+- **Instructions**: Once the possession script is fixed, the remaining steps in `docs/data_pipeline.md` can be completed.
 
-## Task 4: Run the Analysis
+### Task 5: Run the Analysis
 
-With the data in place, the final step is to run the complete analysis pipeline.
-
+- **Status**: ⏳ PENDING
 - **Objective**: Generate the 2024-25 player archetypes, lineup superclusters, and Bayesian model results.
 - **Instructions**: Follow the guide in `docs/running_the_analysis.md`.
-
-These tasks, once completed, will fully prepare the project for generating player acquisition insights for the upcoming season.

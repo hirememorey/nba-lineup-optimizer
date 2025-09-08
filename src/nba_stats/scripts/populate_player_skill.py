@@ -1,67 +1,103 @@
 """
 This script populates the PlayerSeasonSkill table with data from a manually downloaded CSV file.
 """
-import pandas as pd
 import sqlite3
-from pathlib import Path
-from .common_utils import get_db_connection, logger
+import csv
+import os
+import sys
+import unicodedata
+from typing import Dict, Tuple
 
-def populate_player_skill(season_to_load: str) -> None:
-    """
-    Populates the PlayerSeasonSkill table from a DARKO CSV file for a given season.
-    """
-    logger.info(f"Starting to populate PlayerSeasonSkill for season {season_to_load}.")
-    conn = get_db_connection()
-    if not conn:
-        return
+# Correct database path, relative to the project root
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'db', 'nba_stats.db')
+CSV_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'darko_dpm_2024-25.csv')
+SEASON_ID = "2024-25"
+SKILL_METRIC_SOURCE = "DARKO"
 
+def normalize_name(name: str) -> str:
+    """Normalizes a name by lowercasing, removing accents, and stripping whitespace."""
+    if not isinstance(name, str):
+        return ""
+    normalized = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('utf-8')
+    return normalized.lower().strip()
+
+def get_player_name_id_map(cursor: sqlite3.Cursor) -> Dict[str, int]:
+    """Fetches a mapping from normalized player name to player_id from the database."""
+    cursor.execute("SELECT player_name, player_id FROM Players")
+    return {normalize_name(name): player_id for name, player_id in cursor.fetchall()}
+
+def populate_player_skill_from_csv():
+    """Parses a CSV of player DARKO ratings and inserts them into the database."""
+    print(f"Starting player skill population from CSV for season {SEASON_ID}...")
+    
     try:
-        csv_path = Path(f"data/darko_dpm_{season_to_load}.csv")
-        if not csv_path.exists():
-            logger.error(f"DARKO CSV file not found at {csv_path}. Cannot populate player skill ratings.")
-            logger.warning("Please download the required file from https://apanalytics.shinyapps.io/DARKO/")
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        # 1. Get player name to ID mapping
+        player_name_map = get_player_name_id_map(cursor)
+        if not player_name_map:
+            print("Error: Could not fetch player map from the database. Please populate players first.", file=sys.stderr)
             return
 
-        df = pd.read_csv(csv_path)
-        logger.info(f"Loaded {len(df)} rows from {csv_path}.")
-
-        # Prepare DataFrame for insertion
-        df.rename(columns={'nba_id': 'player_id', 'Player': 'player_name', 'O-DPM': 'offensive_darko', 'D-DPM': 'defensive_darko', 'DPM': 'darko'}, inplace=True)
-        df['season'] = season_to_load
+        # 2. Make the script idempotent: Delete existing entries for the season
+        print(f"Deleting existing player skill records for season {SEASON_ID} to prevent duplicates...")
+        cursor.execute("DELETE FROM PlayerSkills WHERE season_id = ? AND skill_metric_source = ?", (SEASON_ID, SKILL_METRIC_SOURCE))
         
-        # Ensure player_id is a nullable integer type to handle non-numeric values
-        df['player_id'] = pd.to_numeric(df['player_id'], errors='coerce')
-        df.dropna(subset=['player_id'], inplace=True)
-        df['player_id'] = df['player_id'].astype('Int64')
+        # 3. Read the CSV and prepare data for insertion
+        skills_to_insert: list[Tuple[int, str, float, float, str]] = []
+        unmatched_names: list[str] = []
 
-        # Filter for columns that exist in the database table
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA table_info(PlayerSeasonSkill)")
-        db_columns = {col[1] for col in cursor.fetchall()}
-        
-        df_columns = [col for col in df.columns if col in db_columns]
-        skill_df = df[df_columns]
+        with open(CSV_PATH, 'r', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                player_name_csv = row.get('Player')
+                offensive_skill_str = row.get('O-DPM')
+                defensive_skill_str = row.get('D-DPM')
 
-        # Use executemany for efficient batch insertion
-        placeholders = ', '.join(['?'] * len(df_columns))
-        sql = f"INSERT OR REPLACE INTO PlayerSeasonSkill ({', '.join(df_columns)}) VALUES ({placeholders})"
-        
-        cursor.executemany(sql, skill_df.to_records(index=False).tolist())
-        conn.commit()
-        logger.info(f"Successfully populated PlayerSeasonSkill for {cursor.rowcount} players.")
+                if not all([player_name_csv, offensive_skill_str, defensive_skill_str]):
+                    continue
 
+                normalized_name = normalize_name(player_name_csv)
+                player_id = player_name_map.get(normalized_name)
+
+                if player_id:
+                    try:
+                        offensive_skill = float(offensive_skill_str)
+                        defensive_skill = float(defensive_skill_str)
+                        skills_to_insert.append((player_id, SEASON_ID, offensive_skill, defensive_skill, SKILL_METRIC_SOURCE))
+                    except (ValueError, TypeError):
+                        print(f"Warning: Could not parse skill ratings for {player_name_csv}", file=sys.stderr)
+                else:
+                    unmatched_names.append(player_name_csv)
+
+        # 4. Perform bulk insert
+        if skills_to_insert:
+            print(f"Found {len(skills_to_insert)} matching players. Inserting into database...")
+            cursor.executemany(
+                """INSERT INTO PlayerSkills 
+                   (player_id, season_id, offensive_skill_rating, defensive_skill_rating, skill_metric_source) 
+                   VALUES (?, ?, ?, ?, ?)""",
+                skills_to_insert
+            )
+            conn.commit()
+            print("Successfully inserted player skill data.")
+        else:
+            print("No new player skill data was inserted.")
+
+        if unmatched_names:
+            print(f"\nWarning: Could not find a match for {len(unmatched_names)} players in the database.")
+            print(f"Unmatched examples: {unmatched_names[:10]}...")
+
+    except sqlite3.Error as e:
+        print(f"Database error: {e}", file=sys.stderr)
+    except FileNotFoundError:
+        print(f"Error: DARKO CSV file not found at {CSV_PATH}", file=sys.stderr)
     except Exception as e:
-        logger.error(f"An error occurred during PlayerSeasonSkill population: {e}", exc_info=True)
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
     finally:
-        if conn:
+        if 'conn' in locals() and conn:
             conn.close()
 
 if __name__ == "__main__":
-    import argparse
-    from ..config import settings
-    
-    parser = argparse.ArgumentParser(description="Populate PlayerSeasonSkill table from a CSV file.")
-    parser.add_argument("--season", type=str, default=settings.SEASON_ID, help="The season to load data for.")
-    args = parser.parse_args()
-    
-    populate_player_skill(season_to_load=args.season) 
+    populate_player_skill_from_csv() 
