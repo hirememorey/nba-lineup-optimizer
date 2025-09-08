@@ -64,8 +64,8 @@ def acquire_external_data(conn: sqlite3.Connection):
         # Select and rename columns to match our schema
         darko_df = darko_df[['Player', 'O-DPM', 'D-DPM']].rename(columns={
             'Player': 'player_name',
-            'O-DPM': 'o_darko',
-            'D-DPM': 'd_darko'
+            'O-DPM': 'offensive_skill_rating',
+            'D-DPM': 'defensive_skill_rating'
         })
         
         # Get player IDs from the database
@@ -80,21 +80,23 @@ def acquire_external_data(conn: sqlite3.Connection):
 
         # Prepare data for insertion
         merged_df['season_id'] = SEASON_ID
-        skill_data = merged_df[['player_id', 'season_id', 'o_darko', 'd_darko']]
+        merged_df['skill_metric_source'] = 'DARKO'
+        skill_data = merged_df[['player_id', 'season_id', 'offensive_skill_rating', 'defensive_skill_rating', 'skill_metric_source']]
 
-        # Create PlayerSkills table
-        cursor = conn.cursor()
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS PlayerSkills (
-            player_skill_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            player_id INTEGER,
-            season_id TEXT,
-            o_darko REAL,
-            d_darko REAL,
-            FOREIGN KEY (player_id) REFERENCES Players (player_id)
-        );
-        """)
-        logging.info("Created 'PlayerSkills' table.")
+        # Create PlayerSkills table - THIS LOGIC IS BEING REMOVED
+        # The schema should be handled exclusively by the migration script.
+        # cursor = conn.cursor()
+        # cursor.execute("""
+        # CREATE TABLE IF NOT EXISTS PlayerSkills (
+        #     player_skill_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        #     player_id INTEGER,
+        #     season_id TEXT,
+        #     o_darko REAL,
+        #     d_darko REAL,
+        #     FOREIGN KEY (player_id) REFERENCES Players (player_id)
+        # );
+        # """)
+        # logging.info("Created 'PlayerSkills' table.")
 
         # Insert data into PlayerSkills
         skill_data.to_sql('PlayerSkills', conn, if_exists='append', index=False)
@@ -117,22 +119,37 @@ def acquire_salary_data(conn: sqlite3.Connection):
         logging.info(f"Loaded {len(salary_df)} records from Salary CSV.")
         
         # 2. Rename columns for consistency
-        salary_df.rename(columns={'Player': 'PlayerName'}, inplace=True)
+        salary_df = salary_df.rename(columns={'Player': 'player_name', 'Salary': 'salary'})
+
+        # Get player IDs
+        players_df = pd.read_sql_query("SELECT player_id, player_name FROM Players", conn)
         
-        # 3. Create PlayerSalaries table
-        cursor = conn.cursor()
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS PlayerSalaries (
-            PlayerName TEXT PRIMARY KEY,
-            Salary INTEGER
-        )
-        """)
-        logging.info("Created 'PlayerSalaries' table.")
+        # Merge salary data with player IDs
+        merged_df = pd.merge(salary_df, players_df, on='player_name', how='inner')
+
+        if merged_df.empty:
+            logging.warning("No matching players found between salary data and Players table.")
+            return
+
+        # Prepare data for insertion
+        merged_df['season_id'] = SEASON_ID
+        salary_data = merged_df[['player_id', 'season_id', 'salary']]
+        
+        # 3. Create PlayerSalaries table - THIS LOGIC IS BEING REMOVED
+        # The schema should be handled exclusively by the migration script.
+        # cursor = conn.cursor()
+        # cursor.execute("""
+        # CREATE TABLE IF NOT EXISTS PlayerSalaries (
+        #     PlayerName TEXT PRIMARY KEY,
+        #     Salary INTEGER
+        # )
+        # """)
+        # logging.info("Created 'PlayerSalaries' table.")
         
         # 4. Insert data into the table
-        salary_df.to_sql('PlayerSalaries', conn, if_exists='replace', index=False)
+        salary_data.to_sql('PlayerSalaries', conn, if_exists='append', index=False)
         
-        logging.info(f"Successfully inserted {len(salary_df)} records into 'PlayerSalaries' table.")
+        logging.info(f"Successfully inserted {len(salary_data)} records into 'PlayerSalaries' table.")
         
     except FileNotFoundError:
         logging.error("Salary data file not found.")
