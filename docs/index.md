@@ -33,4 +33,6 @@ For a new developer, the recommended reading order is:
 
 -   **[Implementation Guide](./implementation_guide.md)**: **(NEW)** Complete guide to the new reliability features including cache warming, API testing, data validation, and error handling.
 
+-   **[Semantic Data Verification](./semantic_data_verification.md)**: **(NEW)** Critical tool for validating data quality before pipeline execution. Prevents the failure mode where data looks valid but produces garbage analysis results.
+
 -   **[Quick Start Guide](./quick_start.md)**: **(NEW)** Step-by-step instructions for getting started with the enhanced pipeline.

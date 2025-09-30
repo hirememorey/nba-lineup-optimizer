@@ -45,7 +45,26 @@ python test_api_connection.py --season 2024-25
 python test_api_connection.py --season 2024-25 --quick
 ```
 
-### 3. Data Integrity Protection
+### 3. Semantic Data Verification
+
+**Problem Solved**: Prevents the critical failure mode where "data looks valid but is semantically wrong, leading to garbage analysis results."
+
+**Implementation**:
+- **`verify_semantic_data.py`**: Comprehensive data quality validation tool
+- **Pre-pipeline validation**: Always run before data pipeline execution
+- **Semantic checks**: Validates data meaning, not just structure
+- **Comprehensive reporting**: Detailed validation results and recommendations
+
+**Usage**:
+```bash
+# Run semantic verification before pipeline
+python verify_semantic_data.py --season 2024-25
+
+# Verbose output for debugging
+python verify_semantic_data.py --season 2024-25 --verbose
+```
+
+### 4. Data Integrity Protection
 
 **Problem Solved**: Prevents silent data corruption when API structure changes.
 
@@ -216,12 +235,19 @@ python test_resumability.py --season 2024-25
    - Review Pydantic model definitions
    - Verify data types and ranges
 
-3. **Cache Issues**:
+3. **Semantic Verification Failures**:
+   - Check detailed report: `cat semantic_data_verification_report.md`
+   - Run with verbose output: `python verify_semantic_data.py --season 2024-25 --verbose`
+   - Verify API connectivity: `python test_api_connection.py --season 2024-25`
+   - Check data freshness and completeness
+   - Review validation criteria in the tool
+
+4. **Cache Issues**:
    - Clear cache directory: `rm -rf .cache/`
    - Re-run cache warming: `python warm_cache.py`
    - Verify cache integrity: `python warm_cache.py --verify-only`
 
-4. **Resumability Problems**:
+5. **Resumability Problems**:
    - Check database connectivity
    - Verify table schemas
    - Review transaction logs

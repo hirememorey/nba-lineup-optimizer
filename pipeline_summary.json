@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-09-30T14:46:27.724903",
+  "season": "2024-25",
+  "total_metrics": 47,
+  "available_metrics": 41,
+  "fetched_metrics": 38,
+  "missing_metrics": [
+    "AVGDIST",
+    "Zto3r",
+    "THto10r",
+    "TENto16r",
+    "SIXTto3PTr",
+    "WINGSPAN"
+  ],
+  "validation_summary": {
+    "total_metrics": 47,
+    "fetched_metrics": 38,
+    "missing_metrics": 9,
+    "empty_metrics": 0
+  }
+}

@@ -54,7 +54,18 @@ python test_api_connection.py --season 2024-25
 ✅ Smoke test passed - Ready to proceed
 ```
 
-### Step 3: Run the Pipeline
+### Step 3: Verify Data Quality (CRITICAL)
+```bash
+python verify_semantic_data.py --season 2024-25
+```
+**What this does**: Validates that the API is returning semantically correct data before running the full pipeline. This prevents the critical failure mode where data looks valid but produces garbage analysis results.
+
+**Expected output**:
+```
+✅ Semantic verification passed - Data quality validated
+```
+
+### Step 4: Run the Pipeline
 ```bash
 python master_data_pipeline.py --season 2024-25
 ```
@@ -122,6 +133,15 @@ ping stats.nba.com
 python test_api_connection.py --season 2024-25 --quick
 ```
 
+### If semantic verification fails:
+```bash
+# Check the detailed report
+cat semantic_data_verification_report.md
+
+# Run with verbose logging
+python verify_semantic_data.py --season 2024-25 --verbose
+```
+
 ### If pipeline fails:
 ```bash
 # Check logs
@@ -177,6 +197,7 @@ Once the pipeline completes successfully:
 ```
 ├── warm_cache.py                    # Cache warming
 ├── test_api_connection.py          # API testing
+├── verify_semantic_data.py         # Data quality validation (NEW)
 ├── master_data_pipeline.py         # Main pipeline
 ├── run_implementation_demo.py      # Complete demo
 ├── .cache/                         # Cached API data
