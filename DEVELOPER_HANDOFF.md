@@ -29,6 +29,7 @@ Critical architectural improvements have been implemented to address NBA API rel
 - **Increased Timeout**: Request timeout increased from 2 minutes to 5 minutes for bulk operations
 - **Reconnaissance Tools**: `debug_new_endpoint.py` script to validate API endpoint compatibility
 - **Bulk Data Strategy**: Migration from fragile per-player API calls to robust bulk endpoints
+- **Debugging Methodology**: "Isolate with curl First" principle for reliable API debugging (see `docs/api_debugging_methodology.md`)
 
 ### Key Capabilities
 

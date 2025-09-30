@@ -51,6 +51,20 @@ The issue was traced to the `populate_player_season_stats.py` script, which uses
   - Validates data quality (e.g., games played counts)
   - Generates detailed compatibility reports
 
+### 4. Debugging Methodology
+
+**Implementation**: Established "Isolate with curl First" principle
+
+- **Purpose**: Reliable debugging of NBA API issues
+- **Methodology**: When API calls fail, always test with raw `curl` commands before debugging Python code
+- **Benefits**:
+  - Eliminates false assumptions about code vs. API issues
+  - Provides ground truth about what the API accepts
+  - Saves significant debugging time
+  - Prevents silent timeout issues
+
+**📚 For complete methodology**: See `docs/api_debugging_methodology.md`
+
 ## Technical Details
 
 ### Files Modified

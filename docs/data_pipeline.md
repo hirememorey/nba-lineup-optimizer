@@ -85,7 +85,7 @@ A developer picking up this project should be aware of several key architectural
     2.  A new algorithm was implemented to find the *first five unique players* for each team from the chronological play-by-play data.
     3.  A strict validation check (`if len(home_players) != 5:`) was added. This enforces the contract that exactly five players must be found. If this contract is violated, the game is now safely logged and skipped, preventing the script from crashing and allowing the rest of the data to be processed.
 
-### 4. The "Outside-In" Principle for Debugging External APIs
+### 4. The "Isolate with curl First" Principle for Debugging External APIs
 
 -   **Problem**: A data population script (`populate_games.py`) was failing silently, hanging indefinitely during a network request. The initial instinct was to debug the script's internal logic, leading to a premature and ineffective "fix" (increasing a timeout). The root cause was not in our code, but in the behavior of the external `stats.nba.com` API, which was likely rate-limiting or blocking requests.
 -   **Principle**: The behavior of an external system is a variable, not a constant. When a failure occurs at the boundary of your system, the most efficient path to a diagnosis is to start "outside-in." First, verify the external dependency in isolation; only after it is proven to work should you debug your own code.
@@ -93,6 +93,8 @@ A developer picking up this project should be aware of several key architectural
     1.  **Isolate the Endpoint**: Do not debug your own script first. Construct the raw API call your code is making (the URL and parameters can be found in the logs) and execute it with a simple, universal tool like `curl` or a minimal test script. This provides a clean signal on the health of the external API, free from any complexities of your application.
     2.  **Use Timeouts as a Tool**: Treat timeouts as a diagnostic tool, not just a setting to be increased. When investigating a hang, temporarily set a very **short** timeout (e.g., 5 seconds). A quick `TimeoutError` is a valuable, immediate signal that the problem is network-related, which can pivot the investigation toward issues like rate limiting, IP blocking, or firewall issues much more quickly than waiting for a long timeout to expire.
     3.  **Map -> Verify -> Execute**: This workflow (Map dependencies, Verify state, Execute script) should be applied not just to database state, but to external service dependencies as well.
+
+**📚 For detailed methodology**: See `docs/api_debugging_methodology.md` for the complete "Isolate with curl First" workflow and examples.
 
 ### 5. The "Reconciliation-First" Principle for Data Integrity
 
