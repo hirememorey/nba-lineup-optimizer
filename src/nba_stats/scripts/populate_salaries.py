@@ -9,6 +9,7 @@ from typing import Dict, Tuple
 # Correct database path, relative to the project root
 DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'db', 'nba_stats.db')
 CSV_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'player_salaries_2024-25.csv')
+MAPPING_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'mappings', 'player_name_map.csv')
 SEASON_ID = "2024-25"
 
 def normalize_name(name: str) -> str:
@@ -25,6 +26,23 @@ def get_player_name_id_map(cursor: sqlite3.Cursor) -> Dict[str, int]:
     return {normalize_name(name): player_id for name, player_id in cursor.fetchall()}
 
 
+def load_name_mapping() -> Dict[str, str]:
+    """Load optional source->canonical name overrides from mappings/player_name_map.csv."""
+    mapping: Dict[str, str] = {}
+    try:
+        if os.path.exists(MAPPING_PATH):
+            with open(MAPPING_PATH, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    source = normalize_name(row.get('source_name', ''))
+                    canonical = row.get('canonical_name', '').strip()
+                    if source and canonical:
+                        mapping[source] = canonical
+    except Exception as e:
+        print(f"Warning: failed to load name mapping: {e}", file=sys.stderr)
+    return mapping
+
+
 def populate_salaries_from_csv():
     """Parses a CSV of player salaries and inserts them into the database."""
     print(f"Starting salary population from CSV for season {SEASON_ID}...")
@@ -32,6 +50,10 @@ def populate_salaries_from_csv():
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
+        try:
+            cursor.execute("PRAGMA foreign_keys = ON;")
+        except sqlite3.Error:
+            pass
 
         # 1. Get player name to ID mapping
         player_name_map = get_player_name_id_map(cursor)
@@ -47,6 +69,8 @@ def populate_salaries_from_csv():
         salaries_to_insert: list[Tuple[int, str, float]] = []
         unmatched_names: list[str] = []
 
+        name_mapping = load_name_mapping()
+
         with open(CSV_PATH, 'r', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -56,7 +80,9 @@ def populate_salaries_from_csv():
                 if not player_name_csv or not salary_str:
                     continue
 
-                normalized_name = normalize_name(player_name_csv)
+                # Apply optional canonical name mapping before normalization
+                mapped_name = name_mapping.get(normalize_name(player_name_csv), player_name_csv)
+                normalized_name = normalize_name(mapped_name)
                 player_id = player_name_map.get(normalized_name)
 
                 if player_id:

@@ -4,6 +4,8 @@ Populates the wingspan for players from the draft combine data for a given seaso
 import sqlite3
 import time
 import random
+import logging
+from datetime import datetime
 
 from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
 
@@ -25,7 +27,7 @@ def _parse_wingspan_to_inches(wingspan_val) -> float:
         logger.warning(f"Could not parse wingspan value: {wingspan_str}")
         return 0.0
 
-def populate_player_wingspan(season_to_load: str = None):
+def populate_player_wingspan(season_to_load: str = settings.SEASON_ID):
     """
     Fetches draft combine stats for a range of seasons and updates player wingspans in the database.
     """

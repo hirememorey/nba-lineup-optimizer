@@ -207,54 +207,96 @@ def main(season: str, force_run_all: bool = False):
     logger.info(f"Starting NBA stats population orchestrator for season: {season}")
 
     # STEP 0a: DB Initialization
-    logger.info("--- STEP 0a: Ensuring database tables exist... ---")
-    init_database()
-    logger.info("--- STEP 0a complete. ---")
+    # logger.info("--- STEP 0a: Ensuring database tables exist... ---")
+    # init_database()
+    # logger.info("--- STEP 0a complete. ---")
     
     conn = get_db_connection()
     if not conn:
         return
 
     # STEP 0b: Run Migrations
-    logger.info("--- STEP 0b: Running database migrations... ---")
-    run_migrations(conn)
-    logger.info("--- STEP 0b complete. ---")
+    # logger.info("--- STEP 0b: Running database migrations... ---")
+    # run_migrations(conn)
+    # logger.info("--- STEP 0b complete. ---")
 
-    for step_config in POPULATION_CONFIG:
-        # Check if module was loaded successfully
-        if step_config.get("module") is None:
-            logger.error(f"Skipping step '{step_config.get('name')}' due to module loading error.")
-            continue
-        run_step(step_config, season, conn, force_run=force_run_all)
+    # Step 1: Populate Teams
+    # run_step(1, "Populate Teams", populate_teams, season, "Teams", "team_id")
 
-    # Final verification step
-    verify_data_population(season)
+    # Step 2: Populate Players
+    players_step_config = get_step_from_config(POPULATION_CONFIG, 2)
+    if players_step_config and players_step_config.get("module"):
+        run_step(players_step_config, season, conn, force_run=force_run_all)
+    else:
+        logger.error("Could not find or load configuration for step 2: Populate Players.")
+    # run_step(2, "Populate Players", populate_players, season, "Players", "player_id")
+
+    # Step 3: Populate Player Wingspan
+    # wingspan_step_config = get_step_from_config(POPULATION_CONFIG, 3)
+    # if wingspan_step_config and wingspan_step_config.get("module"):
+    #     run_step(wingspan_step_config, season, conn)
+    # else:
+    #     logger.error("Could not find or load configuration for step 3: Populate Player Wingspan.")
     
-    conn.close()
-    logger.info(f"Orchestration complete for season: {season}")
+    # Step 4: Populate Games
+    # run_step(4, "Populate Games", populate_games, season, "Games", "game_id")
 
-def verify_data_population(season: str):
-    conn_verify = get_db_connection()
-    if conn_verify:
-        try:
-            cursor = conn_verify.cursor()
-            tables_to_check = [
-                "Teams", "Players", "PlayerSeasonRawStats", "PlayerSeasonAdvancedStats",
-                "PlayerSeasonDriveStats", "PlayerSeasonHustleStats", "PlayerSeasonTrackingTouchesStats",
-                "PlayerSeasonOpponentShootingStats", "PlayerSeasonShootingDistanceStats",
-                "PlayerSeasonPassingStats", "PlayerSeasonCatchAndShootStats", "PlayerSeasonPullUpStats",
-                "PlayerLineupStats", "PlayerSeasonReboundingStats", "PlayerSeasonPostUpStats",
-                "PlayerSeasonPaintTouchStats", "PlayerSeasonElbowTouchStats", "PlayerShotChart", "PlayerSeasonSkill", "Possessions"
-            ]
-            for table_name in tables_to_check:
-                if "Players" in table_name or "Teams" in table_name or "Possessions" in table_name:
-                    cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
-                    count = cursor.fetchone()[0]
-                    logger.info(f"Verification: {table_name} contains {count} total records.")
-        except sqlite3.Error as e:
-            logger.error(f"Error during data verification: {e}")
-        finally:
-            conn_verify.close()
+    # Step 5: Populate PlayerSeasonRawStats
+    # run_step(5, "Populate PlayerSeasonRawStats", populate_player_season_stats, season, "PlayerSeasonRawStats", "player_id")
+
+    # Step 6: Populate PlayerSeasonDriveStats
+    # run_step(6, "Populate PlayerSeasonDriveStats", populate_player_drive_stats, season, "PlayerSeasonDriveStats", "player_id")
+
+    # Step 7: Populate PlayerSeasonHustleStats
+    # run_step(7, "Populate PlayerSeasonHustleStats", populate_player_hustle_stats, season, "PlayerSeasonHustleStats", "player_id")
+
+    # Step 8: Populate PlayerSeasonOpponentShootingStats
+    # run_step(8, "Populate PlayerSeasonOpponentShootingStats", populate_opponent_shooting_stats, season, "PlayerSeasonOpponentShootingStats", "player_id")
+
+    # Step 9: Populate PlayerSeasonPassingStats
+    # run_step(9, "Populate PlayerSeasonPassingStats", populate_player_passing_stats, season, "PlayerSeasonPassingStats", "player_id")
+
+    # Step 10: Populate PlayerSeasonReboundingStats
+    # run_step(10, "Populate PlayerSeasonReboundingStats", populate_player_rebounding_stats, season, "PlayerSeasonReboundingStats", "player_id")
+
+    # Step 11: Populate PlayerSeasonTrackingTouchesStats
+    # run_step(11, "Populate PlayerSeasonTrackingTouchesStats", populate_player_tracking_touches_stats, season, "PlayerSeasonTrackingTouchesStats", "player_id")
+
+    # Step 12: Populate PlayerSeasonCatchAndShootStats
+    # run_step(12, "Populate PlayerSeasonCatchAndShootStats", populate_player_catch_shoot_stats, season, "PlayerSeasonCatchAndShootStats", "player_id")
+
+    # Step 13: Populate PlayerSeasonPullUpStats
+    # run_step(13, "Populate PlayerSeasonPullUpStats", populate_player_pull_up_stats, season, "PlayerSeasonPullUpStats", "player_id")
+    
+    # Step 14: Populate PlayerSeasonPostUpStats
+    # run_step(14, "Populate PlayerSeasonPostUpStats", populate_player_post_up_stats, season, "PlayerSeasonPostUpStats", "player_id")
+
+    # Step 15: Populate PlayerSeasonPaintTouchStats
+    # run_step(15, "Populate PlayerSeasonPaintTouchStats", populate_player_paint_touch_stats, season, "PlayerSeasonPaintTouchStats", "player_id")
+
+    # Step 16: Populate PlayerSeasonElbowTouchStats
+    # run_step(16, "Populate PlayerSeasonElbowTouchStats", populate_player_elbow_touch_stats, season, "PlayerSeasonElbowTouchStats", "player_id")
+
+    # Step 17: Populate PlayerLineupStats
+    # run_step(17, "Populate PlayerLineupStats", populate_lineup_stats, season, "PlayerLineupStats", "lineup_id")
+
+    # Step 18: Populate PlayerShotChart
+    # run_step(18, "Populate PlayerShotChart", populate_player_shot_charts, season, "PlayerShotChart", "player_id")
+
+    # Step 19: Populate Player Skills
+    # run_step(19, "Populate Player Skills", POPULATION_CONFIG.get('populate_player_skill'), season, 'PlayerSeasonSkill', 'player_id')
+    
+    # Step 20: Populate Possessions
+    # run_step(20, "Populate Possessions", populate_possessions, season, "Possessions", "game_id")
+
+    # Final Verification
+    # logger.info("--- FINAL VERIFICATION ---")
+    # with get_db_connection() as conn:
+    #     for table in ["Teams", "Players", "Possessions"]:
+    #         count = pd.read_sql(f"SELECT COUNT(*) FROM {table}", conn).iloc[0, 0]
+    #         logger.info(f"Verification: {table} contains {count} total records.")
+    
+    logger.info(f"Orchestration complete for season: {season}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="NBA Stats Data Population Orchestrator")

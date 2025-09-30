@@ -46,6 +46,11 @@ class DatabaseConnection:
                 self.connection = sqlite3.connect(self.db_path, detect_types=sqlite3.PARSE_DECLTYPES)
                 self.connection.row_factory = sqlite3.Row
                 register_datetime_adapters()
+                # Enforce referential integrity for all connections
+                try:
+                    self.connection.execute("PRAGMA foreign_keys = ON;")
+                except sqlite3.Error as e:
+                    logging.error(f"Failed to enable SQLite foreign key enforcement: {e}")
                 logging.info("Database connection established successfully.")
             except sqlite3.Error as e:
                 logging.error(f"Database connection error: {e}")
@@ -156,6 +161,10 @@ def get_db_connection() -> Optional[sqlite3.Connection]:
         register_datetime_adapters()
         conn = sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)
         conn.row_factory = sqlite3.Row
+        try:
+            conn.execute("PRAGMA foreign_keys = ON;")
+        except sqlite3.Error as e:
+            logging.error(f"Failed to enable SQLite foreign key enforcement: {e}")
         return conn
     except sqlite3.Error as e:
         logging.error(f"Failed to get database connection: {e}")

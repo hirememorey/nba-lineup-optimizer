@@ -36,6 +36,12 @@ def get_db_connection():
     sqlite3.register_adapter(datetime, adapt_datetime)
     sqlite3.register_converter("TIMESTAMP", convert_datetime)
     conn = sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)
+    # Enforce referential integrity for all connections
+    try:
+        conn.execute("PRAGMA foreign_keys = ON;")
+    except sqlite3.Error:
+        # If PRAGMA fails, still return connection but log for visibility
+        logger.error("Failed to enable SQLite foreign key enforcement (PRAGMA foreign_keys = ON)")
     logger.info(f"Using database at {DB_PATH}")
     return conn
 

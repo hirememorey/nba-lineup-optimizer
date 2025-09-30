@@ -11,6 +11,7 @@ from typing import Dict, Tuple
 # Correct database path, relative to the project root
 DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'db', 'nba_stats.db')
 CSV_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'darko_dpm_2024-25.csv')
+MAPPING_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'mappings', 'player_name_map.csv')
 SEASON_ID = "2024-25"
 SKILL_METRIC_SOURCE = "DARKO"
 
@@ -26,6 +27,22 @@ def get_player_name_id_map(cursor: sqlite3.Cursor) -> Dict[str, int]:
     cursor.execute("SELECT player_name, player_id FROM Players")
     return {normalize_name(name): player_id for name, player_id in cursor.fetchall()}
 
+
+def load_name_mapping() -> Dict[str, str]:
+    mapping: Dict[str, str] = {}
+    try:
+        if os.path.exists(MAPPING_PATH):
+            with open(MAPPING_PATH, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    source = normalize_name(row.get('source_name', ''))
+                    canonical = row.get('canonical_name', '').strip()
+                    if source and canonical:
+                        mapping[source] = canonical
+    except Exception as e:
+        print(f"Warning: failed to load name mapping: {e}", file=sys.stderr)
+    return mapping
+
 def populate_player_skill_from_csv():
     """Parses a CSV of player DARKO ratings and inserts them into the database."""
     print(f"Starting player skill population from CSV for season {SEASON_ID}...")
@@ -33,6 +50,10 @@ def populate_player_skill_from_csv():
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
+        try:
+            cursor.execute("PRAGMA foreign_keys = ON;")
+        except sqlite3.Error:
+            pass
 
         # 1. Get player name to ID mapping
         player_name_map = get_player_name_id_map(cursor)
@@ -48,6 +69,8 @@ def populate_player_skill_from_csv():
         skills_to_insert: list[Tuple[int, str, float, float, str]] = []
         unmatched_names: list[str] = []
 
+        name_mapping = load_name_mapping()
+
         with open(CSV_PATH, 'r', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -58,7 +81,8 @@ def populate_player_skill_from_csv():
                 if not all([player_name_csv, offensive_skill_str, defensive_skill_str]):
                     continue
 
-                normalized_name = normalize_name(player_name_csv)
+                mapped_name = name_mapping.get(normalize_name(player_name_csv), player_name_csv)
+                normalized_name = normalize_name(mapped_name)
                 player_id = player_name_map.get(normalized_name)
 
                 if player_id:

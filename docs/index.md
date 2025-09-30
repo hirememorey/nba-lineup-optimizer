@@ -16,11 +16,14 @@ This `docs` directory is the central source of truth for understanding and worki
 
 - **[Next Steps for 2024-25 Season](./next_steps.md)**: A checklist of the immediate tasks required to get the project ready for the 2024-25 NBA season.
 
+- **[Data Integrity Verification](./data_integrity_verification.md)**: Comprehensive report on data quality verification and validation results.
+
 ## Getting Started
 
 For a new developer, the recommended reading order is:
 1.  `project_overview.md`
 2.  `database_setup.md`
-3.  `next_steps.md`
+3.  `data_integrity_verification.md`
+4.  `next_steps.md`
 
-This will provide a full conceptual understanding of the project and a clear picture of the immediate tasks at hand.
+This will provide a full conceptual understanding of the project, verification status, and a clear picture of the immediate tasks at hand.
