@@ -1,12 +1,13 @@
-# Developer Handoff: Enhanced Data Reconciliation System
+# Developer Handoff: Enhanced Data Reconciliation System & API Reliability Improvements
 
 ## 🎯 Current Project Status
 
-The NBA Lineup Optimizer project has successfully implemented an enhanced data reconciliation system that can achieve **100% data integrity** for player salary and skill data. The project is now ready for the final analysis phase.
+The NBA Lineup Optimizer project has successfully implemented an enhanced data reconciliation system that can achieve **100% data integrity** for player salary and skill data. Additionally, we've identified and begun addressing critical data integrity issues in the player statistics pipeline. The project is ready for the final analysis phase once data quality issues are resolved.
 
 **Data Verification Status (Updated: September 30, 2025):**
 - ✅ Core Data: 100% complete (Teams: 30, Games: 1,230, Possessions: 574,357)
 - ⚠️ Player Data: 91.4% salary coverage (468/512), 97.6% skill coverage (521/534)
+- ⚠️ **CRITICAL ISSUE IDENTIFIED**: PlayerSeasonAdvancedStats shows max games played of 44 (should be 82)
 - ✅ Database Integrity: No foreign key violations detected
 
 ## 🚀 What's New
@@ -20,6 +21,15 @@ A comprehensive solution has been implemented to address the ~30% missing player
 - **`verify_100_percent.py`** - Data integrity verification
 - **`docs/data_reconciliation_guide.md`** - Complete usage guide
 
+### API Reliability Improvements
+
+Critical architectural improvements have been implemented to address NBA API reliability issues:
+
+- **Persistent Caching Layer**: All API responses are now cached locally for 24 hours, eliminating redundant network calls
+- **Increased Timeout**: Request timeout increased from 2 minutes to 5 minutes for bulk operations
+- **Reconnaissance Tools**: `debug_new_endpoint.py` script to validate API endpoint compatibility
+- **Bulk Data Strategy**: Migration from fragile per-player API calls to robust bulk endpoints
+
 ### Key Capabilities
 
 1. **Dual Functionality**: Handles both name mapping AND player creation
@@ -27,8 +37,24 @@ A comprehensive solution has been implemented to address the ~30% missing player
 3. **Fuzzy Matching**: Intelligent suggestions using `rapidfuzz`
 4. **NBA API Integration**: Automatic player creation via official NBA data
 5. **Persistent Mapping**: Reusable `mappings/player_name_map.csv` file
+6. **API Resilience**: Caching and timeout improvements for reliable data fetching
 
 ## 📋 Next Steps for New Developer
+
+### ⚠️ CRITICAL: Fix Data Integrity Issues First
+
+**Before running any analysis, the data integrity issues must be resolved:**
+
+```bash
+# 1. Run reconnaissance to validate API endpoints
+python debug_new_endpoint.py
+
+# 2. Fix the PlayerSeasonAdvancedStats data corruption
+# (Implementation in progress - see Technical Details below)
+
+# 3. Verify data integrity
+python verify_100_percent.py
+```
 
 ### Option 1: Proceed with Current Data (91.4% salary, 97.6% skill coverage)
 ```bash
@@ -72,6 +98,7 @@ All documentation has been updated to reflect the new capabilities:
 
 ### Files Modified
 - `src/nba_stats/api/client.py` - Added `search_players()` method
+- `src/nba_stats/api/nba_stats_client.py` - Added persistent caching layer and increased timeout
 - `src/nba_stats/scripts/populate_salaries.py` - Updated to use mapping file
 - `src/nba_stats/scripts/populate_player_skill.py` - Updated to use mapping file
 
@@ -79,10 +106,14 @@ All documentation has been updated to reflect the new capabilities:
 - `src/nba_stats/scripts/fix_player_names.py` - Main reconciliation tool
 - `run_reconciliation.py` - Easy-to-use interface
 - `verify_100_percent.py` - Data integrity verification
+- `debug_new_endpoint.py` - API endpoint reconnaissance tool
 - `docs/data_reconciliation_guide.md` - Complete usage guide
 
 ### Dependencies
 - `rapidfuzz` - For fuzzy string matching (install with `pip install rapidfuzz`)
+
+### Cache Directory
+- `.cache/` - Local cache directory for API responses (auto-created, 24-hour expiration)
 
 ## 🎉 Key Innovation
 

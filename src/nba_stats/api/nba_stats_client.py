@@ -8,8 +8,16 @@ from typing import Dict, Any, Optional, List
 from datetime import datetime, timedelta
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+import hashlib
+import json
+import os
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+CACHE_DIR = Path(__file__).resolve().parent.parent / ".cache"
+CACHE_EXPIRATION = timedelta(days=1)
+
 
 class NBAStatsClient:
     """Client for making requests to the NBA Stats API."""
@@ -58,7 +66,40 @@ class NBAStatsClient:
         self.request_interval = 60.0 / self.requests_per_minute
         self.last_request_time = 0.0
         self.min_request_interval = 5.0  # Minimum time between requests in seconds
+
+        # Ensure cache directory exists
+        CACHE_DIR.mkdir(exist_ok=True)
     
+    def _get_cache_path(self, endpoint: str, params: Optional[Dict]) -> Path:
+        """Generate a unique file path for caching based on endpoint and params."""
+        hasher = hashlib.md5()
+        # Use a consistent representation of params for hashing
+        if params:
+            encoded_params = json.dumps(params, sort_keys=True).encode('utf-8')
+            hasher.update(encoded_params)
+        
+        # Include endpoint in the hash to avoid collisions for same params on different endpoints
+        hasher.update(endpoint.encode('utf-8'))
+        
+        return CACHE_DIR / f"{hasher.hexdigest()}.json"
+
+    def _read_from_cache(self, cache_path: Path) -> Optional[Dict]:
+        """Read data from cache if it exists and is not expired."""
+        if cache_path.exists():
+            modified_time = datetime.fromtimestamp(cache_path.stat().st_mtime)
+            if datetime.now() - modified_time < CACHE_EXPIRATION:
+                logger.info(f"Cache hit. Reading from {cache_path}")
+                with open(cache_path, 'r') as f:
+                    return json.load(f)
+        logger.info(f"Cache miss for {cache_path}")
+        return None
+
+    def _write_to_cache(self, cache_path: Path, data: Dict):
+        """Write data to the cache."""
+        logger.info(f"Writing to cache: {cache_path}")
+        with open(cache_path, 'w') as f:
+            json.dump(data, f)
+            
     def _setup_session(self):
         """Set up the session with required headers and retry strategy."""
         self.session.headers.update(self.session.headers)
@@ -112,6 +153,11 @@ class NBAStatsClient:
         Returns:
             Dict containing the API response or None if the request failed
         """
+        cache_path = self._get_cache_path(endpoint, params)
+        cached_data = self._read_from_cache(cache_path)
+        if cached_data:
+            return cached_data
+
         url = f"{self.base_url.rstrip('/')}/{endpoint.lstrip('/')}"
         
         try:
@@ -129,7 +175,7 @@ class NBAStatsClient:
             response = self.session.get(
                 url,
                 params=params,
-                timeout=120,
+                timeout=300,  # Increased timeout to 5 minutes
                 allow_redirects=True
             )
             
@@ -137,7 +183,10 @@ class NBAStatsClient:
             logger.debug(f"Response headers: {response.headers}")
             
             response.raise_for_status()
-            return response.json()
+            
+            data = response.json()
+            self._write_to_cache(cache_path, data)
+            return data
             
         except requests.exceptions.RequestException as e:
             logger.error(f"Failed to make request to {endpoint} after multiple retries: {e}")

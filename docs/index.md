@@ -22,14 +22,17 @@ This `docs` directory is the central source of truth for understanding and worki
 
 - **[Data Reconciliation Guide](./data_reconciliation_guide.md)**: Complete guide for achieving 100% data integrity using the enhanced reconciliation system.
 
+- **[API Reliability Improvements](./api_reliability_improvements.md)**: Documentation of architectural improvements to address NBA API reliability issues and data corruption.
+
 ## Getting Started
 
 For a new developer, the recommended reading order is:
 1.  `project_overview.md`
 2.  `data_verification_summary.md` (start here for current status)
-3.  `database_setup.md`
-4.  `data_integrity_verification.md`
-5.  `data_reconciliation_guide.md` (if you want 100% data integrity)
-6.  `next_steps.md`
+3.  `api_reliability_improvements.md` (critical: understand data integrity issues)
+4.  `database_setup.md`
+5.  `data_integrity_verification.md`
+6.  `data_reconciliation_guide.md` (if you want 100% data integrity)
+7.  `next_steps.md`
 
 This will provide a full conceptual understanding of the project, verification status, reconciliation capabilities, and a clear picture of the immediate tasks at hand.
