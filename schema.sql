@@ -1,5 +1,17 @@
 -- schema.sql
--- Defines the database structure for the NBA lineup analysis project.
+-- ⚠️ DEPRECATED - DO NOT USE ⚠️
+-- 
+-- This file is dangerously outdated and does not reflect the actual database structure.
+-- The project uses a multi-database architecture with data distributed across three SQLite files.
+-- 
+-- For the current, accurate database structure, see:
+-- - docs/data_dictionary.md (definitive reference)
+-- - docs/database_setup.md (setup guide)
+-- 
+-- To inspect actual table schemas, use:
+-- sqlite3 src/nba_stats/db/nba_stats.db ".schema TableName"
+--
+-- This file is kept for historical reference only and should not be used for development.
 
 -- Basic Metadata Tables
 CREATE TABLE Seasons (

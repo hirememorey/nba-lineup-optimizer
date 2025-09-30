@@ -16,6 +16,8 @@ For a new developer, the recommended reading order is:
 
 -   **[API Debugging Methodology](./api_debugging_methodology.md)**: A critical guide to debugging the unofficial NBA Stats API, centered on the "Isolate with `curl` First" principle.
 
+-   **[Data Dictionary](./data_dictionary.md)**: **(NEW)** The definitive reference for the multi-database architecture and table structures.
+
 -   **[Database Setup](./database_setup.md)**: A guide to the project's database schema.
 
 -   **[Data Pipeline Guide](./data_pipeline.md)**: A step-by-step guide on how to populate the database using the legacy data population scripts.
