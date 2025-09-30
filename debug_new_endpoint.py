@@ -37,16 +37,17 @@ def test_leaguedashplayerstats_endpoint():
     """Test the leaguedashplayerstats endpoint and analyze its schema."""
     client = NBAStatsClient()
     
-    # Test with 2024-25 season
+    # Test with 2024-25 season using correct parameters from NBA.com
     season = "2024-25"
     logger.info(f"Testing leaguedashplayerstats endpoint for season {season}")
     
-    # Test both Base and Advanced measure types
+    # Test both Base and Advanced measure types with correct parameters
     for measure_type in ["Base", "Advanced"]:
         logger.info(f"\n=== Testing {measure_type} Measure Type ===")
         
         try:
             if measure_type == "Base":
+                # Use the correct parameters that match NBA.com's actual requests
                 response = client.get_players_with_stats(season)
             else:
                 response = client.get_league_player_advanced_stats(season)
@@ -98,6 +99,76 @@ def test_leaguedashplayerstats_endpoint():
                 
         except Exception as e:
             logger.error(f"Error testing {measure_type} measure type: {e}")
+
+def test_per_player_endpoint_with_correct_params():
+    """Test the per-player endpoint using the exact parameters from NBA.com cURL."""
+    client = NBAStatsClient()
+    
+    # Test with LeBron James (ID: 2544) using correct parameters
+    test_player_id = 2544
+    season = "2024-25"
+    
+    logger.info(f"\n=== Testing Per-Player Endpoint with Correct Parameters ===")
+    logger.info(f"Testing with Player ID: {test_player_id}, Season: {season}")
+    
+    try:
+        # Use the exact parameters from the cURL request
+        base_stats = client.get_player_stats(
+            player_id=test_player_id, 
+            season=season, 
+            per_mode="PerGame",  # This was the key difference!
+            measure_type="Base"
+        )
+        
+        advanced_stats = client.get_player_stats(
+            player_id=test_player_id, 
+            season=season, 
+            per_mode="PerGame",
+            measure_type="Advanced"
+        )
+        
+        if not base_stats or not advanced_stats:
+            logger.error("Failed to fetch per-player data with correct parameters")
+            return False
+            
+        # Extract and analyze the data
+        def extract_data(response):
+            if not response or 'resultSets' not in response:
+                return {}
+            for result_set in response.get('resultSets', []):
+                if result_set.get('name') == 'OverallPlayerDashboard' and result_set.get('rowSet'):
+                    headers = [h.upper() for h in result_set['headers']]
+                    row = result_set['rowSet'][0]
+                    return dict(zip(headers, row))
+            return {}
+        
+        base_data = extract_data(base_stats)
+        advanced_data = extract_data(advanced_stats)
+        
+        if not base_data or not advanced_data:
+            logger.error("Could not extract data from per-player endpoint")
+            return False
+            
+        logger.info(f"Per-player endpoint data:")
+        logger.info(f"  - Base columns: {len(base_data)}")
+        logger.info(f"  - Advanced columns: {len(advanced_data)}")
+        logger.info(f"  - Sample base columns: {list(base_data.keys())[:10]}")
+        logger.info(f"  - Sample advanced columns: {list(advanced_data.keys())[:10]}")
+        
+        # Check games played
+        if 'GP' in base_data:
+            gp_value = base_data['GP']
+            logger.info(f"  - Games played: {gp_value}")
+            if gp_value < 82:
+                logger.warning(f"WARNING: Games played ({gp_value}) is less than 82!")
+            else:
+                logger.info("Games played data looks reasonable")
+        
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error testing per-player endpoint: {e}")
+        return False
 
 def compare_schemas():
     """Compare API response schema with database table schema."""
@@ -157,23 +228,32 @@ def compare_schemas():
 
 def main():
     """Main function to run the reconnaissance."""
-    logger.info("Starting reconnaissance of leaguedashplayerstats endpoint")
+    logger.info("Starting reconnaissance of NBA API endpoints with correct parameters")
     
-    # Test the endpoint
+    # Test the per-player endpoint with correct parameters first
+    per_player_success = test_per_player_endpoint_with_correct_params()
+    
+    # Test the bulk endpoint
     test_leaguedashplayerstats_endpoint()
     
     # Compare schemas
     schema_compatible = compare_schemas()
     
     logger.info(f"\n=== Reconnaissance Summary ===")
-    if schema_compatible:
-        logger.info("✅ SCHEMA COMPATIBLE: The leaguedashplayerstats endpoint can be used")
-        logger.info("   to replace the fragile per-player API calls.")
-    else:
-        logger.error("❌ SCHEMA INCOMPATIBLE: The leaguedashplayerstats endpoint is missing")
-        logger.error("   critical columns required for PlayerSeasonAdvancedStats table.")
+    logger.info(f"Per-player endpoint (corrected): {'✅ WORKING' if per_player_success else '❌ FAILED'}")
+    logger.info(f"Bulk endpoint: {'✅ WORKING' if schema_compatible else '❌ FAILED'}")
     
-    return schema_compatible
+    if schema_compatible and per_player_success:
+        logger.info("✅ BOTH ENDPOINTS WORKING: Can proceed with data integrity fixes")
+        logger.info("   The issue was incorrect API parameters, not endpoint failures.")
+    elif per_player_success and not schema_compatible:
+        logger.warning("⚠️  MIXED RESULTS: Per-player works, bulk has issues")
+        logger.warning("   Consider using per-player endpoint for now.")
+    else:
+        logger.error("❌ CRITICAL ISSUES: Both endpoints have problems")
+        logger.error("   Need to investigate API access and parameters further.")
+    
+    return schema_compatible and per_player_success
 
 if __name__ == "__main__":
     main()

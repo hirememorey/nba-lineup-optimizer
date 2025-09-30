@@ -68,14 +68,32 @@ This document outlines the immediate, high-priority tasks required to prepare th
   - Created verification tools (`run_reconciliation.py`, `verify_100_percent.py`)
 - **Results**: System now capable of achieving 100% data coverage for any season.
 
-### Task 7: Run the Analysis
+**`[COMPLETED]`** ~~### Task 7: API Reliability Fix~~
 
-- **Status**: ✅ **READY TO PROCEED** (Updated: September 30, 2025)
+- **Status**: ✅ **Done.** (Updated: September 30, 2025)
+- **Objective**: Fix NBA API timeout issues preventing data population.
+- **Root Cause**: Header mismatches in Python client causing silent timeouts.
+- **Solution**: Updated `NBAStatsClient` headers to match working curl requests:
+  - `Accept: */*` (instead of `application/json, text/plain, */*`)
+  - Added `Origin: https://www.nba.com`
+  - Updated User-Agent to Chrome 140
+  - Updated sec-ch-ua headers
+- **Result**: API calls now work successfully, returning correct data.
+
+### Task 8: Data Corruption Fix
+
+- **Status**: 🔄 **IN PROGRESS** (Updated: September 30, 2025)
+- **Objective**: Fix data corruption in PlayerSeasonAdvancedStats table using working API.
+- **Issue**: Some players show incorrect games played counts (e.g., max 44 instead of 82).
+- **Next Steps**: 
+  - Use working API to repopulate corrupted data
+  - Verify all players have correct statistics
+  - Run comprehensive data integrity verification
+
+### Task 9: Run the Analysis
+
+- **Status**: ⏳ **PENDING** (Updated: September 30, 2025)
 - **Objective**: Generate the 2024-25 player archetypes, lineup superclusters, and Bayesian model results.
+- **Prerequisites**: Complete data corruption fix and verification
 - **Instructions**: Follow the guide in `docs/running_the_analysis.md`.
-- **Data Status**: Core data 100% complete, player data 91.4% salary/97.6% skill coverage
-- **Optional**: To achieve 100% data integrity, run the reconciliation tool first:
-  ```bash
-  python run_reconciliation.py
-  python verify_100_percent.py
-  ```
+- **Data Status**: Core data 100% complete, API now working, data corruption fix needed

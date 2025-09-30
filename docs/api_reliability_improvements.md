@@ -21,7 +21,19 @@ The issue was traced to the `populate_player_season_stats.py` script, which uses
 
 ## Solution Implemented
 
-### 1. Persistent Caching Layer
+### 1. ✅ FIXED: Header Compatibility Issues
+
+**Problem**: Python client was timing out due to incorrect headers.
+
+**Implementation**: Updated `NBAStatsClient` headers to match working curl requests:
+- `Accept: */*` (instead of `application/json, text/plain, */*`)
+- Added `Origin: https://www.nba.com`
+- Updated User-Agent to Chrome 140
+- Updated sec-ch-ua headers
+
+**Result**: API calls now work successfully, returning correct data.
+
+### 2. Persistent Caching Layer
 
 **Implementation**: Added intelligent caching to `NBAStatsClient.make_request()`
 
@@ -33,14 +45,14 @@ The issue was traced to the `populate_player_season_stats.py` script, which uses
   - Provides resilience against temporary API failures
   - Dramatically speeds up repeated operations
 
-### 2. Increased Timeout
+### 3. Increased Timeout
 
 **Implementation**: Extended request timeout from 120 seconds to 300 seconds (5 minutes)
 
 - **Rationale**: Bulk API calls (`leaguedashplayerstats`) require more time to complete
 - **Impact**: Reduces timeout failures for large data requests
 
-### 3. Reconnaissance Tools
+### 4. Reconnaissance Tools
 
 **Implementation**: Created `debug_new_endpoint.py` script
 

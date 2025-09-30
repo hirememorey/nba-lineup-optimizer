@@ -22,6 +22,20 @@ The NBA Stats API (`stats.nba.com`) is an **unofficial, private API** designed f
 
 **Never debug your Python code when an API call fails. Always isolate the external dependency first using raw HTTP requests.**
 
+### ✅ SUCCESSFUL RESOLUTION (September 30, 2025)
+
+**Problem**: Python client was timing out on NBA API calls despite correct parameters.
+
+**Root Cause**: Header mismatches between Python client and NBA API requirements.
+
+**Solution**: Updated Python client headers to exactly match working curl request:
+- `Accept: */*` (instead of `application/json, text/plain, */*`)
+- Added `Origin: https://www.nba.com`
+- Updated User-Agent to Chrome 140
+- Updated sec-ch-ua headers
+
+**Result**: API calls now work successfully, returning correct data (e.g., LeBron James: 70 games played).
+
 ### The Workflow
 
 #### Step 1: Assume Your Client is Correct

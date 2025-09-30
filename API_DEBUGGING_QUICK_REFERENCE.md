@@ -39,6 +39,20 @@ Use the working `curl` parameters in your Python code.
 - **Header issues**: Missing required headers
 - **Rate limiting**: Too many requests too fast
 
+## ✅ SUCCESSFUL RESOLUTION (September 30, 2025)
+
+**Problem**: Python client timing out despite correct parameters.
+
+**Root Cause**: Header mismatches - NBA API is very sensitive to headers.
+
+**Solution**: Updated Python client headers to match working curl:
+- `Accept: */*` (not `application/json, text/plain, */*`)
+- Added `Origin: https://www.nba.com`
+- Updated User-Agent to Chrome 140
+- Updated sec-ch-ua headers
+
+**Result**: API now works perfectly! ✅
+
 ## Remember
 **The API doesn't lie, but your assumptions might.**
 

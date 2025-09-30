@@ -41,24 +41,22 @@ class NBAStatsClient:
         self.session.mount("https://", adapter)
         self.session.mount("http://", adapter)
         
-        # Set default headers
+        # Set default headers to match working curl request
         self.session.headers.update({
-            'Accept': 'application/json, text/plain, */*',
+            'Accept': '*/*',
             'Accept-Language': 'en-US,en;q=0.9',
-            'Host': 'stats.nba.com',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Referer': 'https://www.nba.com/',
-            'Connection': 'keep-alive',
             'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+            'Origin': 'https://www.nba.com',
             'Pragma': 'no-cache',
-            'x-nba-stats-origin': 'stats',
-            'x-nba-stats-token': 'true',
-            'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"macOS"',
+            'Referer': 'https://www.nba.com/',
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-site'
+            'Sec-Fetch-Site': 'same-site',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+            'sec-ch-ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"macOS"'
         })
         
         # Rate limiting parameters
