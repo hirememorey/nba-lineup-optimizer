@@ -1,190 +1,72 @@
 # NBA Lineup Optimizer
 
-This project implements the methodology from the research paper "Algorithmic NBA Player Acquisition" by Brill, Hughes, and Waldbaum, adapting it to analyze the 2024-25 NBA season. The goal is to create a data-driven approach to NBA player acquisition and lineup optimization using modern statistical methods.
+This project implements the methodology from the research paper "Algorithmic NBA Player Acquisition" by Brill, Hughes, and Waldbaum. It uses a data-driven approach to NBA player acquisition and lineup optimization, prioritizing team **fit** over individual skill alone.
 
-## 🚀 New Architecture (September 2025)
-
-**BREAKING CHANGE**: The project has been completely redesigned using first-principles reasoning and insights from comprehensive post-mortem analysis. The new architecture addresses the core challenge of **data mapping** rather than API reliability, implementing a sparsity-aware approach to handle missing data gracefully.
-
-### Key Improvements
-- **Mapping-First Approach**: Complete API reconnaissance before building the system
-- **Sparsity-Aware Design**: Built for missing data from the start, not 100% coverage
-- **Centralized Data Fetcher**: Single interface for all API endpoints with robust error handling
-- **Comprehensive Validation**: Multi-dimensional data quality scoring and verification
-- **Advanced Imputation**: ML-based missing data handling (KNN, Random Forest, etc.)
-
-### Quick Start with New Architecture
-
-1. **Run API Reconnaissance** (discovers all available data):
-   ```bash
-   python api_reconnaissance.py
-   ```
-
-2. **Run Full Data Pipeline**:
-   ```bash
-   python master_data_pipeline.py --season 2024-25
-   ```
-
-3. **Verify Data Quality**:
-   ```bash
-   python data_verification_tool.py
-   ```
-
-4. **Handle Missing Data**:
-   ```bash
-   python data_imputation_tool.py --strategy auto
-   ```
-
-See `NEW_ARCHITECTURE_README.md` for complete documentation of the new system.
-
-## Project Overview
-
-The project uses a combination of NBA statistics, player tracking data, and advanced metrics (DARKO) to:
-1. Generate player archetypes through clustering
-2. Create lineup superclusters
-3. Build a Bayesian regression model for possession-level analysis
-4. Optimize player acquisition decisions
+The project has recently undergone a complete architectural redesign based on first-principles reasoning and is now ready for analysis.
 
 ## Current Status
 
-### ✅ New Architecture Completed
-- **47 Canonical Metrics**: Extracted and mapped from source paper
-- **API Reconnaissance**: Discovered 240 unique columns across 5 endpoints
-- **Definitive Mapping**: 41 metrics available in API, 6 missing (shot distance, wingspan)
-- **Centralized Data Fetcher**: Unified interface with schema awareness
-- **Master Pipeline**: Comprehensive orchestration with validation
-- **Data Verification**: Multi-dimensional quality analysis
-- **Imputation System**: Advanced ML-based missing data handling
+**Date**: September 30, 2025  
+**Status**: ✅ **NEW ARCHITECTURE COMPLETED - READY FOR ANALYSIS**
 
-### 📊 Data Quality Status
-- **Available Metrics**: 41/47 (87.2%)
-- **Missing Metrics**: 6 (shot distance metrics, wingspan)
-- **Data Quality Score**: Calculated via comprehensive validation
-- **Sparsity-Aware**: Built to handle missing data gracefully
+The new data pipeline is robust, validated, and capable of handling the inherent complexities and sparsity of NBA data.
 
-### 🎯 Ready for Analysis
-- **Clean Data Pipeline**: Robust fetching with comprehensive validation
-- **Missing Data Handling**: Advanced imputation strategies available
-- **Quality Monitoring**: Multi-dimensional scoring and reporting
-- **Incremental Development**: Test individual components before full pipeline
+-   **Data Pipeline**: The new mapping-first, sparsity-aware pipeline is complete.
+-   **Available Metrics**: 41 of the 47 canonical metrics (87.2%) required by the paper have been successfully mapped to the NBA API.
+-   **Known Missing Metrics**: 6 metrics (related to average shot distance and wingspan) are confirmed to be unavailable from the primary API endpoints. The system is designed to handle this.
+-   **Next Step**: The project is ready for the core analysis phase.
 
-## Project Structure
+## Quick Start Guide
 
-### New Architecture Files
-```
-├── canonical_metrics.py              # 47 canonical archetype metrics
-├── metric_to_script_mapping.py      # Maps metrics to population scripts
-├── api_reconnaissance.py            # API forensics tool
-├── definitive_metric_mapping.py     # Authoritative metric mapping
-├── master_data_pipeline.py          # Main orchestration script
-├── data_verification_tool.py        # Data quality verification
-├── data_imputation_tool.py          # Missing data imputation
-├── NEW_ARCHITECTURE_README.md       # Complete new architecture docs
-└── reports/                         # Generated reports
-    ├── api_column_inventory_report.md
-    ├── definitive_metric_mapping_report.md
-    ├── master_pipeline_report.md
-    ├── data_verification_report.md
-    └── imputation_report.md
-```
+### 1. Setup
 
-### Legacy Structure
-```
-src/nba_stats/
-├── api/                 # NBA API integration (legacy + new data_fetcher.py)
-├── config/             # Configuration files
-├── db/                 # Database management
-├── models/             # Data models
-├── scripts/            # Data processing scripts (legacy)
-└── utils/             # Utility functions
-```
+Clone the repository and install the required dependencies.
 
-## Setup Instructions
-
-### New Architecture (Recommended)
-
-1. Clone the repository:
 ```bash
-git clone https://github.com/hirememorey/nba-lineup-optimizer.git
+git clone https://github.com/your-repo/nba-lineup-optimizer.git
 cd nba-lineup-optimizer
-```
-
-2. Create and activate a virtual environment:
-```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Run API reconnaissance (discovers all available data):
-```bash
-python api_reconnaissance.py
-```
+### 2. Run the Data Pipeline
 
-5. Run the master data pipeline:
+This command orchestrates the entire process of discovering, fetching, and validating the data required for the analysis.
+
 ```bash
 python master_data_pipeline.py --season 2024-25
 ```
 
-6. Verify data quality:
+### 3. Verify Data Quality
+
+Run the verification tool to get a comprehensive report on the quality, completeness, and consistency of the fetched data.
+
 ```bash
 python data_verification_tool.py
 ```
 
-7. Handle missing data (if needed):
+### 4. Handle Missing Data (If Needed)
+
+Use the imputation tool to handle any missing values using ML-based strategies.
+
 ```bash
 python data_imputation_tool.py --strategy auto
 ```
 
-### Legacy Setup (Deprecated)
+### 5. Run the Analysis
 
-The legacy setup is still available but not recommended due to data quality issues:
+With a clean dataset, you can now proceed to the analysis phase.
 
-1-3. Same as above
-
-4. Initialize the database:
 ```bash
-python src/nba_stats/scripts/create_tables.py
+# Follow the instructions in the "Running the Analysis" guide
 ```
 
-5. Run Phase 1 data population:
-```bash
-python src/nba_stats/scripts/run_phase_1.py
-```
+## Documentation
 
-6. Run Phase 2 feature engineering:
-```bash
-python src/nba_stats/scripts/run_phase_2.py
-```
+For a deeper understanding of the project, please refer to the comprehensive documentation:
 
-## Data Sources
-
-- NBA Stats API: Player and team statistics
-- DARKO DPM: Player offensive and defensive skill ratings
-- Play-by-play data: Possession-level analysis
-
-## Database
-
-The project uses SQLite for data storage. The database file (`nba_stats.db`) is excluded from version control due to its size. You'll need to generate it locally using the setup instructions above.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Research paper: "Algorithmic NBA Player Acquisition" by Brill, Hughes, and Waldbaum
-- NBA Stats API for data access
-- DARKO DPM for player skill ratings 
+-   **`docs/index.md`**: The central hub and table of contents for all documentation.
+-   **`docs/project_overview.md`**: A detailed explanation of the core concepts (player archetypes, lineup superclusters, Bayesian modeling).
+-   **`docs/architecture.md`**: A deep dive into the new data pipeline architecture, design principles, and lessons learned.
+-   **`docs/api_debugging_methodology.md`**: **(Recommended Reading)** The essential guide to debugging the unofficial NBA Stats API using the "Isolate with `curl` First" principle. 
