@@ -14,6 +14,17 @@ from enum import Enum
 
 from .nba_stats_client import NBAStatsClient
 from ..scripts.common_utils import logger
+from .response_models import api_validator
+
+# Add progress bar support
+try:
+    from tqdm import tqdm
+    TQDM_AVAILABLE = True
+except ImportError:
+    TQDM_AVAILABLE = False
+
+# Add retry logic
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 class DataType(Enum):
     """Data types for metrics."""
@@ -67,6 +78,11 @@ class DataFetcher:
             )
         return mappings
     
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((Exception,))
+    )
     def fetch_metric_data(self, metric: str, season: str = "2024-25") -> Optional[Dict[str, Any]]:
         """
         Fetch data for a specific metric.
@@ -182,8 +198,14 @@ class DataFetcher:
             return None
     
     def _extract_player_data(self, response: Dict[str, Any], column_name: str, metric: str) -> Dict[str, Any]:
-        """Extract player data from API response."""
+        """Extract player data from API response with validation."""
         try:
+            # Validate the response structure first
+            if not api_validator.validate_response(response):
+                validation_errors = api_validator.get_validation_errors()
+                logger.error(f"Response validation failed for {metric}: {validation_errors}")
+                return {}
+            
             result_sets = response.get('resultSets', [])
             if not result_sets:
                 logger.warning(f"No result sets in response for {metric}")
@@ -205,13 +227,31 @@ class DataFetcher:
                 logger.warning(f"Column {column_name} not found in response for {metric}")
                 return {}
             
-            # Extract player data
+            # Extract player data with validation
             player_data = {}
-            for row in rows:
+            for i, row in enumerate(rows):
                 if len(row) > column_index:
                     player_id = row[0] if row else None  # Assuming first column is player ID
                     if player_id:
-                        player_data[player_id] = row[column_index]
+                        try:
+                            # Validate the data type
+                            value = row[column_index]
+                            if value is not None:
+                                # Basic type validation based on metric type
+                                mapping = self.metric_mappings.get(metric)
+                                if mapping and mapping.data_type == DataType.PERCENTAGE:
+                                    if not (0 <= float(value) <= 1):
+                                        logger.warning(f"Invalid percentage value for {metric}, player {player_id}: {value}")
+                                        continue
+                                elif mapping and mapping.data_type == DataType.COUNT:
+                                    if float(value) < 0:
+                                        logger.warning(f"Invalid count value for {metric}, player {player_id}: {value}")
+                                        continue
+                            
+                            player_data[player_id] = value
+                        except (ValueError, TypeError) as e:
+                            logger.warning(f"Invalid data type for {metric}, player {player_id}, row {i}: {e}")
+                            continue
             
             logger.info(f"Extracted {len(player_data)} player records for {metric}")
             return player_data
@@ -236,8 +276,18 @@ class DataFetcher:
         available_metrics = [metric for metric, mapping in self.metric_mappings.items() 
                            if mapping.data_type != DataType.MISSING]
         
-        for i, metric in enumerate(available_metrics, 1):
-            logger.info(f"Fetching {metric} ({i}/{len(available_metrics)})")
+        # Add progress bar if tqdm is available
+        if TQDM_AVAILABLE:
+            metric_iterator = tqdm(enumerate(available_metrics, 1), 
+                                 total=len(available_metrics),
+                                 desc="Fetching metrics",
+                                 unit="metric")
+        else:
+            metric_iterator = enumerate(available_metrics, 1)
+            
+        for i, metric in metric_iterator:
+            if not TQDM_AVAILABLE:  # Only log if no progress bar
+                logger.info(f"Fetching {metric} ({i}/{len(available_metrics)})")
             
             data = self.fetch_metric_data(metric, season)
             if data:

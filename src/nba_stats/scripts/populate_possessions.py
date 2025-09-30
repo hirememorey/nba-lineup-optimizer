@@ -12,6 +12,14 @@ import random
 # Add a retry decorator
 from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
 
+# Add progress bar support
+try:
+    from tqdm import tqdm
+    TQDM_AVAILABLE = True
+except ImportError:
+    TQDM_AVAILABLE = False
+    logger.warning("tqdm not available. Progress bars will be disabled.")
+
 
 def _get_lineups_from_pbp(pbp_df: pd.DataFrame, home_team_id: int, away_team_id: int) -> tuple[set[int], set[int]]:
     """
@@ -171,7 +179,16 @@ def populate_possessions(season_to_load: str) -> None:
         # The logic to clear existing data is no longer needed with the resumable approach.
 
         # Note: Running this without ThreadPoolExecutor for now to avoid rate-limiting issues with the API
-        for index, game in games_to_process_df.iterrows():
+        # Add progress bar if tqdm is available
+        if TQDM_AVAILABLE:
+            game_iterator = tqdm(games_to_process_df.iterrows(), 
+                               total=len(games_to_process_df),
+                               desc="Processing games",
+                               unit="game")
+        else:
+            game_iterator = games_to_process_df.iterrows()
+            
+        for index, game in game_iterator:
             try:
                 pbp_df = _fetch_pbp_for_game(game['game_id'], game['home_team_id'], game['away_team_id'])
                 if pbp_df.empty:

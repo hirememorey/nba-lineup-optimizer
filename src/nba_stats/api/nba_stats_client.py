@@ -13,6 +13,9 @@ import json
 import os
 from pathlib import Path
 
+# Add tenacity for advanced retry logic
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type, before_sleep_log
+
 logger = logging.getLogger(__name__)
 
 CACHE_DIR = Path(__file__).resolve().parent.parent / ".cache"
@@ -140,6 +143,12 @@ class NBAStatsClient:
         backoff = min(base_delay * (2 ** attempt), max_delay)
         return backoff + random.uniform(0, 1)
     
+    @retry(
+        stop=stop_after_attempt(5),
+        wait=wait_exponential(multiplier=1, min=2, max=30),
+        retry=retry_if_exception_type((requests.exceptions.RequestException, requests.exceptions.Timeout)),
+        before_sleep=before_sleep_log(logger, logging.WARNING)
+    )
     def make_request(self, endpoint: str, params: Optional[Dict] = None) -> Optional[Dict]:
         """
         Make a request to the NBA Stats API with retry logic and error handling.
