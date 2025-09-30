@@ -3,5 +3,6 @@ requests>=2.26.0
 nba-api>=1.2.1
 pytest
 pytest-mock
-scikit-learn
-nba_api 
+scikit-learn>=1.0.0
+nba_api
+numpy>=1.21.0 

@@ -1,233 +1,295 @@
-#!/usr/bin/env python3
 """
-Phase 1: API Reconnaissance Script
+API Reconnaissance Tool
 
-This script isolates and characterizes the NBA API behavior to de-risk external dependencies
-before implementing the full comparison script. Based on the post-mortem insights, this
-script tests the happy path, sad path, and scope verification.
-
-Key principles:
-1. Isolate & Characterize the API before relying on it
-2. Test the most dangerous failure mode (silent timeout) first
-3. Verify that bulk endpoints can provide both Base and Advanced scopes
+This tool performs comprehensive forensics on the NBA Stats API to inventory
+all available columns from all relevant endpoints. It tests multiple parameter
+combinations and player types to discover schema variations.
 """
 
-import sys
+import json
 import time
-import logging
+import random
+from typing import Dict, List, Set, Tuple
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+import sys
 
-from nba_stats.api.nba_stats_client import NBAStatsClient
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+from canonical_metrics import CANONICAL_48_METRICS
+from metric_to_script_mapping import METRIC_TO_SCRIPT_MAPPING, get_all_api_endpoints
+from src.nba_stats.scripts.common_utils import get_nba_stats_client, logger
 
-def test_happy_path():
+# Test players representing different archetypes and usage patterns
+TEST_PLAYERS = [
+    {"id": 2544, "name": "LeBron James", "type": "star_veteran"},
+    {"id": 201935, "name": "James Harden", "type": "star_veteran"}, 
+    {"id": 201142, "name": "Kevin Durant", "type": "star_veteran"},
+    {"id": 1629029, "name": "Ja Morant", "type": "star_young"},
+    {"id": 203999, "name": "Nikola Jokic", "type": "star_big"},
+    {"id": 1628368, "name": "Jayson Tatum", "type": "star_wing"},
+    {"id": 1629027, "name": "Deandre Ayton", "type": "role_big"},
+    {"id": 203954, "name": "Jabari Parker", "type": "role_wing"},
+    {"id": 1627742, "name": "Domantas Sabonis", "type": "role_big"},
+    {"id": 1628991, "name": "Luka Doncic", "type": "star_young"},
+    {"id": 1629028, "name": "Trae Young", "type": "star_young"},
+    {"id": 1627759, "name": "Jaylen Brown", "type": "star_wing"},
+    {"id": 1628369, "name": "Lonzo Ball", "type": "role_guard"},
+    {"id": 203507, "name": "Giannis Antetokounmpo", "type": "star_big"},
+    {"id": 201566, "name": "Russell Westbrook", "type": "star_veteran"}
+]
+
+# Parameter combinations to test for each endpoint
+PARAMETER_COMBINATIONS = {
+    "leaguedashplayerstats": [
+        {"MeasureType": "Base", "PerMode": "PerGame", "SeasonType": "Regular Season"},
+        {"MeasureType": "Advanced", "PerMode": "PerGame", "SeasonType": "Regular Season"},
+        {"MeasureType": "Base", "PerMode": "Per100Possessions", "SeasonType": "Regular Season"},
+        {"MeasureType": "Advanced", "PerMode": "Per100Possessions", "SeasonType": "Regular Season"},
+    ],
+    "leaguedashptstats": [
+        {"PtMeasureType": "Drives", "PerMode": "PerGame"},
+        {"PtMeasureType": "CatchShoot", "PerMode": "PerGame"},
+        {"PtMeasureType": "PullUpShot", "PerMode": "PerGame"},
+        {"PtMeasureType": "PostTouch", "PerMode": "PerGame"},
+        {"PtMeasureType": "PaintTouch", "PerMode": "PerGame"},
+        {"PtMeasureType": "ElbowTouch", "PerMode": "PerGame"},
+        {"PtMeasureType": "Possessions", "PerMode": "PerGame"},
+        {"PtMeasureType": "Passing", "PerMode": "PerGame"},
+    ],
+    "leaguedashplayershotlocations": [
+        {"MeasureType": "Base", "PerMode": "PerGame"},
+        {"MeasureType": "Base", "PerMode": "Per100Possessions"},
+    ],
+    "leaguedashplayerhustlestats": [
+        {"PerMode": "PerGame"},
+        {"PerMode": "Per100Possessions"},
+    ],
+    "commonplayerinfo": [
+        {}  # No additional parameters
+    ]
+}
+
+def fetch_endpoint_columns(client, endpoint: str, params: Dict, season: str = "2024-25") -> Set[str]:
     """
-    Test Case A: Verify happy path with active player (LeBron James)
-    This confirms basic connectivity and data shapes for both endpoints.
+    Fetch columns from a specific endpoint with given parameters.
+    Returns a set of column names found in the response.
     """
-    logger.info("=== Test Case A: Happy Path ===")
-    
-    client = NBAStatsClient()
-    season = "2024-25"
-    
-    # LeBron James player ID (known active player)
-    lebron_id = 2544
-    
     try:
-        # Test old per-player endpoint (Base)
-        logger.info("Testing old per-player endpoint (Base)...")
-        start_time = time.time()
-        old_base_response = client.get_player_stats(lebron_id, season, "PerGame", "Base")
-        old_base_time = time.time() - start_time
+        logger.info(f"Testing {endpoint} with params: {params}")
         
-        if old_base_response and 'resultSets' in old_base_response:
-            logger.info(f"✅ Old Base endpoint: SUCCESS ({old_base_time:.2f}s)")
-            logger.info(f"   Response structure: {len(old_base_response['resultSets'])} result sets")
-        else:
-            logger.error("❌ Old Base endpoint: FAILED")
-            return False
-            
-        # Test old per-player endpoint (Advanced)
-        logger.info("Testing old per-player endpoint (Advanced)...")
-        start_time = time.time()
-        old_advanced_response = client.get_player_advanced_stats(lebron_id, season)
-        old_advanced_time = time.time() - start_time
+        # Add season to all requests
+        request_params = {"Season": season, **params}
         
-        if old_advanced_response and 'resultSets' in old_advanced_response:
-            logger.info(f"✅ Old Advanced endpoint: SUCCESS ({old_advanced_time:.2f}s)")
-            logger.info(f"   Response structure: {len(old_advanced_response['resultSets'])} result sets")
+        # Make the API call based on endpoint type
+        if endpoint == "leaguedashplayerstats":
+            # Use the correct method name and parameter structure
+            if request_params.get("MeasureType") == "Base":
+                response = client.get_players_with_stats(season=season)
+            else:  # Advanced
+                response = client.get_league_player_advanced_stats(season=season, season_type=request_params.get("SeasonType", "Regular Season"))
+        elif endpoint == "leaguedashptstats":
+            # Use the correct method name and parameter structure
+            pt_measure_type = request_params.get("PtMeasureType", "Drives")
+            response = client.get_league_player_tracking_stats(season=season, pt_measure_type=pt_measure_type)
+        elif endpoint == "leaguedashplayershotlocations":
+            # Use the correct method name and parameter structure
+            response = client.get_league_player_shot_locations(season=season)
+        elif endpoint == "leaguedashplayerhustlestats":
+            # Use the correct method name and parameter structure
+            response = client.get_league_hustle_stats(season=season)
+        elif endpoint == "commonplayerinfo":
+            # For commonplayerinfo, we need to test with a specific player
+            response = client.get_common_player_info(player_id=2544)  # LeBron James
         else:
-            logger.error("❌ Old Advanced endpoint: FAILED")
-            return False
-            
-        # Test new bulk endpoint
-        logger.info("Testing new bulk endpoint...")
-        start_time = time.time()
-        new_bulk_response = client.get_league_player_advanced_stats(season)
-        new_bulk_time = time.time() - start_time
+            logger.warning(f"Unknown endpoint: {endpoint}")
+            return set()
         
-        if new_bulk_response and 'resultSets' in new_bulk_response:
-            result_set = new_bulk_response['resultSets'][0]
-            player_count = len(result_set.get('rowSet', []))
-            logger.info(f"✅ New bulk endpoint: SUCCESS ({new_bulk_time:.2f}s)")
-            logger.info(f"   Players returned: {player_count}")
-            logger.info(f"   Headers: {len(result_set.get('headers', []))}")
-        else:
-            logger.error("❌ New bulk endpoint: FAILED")
-            return False
+        if not response or 'resultSets' not in response:
+            logger.warning(f"No resultSets in response for {endpoint}")
+            return set()
             
-        return True
+        # Extract columns from all result sets
+        columns = set()
+        for result_set in response['resultSets']:
+            if 'headers' in result_set and result_set['headers']:
+                columns.update(result_set['headers'])
+        
+        logger.info(f"Found {len(columns)} columns for {endpoint}")
+        return columns
         
     except Exception as e:
-        logger.error(f"❌ Happy path test failed with exception: {e}")
-        return False
+        logger.error(f"Error fetching {endpoint} with params {params}: {e}")
+        return set()
 
-def test_sad_path():
+def test_player_specific_endpoints(client, season: str = "2024-25") -> Dict[str, Set[str]]:
     """
-    Test Case B: Verify sad path with retired player (Michael Jordan) to confirm silent timeout
-    This is the most critical test - it reveals the API's most dangerous quirk.
+    Test endpoints that require specific player IDs to discover player-specific columns.
     """
-    logger.info("=== Test Case B: Sad Path (Silent Timeout Test) ===")
+    player_columns = {}
     
-    client = NBAStatsClient()
-    season = "2024-25"
-    
-    # Michael Jordan player ID (long-retired player)
-    jordan_id = 893
-    
-    try:
-        # Test old per-player endpoint with retired player
-        logger.info("Testing old per-player endpoint with retired player (Michael Jordan)...")
-        logger.info("This should either error quickly or timeout - we're testing the failure mode")
-        
-        start_time = time.time()
-        old_response = client.get_player_stats(jordan_id, season, "PerGame", "Base")
-        old_time = time.time() - start_time
-        
-        if old_response is None:
-            logger.info(f"✅ Old endpoint with retired player: Expected failure ({old_time:.2f}s)")
-        elif old_time > 30:  # If it took more than 30 seconds, it likely hung
-            logger.warning(f"⚠️  Old endpoint with retired player: Silent timeout detected ({old_time:.2f}s)")
-        else:
-            logger.info(f"ℹ️  Old endpoint with retired player: Unexpected success ({old_time:.2f}s)")
+    for player in TEST_PLAYERS[:3]:  # Test with first 3 players to avoid rate limiting
+        try:
+            logger.info(f"Testing player-specific endpoints for {player['name']}")
             
-        # Test new bulk endpoint (should work fine)
-        logger.info("Testing new bulk endpoint (should work regardless of individual player)...")
-        start_time = time.time()
-        new_response = client.get_league_player_advanced_stats(season)
-        new_time = time.time() - start_time
-        
-        if new_response and 'resultSets' in new_response:
-            logger.info(f"✅ New bulk endpoint: SUCCESS ({new_time:.2f}s)")
-            logger.info("   (Bulk endpoint should work even if individual players are problematic)")
-        else:
-            logger.error("❌ New bulk endpoint: FAILED")
-            return False
+            # Test commonplayerinfo for this specific player
+            response = client.get_common_player_info(player_id=player['id'])
+            if response and 'resultSets' in response:
+                columns = set()
+                for result_set in response['resultSets']:
+                    if 'headers' in result_set and result_set['headers']:
+                        columns.update(result_set['headers'])
+                player_columns[f"commonplayerinfo_player_{player['id']}"] = columns
+                
+        except Exception as e:
+            logger.error(f"Error testing player {player['name']}: {e}")
             
-        return True
-        
-    except Exception as e:
-        logger.error(f"❌ Sad path test failed with exception: {e}")
-        return False
+        # Add delay to avoid rate limiting
+        time.sleep(1)
+    
+    return player_columns
 
-def test_scope_verification():
+def run_comprehensive_reconnaissance(season: str = "2024-25") -> Dict:
     """
-    Test Case C: Verify if bulk endpoint can provide both Base and Advanced scopes
-    The old process required two calls. We need to confirm the new endpoint can provide both.
+    Run comprehensive API reconnaissance to discover all available columns.
     """
-    logger.info("=== Test Case C: Scope Verification ===")
+    logger.info("Starting comprehensive API reconnaissance...")
     
-    client = NBAStatsClient()
-    season = "2024-25"
+    client = get_nba_stats_client()
+    if not client:
+        logger.error("Failed to get NBA Stats client")
+        return {}
     
-    try:
-        # Test bulk endpoint with Base measure type
-        logger.info("Testing bulk endpoint with Base measure type...")
-        start_time = time.time()
-        base_response = client.get_players_with_stats(season)
-        base_time = time.time() - start_time
+    # Get all unique endpoints from our mapping
+    endpoints = get_all_api_endpoints()
+    logger.info(f"Testing {len(endpoints)} unique endpoints")
+    
+    # Results storage
+    api_column_map = {}
+    endpoint_coverage = {}
+    
+    # Test each endpoint with all parameter combinations
+    for endpoint in endpoints:
+        logger.info(f"Testing endpoint: {endpoint}")
+        endpoint_columns = set()
         
-        if base_response:
-            logger.info(f"✅ Bulk Base: SUCCESS ({base_time:.2f}s)")
-            logger.info(f"   Players returned: {len(base_response)}")
+        if endpoint in PARAMETER_COMBINATIONS:
+            for params in PARAMETER_COMBINATIONS[endpoint]:
+                columns = fetch_endpoint_columns(client, endpoint, params, season)
+                endpoint_columns.update(columns)
+                
+                # Store parameter-specific results
+                param_key = f"{endpoint}_{json.dumps(params, sort_keys=True)}"
+                api_column_map[param_key] = list(columns)
+                
+                # Add delay to avoid rate limiting
+                time.sleep(0.5)
         else:
-            logger.error("❌ Bulk Base: FAILED")
-            return False
-            
-        # Test bulk endpoint with Advanced measure type
-        logger.info("Testing bulk endpoint with Advanced measure type...")
-        start_time = time.time()
-        advanced_response = client.get_league_player_advanced_stats(season)
-        advanced_time = time.time() - start_time
+            # Test with default parameters
+            columns = fetch_endpoint_columns(client, endpoint, {}, season)
+            endpoint_columns.update(columns)
+            api_column_map[endpoint] = list(endpoint_columns)
         
-        if advanced_response and 'resultSets' in advanced_response:
-            result_set = advanced_response['resultSets'][0]
-            player_count = len(result_set.get('rowSet', []))
-            headers = result_set.get('headers', [])
-            logger.info(f"✅ Bulk Advanced: SUCCESS ({advanced_time:.2f}s)")
-            logger.info(f"   Players returned: {player_count}")
-            logger.info(f"   Headers count: {len(headers)}")
-            
-            # Check for key advanced stats columns
-            key_advanced_columns = ['PIE', 'USG_PCT', 'PACE', 'PACE_PER40', 'POSS', 'PIE']
-            found_advanced = [col for col in key_advanced_columns if col in headers]
-            logger.info(f"   Key advanced columns found: {found_advanced}")
-            
-        else:
-            logger.error("❌ Bulk Advanced: FAILED")
-            return False
-            
-        # Verify we can get both scopes
-        logger.info("✅ Scope verification: Both Base and Advanced scopes available via bulk endpoints")
-        return True
-        
-    except Exception as e:
-        logger.error(f"❌ Scope verification failed with exception: {e}")
-        return False
-
-def main():
-    """Main function to run all reconnaissance tests."""
-    logger.info("Starting API Reconnaissance - Phase 1")
-    logger.info("=" * 60)
+        endpoint_coverage[endpoint] = list(endpoint_columns)
+        logger.info(f"Total columns found for {endpoint}: {len(endpoint_columns)}")
     
-    results = {
-        'happy_path': False,
-        'sad_path': False,
-        'scope_verification': False
+    # Test player-specific endpoints
+    logger.info("Testing player-specific endpoints...")
+    player_columns = test_player_specific_endpoints(client, season)
+    api_column_map.update(player_columns)
+    
+    # Generate summary statistics
+    all_columns = set()
+    for columns in endpoint_coverage.values():
+        all_columns.update(columns)
+    
+    summary = {
+        "total_endpoints_tested": len(endpoints),
+        "total_unique_columns": len(all_columns),
+        "endpoint_coverage": {endpoint: len(columns) for endpoint, columns in endpoint_coverage.items()},
+        "season_tested": season,
+        "test_players_used": len(TEST_PLAYERS)
     }
     
-    # Run all test cases
-    results['happy_path'] = test_happy_path()
-    results['sad_path'] = test_sad_path()
-    results['scope_verification'] = test_scope_verification()
+    logger.info(f"Reconnaissance complete. Found {len(all_columns)} unique columns across {len(endpoints)} endpoints")
+    
+    return {
+        "api_column_map": api_column_map,
+        "endpoint_coverage": endpoint_coverage,
+        "summary": summary
+    }
+
+def save_reconnaissance_results(results: Dict, output_file: str = "api_reconnaissance_results.json"):
+    """Save reconnaissance results to JSON file."""
+    try:
+        # Convert sets to lists for JSON serialization
+        def convert_sets_to_lists(obj):
+            if isinstance(obj, set):
+                return list(obj)
+            elif isinstance(obj, dict):
+                return {key: convert_sets_to_lists(value) for key, value in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_sets_to_lists(item) for item in obj]
+            else:
+                return obj
+        
+        serializable_results = convert_sets_to_lists(results)
+        
+        with open(output_file, 'w') as f:
+            json.dump(serializable_results, f, indent=2)
+        logger.info(f"Results saved to {output_file}")
+    except Exception as e:
+        logger.error(f"Error saving results: {e}")
+
+def generate_column_inventory_report(results: Dict) -> str:
+    """Generate a human-readable report of all discovered columns."""
+    report_lines = []
+    report_lines.append("# NBA Stats API Column Inventory Report")
+    report_lines.append(f"Generated on: {time.strftime('%Y-%m-%d %H:%M:%S')}")
+    report_lines.append("")
     
     # Summary
-    logger.info("\n" + "=" * 60)
-    logger.info("RECONNAISSANCE SUMMARY")
-    logger.info("=" * 60)
+    summary = results.get("summary", {})
+    report_lines.append("## Summary")
+    report_lines.append(f"- Total endpoints tested: {summary.get('total_endpoints_tested', 0)}")
+    report_lines.append(f"- Total unique columns found: {summary.get('total_unique_columns', 0)}")
+    report_lines.append(f"- Season tested: {summary.get('season_tested', 'Unknown')}")
+    report_lines.append("")
     
-    for test_name, passed in results.items():
-        status = "✅ PASS" if passed else "❌ FAIL"
-        logger.info(f"{test_name}: {status}")
+    # Endpoint coverage
+    report_lines.append("## Endpoint Coverage")
+    endpoint_coverage = results.get("endpoint_coverage", {})
+    for endpoint, column_count in endpoint_coverage.items():
+        report_lines.append(f"- {endpoint}: {column_count} columns")
+    report_lines.append("")
     
-    all_passed = all(results.values())
+    # Detailed column listings
+    report_lines.append("## Detailed Column Listings")
+    api_column_map = results.get("api_column_map", {})
     
-    if all_passed:
-        logger.info("\n🎉 ALL TESTS PASSED - API is ready for full comparison script")
-        logger.info("   Proceeding to Phase 2: Comprehensive Audit Script")
-    else:
-        logger.error("\n⚠️  SOME TESTS FAILED - Address issues before proceeding")
-        logger.error("   Do not proceed to Phase 2 until all tests pass")
+    for endpoint_key, columns in api_column_map.items():
+        report_lines.append(f"### {endpoint_key}")
+        if columns:
+            for column in sorted(columns):
+                report_lines.append(f"- {column}")
+        else:
+            report_lines.append("- No columns found")
+        report_lines.append("")
     
-    return all_passed
+    return "\n".join(report_lines)
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+    # Run the reconnaissance
+    results = run_comprehensive_reconnaissance()
+    
+    # Save results
+    save_reconnaissance_results(results)
+    
+    # Generate and save report
+    report = generate_column_inventory_report(results)
+    with open("api_column_inventory_report.md", "w") as f:
+        f.write(report)
+    
+    print("API reconnaissance complete!")
+    print(f"Results saved to: api_reconnaissance_results.json")
+    print(f"Report saved to: api_column_inventory_report.md")

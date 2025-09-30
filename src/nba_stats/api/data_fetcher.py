@@ -1,579 +1,318 @@
-"""Data fetcher for NBA stats application."""
+"""
+Centralized Data Fetcher Module
+
+This module provides a unified interface for fetching NBA player data from various
+API endpoints, with built-in schema awareness and error handling.
+"""
 
 import logging
-import sqlite3
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime
-from queue import Queue, Empty
-from threading import Thread, Event, Lock
+import time
+import random
+from typing import Dict, List, Optional, Any, Tuple
+from dataclasses import dataclass
+from enum import Enum
+
 from .nba_stats_client import NBAStatsClient
-from ..db.connection import DatabaseConnection
-import threading
+from ..scripts.common_utils import logger
 
-class NBAStatsFetcher:
-    """Fetches and processes NBA statistics data."""
+class DataType(Enum):
+    """Data types for metrics."""
+    COUNT = "count"
+    PERCENTAGE = "percentage"
+    TIME = "time"
+    STRING = "string"
+    CALCULATED = "calculated"
+    MISSING = "missing"
+
+@dataclass
+class MetricMapping:
+    """Represents a metric mapping to its API source."""
+    canonical_name: str
+    api_source: str
+    api_column: str
+    endpoint_params: Dict[str, Any]
+    data_type: DataType
+    required: bool
+    notes: str
+
+class DataFetcher:
+    """
+    Centralized data fetcher with schema awareness and error handling.
+    """
     
-    def __init__(self, db_path: str):
-        """Initialize the NBA stats fetcher.
+    def __init__(self, client: Optional[NBAStatsClient] = None):
+        """Initialize the data fetcher."""
+        self.client = client or NBAStatsClient()
+        self.metric_mappings = self._load_metric_mappings()
+        self.cache = {}
+        
+    def _load_metric_mappings(self) -> Dict[str, MetricMapping]:
+        """Load metric mappings from the definitive mapping."""
+        # Import here to avoid circular imports
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
+        from definitive_metric_mapping import DEFINITIVE_METRIC_MAPPING
+        
+        mappings = {}
+        for metric, mapping_data in DEFINITIVE_METRIC_MAPPING.items():
+            mappings[metric] = MetricMapping(
+                canonical_name=mapping_data["canonical_name"],
+                api_source=mapping_data["api_source"],
+                api_column=mapping_data["api_column"],
+                endpoint_params=mapping_data["endpoint_params"],
+                data_type=DataType(mapping_data["data_type"]),
+                required=mapping_data["required"],
+                notes=mapping_data["notes"]
+            )
+        return mappings
+    
+    def fetch_metric_data(self, metric: str, season: str = "2024-25") -> Optional[Dict[str, Any]]:
+        """
+        Fetch data for a specific metric.
         
         Args:
-            db_path: Path to the SQLite database file
+            metric: The canonical metric name
+            season: The season to fetch data for
+            
+        Returns:
+            Dictionary with player data or None if not available
         """
-        self.db_path = db_path
-        self.client = NBAStatsClient()
-        self.db_queue = Queue()
-        self.stop_event = Event()
-        self.db_lock = Lock()
-        self.writer_thread = None
-        self.stop_writer = False
-        self.logger = logging.getLogger(__name__)
+        if metric not in self.metric_mappings:
+            logger.error(f"Unknown metric: {metric}")
+            return None
+            
+        mapping = self.metric_mappings[metric]
+        
+        if mapping.data_type == DataType.MISSING:
+            logger.warning(f"Metric {metric} is not available in the API: {mapping.notes}")
+            return None
+            
+        try:
+            # Add rate limiting
+            time.sleep(random.uniform(0.1, 0.3))
+            
+            # Fetch data based on API source
+            if mapping.api_source == "leaguedashplayerstats":
+                return self._fetch_player_stats_data(metric, mapping, season)
+            elif mapping.api_source == "leaguedashptstats":
+                return self._fetch_tracking_data(metric, mapping, season)
+            elif mapping.api_source == "commonplayerinfo":
+                return self._fetch_player_info_data(metric, mapping)
+            elif mapping.api_source == "leaguedashplayerhustlestats":
+                return self._fetch_hustle_data(metric, mapping, season)
+            else:
+                logger.error(f"Unknown API source: {mapping.api_source}")
+                return None
+                
+        except Exception as e:
+            logger.error(f"Error fetching {metric}: {e}")
+            return None
     
-    def get_db_connection(self) -> sqlite3.Connection:
-        """Create a new database connection for the current thread."""
-        conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row
-        return conn
-
-    def format_nba_stats_date(self, dt_str: str) -> str:
-        """Convert 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS' to 'MM/DD/YYYY' for stats.nba.com."""
-        for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%d"]:
+    def _fetch_player_stats_data(self, metric: str, mapping: MetricMapping, season: str) -> Optional[Dict[str, Any]]:
+        """Fetch data from player stats endpoints."""
+        try:
+            if mapping.endpoint_params.get("MeasureType") == "Base":
+                response = self.client.get_players_with_stats(season=season)
+            else:  # Advanced
+                response = self.client.get_league_player_advanced_stats(
+                    season=season, 
+                    season_type=mapping.endpoint_params.get("SeasonType", "Regular Season")
+                )
+            
+            if not response or 'resultSets' not in response:
+                logger.warning(f"No data returned for {metric}")
+                return None
+                
+            return self._extract_player_data(response, mapping.api_column, metric)
+            
+        except Exception as e:
+            logger.error(f"Error fetching player stats for {metric}: {e}")
+            return None
+    
+    def _fetch_tracking_data(self, metric: str, mapping: MetricMapping, season: str) -> Optional[Dict[str, Any]]:
+        """Fetch data from player tracking endpoints."""
+        try:
+            pt_measure_type = mapping.endpoint_params.get("PtMeasureType", "Drives")
+            response = self.client.get_league_player_tracking_stats(
+                season=season, 
+                pt_measure_type=pt_measure_type
+            )
+            
+            if not response or 'resultSets' not in response:
+                logger.warning(f"No tracking data returned for {metric}")
+                return None
+                
+            return self._extract_player_data(response, mapping.api_column, metric)
+            
+        except Exception as e:
+            logger.error(f"Error fetching tracking data for {metric}: {e}")
+            return None
+    
+    def _fetch_player_info_data(self, metric: str, mapping: MetricMapping) -> Optional[Dict[str, Any]]:
+        """Fetch data from player info endpoints."""
+        try:
+            # For player info, we need to fetch for all players
+            # This is a simplified version - in practice, you'd need to iterate through all players
+            response = self.client.get_common_player_info(player_id=2544)  # LeBron as example
+            
+            if not response or 'resultSets' not in response:
+                logger.warning(f"No player info data returned for {metric}")
+                return None
+                
+            return self._extract_player_data(response, mapping.api_column, metric)
+            
+        except Exception as e:
+            logger.error(f"Error fetching player info for {metric}: {e}")
+            return None
+    
+    def _fetch_hustle_data(self, metric: str, mapping: MetricMapping, season: str) -> Optional[Dict[str, Any]]:
+        """Fetch data from hustle stats endpoints."""
+        try:
+            response = self.client.get_league_hustle_stats(season=season)
+            
+            if not response or 'resultSets' not in response:
+                logger.warning(f"No hustle data returned for {metric}")
+                return None
+                
+            return self._extract_player_data(response, mapping.api_column, metric)
+            
+        except Exception as e:
+            logger.error(f"Error fetching hustle data for {metric}: {e}")
+            return None
+    
+    def _extract_player_data(self, response: Dict[str, Any], column_name: str, metric: str) -> Dict[str, Any]:
+        """Extract player data from API response."""
+        try:
+            result_sets = response.get('resultSets', [])
+            if not result_sets:
+                logger.warning(f"No result sets in response for {metric}")
+                return {}
+            
+            # Use the first result set
+            result_set = result_sets[0]
+            headers = result_set.get('headers', [])
+            rows = result_set.get('rowSet', [])
+            
+            if not headers or not rows:
+                logger.warning(f"No data rows in response for {metric}")
+                return {}
+            
+            # Find the column index
             try:
-                d = datetime.strptime(dt_str, fmt)
-                return d.strftime("%m/%d/%Y")
+                column_index = headers.index(column_name)
             except ValueError:
-                pass
-        raise ValueError(f"No valid date format found for '{dt_str}'")
+                logger.warning(f"Column {column_name} not found in response for {metric}")
+                return {}
+            
+            # Extract player data
+            player_data = {}
+            for row in rows:
+                if len(row) > column_index:
+                    player_id = row[0] if row else None  # Assuming first column is player ID
+                    if player_id:
+                        player_data[player_id] = row[column_index]
+            
+            logger.info(f"Extracted {len(player_data)} player records for {metric}")
+            return player_data
+            
+        except Exception as e:
+            logger.error(f"Error extracting player data for {metric}: {e}")
+            return {}
     
-    def process_result_set(self, result_set: Dict[str, Any], table_name: str, game_id: str, team_id: int, measure_type: str, season: str) -> None:
-        """Process a result set from the NBA Stats API.
+    def fetch_all_available_metrics(self, season: str = "2024-25") -> Dict[str, Dict[str, Any]]:
+        """
+        Fetch data for all available metrics.
         
         Args:
-            result_set: Result set from the API
-            table_name: Name of the table to insert into
-            game_id: Game ID
-            team_id: Team ID
-            measure_type: Type of statistics ("Base" or "Advanced")
-            season: Season ID (e.g., "2023-24")
+            season: The season to fetch data for
+            
+        Returns:
+            Dictionary mapping metric names to their player data
         """
-        if not result_set or 'headers' not in result_set or 'rowSet' not in result_set:
-            logging.error("Invalid result set format")
-            return
-            
-        headers = result_set['headers']
-        rows = result_set['rowSet']
+        logger.info("Fetching data for all available metrics...")
         
-        if not headers or not rows:
-            logging.error("Empty result set")
-            return
+        all_data = {}
+        available_metrics = [metric for metric, mapping in self.metric_mappings.items() 
+                           if mapping.data_type != DataType.MISSING]
+        
+        for i, metric in enumerate(available_metrics, 1):
+            logger.info(f"Fetching {metric} ({i}/{len(available_metrics)})")
             
-        # Map API column names to database column names
-        column_mapping = {
-            'GROUP_SET': 'group_set',
-            'GROUP_VALUE': 'group_value',
-            'GP': 'GP',
-            'W': 'W',
-            'L': 'L',
-            'W_PCT': 'W_PCT',
-            'MIN': 'MIN',
-            'FGM': 'FGM',
-            'FGA': 'FGA',
-            'FG_PCT': 'FG_PCT',
-            'FG3M': 'FG3M',
-            'FG3A': 'FG3A',
-            'FG3_PCT': 'FG3_PCT',
-            'FTM': 'FTM',
-            'FTA': 'FTA',
-            'FT_PCT': 'FT_PCT',
-            'OREB': 'OREB',
-            'DREB': 'DREB',
-            'REB': 'REB',
-            'AST': 'AST',
-            'TOV': 'TOV',
-            'STL': 'STL',
-            'BLK': 'BLK',
-            'BLKA': 'BLKA',
-            'PF': 'PF',
-            'PFD': 'PFD',
-            'PTS': 'PTS',
-            'PLUS_MINUS': 'PLUS_MINUS',
-            'GP_RANK': 'GP_RANK',
-            'W_RANK': 'W_RANK',
-            'L_RANK': 'L_RANK',
-            'W_PCT_RANK': 'W_PCT_RANK',
-            'MIN_RANK': 'MIN_RANK',
-            'FGM_RANK': 'FGM_RANK',
-            'FGA_RANK': 'FGA_RANK',
-            'FG_PCT_RANK': 'FG_PCT_RANK',
-            'FG3M_RANK': 'FG3M_RANK',
-            'FG3A_RANK': 'FG3A_RANK',
-            'FG3_PCT_RANK': 'FG3_PCT_RANK',
-            'FTM_RANK': 'FTM_RANK',
-            'FTA_RANK': 'FTA_RANK',
-            'FT_PCT_RANK': 'FT_PCT_RANK',
-            'OREB_RANK': 'OREB_RANK',
-            'DREB_RANK': 'DREB_RANK',
-            'REB_RANK': 'REB_RANK',
-            'AST_RANK': 'AST_RANK',
-            'TOV_RANK': 'TOV_RANK',
-            'STL_RANK': 'STL_RANK',
-            'BLK_RANK': 'BLK_RANK',
-            'BLKA_RANK': 'BLKA_RANK',
-            'PF_RANK': 'PF_RANK',
-            'PFD_RANK': 'PFD_RANK',
-            'PTS_RANK': 'PTS_RANK',
-            'PLUS_MINUS_RANK': 'PLUS_MINUS_RANK',
-            'E_OFF_RATING': 'E_OFF_RATING',
-            'OFF_RATING_RANK': 'OFF_RATING_RANK',
-            'E_DEF_RATING': 'E_DEF_RATING',
-            'DEF_RATING_RANK': 'DEF_RATING_RANK',
-            'E_NET_RATING': 'E_NET_RATING',
-            'NET_RATING_RANK': 'NET_RATING_RANK',
-            'AST_PCT': 'AST_PCT',
-            'AST_PCT_RANK': 'AST_PCT_RANK',
-            'AST_TO_TOV': 'AST_TO_TOV',
-            'AST_TO_TOV_RANK': 'AST_TO_TOV_RANK',
-            'AST_RATIO': 'AST_RATIO',
-            'AST_RATIO_RANK': 'AST_RATIO_RANK',
-            'OREB_PCT': 'OREB_PCT',
-            'OREB_PCT_RANK': 'OREB_PCT_RANK',
-            'DREB_PCT': 'DREB_PCT',
-            'DREB_PCT_RANK': 'DREB_PCT_RANK',
-            'REB_PCT': 'REB_PCT',
-            'REB_PCT_RANK': 'REB_PCT_RANK',
-            'TOV_PCT': 'TOV_PCT',
-            'TOV_PCT_RANK': 'TOV_PCT_RANK',
-            'EFG_PCT': 'EFG_PCT',
-            'EFG_PCT_RANK': 'EFG_PCT_RANK',
-            'TS_PCT': 'TS_PCT',
-            'TS_PCT_RANK': 'TS_PCT_RANK',
-            'PACE': 'PACE',
-            'PACE_RANK': 'PACE_RANK',
-            'PIE': 'PIE',
-            'PIE_RANK': 'PIE_RANK'
+            data = self.fetch_metric_data(metric, season)
+            if data:
+                all_data[metric] = data
+            else:
+                logger.warning(f"Failed to fetch data for {metric}")
+        
+        logger.info(f"Successfully fetched data for {len(all_data)} metrics")
+        return all_data
+    
+    def get_missing_metrics(self) -> List[str]:
+        """Get list of metrics that are missing from the API."""
+        return [metric for metric, mapping in self.metric_mappings.items() 
+                if mapping.data_type == DataType.MISSING]
+    
+    def get_available_metrics(self) -> List[str]:
+        """Get list of metrics that are available in the API."""
+        return [metric for metric, mapping in self.metric_mappings.items() 
+                if mapping.data_type != DataType.MISSING]
+    
+    def validate_data_completeness(self, data: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Validate the completeness of fetched data.
+        
+        Args:
+            data: Dictionary mapping metric names to their player data
+            
+        Returns:
+            Validation results
+        """
+        validation_results = {
+            "total_metrics": len(self.metric_mappings),
+            "fetched_metrics": len(data),
+            "missing_metrics": [],
+            "empty_metrics": [],
+            "coverage_stats": {}
         }
         
-        # Create records for each row
-        for row in rows:
-            record = {
-                'game_id': game_id,
-                'team_id': team_id,
-                'season': season,
-                'measure_type': measure_type,
-                'group_set': result_set.get('name', ''),
-                'group_value': row[headers.index('GROUP_VALUE')] if 'GROUP_VALUE' in headers else ''
-            }
-            
-            # Add all available metrics
-            for api_col, db_col in column_mapping.items():
-                if api_col in headers:
-                    record[db_col] = row[headers.index(api_col)]
-            
-            # Queue the record for database insertion
-            self.db_queue.put((table_name, record))
-
-    def process_player_tracking_result_set(
-        self,
-        result_set: Dict[str, Any],
-        table_name: str,
-        season: str,
-        measure_type: str,
-        per_mode: str
-    ) -> None:
-        """Process a player tracking result set from the NBA Stats API.
-
-        Args:
-            result_set: Result set from the API (containing 'resultSets')
-            table_name: Base name of the table to insert into (e.g., 'player_tracking')
-            season: Season ID (e.g., "2023-24")
-            measure_type: The specific tracking measure (e.g., "Driving", "Passing")
-            per_mode: Per mode used for fetching ("PerGame" or "Totals")
-        """
-        if not result_set or 'resultSets' not in result_set:
-            logging.warning(f"Invalid or empty player tracking result set for {measure_type} {season}")
-            return
-
-        # The actual data is usually in the first dictionary within 'resultSets'
-        data_container = result_set['resultSets']
-        if not isinstance(data_container, list) or not data_container:
-            logging.warning(f"resultSets is not a list or is empty for {measure_type} {season}")
-            return
+        # Check for missing metrics
+        for metric in self.metric_mappings:
+            if metric not in data:
+                validation_results["missing_metrics"].append(metric)
         
-        actual_result_set = data_container[0] # Assuming the first result set is the one we want
-
-        if 'headers' not in actual_result_set or 'rowSet' not in actual_result_set:
-            logging.warning(f"Missing 'headers' or 'rowSet' in player tracking data for {measure_type} {season}")
-            return
-
-        headers = actual_result_set['headers']
-        rows = actual_result_set['rowSet']
-
-        logging.info(f"Raw headers for {measure_type}: {headers}") # Log raw headers
-
-        if not headers or not rows:
-            logging.warning(f"Empty headers or rowSet for {measure_type} {season}")
-            return
-            
-        # Generic column mapping - convert to lowercase and replace spaces with underscores
-        # We'll add specific mappings if needed, but this covers most cases
-        column_mapping = {header: header.lower().replace(' ', '_').replace('-', '_').replace('%', '_pct') for header in headers}
+        # Check for empty metrics
+        for metric, player_data in data.items():
+            if not player_data:
+                validation_results["empty_metrics"].append(metric)
         
-        # Ensure essential columns are present if possible
-        player_id_col = 'PLAYER_ID' # Standard NBA stats API player ID column
-        if player_id_col not in headers:
-            logging.error(f"'{player_id_col}' not found in headers for {measure_type}. Cannot process.")
-            return
-
-        # Determine the specific table name
-        specific_table_name = f"{table_name}_{measure_type.lower().replace(' ', '_')}"
-
-        logging.info(f"Processing {len(rows)} rows for {specific_table_name} ({season} {per_mode})")
-
-        # Create records for each row
-        for row in rows:
-            record = {
-                'season': season,
-                'per_mode': per_mode,
-                'measure_type': measure_type
-                # Player ID will be added from the mapping
-            }
-            
-            # Add all available metrics using the mapping
-            for api_col, db_col in column_mapping.items():
-                try:
-                    record[db_col] = row[headers.index(api_col)]
-                except IndexError:
-                    logging.warning(f"IndexError for column {api_col} in {measure_type} data.")
-                    record[db_col] = None # Or some other default value
-                except Exception as e:
-                    logging.error(f"Error processing column {api_col}: {e}")
-                    record[db_col] = None
-
-            # Rename PLAYER_ID to player_id for consistency if it exists
-            if 'player_id' in record and player_id_col != 'player_id':
-                record['player_id'] = record.pop('player_id')
-
-            # Queue the record for database insertion
-            self.db_queue.put((specific_table_name, record))
-
-    def database_writer_thread(self) -> None:
-        """Database writer thread that processes records from the queue."""
-        conn = None
-        try:
-            conn = self.get_db_connection()
-            cursor = conn.cursor()
-            batch = []
-            last_table = None
-            
-            while not self.stop_event.is_set():
-                try:
-                    # Get next record from queue with timeout
-                    item = self.db_queue.get(timeout=1.0)
-                    if item is None:  # Sentinel value to stop the thread
-                        break
-                        
-                    table_name, record = item
-                    
-                    # If we have a batch and the table changes, insert the current batch
-                    if last_table and last_table != table_name and batch:
-                        self._insert_batch(cursor, last_table, batch)
-                        batch = []
-                    
-                    batch.append(record)
-                    last_table = table_name
-                    
-                    # Insert batch if it reaches the size limit
-                    if len(batch) >= 100:
-                        self._insert_batch(cursor, table_name, batch)
-                        batch = []
-                        
-                    # Commit every 1000 records
-                    if len(batch) % 1000 == 0:
-                        conn.commit()
-                        
-                except Empty:
-                    # Insert any remaining records in the batch
-                    if batch and last_table:
-                        self._insert_batch(cursor, last_table, batch)
-                        batch = []
-                        conn.commit()
-                        
-                except Exception as e:
-                    logging.error(f"Error in database writer thread: {str(e)}")
-                    if batch:
-                        batch = []
-            
-            # Insert any remaining records
-            if batch and last_table:
-                self._insert_batch(cursor, last_table, batch)
-                conn.commit()
-                
-        except Exception as e:
-            logging.error(f"Database writer thread error: {str(e)}")
-            raise
-        finally:
-            if conn:
-                conn.close()
-                
-    def _insert_batch(self, cursor: sqlite3.Cursor, table_name: str, records: List[Dict[str, Any]]) -> None:
-        """Insert a batch of records into the database.
-        
-        Args:
-            cursor: Database cursor
-            table_name: Name of the table to insert into
-            records: List of records to insert
-        """
-        if not records:
-            return
-            
-        try:
-            # Get column names from the first record
-            columns = list(records[0].keys())
-            placeholders = ','.join(['?' for _ in columns])
-            column_str = ','.join(columns)
-            
-            # Create the INSERT OR REPLACE statement
-            sql = f"""
-            INSERT OR REPLACE INTO {table_name}
-            ({column_str})
-            VALUES ({placeholders})
-            """
-            
-            # Convert records to tuples in the same order as columns
-            values = [tuple(record.get(col) for col in columns) for record in records]
-            
-            # Execute the batch insert
-            cursor.executemany(sql, values)
-            
-        except Exception as e:
-            logging.error(f"Error inserting batch: {str(e)}")
-            raise
-
-    def fetch_team_dashboard_data(self, team_id: int, measure_type: str = "Base", game_id: Optional[str] = None) -> Dict[str, Any]:
-        """Fetch team dashboard data for all group sets.
-        
-        Args:
-            team_id: NBA team ID
-            measure_type: Type of stats to fetch ("Base" or "Advanced")
-            game_id: Optional game ID to filter by
-            
-        Returns:
-            Dictionary containing team dashboard data for all group sets
-        """
-        try:
-            group_sets = [
-                "Overall",
-                "Location",
-                "WinsLosses",
-                "Month",
-                "PrePostAllStar",
-                "DaysRest"
-            ]
-            
-            all_data = {
-                "resultSets": []
-            }
-            
-            for group_set in group_sets:
-                try:
-                    data = self.client.get_team_dashboard(
-                        team_id=team_id,
-                        measure_type=measure_type,
-                        group_set=group_set,
-                        game_id=game_id
-                    )
-                    
-                    if data and "resultSets" in data:
-                        all_data["resultSets"].extend(data["resultSets"])
-                        
-                except Exception as e:
-                    logging.error(f"Error fetching {group_set} dashboard for team {team_id}: {str(e)}")
-                    continue
-                    
-            return all_data
-            
-        except Exception as e:
-            logging.error(f"Error fetching team dashboard data: {str(e)}")
-            raise
-
-    def fetch_unprocessed_games(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
-        """Fetch list of unprocessed games.
-        
-        Args:
-            limit: Maximum number of games to return
-            
-        Returns:
-            List of unprocessed games with game_id, home_team_id, and away_team_id
-        """
-        conn = self.get_db_connection()
-        try:
-            cursor = conn.cursor()
-            
-            # Get games that haven't been processed
-            query = """
-                SELECT g.game_id, g.home_team_id, g.away_team_id
-                FROM games g
-                LEFT JOIN overall_team_dashboard otd 
-                    ON g.game_id = otd.game_id 
-                WHERE otd.game_id IS NULL
-            """
-            
-            if limit:
-                query += f" LIMIT {limit}"
-                
-            cursor.execute(query)
-            games = [
-                {
-                    'game_id': row[0],
-                    'home_team_id': row[1],
-                    'away_team_id': row[2]
+        # Calculate coverage stats
+        for metric, player_data in data.items():
+            if player_data:
+                validation_results["coverage_stats"][metric] = {
+                    "player_count": len(player_data),
+                    "non_null_count": sum(1 for v in player_data.values() if v is not None),
+                    "coverage_pct": (sum(1 for v in player_data.values() if v is not None) / len(player_data)) * 100
                 }
-                for row in cursor.fetchall()
-            ]
-            
-            return games
-            
-        except Exception as e:
-            logging.error(f"Error fetching unprocessed games: {str(e)}")
-            raise
-        finally:
-            conn.close()
+        
+        return validation_results
+
+def create_data_fetcher() -> DataFetcher:
+    """Create a new DataFetcher instance."""
+    return DataFetcher()
+
+if __name__ == "__main__":
+    # Test the data fetcher
+    fetcher = create_data_fetcher()
     
-    def fetch_player_tracking_stats(
-        self,
-        season: str,
-        per_mode: str = "PerGame",
-        season_type: str = "Regular Season"
-    ) -> None:
-        """Fetch various player tracking stats for a given season.
-
-        Fetches: Driving, Passing, Touches (Elbow, Post, Paint), Catch & Shoot, Pull Up Shots.
-
-        Args:
-            season: Season in YYYY-YY format (e.g., "2023-24")
-            per_mode: Mode for stats ("PerGame", "Totals")
-            season_type: Type of season ("Regular Season", "Playoffs", etc.)
-        """
-        tracking_types = [
-            "SpeedDistance", 
-            "Driving", 
-            # "Passing", 
-            # "ElbowTouch",
-            # "PostTouch",
-            # "PaintTouch",
-            # "CatchShoot",
-            # "PullUpShot",
-        ]
-        
-        base_table_name = "player_tracking"
-
-        # Ensure writer thread is running if called independently
-        if self.writer_thread is None or not self.writer_thread.is_alive():
-             logging.info("Starting DB writer thread for player tracking fetch.")
-             self.stop_event.clear() # Ensure stop event is clear
-             self.db_writer_thread = threading.Thread(target=self.database_writer_thread)
-             self.db_writer_thread.start()
-             started_thread_locally = True
-        else:
-             started_thread_locally = False
-
-        try:
-            for measure_type in tracking_types:
-                try:
-                    logging.info(f"Fetching player tracking data: {measure_type} for {season} ({per_mode})")
-                    data = self.client.get_league_player_tracking_stats(
-                        season=season,
-                        per_mode=per_mode,
-                        pt_measure_type=measure_type,
-                        season_type=season_type
-                    )
-
-                    if data:
-                        self.process_player_tracking_result_set(
-                            result_set=data,
-                            table_name=base_table_name,
-                            season=season,
-                            measure_type=measure_type,
-                            per_mode=per_mode
-                        )
-                    else:
-                        logging.warning(f"No data returned for {measure_type} - {season} - {per_mode}")
-                        
-                except Exception as e:
-                    logging.error(f"Error fetching/processing {measure_type} for season {season}: {str(e)}")
-                    continue # Continue to next tracking type
-
-        finally:
-            # If this function started the thread, it should also stop it.
-            if started_thread_locally:
-                logging.info("Signaling DB writer thread to stop after player tracking fetch.")
-                self.db_queue.put(None)
-                if self.db_writer_thread:
-                    self.db_writer_thread.join()
-                logging.info("DB writer thread stopped after player tracking fetch.")
-
-    def fetch_all_data(self, measure_type: str = "Base", limit: int = 100) -> None:
-        """Fetch all data for unprocessed games.
-        
-        Args:
-            measure_type: Type of stats to fetch ("Base" or "Advanced")
-            limit: Maximum number of games to process
-        """
-        try:
-            # Start database writer thread
-            self.db_writer_thread = threading.Thread(target=self.database_writer_thread)
-            self.db_writer_thread.start()
-            
-            # Get unprocessed games
-            games = self.fetch_unprocessed_games(limit=limit)
-            if not games:
-                logging.info("No unprocessed games found")
-                return
-                
-            logging.info(f"Processing {len(games)} games")
-            
-            for game in games:
-                game_id = game['game_id']
-                home_team_id = game['home_team_id']
-                away_team_id = game['away_team_id']
-                
-                # Extract season from game_id
-                season = f"20{game_id[1:3]}-{str(int(game_id[1:3]) + 1).zfill(2)}"
-                
-                # Fetch data for both teams
-                for team_id in [home_team_id, away_team_id]:
-                    try:
-                        # Fetch team dashboard data
-                        data = self.fetch_team_dashboard_data(
-                            team_id=team_id,
-                            measure_type=measure_type,
-                            game_id=game_id
-                        )
-                        
-                        if data:
-                            # Process each result set
-                            for result_set in data.get('resultSets', []):
-                                if result_set.get('name') == 'OverallTeamDashboard':
-                                    self.process_result_set(result_set, 'overall_team_dashboard', game_id, team_id, measure_type, season)
-                                elif result_set.get('name') == 'LocationTeamDashboard':
-                                    self.process_result_set(result_set, 'location_team_dashboard', game_id, team_id, measure_type, season)
-                                elif result_set.get('name') == 'WinsLossesTeamDashboard':
-                                    self.process_result_set(result_set, 'wins_losses_team_dashboard', game_id, team_id, measure_type, season)
-                                elif result_set.get('name') == 'MonthTeamDashboard':
-                                    self.process_result_set(result_set, 'month_team_dashboard', game_id, team_id, measure_type, season)
-                                elif result_set.get('name') == 'PrePostAllStarTeamDashboard':
-                                    self.process_result_set(result_set, 'pre_postallstar_team_dashboard', game_id, team_id, measure_type, season)
-                                elif result_set.get('name') == 'DaysRestTeamDashboard':
-                                    self.process_result_set(result_set, 'days_rest_team_dashboard', game_id, team_id, measure_type, season)
-                                    
-                    except Exception as e:
-                        logging.error(f"Error processing team {team_id} for game {game_id}: {str(e)}")
-                        continue
-                        
-        except Exception as e:
-            logging.error(f"Error during data fetch: {str(e)}")
-            raise
-        finally:
-            # Signal database writer thread to stop
-            self.db_queue.put(None)
-            if self.db_writer_thread:
-                self.db_writer_thread.join() 
+    print("Available metrics:", len(fetcher.get_available_metrics()))
+    print("Missing metrics:", len(fetcher.get_missing_metrics()))
+    
+    # Test fetching a single metric
+    test_metric = "FTPCT"
+    print(f"\nTesting fetch for {test_metric}...")
+    data = fetcher.fetch_metric_data(test_metric)
+    if data:
+        print(f"Successfully fetched data for {len(data)} players")
+    else:
+        print("Failed to fetch data")

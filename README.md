@@ -2,6 +2,41 @@
 
 This project implements the methodology from the research paper "Algorithmic NBA Player Acquisition" by Brill, Hughes, and Waldbaum, adapting it to analyze the 2024-25 NBA season. The goal is to create a data-driven approach to NBA player acquisition and lineup optimization using modern statistical methods.
 
+## 🚀 New Architecture (September 2025)
+
+**BREAKING CHANGE**: The project has been completely redesigned using first-principles reasoning and insights from comprehensive post-mortem analysis. The new architecture addresses the core challenge of **data mapping** rather than API reliability, implementing a sparsity-aware approach to handle missing data gracefully.
+
+### Key Improvements
+- **Mapping-First Approach**: Complete API reconnaissance before building the system
+- **Sparsity-Aware Design**: Built for missing data from the start, not 100% coverage
+- **Centralized Data Fetcher**: Single interface for all API endpoints with robust error handling
+- **Comprehensive Validation**: Multi-dimensional data quality scoring and verification
+- **Advanced Imputation**: ML-based missing data handling (KNN, Random Forest, etc.)
+
+### Quick Start with New Architecture
+
+1. **Run API Reconnaissance** (discovers all available data):
+   ```bash
+   python api_reconnaissance.py
+   ```
+
+2. **Run Full Data Pipeline**:
+   ```bash
+   python master_data_pipeline.py --season 2024-25
+   ```
+
+3. **Verify Data Quality**:
+   ```bash
+   python data_verification_tool.py
+   ```
+
+4. **Handle Missing Data**:
+   ```bash
+   python data_imputation_tool.py --strategy auto
+   ```
+
+See `NEW_ARCHITECTURE_README.md` for complete documentation of the new system.
+
 ## Project Overview
 
 The project uses a combination of NBA statistics, player tracking data, and advanced metrics (DARKO) to:
@@ -12,47 +47,61 @@ The project uses a combination of NBA statistics, player tracking data, and adva
 
 ## Current Status
 
-### Completed
-- ✅ **Database Migration**: The schema for `PlayerSalaries` and `PlayerSkills` has been updated to be season-aware.
-- ✅ **Core Data Population**: Scripts for populating salaries and DARKO skill ratings from local CSVs for the 2024-25 season have been updated and successfully run.
-- ✅ **Initial Analysis Pipeline**: Phase 1 and Phase 2 scripts (`run_phase_1.py`, `run_phase_2.py`) run successfully, generating initial archetype data.
-- ✅ **Full Data Pipeline Execution**: The full data pipeline, including the architecturally hardened `populate_possessions.py` script, has been successfully run for the 2024-25 season. All data is now in the database.
-- ✅ **Data Integrity Verification**: Comprehensive verification system implemented with foreign key enforcement, audit tools, and data quality validation. Database is now referentially sound and ready for analysis.
-- ✅ **API Reliability Improvements**: Persistent caching layer and increased timeouts implemented to address NBA API reliability issues.
+### ✅ New Architecture Completed
+- **47 Canonical Metrics**: Extracted and mapped from source paper
+- **API Reconnaissance**: Discovered 240 unique columns across 5 endpoints
+- **Definitive Mapping**: 41 metrics available in API, 6 missing (shot distance, wingspan)
+- **Centralized Data Fetcher**: Unified interface with schema awareness
+- **Master Pipeline**: Comprehensive orchestration with validation
+- **Data Verification**: Multi-dimensional quality analysis
+- **Imputation System**: Advanced ML-based missing data handling
 
-### ⚠️ Critical Issues Identified
-- **Data Quality Issue**: PlayerSeasonAdvancedStats shows maximum games played of 44 (should be 82 for full season)
-- **Root Cause**: Fragile per-player API calls in `populate_player_season_stats.py` are failing silently
-- **Solution in Progress**: Migration to robust bulk API endpoints with reconnaissance tools
+### 📊 Data Quality Status
+- **Available Metrics**: 41/47 (87.2%)
+- **Missing Metrics**: 6 (shot distance metrics, wingspan)
+- **Data Quality Score**: Calculated via comprehensive validation
+- **Sparsity-Aware**: Built to handle missing data gracefully
 
-### Ready for Analysis (After Data Fix)
-- 🎯 **Fix Data Integrity**: Resolve PlayerSeasonAdvancedStats corruption using new bulk API approach
-- 🎯 **Run the Analysis**: Generate player archetypes, lineup superclusters, and run the Bayesian model
-- ⏳ **Player Acquisition Analysis** (Section 3)
-
-### Data Integrity Status (Updated: September 30, 2025)
-- ✅ **Core Data**: 100% complete (Teams: 30, Games: 1,230, Possessions: 574,357)
-- ⚠️ **Player Data**: 91.4% salary coverage (468/512), 97.6% skill coverage (521/534)
-- 🔧 **Optional - Achieve 100% Data Integrity**: If you want complete player coverage, run the reconciliation tool:
-  ```bash
-  python run_reconciliation.py
-  python verify_100_percent.py
-  ```
-  See `docs/data_reconciliation_guide.md` for detailed instructions.
+### 🎯 Ready for Analysis
+- **Clean Data Pipeline**: Robust fetching with comprehensive validation
+- **Missing Data Handling**: Advanced imputation strategies available
+- **Quality Monitoring**: Multi-dimensional scoring and reporting
+- **Incremental Development**: Test individual components before full pipeline
 
 ## Project Structure
 
+### New Architecture Files
+```
+├── canonical_metrics.py              # 47 canonical archetype metrics
+├── metric_to_script_mapping.py      # Maps metrics to population scripts
+├── api_reconnaissance.py            # API forensics tool
+├── definitive_metric_mapping.py     # Authoritative metric mapping
+├── master_data_pipeline.py          # Main orchestration script
+├── data_verification_tool.py        # Data quality verification
+├── data_imputation_tool.py          # Missing data imputation
+├── NEW_ARCHITECTURE_README.md       # Complete new architecture docs
+└── reports/                         # Generated reports
+    ├── api_column_inventory_report.md
+    ├── definitive_metric_mapping_report.md
+    ├── master_pipeline_report.md
+    ├── data_verification_report.md
+    └── imputation_report.md
+```
+
+### Legacy Structure
 ```
 src/nba_stats/
-├── api/                 # NBA API integration
+├── api/                 # NBA API integration (legacy + new data_fetcher.py)
 ├── config/             # Configuration files
 ├── db/                 # Database management
 ├── models/             # Data models
-├── scripts/            # Data processing scripts
+├── scripts/            # Data processing scripts (legacy)
 └── utils/             # Utility functions
 ```
 
 ## Setup Instructions
+
+### New Architecture (Recommended)
 
 1. Clone the repository:
 ```bash
@@ -70,6 +119,32 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
+
+4. Run API reconnaissance (discovers all available data):
+```bash
+python api_reconnaissance.py
+```
+
+5. Run the master data pipeline:
+```bash
+python master_data_pipeline.py --season 2024-25
+```
+
+6. Verify data quality:
+```bash
+python data_verification_tool.py
+```
+
+7. Handle missing data (if needed):
+```bash
+python data_imputation_tool.py --strategy auto
+```
+
+### Legacy Setup (Deprecated)
+
+The legacy setup is still available but not recommended due to data quality issues:
+
+1-3. Same as above
 
 4. Initialize the database:
 ```bash
