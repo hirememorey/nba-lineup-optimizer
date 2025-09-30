@@ -2,12 +2,12 @@
 
 Welcome to the documentation for the NBA Player Acquisition Project. This is the central source of truth for understanding and working with this project.
 
-**Status**: ✅ **IMPLEMENTATION COMPLETE - READY FOR PRODUCTION**
+**Status**: ❌ **WARNING: CRITICAL API FAILURES DETECTED**
 
-The project now includes comprehensive API reliability features, data validation, and robust error handling. All systems are ready for production use.
+The project's reliability features have been fully implemented, but they have detected critical failures in the upstream NBA Stats API, which prevent the data pipeline from running. Please see the main `README.md` for more details.
 
 For a new developer, the recommended reading order is:
-1.  `README.md` (in the root directory) for a high-level overview and quick start.
+1.  `README.md` (in the root directory) for a high-level overview and current status.
 2.  `project_overview.md` for the core concepts.
 3.  `architecture.md` for the technical design.
 4.  `api_debugging_methodology.md` for essential debugging practices.

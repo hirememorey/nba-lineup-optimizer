@@ -7,9 +7,11 @@ The project has recently undergone a complete architectural redesign based on fi
 ## Current Status
 
 **Date**: September 30, 2025  
-**Status**: ✅ **PRODUCTION READY - DATA PIPELINE VALIDATED**
+**Status**: ❌ **WARNING: CRITICAL API FAILURES DETECTED**
 
-The project has successfully completed a comprehensive data pipeline implementation with semantic data verification. All systems are validated and ready for production use.
+The project's robust testing suite has detected critical failures in the upstream NBA Stats API. The data pipeline is **not operational** at this time. 
+
+While the architecture and reliability features are fully implemented, the pipeline cannot run until the API issues are resolved. Please review the latest `api_smoke_test_report.md` for details.
 
 -   **Data Pipeline Architecture**: Complete with mapping-first, sparsity-aware design
 -   **API Reliability**: Cache-first development, comprehensive testing, and retry logic
@@ -17,11 +19,13 @@ The project has successfully completed a comprehensive data pipeline implementat
 -   **Data Validation**: Pydantic models ensure data integrity at every step
 -   **Observability**: Progress bars, detailed logging, and comprehensive reporting
 -   **Resumability**: Pipeline can be interrupted and resumed without data loss
--   **Available Metrics**: 38 of 41 available metrics (92.7% success rate) successfully fetched
--   **Data Quality Score**: 90.8/100 - Excellent quality validation
--   **Player Coverage**: 569 players with complete 2024-25 season data
+-   **API Status**: ❌ **FAILING** - See `api_smoke_test_report.md`
+-   **Data Quality Score**: N/A - Pipeline cannot run
+-   **Player Coverage**: N/A - Pipeline cannot run
 
 ## Quick Start Guide
+
+**⚠️ WARNING:** The data pipeline is currently non-operational due to upstream API failures. The following steps will fail until the issues are resolved.
 
 ### 1. Setup
 
@@ -37,16 +41,16 @@ pip install -r requirements.txt
 
 ### 2. Validate System (Recommended)
 
-**✅ NEW**: Run comprehensive validation to ensure all systems are working correctly.
+**✅ NEW**: Run comprehensive validation to confirm the current system status. This is the best first step.
 
 ```bash
-# Complete validation (recommended)
+# This will run all checks and reproduce the API failures.
 python run_implementation_demo.py
 
-# Or run individual tests
-python warm_cache.py --season 2024-25
+# You can also run the API smoke test directly.
 python test_api_connection.py --season 2024-25
 ```
+**Expected Outcome**: The smoke test will fail. Review the generated `api_smoke_test_report.md` to see the specific errors.
 
 ### 3. Verify Data Quality (CRITICAL)
 
@@ -58,9 +62,10 @@ python verify_semantic_data.py --season 2024-25
 
 ### 4. Run the Data Pipeline
 
-**✅ ENHANCED**: The pipeline now includes progress bars, validation, and resumability.
+**❌ THIS WILL FAIL**: Do not run the pipeline until the API smoke tests are passing.
 
 ```bash
+# This command will fail due to the API issues.
 python master_data_pipeline.py --season 2024-25
 ```
 

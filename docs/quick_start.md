@@ -1,8 +1,8 @@
 # Quick Start Guide
 
-**Status**: ✅ **READY FOR PRODUCTION**
+**Status**: ❌ **WARNING: API FAILURES DETECTED**
 
-This guide provides step-by-step instructions for getting started with the enhanced NBA data pipeline.
+This guide provides step-by-step instructions for getting started. Please note that the data pipeline is **not operational** due to failures in the upstream NBA Stats API.
 
 ## Prerequisites
 
@@ -30,6 +30,8 @@ This guide provides step-by-step instructions for getting started with the enhan
 
 ## Quick Start (5 minutes)
 
+**⚠️ The following steps will demonstrate the API failure. Do not expect the pipeline to complete successfully.**
+
 ### Step 1: Warm the Cache
 ```bash
 python warm_cache.py --season 2024-25
@@ -51,8 +53,9 @@ python test_api_connection.py --season 2024-25
 
 **Expected output**:
 ```
-✅ Smoke test passed - Ready to proceed
+❌ Smoke test failed - DO NOT PROCEED
 ```
+Review the `api_smoke_test_report.md` for detailed error information.
 
 ### Step 3: Verify Data Quality (CRITICAL)
 ```bash
@@ -69,15 +72,10 @@ python verify_semantic_data.py --season 2024-25
 ```bash
 python master_data_pipeline.py --season 2024-25
 ```
-**What this does**: Executes the complete data pipeline with progress bars and validation.
+**What this does**: This will attempt to run the pipeline and fail due to the API errors.
 
 **Expected output**:
-```
-Pipeline completed!
-Data quality score: 87.2/100
-Results saved to: pipeline_results.json
-Report saved to: master_pipeline_report.md
-```
+The pipeline will exit with errors. Check `master_pipeline.log` for details.
 
 ## Complete Validation (10 minutes)
 
@@ -87,13 +85,7 @@ For maximum confidence, run the complete implementation demo:
 python run_implementation_demo.py
 ```
 
-This will:
-- Warm the cache
-- Test all API endpoints
-- Verify resumability
-- Demonstrate progress bars
-- Validate data integrity
-- Generate comprehensive reports
+This is the recommended first step, as it will run all pre-flight checks and confirm the API failures.
 
 ## What You'll See
 
@@ -126,6 +118,9 @@ python warm_cache.py --season 2024-25
 
 ### If API tests fail:
 ```bash
+# Check the generated report for details
+cat api_smoke_test_report.md
+
 # Check internet connection
 ping stats.nba.com
 
@@ -147,11 +142,13 @@ python verify_semantic_data.py --season 2024-25 --verbose
 # Check logs
 tail -f master_pipeline.log
 
-# Resume from where it left off
+# The pipeline is resumable, but it will continue to fail until the API issues are resolved.
 python master_data_pipeline.py --season 2024-25
 ```
 
 ## Next Steps
+
+The next steps are blocked until the API failures identified by the smoke test are resolved.
 
 Once the pipeline completes successfully:
 
@@ -176,6 +173,7 @@ Once the pipeline completes successfully:
 - Cache-first development prevents API issues
 - Comprehensive testing before pipeline runs
 - Automatic retry logic for failed requests
+- **These features are currently protecting the system by preventing execution with a faulty API.**
 
 ### ✅ **Observability**
 - Real-time progress bars
@@ -214,8 +212,8 @@ Once the pipeline completes successfully:
 If you encounter issues:
 
 1. **Check the logs**: Look for error messages in `*.log` files
-2. **Review reports**: Generated `*.md` files contain detailed information
-3. **Run validation**: Use `python run_implementation_demo.py` for complete validation
+2. **Review reports**: Generated `*.md` files contain detailed information, especially `api_smoke_test_report.md`.
+3. **Run validation**: Use `python run_implementation_demo.py` for a complete system check.
 4. **Check documentation**: See `docs/implementation_guide.md` for detailed troubleshooting
 
-The system is designed to be robust and self-diagnosing. Most issues can be resolved by following the troubleshooting steps above.
+The system is designed to be robust and self-diagnosing. The current failures are an example of the system working correctly to prevent bad data from entering the pipeline.
