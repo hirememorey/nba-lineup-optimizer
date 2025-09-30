@@ -18,12 +18,15 @@ This `docs` directory is the central source of truth for understanding and worki
 
 - **[Data Integrity Verification](./data_integrity_verification.md)**: Comprehensive report on data quality verification and validation results.
 
+- **[Data Reconciliation Guide](./data_reconciliation_guide.md)**: Complete guide for achieving 100% data integrity using the enhanced reconciliation system.
+
 ## Getting Started
 
 For a new developer, the recommended reading order is:
 1.  `project_overview.md`
 2.  `database_setup.md`
 3.  `data_integrity_verification.md`
-4.  `next_steps.md`
+4.  `data_reconciliation_guide.md` (if you want 100% data integrity)
+5.  `next_steps.md`
 
-This will provide a full conceptual understanding of the project, verification status, and a clear picture of the immediate tasks at hand.
+This will provide a full conceptual understanding of the project, verification status, reconciliation capabilities, and a clear picture of the immediate tasks at hand.

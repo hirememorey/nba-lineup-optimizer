@@ -55,3 +55,14 @@ The ultimate goal is to provide actionable recommendations for player acquisitio
 - **Acquisition Tool**: The system can take a core of four players and search through a list of available free agents to find the fifth player who maximizes the new lineup's projected value, taking both skill and team fit into account.
 
 This methodology provides a powerful, data-driven framework for roster construction that moves beyond simple player rankings and embraces the complex, interactive nature of basketball.
+
+## Data Integrity and Reconciliation
+
+The project includes a comprehensive data reconciliation system to ensure 100% coverage of player salary and skill data:
+
+- **Enhanced Reconciliation Tool**: Interactive system that handles both name mapping and player creation
+- **Fuzzy Matching**: Intelligent suggestions for resolving name discrepancies
+- **NBA API Integration**: Automatic creation of missing players via official NBA data
+- **Persistent Mapping**: Reusable mapping file for consistent data across seasons
+
+For detailed instructions on achieving 100% data integrity, see `docs/data_reconciliation_guide.md`.

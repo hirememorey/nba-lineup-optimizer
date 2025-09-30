@@ -35,10 +35,10 @@ def load_name_mapping() -> Dict[str, str]:
             with open(MAPPING_PATH, 'r', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    source = normalize_name(row.get('source_name', ''))
-                    canonical = row.get('canonical_name', '').strip()
-                    if source and canonical:
-                        mapping[source] = canonical
+                    csv_name = row.get('csv_name', '').strip()
+                    db_name = row.get('db_name', '').strip()
+                    if csv_name and db_name:
+                        mapping[normalize_name(csv_name)] = db_name
     except Exception as e:
         print(f"Warning: failed to load name mapping: {e}", file=sys.stderr)
     return mapping

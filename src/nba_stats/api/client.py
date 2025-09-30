@@ -4,7 +4,7 @@ import time
 import random
 import logging
 import requests
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from ..config.settings import (
     API_BASE_URL,
     ENDPOINTS,
@@ -225,4 +225,45 @@ class NBAStatsClient:
             "PerMode": "PerGame"
         }
         
-        return self.make_request(ENDPOINTS["shooting_splits"], params) 
+        return self.make_request(ENDPOINTS["shooting_splits"], params)
+    
+    def search_players(self, player_name: str) -> Optional[List[Dict[str, Any]]]:
+        """Search for players by name.
+        
+        Args:
+            player_name: Name to search for
+            
+        Returns:
+            Optional[List[Dict[str, Any]]]: List of matching players or None if request fails
+        """
+        # Use the commonplayerinfo endpoint to search for players
+        params = {
+            "PlayerName": player_name,
+            "LeagueID": "00"
+        }
+        
+        response = self.make_request(ENDPOINTS.get("commonplayerinfo", "/stats/commonplayerinfo"), params)
+        
+        if not response or "resultSets" not in response:
+            return None
+        
+        # Extract player data from the response
+        players = []
+        for result_set in response["resultSets"]:
+            if result_set.get("name") == "CommonPlayerInfo":
+                headers = result_set.get("headers", [])
+                rows = result_set.get("rowSet", [])
+                
+                for row in rows:
+                    player_data = dict(zip(headers, row))
+                    if player_data.get("PERSON_ID"):  # Only include players with valid IDs
+                        players.append({
+                            "id": player_data.get("PERSON_ID"),
+                            "full_name": player_data.get("DISPLAY_FIRST_LAST"),
+                            "first_name": player_data.get("FIRST_NAME"),
+                            "last_name": player_data.get("LAST_NAME"),
+                            "is_active": player_data.get("IS_ACTIVE", False)
+                        })
+                break
+        
+        return players 

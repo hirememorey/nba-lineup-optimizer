@@ -46,6 +46,11 @@ This phase involves gathering the 48 detailed metrics required for the player ar
 3.  **Run Phase 2**: Execute `python src/nba_stats/scripts/run_phase_2.py`.
 4.  **Populate Salaries and Skills**: Run your modified scripts to populate the `PlayerSalaries` and `PlayerSkills` tables for the new season.
 5.  **Populate Possessions**: Run `python src/nba_stats/scripts/populate_possessions.py`. Be aware that this may take a significant amount of time to complete.
+6.  **Achieve 100% Data Integrity (Optional)**: Run the reconciliation tool to ensure complete player coverage:
+    ```bash
+    python run_reconciliation.py
+    python verify_100_percent.py
+    ```
 
 ---
 
@@ -88,3 +93,14 @@ A developer picking up this project should be aware of several key architectural
     1.  **Isolate the Endpoint**: Do not debug your own script first. Construct the raw API call your code is making (the URL and parameters can be found in the logs) and execute it with a simple, universal tool like `curl` or a minimal test script. This provides a clean signal on the health of the external API, free from any complexities of your application.
     2.  **Use Timeouts as a Tool**: Treat timeouts as a diagnostic tool, not just a setting to be increased. When investigating a hang, temporarily set a very **short** timeout (e.g., 5 seconds). A quick `TimeoutError` is a valuable, immediate signal that the problem is network-related, which can pivot the investigation toward issues like rate limiting, IP blocking, or firewall issues much more quickly than waiting for a long timeout to expire.
     3.  **Map -> Verify -> Execute**: This workflow (Map dependencies, Verify state, Execute script) should be applied not just to database state, but to external service dependencies as well.
+
+### 5. The "Reconciliation-First" Principle for Data Integrity
+
+- **Problem**: Initial data population often results in partial coverage due to name discrepancies between data sources (CSV files vs. database). This creates a gap between "good enough" data (70-75% coverage) and "analysis-ready" data (100% coverage).
+- **Principle**: Data integrity is not a one-time achievement but an ongoing process. A robust system must provide tools to bridge the gap between partial and complete coverage without requiring manual database manipulation.
+- **Solution**: The enhanced reconciliation system (`fix_player_names.py`) implements a "reconciliation-first" approach:
+  1. **Interactive Resolution**: Provides an intuitive interface for resolving name discrepancies
+  2. **Dual Capability**: Handles both name mapping (existing players) and player creation (missing players)
+  3. **Persistent Mapping**: Creates reusable mapping files that improve future data population
+  4. **Verification Tools**: Provides clear feedback on data coverage status
+  This transforms data integrity from a manual, error-prone process into a systematic, repeatable workflow that can achieve 100% coverage for any season.
