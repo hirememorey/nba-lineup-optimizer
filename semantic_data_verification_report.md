@@ -1,5 +1,5 @@
 # Semantic Data Verification Report
-Generated on: 2025-09-30 14:46:07
+Generated on: 2025-09-30 16:05:11
 Season: 2024-25
 Duration: 0.00 seconds
 
@@ -16,7 +16,7 @@ Duration: 0.00 seconds
 
 ### Player API response structure
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.12s
+- Duration: 1043.69s
 
 ### LeBron James basic stats completeness
 - Status: ✓ PASS (CRITICAL)
@@ -44,19 +44,19 @@ Duration: 0.00 seconds
 
 ### Team stats consistency
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.00s
+- Duration: 0.01s
 
 ### Player stats consistency
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.05s
+- Duration: 0.06s
 
 ### Recent game data availability
 - Status: ✓ PASS
-- Duration: 0.04s
+- Duration: 0.05s
 
 ### Critical metric: FTPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.04s
+- Duration: 0.05s
 
 ### Critical metric: TSPCT
 - Status: ✓ PASS (CRITICAL)

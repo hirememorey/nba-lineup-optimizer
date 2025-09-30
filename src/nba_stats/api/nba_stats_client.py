@@ -217,7 +217,7 @@ class NBAStatsClient:
             "Period": 0,
             "PlusMinus": "N",
             "Rank": "N",
-            "Season": "2023-24",
+            "Season": "2024-25",
             "SeasonType": "Regular Season",
             "TeamID": 0
         }
@@ -295,7 +295,7 @@ class NBAStatsClient:
                 season = f"20{game_id[1:3]}-{str(int(game_id[1:3]) + 1).zfill(2)}"
             else:
                 # Default to current season if no game_id provided
-                season = "2023-24"  # TODO: Make this configurable
+                season = "2024-25"  # TODO: Make this configurable
             
             endpoint = "teamdashboardbygeneralsplits"
             params = {
@@ -507,9 +507,12 @@ class NBAStatsClient:
         
         return self.make_request(endpoint, params)
     
-    def get_all_teams(self) -> List[Dict[str, Any]]:
+    def get_all_teams(self, season: str = "2024-25") -> List[Dict[str, Any]]:
         """
         Fetch all NBA teams data.
+        
+        Args:
+            season: Season in YYYY-YY format (e.g., "2024-25")
         
         Returns:
             List[Dict[str, Any]]: List of team data dictionaries
@@ -521,7 +524,7 @@ class NBAStatsClient:
             "PlusMinus": "N",
             "PaceAdjust": "N",
             "Rank": "N",
-            "Season": "2023-24",
+            "Season": season,
             "SeasonType": "Regular Season",
             "LastNGames": 0,
             "Month": 0,
@@ -694,7 +697,7 @@ class NBAStatsClient:
         """Get team information."""
         params = {
             "LeagueID": "00",
-            "Season": "2023-24",
+            "Season": "2024-25",
             "SeasonType": "Regular Season",
             "MeasureType": "Base",
             "PerMode": "PerGame",

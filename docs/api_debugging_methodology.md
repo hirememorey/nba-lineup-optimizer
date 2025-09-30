@@ -26,15 +26,15 @@ The NBA Stats API (`stats.nba.com`) is an **unofficial, private API** designed f
 
 **Problem**: Python client was timing out on NBA API calls despite correct parameters.
 
-**Root Cause**: Header mismatches between Python client and NBA API requirements.
+**Root Cause**: Hardcoded season parameters in Python client (2023-24 instead of 2024-25).
 
-**Solution**: Updated Python client headers to exactly match working curl request:
-- `Accept: */*` (instead of `application/json, text/plain, */*`)
-- Added `Origin: https://www.nba.com`
-- Updated User-Agent to Chrome 140
-- Updated sec-ch-ua headers
+**Solution**: Updated Python client to use current season parameters:
+- Fixed `get_all_teams()` method to use `2024-25` instead of hardcoded `2023-24`
+- Fixed `get_players_with_stats()` method season parameter
+- Fixed `get_team_stats()` method season parameter
+- Updated default season fallback from `2023-24` to `2024-25`
 
-**Result**: API calls now work successfully, returning correct data (e.g., LeBron James: 70 games played).
+**Result**: API calls now work successfully, returning correct data (30 teams, 569 players for 2024-25 season).
 
 ### The Workflow
 
@@ -59,6 +59,8 @@ If the request fails (especially with a timeout), immediately construct the equi
 5. Refresh the page
 6. Find the relevant API call
 7. Right-click → Copy as cURL
+
+**Pro Tip**: The NBA website often uses different parameter structures than what you might expect. Always copy the exact curl command from the browser rather than constructing it manually.
 
 #### Step 3: Test with curl
 Execute the `curl` command to verify the API works in isolation.

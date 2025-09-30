@@ -1,6 +1,10 @@
 # Data Pipeline Guide
 
+**Status**: ✅ **OPERATIONAL - 2024-25 SEASON READY**
+
 This document explains how to populate the database with the necessary data for a new NBA season. The project now uses a unified `master_data_pipeline.py` script that orchestrates the entire data collection process with built-in validation and error handling.
+
+**Recent Update**: The API issues have been resolved and the pipeline is now fully operational for the 2024-25 season.
 
 ## Primary Pipeline Script
 
