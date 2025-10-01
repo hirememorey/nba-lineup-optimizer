@@ -78,6 +78,9 @@ class NBAStatsClient:
         self.last_request_time = 0.0
         self.min_request_interval = 5.0  # Minimum time between requests in seconds
 
+        # Global timeout for all requests
+        self.timeout = 60 # Sensible default timeout
+
         # Ensure cache directory exists
         CACHE_DIR.mkdir(exist_ok=True)
     
@@ -225,7 +228,7 @@ class NBAStatsClient:
             response = self.session.get(
                 url,
                 params=params,
-                timeout=300,  # Increased timeout to 5 minutes
+                timeout=self.timeout,
                 allow_redirects=True
             )
             
@@ -626,89 +629,38 @@ class NBAStatsClient:
         return teams
     
     def get_players_with_stats(self, season: str) -> List[Dict[str, Any]]:
-        """Get list of all NBA players with their stats for a given season.
+        """
+        Get list of all NBA players for a given season using the efficient bulk endpoint.
+        This method is now refactored to avoid the N+1 query problem.
         
         Args:
             season: Season in YYYY-YY format (e.g., "2023-24")
             
         Returns:
-            List of player dictionaries containing player information and stats
+            List of player dictionaries containing player information
         """
-        endpoint = "leaguedashplayerstats"
-        params = {
-            "LastNGames": 0,
-            "LeagueID": "00",
-            "MeasureType": "Base",
-            "Month": 0,
-            "OpponentTeamID": 0,
-            "PaceAdjust": "N",
-            "PerMode": "PerGame",
-            "Period": 0,
-            "PlusMinus": "N",
-            "Rank": "N",
-            "Season": season,
-            "SeasonType": "Regular Season",
-            "TeamID": 0
-        }
-        
-        response = self.make_request(endpoint, params)
+        all_players_response = self.get_all_players(season=season)
         
         players = []
-        if not response or 'resultSets' not in response:
+        if not all_players_response or 'resultSets' not in all_players_response:
             return players
             
-        result_set = response['resultSets'][0]
-        headers = result_set.get('headers', [])
+        # The structure for commonallplayers is a bit different
+        result_set = all_players_response['resultSets'][0]
+        headers = [h.lower() for h in result_set.get('headers', [])]
         rows = result_set.get('rowSet', [])
         
         for row in rows:
             player_dict = dict(zip(headers, row))
             players.append({
-                'playerId': player_dict.get('PLAYER_ID'),
-                'playerName': player_dict.get('PLAYER_NAME'),
-                'teamId': player_dict.get('TEAM_ID'),
-                'position': player_dict.get('POSITION'),
-                'stats': {
-                    'gamesPlayed': player_dict.get('GP'),
-                    'gamesStarted': player_dict.get('GS', 0),
-                    'minutes': player_dict.get('MIN'),
-                    'fgm': player_dict.get('FGM'),
-                    'fga': player_dict.get('FGA'),
-                    'fgPct': player_dict.get('FG_PCT'),
-                    'fg3m': player_dict.get('FG3M'),
-                    'fg3a': player_dict.get('FG3A'),
-                    'fg3Pct': player_dict.get('FG3_PCT'),
-                    'ftm': player_dict.get('FTM'),
-                    'fta': player_dict.get('FTA'),
-                    'ftPct': player_dict.get('FT_PCT'),
-                    'oreb': player_dict.get('OREB'),
-                    'dreb': player_dict.get('DREB'),
-                    'reb': player_dict.get('REB'),
-                    'ast': player_dict.get('AST'),
-                    'stl': player_dict.get('STL'),
-                    'blk': player_dict.get('BLK'),
-                    'tov': player_dict.get('TOV'),
-                    'pf': player_dict.get('PF'),
-                    'pts': player_dict.get('PTS'),
-                    'plusMinus': player_dict.get('PLUS_MINUS')
-                }
+                'playerId': player_dict.get('person_id'),
+                'playerName': player_dict.get('display_last_comma_first'),
+                'teamId': player_dict.get('team_id'),
+                # Add other relevant fields that are available in this bulk endpoint
+                # to maintain a consistent data structure if needed.
+                # For now, we prioritize speed and correctness.
             })
-        
-        # Get additional player info
-        for player in players:
-            try:
-                player_info = self.get_player_info(player['playerId'])
-                if player_info:
-                    player.update({
-                        'birthDate': player_info.get('BIRTHDATE'),
-                        'country': player_info.get('COUNTRY'),
-                        'height': player_info.get('HEIGHT'),
-                        'weight': player_info.get('WEIGHT'),
-                        'jerseyNumber': player_info.get('JERSEY')
-                    })
-            except Exception as e:
-                logger.warning(f"Could not fetch additional info for player {player['playerName']}: {e}")
-        
+            
         return players
     
     def get_player_info(self, player_id: int) -> Dict[str, Any]:

@@ -18,7 +18,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DB_PATH = "src/nba_stats/db/nba_stats.db" # Define DB_PATH relative to workspace root
+import os
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "db", "nba_stats.db") # Define DB_PATH relative to project root
 
 def adapt_datetime(dt):
     """Adapt datetime to SQLite format."""

@@ -1,13 +1,13 @@
 # NBA API Smoke Test Report
-Generated on: 2025-09-30 14:25:44
+Generated on: 2025-10-01 12:13:52
 Season: 2024-25
-Duration: 7.80 seconds
+Duration: 62.68 seconds
 
 ## Summary
 - Total tests: 25
-- Passed: 18
-- Failed: 7
-- Success rate: 72.0%
+- Passed: 17
+- Failed: 8
+- Success rate: 68.0%
 
 ## Critical Failures
 These failures will prevent the data pipeline from running successfully:
@@ -19,8 +19,9 @@ These failures will prevent the data pipeline from running successfully:
 
 ## Warnings
 These issues may cause problems but won't prevent the pipeline from running:
+- League shot locations: Exception - RetryError[<Future at 0x104b35a70 state=finished raised EmptyResponseError>]
 - Rapid requests success rate: Value 0.0 below minimum 80.0
-- Invalid player ID handling: Expected test to fail but it succeeded
+- Invalid player ID handling: Exception - RetryError[<Future at 0x1075b8150 state=finished raised EmptyResponseError>]
 
 ## Detailed Test Results
 ### Basic team request
@@ -30,12 +31,12 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Basic player request
 - Status: ✗ FAIL (CRITICAL)
-- Duration: 0.13s
+- Duration: 0.01s
 - Error: Invalid response format
 
 ### League player stats (Base)
 - Status: ✗ FAIL (CRITICAL)
-- Duration: 0.04s
+- Duration: 0.01s
 - Error: Invalid response format
 
 ### League player stats (Advanced)
@@ -47,8 +48,9 @@ These issues may cause problems but won't prevent the pipeline from running:
 - Duration: 0.00s
 
 ### League shot locations
-- Status: ✓ PASS
-- Duration: 0.00s
+- Status: ✗ FAIL
+- Duration: 27.88s
+- Error: Exception: RetryError[<Future at 0x104b35a70 state=finished raised EmptyResponseError>]
 
 ### League tracking stats (Drives)
 - Status: ✓ PASS
@@ -100,25 +102,25 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Fetch metric: FTPCT
 - Status: ✗ FAIL (CRITICAL)
-- Duration: 0.37s
+- Duration: 0.22s
 - Error: No data returned
 
 ### Fetch metric: TSPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.16s
+- Duration: 0.19s
 
 ### Fetch metric: THPAr
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.22s
+- Duration: 0.28s
 
 ### Fetch metric: FTr
 - Status: ✗ FAIL (CRITICAL)
-- Duration: 0.19s
+- Duration: 0.15s
 - Error: No data returned
 
 ### Fetch metric: TRBPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.24s
+- Duration: 0.32s
 
 ### Rapid requests success rate
 - Status: ✗ FAIL
@@ -127,8 +129,8 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Invalid player ID handling
 - Status: ✗ FAIL
-- Duration: 0.00s
-- Error: Expected test to fail but it succeeded
+- Duration: 27.46s
+- Error: Exception: RetryError[<Future at 0x1075b8150 state=finished raised EmptyResponseError>]
 
 ## Recommendations
 ❌ **DO NOT RUN THE DATA PIPELINE**

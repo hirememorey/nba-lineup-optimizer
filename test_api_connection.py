@@ -80,14 +80,14 @@ class APISmokeTester:
         # Test 5: Rate limiting and error handling
         self._test_rate_limiting()
         
-        # Generate final report
-        self._generate_test_report()
-        
-        # Calculate overall success
+        # Calculate overall success and duration
         success_rate = (self.results["tests_passed"] / self.results["total_tests"] * 100) if self.results["total_tests"] > 0 else 0
         self.results["success_rate"] = success_rate
         self.results["test_end_time"] = time.time()
         self.results["duration"] = self.results["test_end_time"] - self.results["test_start_time"]
+        
+        # Generate final report
+        self._generate_test_report()
         
         logger.info("=" * 60)
         logger.info(f"Smoke test completed in {self.results['duration']:.2f} seconds")
