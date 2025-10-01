@@ -21,15 +21,13 @@
     },
     {
         "step_num": 3,
-        "description": "Populate Player Wingspan",
-        "module_name": ".populate_player_wingspan",
-        "function_name": "populate_player_wingspan",
-        "table_name": "Players",
-        "check_season_data": true,
+        "description": "Populate Player Anthropometric Data",
+        "module_name": ".populate_player_anthro",
+        "function_name": "populate_player_anthro",
+        "table_name": "PlayerAnthroStats",
+        "check_season_data": false,
         "takes_season_arg": true,
-        "column_name": "wingspan",
-        "row_threshold": 100,
-        "special_check": true
+        "row_threshold": 50
     },
     {
         "step_num": 4,
@@ -180,6 +178,16 @@
         "check_season_data": true,
         "takes_season_arg": true,
         "row_threshold": 500
+    },
+    {
+        "step_num": 18.5,
+        "description": "Populate Player Shot Metrics",
+        "module_name": ".populate_player_shot_metrics",
+        "function_name": "populate_player_shot_metrics",
+        "table_name": "PlayerShotMetrics",
+        "check_season_data": true,
+        "takes_season_arg": true,
+        "row_threshold": 50
     },
     {
         "step_num": 19,

@@ -48,6 +48,16 @@ The 41+ metrics required for archetype analysis are distributed across specializ
 - **`ArchetypeLineups`**: Lineup archetype combinations
 - **`LineupSuperclusters`**: Lineup supercluster classifications
 
+#### Enhanced Data Tables (NEW)
+- **`PlayerAnthroStats`**: Anthropometric data from NBA Draft Combine
+  - Key columns: `player_id`, `wingspan_inches`, `height_wo_shoes_inches`, `height_w_shoes_inches`, `weight_pounds`, `standing_reach_inches`, `body_fat_pct`, `hand_length_inches`, `hand_width_inches`
+  - **Sparsity**: Only available for draft combine attendees (45-83 players per season)
+  - **Purpose**: Physical measurements for enhanced player analysis
+- **`PlayerShotMetrics`**: Calculated shot distribution metrics
+  - Key columns: `player_id`, `season`, `avgdist`, `zto3r`, `thto10r`, `tento16r`, `sixtto3ptr`, `total_shots`
+  - **Metrics**: 5 derivable shot metrics from shot chart data
+  - **Purpose**: Shot selection analysis for archetype classification
+
 ### Secondary Database: `nba_data.db`
 
 Contains raw player tracking data from the NBA API:

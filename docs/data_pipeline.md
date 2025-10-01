@@ -6,6 +6,8 @@ This document explains how to populate the database with the necessary data for 
 
 **Recent Update**: The API issues have been resolved and the pipeline is now fully operational for the 2024-25 season.
 
+**Latest Enhancement**: Added robust wingspan data integration and shot metrics calculation with silent failure detection and dependency management.
+
 ## Primary Pipeline Script
 
 **✅ NEW**: The project now uses a single, comprehensive pipeline script:
@@ -49,6 +51,8 @@ This phase involves gathering the 48 detailed metrics required for the player ar
 - **`populate_player_pull_up_stats.py`**: Gathers pull-up shooting statistics.
 - **`populate_player_shooting_stats.py`**: Gathers detailed shooting splits from various distances.
 - **`populate_player_passing_stats.py`**: Gathers advanced passing data.
+- **`populate_player_anthro.py`**: **NEW** - Fetches anthropometric data (wingspan, height, weight) from NBA Draft Combine.
+- **`populate_player_shot_metrics.py`**: **NEW** - Calculates 5 derivable shot metrics from shot chart data.
 - **... and many others**: The `scripts` directory contains scripts for post-ups, rebounding, hustle stats, etc.
 
 ### Other Important Scripts
@@ -100,3 +104,43 @@ The old two-phase process is still available but not recommended:
 - **Phase 2**: `python src/nba_stats/scripts/run_phase_2.py`
 
 Use the new `master_data_pipeline.py` process instead for better reliability and validation.
+
+## New Features: Wingspan Data & Shot Metrics
+
+### Wingspan Data Integration
+
+**Problem Solved**: The original pipeline was missing wingspan data, which is crucial for player archetype analysis.
+
+**Solution**: 
+- **`populate_player_anthro.py`**: Fetches anthropometric data from NBA Draft Combine API
+- **Sparsity-Aware Design**: Data is highly sparse (only available for draft combine attendees)
+- **Separate Table**: `PlayerAnthroStats` table with nullable fields for optional enhancement data
+- **Silent Failure Detection**: Post-fetch assertion layer prevents data corruption from API failures
+
+**Data Coverage**: 
+- 45-83 players per season (draft combine attendees only)
+- 100% coverage when data exists
+- Includes wingspan, height, weight, standing reach, hand measurements
+
+### Shot Metrics Calculation
+
+**Problem Solved**: Need to calculate 5 derivable shot metrics from existing shot chart data.
+
+**Solution**:
+- **`populate_player_shot_metrics.py`**: Calculates metrics from `PlayerShotChart` table
+- **5 Key Metrics**: AVGDIST, Zto3r, THto10r, TENto16r, SIXTto3PTr
+- **Dependency Management**: Requires shot chart data to be populated first
+- **Performance Optimized**: Uses efficient SQL queries for batch processing
+
+**Validation Process**:
+- **`validate_shot_metric_logic.ipynb`**: Notebook for perfecting calculation logic
+- **`wingspan_recon.ipynb`**: Notebook for data sparsity analysis
+- **Isolation Testing**: Logic validated on diverse player sample before production
+
+### Enhanced Error Handling
+
+**Silent Failure Detection**: The NBA Stats API often returns `200 OK` with empty data. Our Post-Fetch Assertion Layer detects this and converts silent failures into retryable errors.
+
+**Dependency Management**: All scripts include pre-run checks to ensure upstream data exists before processing.
+
+**Idempotent Operations**: All scripts can be run multiple times safely without data corruption.

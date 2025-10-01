@@ -16,6 +16,16 @@ from pathlib import Path
 # Add tenacity for advanced retry logic
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type, before_sleep_log
 
+
+class EmptyResponseError(Exception):
+    """Raised when API returns 200 OK but with empty data."""
+    pass
+
+
+class UpstreamDataMissingError(Exception):
+    """Raised when required upstream data is missing."""
+    pass
+
 logger = logging.getLogger(__name__)
 
 CACHE_DIR = Path(__file__).resolve().parent.parent / ".cache"
@@ -143,10 +153,43 @@ class NBAStatsClient:
         backoff = min(base_delay * (2 ** attempt), max_delay)
         return backoff + random.uniform(0, 1)
     
+    def _assert_response_has_data(self, response_data: Dict[str, Any], endpoint: str) -> None:
+        """
+        Post-fetch assertion layer to detect silent API failures.
+        
+        Args:
+            response_data: The parsed JSON response from the API
+            endpoint: The endpoint that was called (for error messages)
+            
+        Raises:
+            EmptyResponseError: If the response has no actual data despite 200 OK status
+        """
+        if not response_data:
+            raise EmptyResponseError(f"Empty response from {endpoint}")
+        
+        if 'resultSets' not in response_data:
+            raise EmptyResponseError(f"Response missing 'resultSets' from {endpoint}")
+        
+        result_sets = response_data['resultSets']
+        if not result_sets or not isinstance(result_sets, list):
+            raise EmptyResponseError(f"Empty or invalid 'resultSets' from {endpoint}")
+        
+        # Check if any result set has actual data
+        has_data = False
+        for result_set in result_sets:
+            if isinstance(result_set, dict) and 'rowSet' in result_set:
+                row_set = result_set['rowSet']
+                if row_set and isinstance(row_set, list) and len(row_set) > 0:
+                    has_data = True
+                    break
+        
+        if not has_data:
+            raise EmptyResponseError(f"All resultSets are empty from {endpoint} - this indicates a silent API failure")
+    
     @retry(
         stop=stop_after_attempt(5),
         wait=wait_exponential(multiplier=1, min=2, max=30),
-        retry=retry_if_exception_type((requests.exceptions.RequestException, requests.exceptions.Timeout)),
+        retry=retry_if_exception_type((requests.exceptions.RequestException, requests.exceptions.Timeout, EmptyResponseError)),
         before_sleep=before_sleep_log(logger, logging.WARNING)
     )
     def make_request(self, endpoint: str, params: Optional[Dict] = None) -> Optional[Dict]:
@@ -192,6 +235,10 @@ class NBAStatsClient:
             response.raise_for_status()
             
             data = response.json()
+            
+            # Post-fetch assertion layer: detect silent API failures
+            self._assert_response_has_data(data, endpoint)
+            
             self._write_to_cache(cache_path, data)
             return data
             
@@ -1437,5 +1484,23 @@ class NBAStatsClient:
         endpoint = "commonplayerinfo"
         params = {
             'PlayerID': player_id
+        }
+        return self.make_request(endpoint, params)
+    
+    def get_draft_combine_anthro(self, season_year: str) -> Optional[Dict[str, Any]]:
+        """
+        Fetches draft combine anthropometric data for a given season.
+        This includes wingspan, height, weight, and other physical measurements.
+        
+        Args:
+            season_year: The season year of the draft combine (e.g., "2020-21")
+        
+        Returns:
+            A dictionary containing the draft combine anthropometric data.
+        """
+        endpoint = "draftcombineplayeranthro"
+        params = {
+            "LeagueID": "00",
+            "SeasonYear": season_year
         }
         return self.make_request(endpoint, params) 

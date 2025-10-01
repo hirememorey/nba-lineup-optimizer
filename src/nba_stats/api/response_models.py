@@ -7,7 +7,7 @@ clear error messages when the API structure changes.
 """
 
 from typing import List, Optional, Any, Dict, Union
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, ConfigDict
 import logging
 
 logger = logging.getLogger(__name__)
@@ -344,3 +344,60 @@ class APIDataValidator:
 
 # Create a global validator instance
 api_validator = APIDataValidator()
+
+
+class DraftCombineAnthroRow(BaseModel):
+    """Model for individual player anthropometric data from draft combine."""
+    TEMP_PLAYER_ID: Optional[int] = None
+    PLAYER_ID: int
+    FIRST_NAME: str
+    LAST_NAME: str
+    PLAYER_NAME: str
+    POSITION: Optional[str] = None
+    HEIGHT_WO_SHOES: Optional[float] = None
+    HEIGHT_WO_SHOES_FT_IN: Optional[str] = None
+    HEIGHT_W_SHOES: Optional[float] = None
+    HEIGHT_W_SHOES_FT_IN: Optional[str] = None
+    WEIGHT: Optional[str] = None  # Can be ""
+    WINGSPAN: Optional[float] = None
+    WINGSPAN_FT_IN: Optional[str] = None
+    STANDING_REACH: Optional[float] = None
+    STANDING_REACH_FT_IN: Optional[str] = None
+    BODY_FAT_PCT: Optional[float] = None
+    HAND_LENGTH: Optional[float] = None
+    HAND_WIDTH: Optional[float] = None
+
+    model_config = ConfigDict(extra="ignore")
+
+
+class DraftCombineAnthroResults(NBAAPIResultSet):
+    """Model for draft combine anthropometric results."""
+    name: str = "Results"
+    headers: List[str] = [
+        "TEMP_PLAYER_ID",
+        "PLAYER_ID",
+        "FIRST_NAME",
+        "LAST_NAME",
+        "PLAYER_NAME",
+        "POSITION",
+        "HEIGHT_WO_SHOES",
+        "HEIGHT_WO_SHOES_FT_IN",
+        "HEIGHT_W_SHOES",
+        "HEIGHT_W_SHOES_FT_IN",
+        "WEIGHT",
+        "WINGSPAN",
+        "WINGSPAN_FT_IN",
+        "STANDING_REACH",
+        "STANDING_REACH_FT_IN",
+        "BODY_FAT_PCT",
+        "HAND_LENGTH",
+        "HAND_WIDTH",
+    ]
+    rowSet: List[DraftCombineAnthroRow]
+
+
+class DraftCombineAnthroResponse(NBAAPIResponse):
+    """Model for complete draft combine anthropometric API response."""
+    resource: str = "draftcombineplayeranthro"
+    parameters: Dict[str, Any]
+    resultSets: List[DraftCombineAnthroResults]

@@ -15,14 +15,40 @@ The investigation revealed that the API failures were due to outdated request he
 
 -   **Data Pipeline Architecture**: Complete with mapping-first, sparsity-aware design
 -   **API Reliability**: Cache-first development, comprehensive testing, and retry logic
--   **Semantic Data Verification**: NEW - Validates data quality before pipeline execution
+-   **Silent Failure Detection**: NEW - Post-Fetch Assertion Layer prevents data corruption
+-   **Wingspan Data Integration**: NEW - Anthropometric data from NBA Draft Combine
+-   **Shot Metrics Calculation**: NEW - 5 derivable shot metrics from shot chart data
+-   **Semantic Data Verification**: Validates data quality before pipeline execution
 -   **Data Validation**: Pydantic models ensure data integrity at every step
 -   **Observability**: Progress bars, detailed logging, and comprehensive reporting
 -   **Resumability**: Pipeline can be interrupted and resumed without data loss
 -   **API Status**: ✅ **OPERATIONAL** - See `docs/metric_investigation_summary.md`
--   **Missing Metrics Investigation**: ✅ **COMPLETE** - 6 of 7 missing metrics identified and sourced
+-   **Missing Metrics Investigation**: ✅ **COMPLETE** - All missing metrics identified and implemented
 -   **Data Quality Score**: Ready for validation
 -   **Player Coverage**: Ready for population
+
+## New Features: Wingspan Data & Shot Metrics
+
+**✅ LATEST ENHANCEMENT:** The data pipeline now includes robust wingspan data integration and shot metrics calculation with production-ready error handling.
+
+### Wingspan Data Integration
+- **Source**: NBA Draft Combine API (`draftcombineplayeranthro`)
+- **Coverage**: 45-83 players per season (draft combine attendees only)
+- **Data**: Wingspan, height, weight, standing reach, hand measurements
+- **Design**: Sparsity-aware with separate `PlayerAnthroStats` table
+
+### Shot Metrics Calculation
+- **Source**: Existing `PlayerShotChart` table
+- **Metrics**: 5 derivable shot metrics (AVGDIST, Zto3r, THto10r, TENto16r, SIXTto3PTr)
+- **Performance**: Efficient SQL queries for batch processing
+- **Validation**: Logic tested in isolation before production
+
+### Enhanced Error Handling
+- **Silent Failure Detection**: Post-Fetch Assertion Layer prevents data corruption
+- **Dependency Management**: Pre-run checks ensure upstream data exists
+- **Idempotent Operations**: Safe re-runs without data corruption
+
+For detailed implementation information, see `docs/wingspan_integration_summary.md`.
 
 ## Quick Start Guide
 

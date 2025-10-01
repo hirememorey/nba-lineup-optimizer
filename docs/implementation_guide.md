@@ -11,6 +11,8 @@ The implementation addresses the critical challenges identified in the pre-morte
 
 **Recent Update**: A comprehensive investigation into the 7 missing canonical metrics has been completed. 6 of 7 metrics have been identified and sourced, with implementation recommendations documented in `docs/metric_investigation_summary.md`.
 
+**Latest Enhancement**: Added robust wingspan data integration and shot metrics calculation with silent failure detection and dependency management. The pipeline now includes all missing metrics with production-ready error handling.
+
 ## Key Features Implemented
 
 ### 1. Cache-First Development Architecture
@@ -31,7 +33,61 @@ python warm_cache.py --season 2024-25
 python warm_cache.py --verify-only
 ```
 
-### 2. Comprehensive API Smoke Testing
+### 2. Enhanced API Client with Silent Failure Detection
+
+**Problem Solved**: The NBA Stats API often returns `200 OK` with empty data, causing silent data corruption.
+
+**Implementation**:
+- **Post-Fetch Assertion Layer**: `_assert_response_has_data()` method in `NBAStatsClient`
+- **Custom Exceptions**: `EmptyResponseError` and `UpstreamDataMissingError` for specific failure modes
+- **Enhanced Retry Logic**: Includes `EmptyResponseError` in retry decorator for automatic retries
+- **Data Validation**: Pydantic models ensure data integrity at system boundaries
+
+**Impact**: Converts silent failures into loud, manageable errors that can be retried automatically.
+
+**Usage**:
+```python
+# The enhanced client automatically detects silent failures
+client = NBAStatsClient()
+response = client.get_draft_combine_anthro("2024-25")
+# If response is empty, EmptyResponseError is raised and retried
+```
+
+### 3. Wingspan Data Integration
+
+**Problem Solved**: Missing wingspan data crucial for player archetype analysis.
+
+**Implementation**:
+- **`populate_player_anthro.py`**: Fetches anthropometric data from NBA Draft Combine API
+- **Sparsity-Aware Design**: Separate `PlayerAnthroStats` table with nullable fields
+- **Reconnaissance Process**: `wingspan_recon.ipynb` notebook quantifies data sparsity
+- **Dependency Management**: Pre-run checks ensure upstream data exists
+
+**Data Coverage**: 45-83 players per season (draft combine attendees only) with 100% coverage when data exists.
+
+**Usage**:
+```bash
+# Populate anthropometric data for a season
+python src/nba_stats/scripts/populate_player_anthro.py --season 2024-25
+```
+
+### 4. Shot Metrics Calculation
+
+**Problem Solved**: Need to calculate 5 derivable shot metrics from existing shot chart data.
+
+**Implementation**:
+- **`populate_player_shot_metrics.py`**: Calculates metrics from `PlayerShotChart` table
+- **5 Key Metrics**: AVGDIST, Zto3r, THto10r, TENto16r, SIXTto3PTr
+- **Validation Process**: `validate_shot_metric_logic.ipynb` for perfecting calculation logic
+- **Performance Optimization**: Efficient SQL queries for batch processing
+
+**Usage**:
+```bash
+# Calculate shot metrics (requires shot chart data first)
+python src/nba_stats/scripts/populate_player_shot_metrics.py --season 2024-25
+```
+
+### 5. Comprehensive API Smoke Testing
 
 **Problem Solved**: Ensures API endpoints are working before committing to long pipeline runs.
 

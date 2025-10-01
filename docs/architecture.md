@@ -40,7 +40,47 @@ A developer picking up this project should be aware of several key architectural
 
 ## Architecture Components
 
-### 1. Cache-First Development System
+### 1. Enhanced API Client with Silent Failure Detection
+
+**Status**: ✅ **IMPLEMENTED**
+
+**Problem Solved**: The NBA Stats API often returns `200 OK` with empty data, causing silent data corruption.
+
+**Solution**: 
+- **Post-Fetch Assertion Layer**: `_assert_response_has_data()` method detects empty responses
+- **Custom Exceptions**: `EmptyResponseError` and `UpstreamDataMissingError` for specific failure modes
+- **Retry Logic**: Enhanced retry decorator includes `EmptyResponseError` for automatic retries
+- **Data Validation**: Pydantic models ensure data integrity at system boundaries
+
+**Impact**: Converts silent failures into loud, manageable errors that can be retried automatically.
+
+### 2. Sparsity-Aware Data Integration
+
+**Status**: ✅ **IMPLEMENTED**
+
+**Problem Solved**: Wingspan data is highly sparse (only available for draft combine attendees), requiring special handling.
+
+**Solution**:
+- **Separate Table Design**: `PlayerAnthroStats` table with nullable fields for optional enhancement data
+- **Reconnaissance-Driven Approach**: `wingspan_recon.ipynb` notebook quantifies data sparsity before implementation
+- **Dependency Management**: Pre-run checks ensure upstream data exists before processing
+- **Idempotent Operations**: Scripts can be run multiple times safely
+
+**Data Coverage**: 45-83 players per season with 100% coverage when data exists.
+
+### 3. Isolated Validation & Testing
+
+**Status**: ✅ **IMPLEMENTED**
+
+**Problem Solved**: Complex calculation logic needs validation before production deployment.
+
+**Solution**:
+- **Validation Notebooks**: `validate_shot_metric_logic.ipynb` for perfecting calculation logic
+- **Isolation Testing**: Logic validated on diverse player sample before production
+- **Performance Optimization**: Efficient SQL queries for batch processing
+- **Documentation**: Final production functions documented with proven-correct logic
+
+### 4. Cache-First Development System
 
 **Status**: ✅ **IMPLEMENTED**
 
