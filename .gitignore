@@ -45,4 +45,4 @@ ENV/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-Thumbs.db 
+Thumbs.db src/nba_stats/.cache/
