@@ -1,6 +1,6 @@
 # Implementation Guide: API Reliability & Data Pipeline Robustness
 
-**Date**: September 30, 2025  
+**Date**: October 1, 2025  
 **Status**: ✅ **IMPLEMENTATION COMPLETE - ✅ API OPERATIONAL**
 
 ## Overview
@@ -8,6 +8,8 @@
 This guide documents the comprehensive reliability features implemented to ensure the NBA data pipeline runs successfully. The implementation is complete and correctly working, and the **upstream API issues have been resolved** - the pipeline is now fully operational for the 2024-25 season.
 
 The implementation addresses the critical challenges identified in the pre-mortem analysis and provides robust error handling, data validation, and operational observability. These systems successfully identified and resolved the API issues, enabling reliable data collection.
+
+**Recent Update**: A comprehensive investigation into the 7 missing canonical metrics has been completed. 6 of 7 metrics have been identified and sourced, with implementation recommendations documented in `docs/metric_investigation_summary.md`.
 
 ## Key Features Implemented
 

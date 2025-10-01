@@ -2,9 +2,9 @@
 
 Welcome to the documentation for the NBA Player Acquisition Project. This is the central source of truth for understanding and working with this project.
 
-**Status**: ❌ **WARNING: CRITICAL API FAILURES DETECTED**
+**Status**: ✅ **OPERATIONAL - API ISSUES RESOLVED**
 
-The project's reliability features have been fully implemented, but they have detected critical failures in the upstream NBA Stats API, which prevent the data pipeline from running. Please see the main `README.md` for more details.
+The project's reliability features have been fully implemented and the upstream NBA Stats API issues have been resolved. The data pipeline is now fully operational for the 2024-25 season. Please see the main `README.md` for more details.
 
 For a new developer, the recommended reading order is:
 1.  `README.md` (in the root directory) for a high-level overview and current status.
@@ -36,3 +36,5 @@ For a new developer, the recommended reading order is:
 -   **[Semantic Data Verification](./semantic_data_verification.md)**: **(NEW)** Critical tool for validating data quality before pipeline execution. Prevents the failure mode where data looks valid but produces garbage analysis results.
 
 -   **[Quick Start Guide](./quick_start.md)**: **(NEW)** Step-by-step instructions for getting started with the enhanced pipeline.
+
+-   **[Metric Investigation Summary](./metric_investigation_summary.md)**: **(NEW)** Complete findings from the investigation into the 7 missing canonical metrics, including sources and implementation recommendations.
