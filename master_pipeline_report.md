@@ -1,13 +1,13 @@
 # Master Data Pipeline Report
-Generated on: 2025-09-30 14:46:27
+Generated on: 2025-10-01 13:07:47
 Season: 2024-25
 
 ## Summary Statistics
 - Total canonical metrics: 47
 - Available in API: 41
 - Missing from API: 6
-- Successfully fetched: 38
-- Success rate: 92.7%
+- Successfully fetched: 40
+- Success rate: 97.6%
 
 ## Missing Metrics
 - AVGDIST: Average Shot Distance - NOT FOUND in current API reconnaissance - needs investigation
@@ -18,8 +18,10 @@ Season: 2024-25
 - WINGSPAN: Player Wingspan - NOT FOUND in current API reconnaissance - may need draft combine data
 
 ## Data Coverage by Metric
+- FTPCT: 569 players, 100.0% coverage
 - TSPCT: 568 players, 100.0% coverage
 - THPAr: 569 players, 100.0% coverage
+- FTr: 569 players, 100.0% coverage
 - TRBPCT: 569 players, 100.0% coverage
 - ASTPCT: 569 players, 100.0% coverage
 - FRNTCTTCH: 569 players, 100.0% coverage
@@ -58,8 +60,6 @@ Season: 2024-25
 - AVGFGATTEMPTEDAGAINSTPERGAME: 567 players, 100.0% coverage
 
 ## Failed Fetches
-- FTPCT
-- FTr
 - AVGDIST
 - Zto3r
 - THto10r

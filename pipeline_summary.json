@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-09-30T14:46:27.724903",
+  "timestamp": "2025-10-01T13:07:47.932085",
   "season": "2024-25",
   "total_metrics": 47,
   "available_metrics": 41,
-  "fetched_metrics": 38,
+  "fetched_metrics": 40,
   "missing_metrics": [
     "AVGDIST",
     "Zto3r",
@@ -14,8 +14,8 @@
   ],
   "validation_summary": {
     "total_metrics": 47,
-    "fetched_metrics": 38,
-    "missing_metrics": 9,
+    "fetched_metrics": 40,
+    "missing_metrics": 7,
     "empty_metrics": 0
   }
 }

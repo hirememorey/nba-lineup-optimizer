@@ -1,23 +1,18 @@
 # NBA API Smoke Test Report
-Generated on: 2025-10-01 12:53:30
+Generated on: 2025-10-01 13:17:18
 Season: 2024-25
-Duration: 28.54 seconds
+Duration: 34.99 seconds
 
 ## Summary
 - Total tests: 25
-- Passed: 21
-- Failed: 4
-- Success rate: 84.0%
-
-## Critical Failures
-These failures will prevent the data pipeline from running successfully:
-- Fetch metric: FTPCT: No data returned
-- Fetch metric: FTr: No data returned
+- Passed: 23
+- Failed: 2
+- Success rate: 92.0%
 
 ## Warnings
 These issues may cause problems but won't prevent the pipeline from running:
 - Rapid requests success rate: Value 0.0 below minimum 80.0
-- Invalid player ID handling: Exception - RetryError[<Future at 0x105115350 state=finished raised EmptyResponseError>]
+- Invalid player ID handling: Exception - RetryError[<Future at 0x10629c550 state=finished raised EmptyResponseError>]
 
 ## Detailed Test Results
 ### Basic team request
@@ -30,7 +25,7 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### League player stats (Base)
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.00s
+- Duration: 0.01s
 
 ### League player stats (Advanced)
 - Status: ✓ PASS (CRITICAL)
@@ -93,22 +88,20 @@ These issues may cause problems but won't prevent the pipeline from running:
 - Duration: 0.00s
 
 ### Fetch metric: FTPCT
-- Status: ✗ FAIL (CRITICAL)
-- Duration: 0.17s
-- Error: No data returned
+- Status: ✓ PASS (CRITICAL)
+- Duration: 0.13s
 
 ### Fetch metric: TSPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.18s
+- Duration: 0.21s
 
 ### Fetch metric: THPAr
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.14s
+- Duration: 0.16s
 
 ### Fetch metric: FTr
-- Status: ✗ FAIL (CRITICAL)
-- Duration: 0.13s
-- Error: No data returned
+- Status: ✓ PASS (CRITICAL)
+- Duration: 0.26s
 
 ### Fetch metric: TRBPCT
 - Status: ✓ PASS (CRITICAL)
@@ -121,13 +114,10 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Invalid player ID handling
 - Status: ✗ FAIL
-- Duration: 21.55s
-- Error: Exception: RetryError[<Future at 0x105115350 state=finished raised EmptyResponseError>]
+- Duration: 27.80s
+- Error: Exception: RetryError[<Future at 0x10629c550 state=finished raised EmptyResponseError>]
 
 ## Recommendations
-❌ **DO NOT RUN THE DATA PIPELINE**
-Critical failures detected. Please:
-1. Check your internet connection
-2. Verify the NBA API is accessible
-3. Check if the season parameter is correct
-4. Review the error messages above
+⚠️ **PROCEED WITH CAUTION**
+Some non-critical issues detected. The pipeline may run but with reduced functionality.
+Consider addressing warnings before running the full pipeline.

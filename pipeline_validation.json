@@ -1,9 +1,7 @@
 {
   "total_metrics": 47,
-  "fetched_metrics": 38,
+  "fetched_metrics": 40,
   "missing_metrics": [
-    "FTPCT",
-    "FTr",
     "AVGDIST",
     "Zto3r",
     "THto10r",
@@ -14,12 +12,22 @@
   ],
   "empty_metrics": [],
   "coverage_stats": {
+    "FTPCT": {
+      "player_count": 569,
+      "non_null_count": 569,
+      "coverage_pct": 100.0
+    },
     "TSPCT": {
       "player_count": 568,
       "non_null_count": 568,
       "coverage_pct": 100.0
     },
     "THPAr": {
+      "player_count": 569,
+      "non_null_count": 569,
+      "coverage_pct": 100.0
+    },
+    "FTr": {
       "player_count": 569,
       "non_null_count": 569,
       "coverage_pct": 100.0
