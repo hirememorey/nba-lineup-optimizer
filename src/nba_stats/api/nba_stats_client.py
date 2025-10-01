@@ -1370,6 +1370,59 @@ class NBAStatsClient:
         logger.info(f"Fetching league advanced player stats for season {season}")
         return self.make_request(endpoint, params) 
 
+    def get_league_player_base_stats(self, season: str, season_type: str = "Regular Season") -> Optional[Dict[str, Any]]:
+        """
+        Get league-wide base player stats for a given season.
+
+        Args:
+            season: Season in YYYY-YY format (e.g., "2023-24")
+            season_type: Type of season ("Regular Season", "Playoffs", etc.)
+
+        Returns:
+            Optional[Dict[str, Any]]: API response containing base player stats or None if request fails.
+        """
+        endpoint = "leaguedashplayerstats"
+        params = {
+            "MeasureType": "Base",
+            "PerMode": "PerGame",
+            "PlusMinus": "N",
+            "PaceAdjust": "N",
+            "Rank": "N",
+            "Season": season,
+            "SeasonType": season_type,
+            "LastNGames": 0,
+            "Month": 0,
+            "OpponentTeamID": 0,
+            "Period": 0,
+            "SeasonSegment": "",
+            "Conference": "",
+            "Division": "",
+            "GameSegment": "",
+            "DateFrom": "",
+            "DateTo": "",
+            "Location": "",
+            "Outcome": "",
+            "PORound": 0,
+            "TeamID": 0,
+            "VsConference": "",
+            "VsDivision": "",
+            "College": "",
+            "Country": "",
+            "DraftPick": "",
+            "DraftYear": "",
+            "Height": "",
+            "ISTRound": "",
+            "PlayerExperience": "",
+            "PlayerPosition": "",
+            "ShotClockRange": "",
+            "StarterBench": "",
+            "Weight": "",
+            "LeagueID": "00",
+        }
+        
+        logger.info(f"Fetching league base player stats for season {season}")
+        return self.make_request(endpoint, params) 
+
     def get_league_player_shot_locations(
         self,
         season: str,

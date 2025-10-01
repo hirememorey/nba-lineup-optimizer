@@ -129,7 +129,10 @@ class DataFetcher:
         """Fetch data from player stats endpoints."""
         try:
             if mapping.endpoint_params.get("MeasureType") == "Base":
-                response = self.client.get_players_with_stats(season=season)
+                response = self.client.get_league_player_base_stats(
+                    season=season, 
+                    season_type=mapping.endpoint_params.get("SeasonType", "Regular Season")
+                )
             else:  # Advanced
                 response = self.client.get_league_player_advanced_stats(
                     season=season, 

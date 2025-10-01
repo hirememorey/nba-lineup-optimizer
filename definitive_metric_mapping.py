@@ -51,8 +51,8 @@ DEFINITIVE_METRIC_MAPPING = {
     "FTr": {
         "canonical_name": "Free Throw Rate",
         "api_source": "leaguedashplayerstats",
-        "api_column": "FTA_PG",  # Will need to calculate as FTA/FGA
-        "endpoint_params": {"MeasureType": "Advanced", "PerMode": "PerGame", "SeasonType": "Regular Season"},
+        "api_column": "FTA",  # Will need to calculate as FTA/FGA
+        "endpoint_params": {"MeasureType": "Base", "PerMode": "PerGame", "SeasonType": "Regular Season"},
         "data_type": "calculated", 
         "required": True,
         "notes": "Calculate as FTA/FGA from base stats"

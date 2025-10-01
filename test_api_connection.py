@@ -109,7 +109,7 @@ class APISmokeTester:
             name="Basic team request",
             test_func=lambda: self.client.get_all_teams(),
             critical=True,
-            expected_keys=["resultSets"]
+            is_data_test=True
         )
         
         # Test 1.2: Simple player request
@@ -117,7 +117,7 @@ class APISmokeTester:
             name="Basic player request",
             test_func=lambda: self.client.get_players_with_stats(season=self.season),
             critical=True,
-            expected_keys=["resultSets"]
+            is_data_test=True
         )
     
     def _test_league_endpoints(self) -> None:
@@ -129,7 +129,7 @@ class APISmokeTester:
             name="League player stats (Base)",
             test_func=lambda: self.client.get_players_with_stats(season=self.season),
             critical=True,
-            expected_keys=["resultSets"]
+            is_data_test=True
         )
         
         # Test 2.2: League player stats (Advanced)
