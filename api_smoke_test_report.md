@@ -1,7 +1,7 @@
 # NBA API Smoke Test Report
-Generated on: 2025-10-01 13:17:18
+Generated on: 2025-10-01 13:36:09
 Season: 2024-25
-Duration: 34.99 seconds
+Duration: 35.71 seconds
 
 ## Summary
 - Total tests: 25
@@ -12,7 +12,7 @@ Duration: 34.99 seconds
 ## Warnings
 These issues may cause problems but won't prevent the pipeline from running:
 - Rapid requests success rate: Value 0.0 below minimum 80.0
-- Invalid player ID handling: Exception - RetryError[<Future at 0x10629c550 state=finished raised EmptyResponseError>]
+- Invalid player ID handling: Exception - RetryError[<Future at 0x1103d84d0 state=finished raised EmptyResponseError>]
 
 ## Detailed Test Results
 ### Basic team request
@@ -89,15 +89,15 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Fetch metric: FTPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.13s
+- Duration: 0.23s
 
 ### Fetch metric: TSPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.21s
+- Duration: 0.19s
 
 ### Fetch metric: THPAr
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.16s
+- Duration: 0.28s
 
 ### Fetch metric: FTr
 - Status: ✓ PASS (CRITICAL)
@@ -105,7 +105,7 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Fetch metric: TRBPCT
 - Status: ✓ PASS (CRITICAL)
-- Duration: 0.23s
+- Duration: 0.22s
 
 ### Rapid requests success rate
 - Status: ✗ FAIL
@@ -114,8 +114,8 @@ These issues may cause problems but won't prevent the pipeline from running:
 
 ### Invalid player ID handling
 - Status: ✗ FAIL
-- Duration: 27.80s
-- Error: Exception: RetryError[<Future at 0x10629c550 state=finished raised EmptyResponseError>]
+- Duration: 28.31s
+- Error: Exception: RetryError[<Future at 0x1103d84d0 state=finished raised EmptyResponseError>]
 
 ## Recommendations
 ⚠️ **PROCEED WITH CAUTION**

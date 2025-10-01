@@ -3,8 +3,11 @@
 import logging
 import sqlite3
 from datetime import datetime
-from ..api.nba_stats_client import NBAStatsClient # Adjusted import path
-from ..config import settings
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+from src.nba_stats.api.nba_stats_client import NBAStatsClient
+# from ..config import settings
 from typing import Dict
 
 # Configure logging
@@ -19,7 +22,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 import os
-DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "db", "nba_stats.db") # Define DB_PATH relative to project root
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "nba_stats", "db", "nba_stats.db") # Define DB_PATH relative to project root
 
 def adapt_datetime(dt):
     """Adapt datetime to SQLite format."""

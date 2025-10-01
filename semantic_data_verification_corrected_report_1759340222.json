@@ -1,0 +1,88 @@
+{
+  "verification_timestamp": "2025-10-01 13:37:02",
+  "season": "2024-25",
+  "summary": {
+    "total_checks": 12,
+    "checks_passed": 12,
+    "checks_failed": 0,
+    "success_rate": 100.0,
+    "critical_failures": 0,
+    "warnings": 0
+  },
+  "check_details": [
+    {
+      "name": "Data fetcher initialization",
+      "status": "PASS",
+      "duration": 9.5367431640625e-07,
+      "critical": true
+    },
+    {
+      "name": "Available metrics retrieval",
+      "status": "PASS",
+      "duration": 5.0067901611328125e-06,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: FTPCT",
+      "status": "PASS",
+      "duration": 0.11271095275878906,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: TSPCT",
+      "status": "PASS",
+      "duration": 0.2643911838531494,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: THPAr",
+      "status": "PASS",
+      "duration": 0.21273016929626465,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: FTr",
+      "status": "PASS",
+      "duration": 0.1306309700012207,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: TRBPCT",
+      "status": "PASS",
+      "duration": 0.17157769203186035,
+      "critical": true
+    },
+    {
+      "name": "FTPCT data completeness",
+      "status": "PASS",
+      "duration": 0.27388715744018555,
+      "critical": true
+    },
+    {
+      "name": "TSPCT data completeness",
+      "status": "PASS",
+      "duration": 0.20052099227905273,
+      "critical": true
+    },
+    {
+      "name": "THPAr data completeness",
+      "status": "PASS",
+      "duration": 0.3016982078552246,
+      "critical": true
+    },
+    {
+      "name": "FTPCT value consistency",
+      "status": "PASS",
+      "duration": 0.30997586250305176,
+      "critical": true
+    },
+    {
+      "name": "TSPCT value consistency",
+      "status": "PASS",
+      "duration": 0.19296574592590332,
+      "critical": true
+    }
+  ],
+  "critical_failures": [],
+  "warnings": []
+}

@@ -1,0 +1,365 @@
+{
+  "validation_timestamp": "2025-10-01T13:39:48.259120",
+  "cohort_players": {
+    "2544": "LeBron James (Superstar)",
+    "1630173": "Victor Wembanyama (Rookie)",
+    "201935": "James Harden (Traded Mid-Season)",
+    "201142": "Luka Don\u010di\u0107 (International)",
+    "201980": "Danny Green (Journeyman Role-Player)"
+  },
+  "checks_performed": [
+    {
+      "check_name": "Player Existence",
+      "status": "PASS",
+      "details": {
+        "2544": {
+          "status": "EXISTS",
+          "name": "LeBron James",
+          "expected": "LeBron James (Superstar)"
+        },
+        "1630173": {
+          "status": "EXISTS",
+          "name": "Precious Achiuwa",
+          "expected": "Victor Wembanyama (Rookie)"
+        },
+        "201935": {
+          "status": "EXISTS",
+          "name": "James Harden",
+          "expected": "James Harden (Traded Mid-Season)"
+        },
+        "201142": {
+          "status": "EXISTS",
+          "name": "Kevin Durant",
+          "expected": "Luka Don\u010di\u0107 (International)"
+        },
+        "201980": {
+          "status": "EXISTS",
+          "name": "Danny Green",
+          "expected": "Danny Green (Journeyman Role-Player)"
+        }
+      }
+    },
+    {
+      "check_name": "Season Consistency",
+      "status": "PASS",
+      "details": {
+        "2544": {
+          "status": "CONSISTENT",
+          "seasons": [
+            "2024-25"
+          ],
+          "table_breakdown": {
+            "PlayerSeasonRawStats": [],
+            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonDriveStats": [],
+            "PlayerSeasonPostUpStats": [],
+            "PlayerSeasonCatchAndShootStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonPassingStats": [],
+            "PlayerSeasonHustleStats": [],
+            "PlayerSeasonReboundingStats": [],
+            "PlayerSeasonShootingRangeStats": [],
+            "PlayerSeasonShootingZoneStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonTrackingTouchesStats": [],
+            "PlayerSeasonElbowTouchStats": [],
+            "PlayerSeasonPaintTouchStats": [],
+            "PlayerSeasonOpponentShootingStats": []
+          }
+        },
+        "1630173": {
+          "status": "CONSISTENT",
+          "seasons": [
+            "2024-25"
+          ],
+          "table_breakdown": {
+            "PlayerSeasonRawStats": [],
+            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonDriveStats": [],
+            "PlayerSeasonPostUpStats": [],
+            "PlayerSeasonCatchAndShootStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonPassingStats": [],
+            "PlayerSeasonHustleStats": [],
+            "PlayerSeasonReboundingStats": [],
+            "PlayerSeasonShootingRangeStats": [],
+            "PlayerSeasonShootingZoneStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonTrackingTouchesStats": [],
+            "PlayerSeasonElbowTouchStats": [],
+            "PlayerSeasonPaintTouchStats": [],
+            "PlayerSeasonOpponentShootingStats": []
+          }
+        },
+        "201935": {
+          "status": "CONSISTENT",
+          "seasons": [
+            "2024-25"
+          ],
+          "table_breakdown": {
+            "PlayerSeasonRawStats": [],
+            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonDriveStats": [],
+            "PlayerSeasonPostUpStats": [],
+            "PlayerSeasonCatchAndShootStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonPassingStats": [],
+            "PlayerSeasonHustleStats": [],
+            "PlayerSeasonReboundingStats": [],
+            "PlayerSeasonShootingRangeStats": [],
+            "PlayerSeasonShootingZoneStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonTrackingTouchesStats": [],
+            "PlayerSeasonElbowTouchStats": [],
+            "PlayerSeasonPaintTouchStats": [],
+            "PlayerSeasonOpponentShootingStats": []
+          }
+        },
+        "201142": {
+          "status": "CONSISTENT",
+          "seasons": [
+            "2024-25"
+          ],
+          "table_breakdown": {
+            "PlayerSeasonRawStats": [],
+            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonDriveStats": [],
+            "PlayerSeasonPostUpStats": [],
+            "PlayerSeasonCatchAndShootStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonPassingStats": [],
+            "PlayerSeasonHustleStats": [],
+            "PlayerSeasonReboundingStats": [],
+            "PlayerSeasonShootingRangeStats": [],
+            "PlayerSeasonShootingZoneStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonTrackingTouchesStats": [],
+            "PlayerSeasonElbowTouchStats": [],
+            "PlayerSeasonPaintTouchStats": [],
+            "PlayerSeasonOpponentShootingStats": []
+          }
+        },
+        "201980": {
+          "status": "CONSISTENT",
+          "seasons": [],
+          "table_breakdown": {
+            "PlayerSeasonRawStats": [],
+            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonDriveStats": [],
+            "PlayerSeasonPostUpStats": [],
+            "PlayerSeasonCatchAndShootStats": [],
+            "PlayerSeasonPassingStats": [],
+            "PlayerSeasonHustleStats": [],
+            "PlayerSeasonReboundingStats": [],
+            "PlayerSeasonShootingRangeStats": [],
+            "PlayerSeasonShootingZoneStats": [],
+            "PlayerSeasonTrackingTouchesStats": [],
+            "PlayerSeasonElbowTouchStats": [],
+            "PlayerSeasonPaintTouchStats": [],
+            "PlayerSeasonOpponentShootingStats": []
+          }
+        }
+      }
+    },
+    {
+      "check_name": "Data Completeness",
+      "status": "FAIL",
+      "details": {
+        "2544": {
+          "status": "INADEQUATE",
+          "coverage_percentage": 14.285714285714285,
+          "table_breakdown": {
+            "PlayerSeasonRawStats": false,
+            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonDriveStats": false,
+            "PlayerSeasonPostUpStats": false,
+            "PlayerSeasonCatchAndShootStats": true,
+            "PlayerSeasonPassingStats": false,
+            "PlayerSeasonHustleStats": false,
+            "PlayerSeasonReboundingStats": false,
+            "PlayerSeasonShootingRangeStats": false,
+            "PlayerSeasonShootingZoneStats": true,
+            "PlayerSeasonTrackingTouchesStats": false,
+            "PlayerSeasonElbowTouchStats": false,
+            "PlayerSeasonPaintTouchStats": false,
+            "PlayerSeasonOpponentShootingStats": false
+          }
+        },
+        "1630173": {
+          "status": "INADEQUATE",
+          "coverage_percentage": 14.285714285714285,
+          "table_breakdown": {
+            "PlayerSeasonRawStats": false,
+            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonDriveStats": false,
+            "PlayerSeasonPostUpStats": false,
+            "PlayerSeasonCatchAndShootStats": true,
+            "PlayerSeasonPassingStats": false,
+            "PlayerSeasonHustleStats": false,
+            "PlayerSeasonReboundingStats": false,
+            "PlayerSeasonShootingRangeStats": false,
+            "PlayerSeasonShootingZoneStats": true,
+            "PlayerSeasonTrackingTouchesStats": false,
+            "PlayerSeasonElbowTouchStats": false,
+            "PlayerSeasonPaintTouchStats": false,
+            "PlayerSeasonOpponentShootingStats": false
+          }
+        },
+        "201935": {
+          "status": "INADEQUATE",
+          "coverage_percentage": 14.285714285714285,
+          "table_breakdown": {
+            "PlayerSeasonRawStats": false,
+            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonDriveStats": false,
+            "PlayerSeasonPostUpStats": false,
+            "PlayerSeasonCatchAndShootStats": true,
+            "PlayerSeasonPassingStats": false,
+            "PlayerSeasonHustleStats": false,
+            "PlayerSeasonReboundingStats": false,
+            "PlayerSeasonShootingRangeStats": false,
+            "PlayerSeasonShootingZoneStats": true,
+            "PlayerSeasonTrackingTouchesStats": false,
+            "PlayerSeasonElbowTouchStats": false,
+            "PlayerSeasonPaintTouchStats": false,
+            "PlayerSeasonOpponentShootingStats": false
+          }
+        },
+        "201142": {
+          "status": "INADEQUATE",
+          "coverage_percentage": 14.285714285714285,
+          "table_breakdown": {
+            "PlayerSeasonRawStats": false,
+            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonDriveStats": false,
+            "PlayerSeasonPostUpStats": false,
+            "PlayerSeasonCatchAndShootStats": true,
+            "PlayerSeasonPassingStats": false,
+            "PlayerSeasonHustleStats": false,
+            "PlayerSeasonReboundingStats": false,
+            "PlayerSeasonShootingRangeStats": false,
+            "PlayerSeasonShootingZoneStats": true,
+            "PlayerSeasonTrackingTouchesStats": false,
+            "PlayerSeasonElbowTouchStats": false,
+            "PlayerSeasonPaintTouchStats": false,
+            "PlayerSeasonOpponentShootingStats": false
+          }
+        },
+        "201980": {
+          "status": "INADEQUATE",
+          "coverage_percentage": 0.0,
+          "table_breakdown": {
+            "PlayerSeasonRawStats": false,
+            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonDriveStats": false,
+            "PlayerSeasonPostUpStats": false,
+            "PlayerSeasonCatchAndShootStats": false,
+            "PlayerSeasonPassingStats": false,
+            "PlayerSeasonHustleStats": false,
+            "PlayerSeasonReboundingStats": false,
+            "PlayerSeasonShootingRangeStats": false,
+            "PlayerSeasonShootingZoneStats": false,
+            "PlayerSeasonTrackingTouchesStats": false,
+            "PlayerSeasonElbowTouchStats": false,
+            "PlayerSeasonPaintTouchStats": false,
+            "PlayerSeasonOpponentShootingStats": false
+          }
+        }
+      }
+    },
+    {
+      "check_name": "Value Reasonableness",
+      "status": "FAIL",
+      "details": {
+        "2544": {
+          "status": "UNREASONABLE",
+          "issues": [
+            "Could not access PlayerSeasonRawStats table"
+          ]
+        },
+        "1630173": {
+          "status": "UNREASONABLE",
+          "issues": [
+            "Could not access PlayerSeasonRawStats table"
+          ]
+        },
+        "201935": {
+          "status": "UNREASONABLE",
+          "issues": [
+            "Could not access PlayerSeasonRawStats table"
+          ]
+        },
+        "201142": {
+          "status": "UNREASONABLE",
+          "issues": [
+            "Could not access PlayerSeasonRawStats table"
+          ]
+        },
+        "201980": {
+          "status": "UNREASONABLE",
+          "issues": [
+            "Could not access PlayerSeasonRawStats table"
+          ]
+        }
+      }
+    },
+    {
+      "check_name": "Cross-Table Consistency",
+      "status": "PASS",
+      "details": {
+        "2544": {
+          "status": "CONSISTENT",
+          "issues": []
+        },
+        "1630173": {
+          "status": "CONSISTENT",
+          "issues": []
+        },
+        "201935": {
+          "status": "CONSISTENT",
+          "issues": []
+        },
+        "201142": {
+          "status": "CONSISTENT",
+          "issues": []
+        },
+        "201980": {
+          "status": "CONSISTENT",
+          "issues": []
+        }
+      }
+    }
+  ],
+  "overall_status": "CRITICAL_FAILURE",
+  "critical_failures": [
+    "Player LeBron James (Superstar) has inadequate data coverage: 14.3%",
+    "Player Victor Wembanyama (Rookie) has inadequate data coverage: 14.3%",
+    "Player James Harden (Traded Mid-Season) has inadequate data coverage: 14.3%",
+    "Player Luka Don\u010di\u0107 (International) has inadequate data coverage: 14.3%",
+    "Player Danny Green (Journeyman Role-Player) has inadequate data coverage: 0.0%"
+  ],
+  "warnings": [
+    "Player LeBron James (Superstar) has unreasonable values: ['Could not access PlayerSeasonRawStats table']",
+    "Player Victor Wembanyama (Rookie) has unreasonable values: ['Could not access PlayerSeasonRawStats table']",
+    "Player James Harden (Traded Mid-Season) has unreasonable values: ['Could not access PlayerSeasonRawStats table']",
+    "Player Luka Don\u010di\u0107 (International) has unreasonable values: ['Could not access PlayerSeasonRawStats table']",
+    "Player Danny Green (Journeyman Role-Player) has unreasonable values: ['Could not access PlayerSeasonRawStats table']"
+  ],
+  "summary": {
+    "total_checks": 5,
+    "passed_checks": 3,
+    "failed_checks": 2,
+    "critical_failures": 5,
+    "warnings": 5,
+    "cohort_size": 5,
+    "tables_checked": 14
+  }
+}

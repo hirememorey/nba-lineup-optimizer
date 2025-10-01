@@ -40,3 +40,7 @@ For a new developer, the recommended reading order is:
 -   **[Quick Start Guide](./quick_start.md)**: **(NEW)** Step-by-step instructions for getting started with the enhanced pipeline.
 
 -   **[Metric Investigation Summary](./metric_investigation_summary.md)**: **(NEW)** Complete findings from the investigation into the 7 missing canonical metrics, including sources and implementation recommendations.
+
+-   **[Golden Cohort Validation](../GOLDEN_COHORT_VALIDATION.md)**: **(NEW)** Deep data integrity validation tool for identifying subtle data corruption issues.
+
+-   **[Implementation Status](../IMPLEMENTATION_STATUS.md)**: **(NEW)** Current implementation status and next steps for completing the data pipeline.

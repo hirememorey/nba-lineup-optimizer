@@ -13,10 +13,10 @@ from pathlib import Path
 # Set up basic logging
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-from .common_utils import get_db_connection, logger # Assuming logger and get_db_connection are in common_utils
-from ..db.init_db import init_database
-from ..config import settings
-from ..scripts.migrate_db import run_migrations
+from common_utils import get_db_connection, logger # Assuming logger and get_db_connection are in common_utils
+# from ..db.init_db import init_database
+# from ..config import settings
+# from ..scripts.migrate_db import run_migrations
 
 def load_population_config() -> List[Dict]:
     """Loads the population config from the JSON file and resolves the module functions."""

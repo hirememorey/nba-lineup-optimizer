@@ -2,7 +2,7 @@
 Script to populate the Teams table with all active NBA teams.
 """
 import sqlite3
-from .common_utils import get_db_connection, get_nba_stats_client, logger
+from common_utils import get_db_connection, get_nba_stats_client, logger
 
 def populate_teams_data():
     """

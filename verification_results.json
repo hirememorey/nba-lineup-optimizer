@@ -1,0 +1,3604 @@
+{
+  "completeness": {
+    "total_metrics": 47,
+    "available_metrics": 41,
+    "fetched_metrics": 40,
+    "missing_metrics": [
+      "AVGDIST",
+      "Zto3r",
+      "THto10r",
+      "TENto16r",
+      "SIXTto3PTr",
+      "HEIGHT",
+      "WINGSPAN"
+    ],
+    "empty_metrics": [],
+    "completeness_score": 97.5609756097561
+  },
+  "quality": {
+    "metric_quality": {
+      "FTPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 242,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.7202407732864675,
+        "std_value": 0.2004255244968153
+      },
+      "TSPCT": {
+        "total_players": 568,
+        "non_null_count": 568,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 251,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 0.935,
+        "mean_value": 0.5443080985915494,
+        "std_value": 0.11074492900072899
+      },
+      "THPAr": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 172,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 21.8,
+        "mean_value": 7.07908611599297,
+        "std_value": 4.880249272953434
+      },
+      "FTr": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 72,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 10.6,
+        "mean_value": 1.7181019332161687,
+        "std_value": 1.6470650113347554
+      },
+      "TRBPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 151,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 0.221,
+        "mean_value": 0.08944288224956064,
+        "std_value": 0.04016020720043956
+      },
+      "ASTPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 231,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 0.556,
+        "mean_value": 0.14551318101933217,
+        "std_value": 0.08417200438645693
+      },
+      "FRNTCTTCH": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 276,
+        "data_type": "float64",
+        "min_value": 0.3,
+        "max_value": 56.2,
+        "mean_value": 17.13567662565905,
+        "std_value": 10.147754015407388
+      },
+      "TOP": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 66,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 8.6,
+        "mean_value": 1.6509666080843586,
+        "std_value": 1.5619946892016903
+      },
+      "AVGSECPERTCH": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 287,
+        "data_type": "float64",
+        "min_value": 1.0,
+        "max_value": 7.92,
+        "mean_value": 2.705413005272408,
+        "std_value": 1.1438013653083603
+      },
+      "AVGDRIBPERTCH": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 322,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 8.0,
+        "mean_value": 1.965360281195079,
+        "std_value": 1.3575870210107424
+      },
+      "ELBWTCH": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 51,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 10.1,
+        "mean_value": 0.8356766256590509,
+        "std_value": 1.1320287196027736
+      },
+      "POSTUPS": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 41,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 8.8,
+        "mean_value": 0.3265377855887522,
+        "std_value": 0.8317312669476404
+      },
+      "PNTTOUCH": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 81,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 13.0,
+        "mean_value": 1.8507908611599295,
+        "std_value": 2.0671398489525576
+      },
+      "DRIVES": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 129,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 20.6,
+        "mean_value": 3.7079086115992967,
+        "std_value": 3.853088758067863
+      },
+      "DRFGA": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 76,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 10.2,
+        "mean_value": 1.6796133567662566,
+        "std_value": 1.8026113271370208
+      },
+      "DRPTSPCT": {
+        "total_players": 551,
+        "non_null_count": 551,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 313,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.5028402903811251,
+        "std_value": 0.22018013264165628
+      },
+      "DRPASSPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 295,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.36352548330404216,
+        "std_value": 0.16994402496288202
+      },
+      "DRASTPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 152,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.08519156414762741,
+        "std_value": 0.07195041964059408
+      },
+      "DRTOVPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 124,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.06612653778558876,
+        "std_value": 0.06584717273491784
+      },
+      "DRPFPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 143,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 0.5,
+        "mean_value": 0.06737785588752197,
+        "std_value": 0.062113250737871335
+      },
+      "DRIMFGPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 212,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.4426203866432337,
+        "std_value": 0.18979878153185548
+      },
+      "CSFGA": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 66,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 8.0,
+        "mean_value": 2.2720562390158174,
+        "std_value": 1.5717609742616359
+      },
+      "CS3PA": {
+        "total_players": 569,
+        "non_null_count": 541,
+        "null_count": 28,
+        "completeness_pct": 95.07908611599298,
+        "unique_values": 63,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 7.8,
+        "mean_value": 2.2377079482439926,
+        "std_value": 1.4889660580265847
+      },
+      "PASSESMADE": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 330,
+        "data_type": "float64",
+        "min_value": 0.7,
+        "max_value": 76.6,
+        "mean_value": 23.036028119507908,
+        "std_value": 14.213406896477766
+      },
+      "SECAST": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 15,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.4,
+        "mean_value": 0.275219683655536,
+        "std_value": 0.2638441359260725
+      },
+      "POTAST": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 121,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 20.7,
+        "mean_value": 3.7181019332161696,
+        "std_value": 3.2325271232067614
+      },
+      "PUFGA": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 87,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 11.9,
+        "mean_value": 1.7321616871704746,
+        "std_value": 2.290296985910427
+      },
+      "PU3PA": {
+        "total_players": 569,
+        "non_null_count": 541,
+        "null_count": 28,
+        "completeness_pct": 95.07908611599298,
+        "unique_values": 54,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 7.6,
+        "mean_value": 0.8656192236598892,
+        "std_value": 1.270856023520625
+      },
+      "PSTUPFGA": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 22,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 3.4,
+        "mean_value": 0.15026362038664323,
+        "std_value": 0.3802854294431078
+      },
+      "PSTUPPTSPCT": {
+        "total_players": 537,
+        "non_null_count": 537,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 126,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.22486405959031658,
+        "std_value": 0.3177277097303663
+      },
+      "PSTUPPASSPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 121,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.19324428822495607,
+        "std_value": 0.2728707809669669
+      },
+      "PSTUPASTPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 84,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.03969420035149385,
+        "std_value": 0.11013113814695777
+      },
+      "PSTUPTOVPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 82,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.04249560632688928,
+        "std_value": 0.12615353823628925
+      },
+      "PNTTCHS": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 81,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 13.0,
+        "mean_value": 1.8507908611599295,
+        "std_value": 2.0671398489525576
+      },
+      "PNTFGA": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 57,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 9.0,
+        "mean_value": 1.0478031634446399,
+        "std_value": 1.2931834790480943
+      },
+      "PNTPTSPCT": {
+        "total_players": 480,
+        "non_null_count": 480,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 270,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.6411916666666666,
+        "std_value": 0.2798595993306442
+      },
+      "PNTPASSPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 276,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.3220140597539543,
+        "std_value": 0.18987671077552679
+      },
+      "PNTASTPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 136,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "mean_value": 0.06442179261862918,
+        "std_value": 0.09227678405947146
+      },
+      "PNTTVPCT": {
+        "total_players": 569,
+        "non_null_count": 569,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 116,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 0.6,
+        "mean_value": 0.04804745166959578,
+        "std_value": 0.04912035590356782
+      },
+      "AVGFGATTEMPTEDAGAINSTPERGAME": {
+        "total_players": 567,
+        "non_null_count": 567,
+        "null_count": 0,
+        "completeness_pct": 100.0,
+        "unique_values": 361,
+        "data_type": "float64",
+        "min_value": 0.0,
+        "max_value": 13.63,
+        "mean_value": 3.459858906525574,
+        "std_value": 2.1005192815449862
+      }
+    },
+    "overall_quality_score": 99.75395430579965,
+    "data_types": {},
+    "value_ranges": {}
+  },
+  "consistency": {
+    "consistency_checks": {},
+    "anomalies": [],
+    "consistency_score": 100.0
+  },
+  "sparsity": {
+    "sparsity_by_metric": {
+      "FTPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "TSPCT": {
+        "total_players": 568,
+        "non_null_players": 568,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "THPAr": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "FTr": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "TRBPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "ASTPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "FRNTCTTCH": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "TOP": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "AVGSECPERTCH": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "AVGDRIBPERTCH": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "ELBWTCH": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "POSTUPS": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTTOUCH": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRIVES": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRFGA": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRPTSPCT": {
+        "total_players": 551,
+        "non_null_players": 551,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRPASSPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRASTPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRTOVPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRPFPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "DRIMFGPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "CSFGA": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "CS3PA": {
+        "total_players": 569,
+        "non_null_players": 541,
+        "sparsity_pct": 4.920913884007028,
+        "sparsity_level": "low"
+      },
+      "PASSESMADE": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "SECAST": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "POTAST": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PUFGA": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PU3PA": {
+        "total_players": 569,
+        "non_null_players": 541,
+        "sparsity_pct": 4.920913884007028,
+        "sparsity_level": "low"
+      },
+      "PSTUPFGA": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PSTUPPTSPCT": {
+        "total_players": 537,
+        "non_null_players": 537,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PSTUPPASSPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PSTUPASTPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PSTUPTOVPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTTCHS": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTFGA": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTPTSPCT": {
+        "total_players": 480,
+        "non_null_players": 480,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTPASSPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTASTPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "PNTTVPCT": {
+        "total_players": 569,
+        "non_null_players": 569,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      },
+      "AVGFGATTEMPTEDAGAINSTPERGAME": {
+        "total_players": 567,
+        "non_null_players": 567,
+        "sparsity_pct": 0.0,
+        "sparsity_level": "low"
+      }
+    },
+    "player_coverage": {
+      "1629048": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642348": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630762": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630215": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "200782": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631213": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629731": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628973": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629661": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "204001": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626196": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631247": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628408": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203897": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641724": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629234": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641713": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203484": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628389": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642262": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628464": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202681": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203939": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631199": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642345": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630170": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201939": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629028": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642352": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641824": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641879": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630581": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628369": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642385": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630545": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641774": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "202687": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "203952": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631116": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202699": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642268": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642355": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628998": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630217": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201949": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628401": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630703": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629634": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629631": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1641787": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631095": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201959": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631104": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627742": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629006": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201142": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641726": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "1631117": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630174": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631301": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641763": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631106": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642264": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630227": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627736": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631165": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630241": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630537": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203954": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642402": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630172": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629651": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627739": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642354": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630604": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630528": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641772": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630202": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641722": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641871": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628975": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642439": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203076": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "201572": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641790": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1627824": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629003": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629656": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642265": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630541": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629645": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629023": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630568": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629659": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630556": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630194": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642258": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630192": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641710": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631108": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628971": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630552": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201587": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629014": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628378": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203482": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628365": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631311": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642280": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642347": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641854": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630678": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "1629650": {
+        "metrics_available": 36,
+        "total_metrics": 40,
+        "coverage_pct": 90.0
+      },
+      "1631245": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630570": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631128": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631114": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641878": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630544": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629052": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626172": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203914": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642384": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628989": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630346": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629675": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630550": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628988": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628449": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631200": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628436": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641734": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631109": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629611": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203995": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642261": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630311": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629312": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203507": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630198": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626143": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1631110": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626168": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628960": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642274": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631209": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642281": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642259": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641796": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642530": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630591": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641757": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628379": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629001": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630283": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1628981": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1629021": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641755": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631101": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631102": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641744": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641717": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627780": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631132": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641716": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642419": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203967": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642273": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641798": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631207": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630702": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631248": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642377": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630542": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641815": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627751": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629726": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628976": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631133": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630193": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630548": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630163": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630529": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "204456": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628964": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641794": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626192": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629599": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630222": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630577": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629643": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202685": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629636": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641732": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "204060": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626179": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641729": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629029": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630595": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628398": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641816": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627832": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630658": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641801": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642272": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627746": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630164": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630600": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642270": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628418": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1642271": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642358": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628384": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630695": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631303": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631342": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642434": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203994": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630590": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642269": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202331": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630611": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627936": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630631": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642399": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630572": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630243": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203486": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630559": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203083": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629011": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1642368": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "1628970": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630534": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631123": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629723": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203110": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203944": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203924": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627759": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642266": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203957": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626220": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626156": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628427": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631218": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629614": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631216": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203471": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642389": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630567": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203468": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629610": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641727": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631232": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629655": {
+        "metrics_available": 36,
+        "total_metrics": 40,
+        "coverage_pct": 90.0
+      },
+      "1628381": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642443": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629750": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631120": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626171": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641752": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "203081": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201599": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1631230": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629216": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628963": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629638": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631121": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631124": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630561": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641733": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629026": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630245": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641739": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203109": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631212": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629622": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642349": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630296": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629640": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201567": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631111": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641809": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631093": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626167": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631157": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630558": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631127": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641709": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642353": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631466": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203114": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641748": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629027": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629637": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630288": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641789": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630532": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630201": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631094": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629013": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642403": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630322": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641803": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641721": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627752": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629684": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203497": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "1630531": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641842": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628969": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626204": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642484": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631119": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641810": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1627814": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630175": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "202710": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628983": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631260": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642024": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "203915": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630249": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203991": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629660": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642366": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628370": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626145": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631306": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631223": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642367": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629628": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641731": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641705": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631169": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641775": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642050": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628420": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630188": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642450": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641745": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628371": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630191": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202691": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628368": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641890": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630696": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630578": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627763": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631288": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630538": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630553": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630214": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628396": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641783": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627826": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630231": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "201569": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642346": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203084": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642277": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628991": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630171": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630208": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630551": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201566": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628380": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630167": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641998": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "201942": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631210": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631170": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631131": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630178": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630585": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642276": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628978": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630230": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631323": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629646": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "203501": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631221": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627732": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630543": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630527": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202704": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631103": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641707": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629680": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631166": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629018": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629639": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631098": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627777": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630200": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630540": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202693": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630618": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630579": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1628374": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642278": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631214": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "1641723": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642502": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642505": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629056": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631099": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629057": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641736": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641857": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201950": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626164": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630228": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628386": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1641730": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642279": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1627783": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631172": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630264": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630530": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "203992": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202684": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630592": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641737": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203078": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630168": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630539": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1641718": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641720": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630166": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631255": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630256": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641715": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1641989": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629012": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629008": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629618": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628997": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630583": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "101108": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630314": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631217": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629022": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630573": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630224": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "201144": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631204": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642422": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203932": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630533": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641766": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1631097": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629674": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626157": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629669": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201143": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629626": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626181": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631250": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630165": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642285": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628392": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642461": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630625": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630692": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630643": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1629162": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630169": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641711": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202695": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642449": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1642359": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629004": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630598": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630183": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627741": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203458": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641706": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "202709": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202692": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201145": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "200768": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641753": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1627884": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629098": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630557": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1630162": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630699": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "202066": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631096": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642263": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203552": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631107": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641817": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630574": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "1642275": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641712": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628366": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628415": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627734": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201988": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630173": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631243": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641725": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641738": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641708": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "201935": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641779": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629111": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630639": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629020": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631197": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631105": {
+        "metrics_available": 37,
+        "total_metrics": 40,
+        "coverage_pct": 92.5
+      },
+      "1641764": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627750": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631115": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630560": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630649": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629630": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630811": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630549": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "202696": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626166": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628995": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631159": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629629": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630700": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203500": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203901": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203903": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203937": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629060": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1641741": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1628404": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629652": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631246": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1642267": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203926": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629667": {
+        "metrics_available": 38,
+        "total_metrics": 40,
+        "coverage_pct": 95.0
+      },
+      "203935": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641765": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628467": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1627747": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641936": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1631222": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629673": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641767": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627749": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629130": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "203999": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1628470": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1627827": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630182": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626158": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "2544": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1626153": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630205": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1626162": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631321": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630526": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1641740": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630644": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1630623": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1642382": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1630596": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1629627": {
+        "metrics_available": 39,
+        "total_metrics": 40,
+        "coverage_pct": 97.5
+      },
+      "1631386": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      },
+      "1629632": {
+        "metrics_available": 40,
+        "total_metrics": 40,
+        "coverage_pct": 100.0
+      }
+    },
+    "sparsity_recommendations": [],
+    "sparsity_score": 99.75395430579965
+  },
+  "timestamp": "2025-10-01T13:37:19.191431"
+}
