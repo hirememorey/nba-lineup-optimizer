@@ -1,0 +1,15 @@
+NBA Player Archetype Analysis - Phase 1 Results
+Generated: 2025-10-02 14:02:55
+============================================================
+
+Dataset: 178 players
+Optimal K: 6
+Best Silhouette Score: 0.124
+
+Cluster Distribution:
+  Cluster 0: 18 players
+  Cluster 1: 37 players
+  Cluster 2: 57 players
+  Cluster 3: 11 players
+  Cluster 4: 34 players
+  Cluster 5: 21 players

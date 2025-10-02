@@ -45,4 +45,6 @@ For a new developer, the recommended reading order is:
 
 -   **[Implementation Status](../IMPLEMENTATION_STATUS.md)**: **(NEW)** Current implementation status and next steps for completing the data pipeline.
 
+-   **[Analysis Phase Status](../ANALYSIS_PHASE_STATUS.md)**: **(NEW)** Complete status of the player archetype analysis phase with results and next steps.
+
 -   **[Core Analysis Status](../CORE_ANALYSIS_STATUS.md)**: **(NEW)** Current status of the core analysis phase including data population results and next steps for player archetype generation.
