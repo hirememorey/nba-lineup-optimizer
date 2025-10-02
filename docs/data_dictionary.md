@@ -84,39 +84,6 @@ Contains lineup-specific data:
 - `PlayerSeasonHustleStats`
 - `PlayerSeasonRawStats`
 
-## Critical Data Quality Issues
-
-### ⚠️ Schema Drift Warning
-
-The `schema.sql` file in the project root is **dangerously outdated** and does not reflect the actual database structure. Do not rely on it for development.
-
-### ⚠️ Critical Data Persistence Bug
-
-As of October 2, 2025, a comprehensive sanity check has revealed that the `PlayerSeasonRawStats` and `PlayerSeasonAdvancedStats` tables are not being populated correctly. The data pipeline is failing to write the actual statistical columns to these tables, rendering them unusable. This bug must be fixed before any analysis can proceed. See `CURRENT_STATUS.md` for more details.
-
-### ⚠️ Missing 2024-25 Season Data
-
-As of September 30, 2025, the advanced statistics tables appear to be empty for the 2024-25 season. This indicates that the data pipeline has not been successfully run for this season.
-
-## Data Pipeline Status
-
-### Required Next Steps
-
-1. **Run the Master Data Pipeline**:
-   ```bash
-   python master_data_pipeline.py --season 2024-25
-   ```
-
-2. **Verify Data Population**:
-   ```bash
-   python data_verification_tool.py
-   ```
-
-3. **Handle Missing Data** (if needed):
-   ```bash
-   python data_imputation_tool.py --strategy auto
-   ```
-
 ## Data Access Patterns
 
 ### Querying Advanced Metrics
