@@ -40,7 +40,9 @@ The 41+ metrics required for archetype analysis are distributed across specializ
 
 #### Analysis Tables
 - **`PlayerSeasonRawStats`**: Traditional box score statistics (legacy table)
+  - **⚠️ WARNING (Oct 2, 2025):** This table is currently being populated **incorrectly**. The pipeline is creating the rows for players but is silently failing to write any of the actual statistical columns (e.g., FGM, FGA, PTS). The table is semantically empty and unusable for analysis until this bug is fixed.
 - **`PlayerSeasonAdvancedStats`**: Advanced metrics
+  - **⚠️ WARNING (Oct 2, 2025):** This table is currently being populated **incorrectly**. Similar to the raw stats table, it contains player rows but is missing all advanced statistical columns.
 - **`PlayerSalaries`**: Player salary information
 - **`PlayerSkills`**: Player skill ratings (DARKO)
 - **`Possessions`**: Play-by-play possession data
@@ -85,6 +87,10 @@ Contains lineup-specific data:
 ### ⚠️ Schema Drift Warning
 
 The `schema.sql` file in the project root is **dangerously outdated** and does not reflect the actual database structure. Do not rely on it for development.
+
+### ⚠️ Critical Data Persistence Bug
+
+As of October 2, 2025, a comprehensive sanity check has revealed that the `PlayerSeasonRawStats` and `PlayerSeasonAdvancedStats` tables are not being populated correctly. The data pipeline is failing to write the actual statistical columns to these tables, rendering them unusable. This bug must be fixed before any analysis can proceed. See `CURRENT_STATUS.md` for more details.
 
 ### ⚠️ Missing 2024-25 Season Data
 
