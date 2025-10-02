@@ -44,3 +44,5 @@ For a new developer, the recommended reading order is:
 -   **[Golden Cohort Validation](../GOLDEN_COHORT_VALIDATION.md)**: **(NEW)** Deep data integrity validation tool for identifying subtle data corruption issues.
 
 -   **[Implementation Status](../IMPLEMENTATION_STATUS.md)**: **(NEW)** Current implementation status and next steps for completing the data pipeline.
+
+-   **[Core Analysis Status](../CORE_ANALYSIS_STATUS.md)**: **(NEW)** Current status of the core analysis phase including data population results and next steps for player archetype generation.

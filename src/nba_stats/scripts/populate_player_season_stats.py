@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 # Local imports (after path fix)
-from nba_stats.scripts.common_utils import get_db_connection, get_nba_stats_client, logger, settings
+from nba_stats.scripts.common_utils import get_db_connection, get_nba_stats_client, logger
 
 def _insert_stats(conn: sqlite3.Connection, player_id: int, season: str, team_id: int, stats: Dict):
     """Inserts both raw and advanced stats for a player for a given season."""
@@ -73,7 +73,7 @@ def _fetch_player_stats_task(player_info: Tuple[int, str], season: str) -> Dict:
     logger.info(f"Fetching stats for {player_name} (ID: {player_id}), Season: {season}")
     
     try:
-        time.sleep(random.uniform(settings.MIN_SLEEP, settings.MAX_SLEEP))
+        time.sleep(random.uniform(0.5, 1.5))
         
         # Consolidate API calls
         player_info = client.get_player_info(player_id)
@@ -144,10 +144,21 @@ def populate_player_season_stats(season_to_load: str, player_ids: list[int] | No
         if player_ids:
             # Create a string of placeholders for the query
             placeholders = ','.join('?' for _ in player_ids)
-            query = f"SELECT player_id, player_name FROM Players WHERE player_id IN ({placeholders})"
-            cursor.execute(query, player_ids)
+            query = f"""
+                SELECT DISTINCT p.player_id, p.player_name 
+                FROM Players p
+                INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
+                WHERE ps.season = ? AND ps.games_played > 0 AND p.player_id IN ({placeholders})
+            """
+            cursor.execute(query, [season_to_load] + player_ids)
         else:
-            cursor.execute("SELECT player_id, player_name FROM Players")
+            query = """
+                SELECT DISTINCT p.player_id, p.player_name 
+                FROM Players p
+                INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
+                WHERE ps.season = ? AND ps.games_played > 0
+            """
+            cursor.execute(query, [season_to_load])
         
         players_to_process = cursor.fetchall()
 
@@ -157,7 +168,7 @@ def populate_player_season_stats(season_to_load: str, player_ids: list[int] | No
 
         logger.info(f"Processing {len(players_to_process)} players for season {season_to_load}.")
         
-        with ThreadPoolExecutor(max_workers=settings.MAX_WORKERS) as executor:
+        with ThreadPoolExecutor(max_workers=5) as executor:
             future_to_player = {executor.submit(_fetch_player_stats_task, player, season_to_load): player for player in players_to_process}
             
             processed_count = 0
@@ -182,7 +193,7 @@ def populate_player_season_stats(season_to_load: str, player_ids: list[int] | No
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Populate player season stats for a specific NBA season.")
-    parser.add_argument("--season", type=str, default=settings.SEASON_ID, help="The season to populate stats for, e.g., '2024-25'.")
+    parser.add_argument("--season", type=str, default="2024-25", help="The season to populate stats for, e.g., '2024-25'.")
     parser.add_argument("--players", type=int, nargs='*', help="Optional list of player IDs to process.")
     args = parser.parse_args()
     

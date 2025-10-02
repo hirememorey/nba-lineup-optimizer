@@ -1,0 +1,14 @@
+{
+  "season": "2024-25",
+  "total_players": 569,
+  "total_metrics": 6,
+  "metrics": [
+    "player_name",
+    "WINGSPAN",
+    "CSFGA",
+    "CS3PA",
+    "AVGDIST",
+    "SIXTto3PTr"
+  ],
+  "creation_date": "2025-10-01T15:04:20.035567"
+}
