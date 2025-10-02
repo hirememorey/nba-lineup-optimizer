@@ -1,5 +1,5 @@
 {
-  "validation_timestamp": "2025-10-01T13:39:48.259120",
+  "validation_timestamp": "2025-10-02T09:58:02.504418",
   "cohort_players": {
     "2544": "LeBron James (Superstar)",
     "1630173": "Victor Wembanyama (Rookie)",
@@ -49,8 +49,12 @@
             "2024-25"
           ],
           "table_breakdown": {
-            "PlayerSeasonRawStats": [],
-            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonRawStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonAdvancedStats": [
+              "2024-25"
+            ],
             "PlayerSeasonDriveStats": [],
             "PlayerSeasonPostUpStats": [],
             "PlayerSeasonCatchAndShootStats": [
@@ -75,8 +79,12 @@
             "2024-25"
           ],
           "table_breakdown": {
-            "PlayerSeasonRawStats": [],
-            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonRawStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonAdvancedStats": [
+              "2024-25"
+            ],
             "PlayerSeasonDriveStats": [],
             "PlayerSeasonPostUpStats": [],
             "PlayerSeasonCatchAndShootStats": [
@@ -101,8 +109,12 @@
             "2024-25"
           ],
           "table_breakdown": {
-            "PlayerSeasonRawStats": [],
-            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonRawStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonAdvancedStats": [
+              "2024-25"
+            ],
             "PlayerSeasonDriveStats": [],
             "PlayerSeasonPostUpStats": [],
             "PlayerSeasonCatchAndShootStats": [
@@ -127,8 +139,12 @@
             "2024-25"
           ],
           "table_breakdown": {
-            "PlayerSeasonRawStats": [],
-            "PlayerSeasonAdvancedStats": [],
+            "PlayerSeasonRawStats": [
+              "2024-25"
+            ],
+            "PlayerSeasonAdvancedStats": [
+              "2024-25"
+            ],
             "PlayerSeasonDriveStats": [],
             "PlayerSeasonPostUpStats": [],
             "PlayerSeasonCatchAndShootStats": [
@@ -175,10 +191,10 @@
       "details": {
         "2544": {
           "status": "INADEQUATE",
-          "coverage_percentage": 14.285714285714285,
+          "coverage_percentage": 28.57142857142857,
           "table_breakdown": {
-            "PlayerSeasonRawStats": false,
-            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonRawStats": true,
+            "PlayerSeasonAdvancedStats": true,
             "PlayerSeasonDriveStats": false,
             "PlayerSeasonPostUpStats": false,
             "PlayerSeasonCatchAndShootStats": true,
@@ -195,10 +211,10 @@
         },
         "1630173": {
           "status": "INADEQUATE",
-          "coverage_percentage": 14.285714285714285,
+          "coverage_percentage": 28.57142857142857,
           "table_breakdown": {
-            "PlayerSeasonRawStats": false,
-            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonRawStats": true,
+            "PlayerSeasonAdvancedStats": true,
             "PlayerSeasonDriveStats": false,
             "PlayerSeasonPostUpStats": false,
             "PlayerSeasonCatchAndShootStats": true,
@@ -215,10 +231,10 @@
         },
         "201935": {
           "status": "INADEQUATE",
-          "coverage_percentage": 14.285714285714285,
+          "coverage_percentage": 28.57142857142857,
           "table_breakdown": {
-            "PlayerSeasonRawStats": false,
-            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonRawStats": true,
+            "PlayerSeasonAdvancedStats": true,
             "PlayerSeasonDriveStats": false,
             "PlayerSeasonPostUpStats": false,
             "PlayerSeasonCatchAndShootStats": true,
@@ -235,10 +251,10 @@
         },
         "201142": {
           "status": "INADEQUATE",
-          "coverage_percentage": 14.285714285714285,
+          "coverage_percentage": 28.57142857142857,
           "table_breakdown": {
-            "PlayerSeasonRawStats": false,
-            "PlayerSeasonAdvancedStats": false,
+            "PlayerSeasonRawStats": true,
+            "PlayerSeasonAdvancedStats": true,
             "PlayerSeasonDriveStats": false,
             "PlayerSeasonPostUpStats": false,
             "PlayerSeasonCatchAndShootStats": true,
@@ -340,10 +356,10 @@
   ],
   "overall_status": "CRITICAL_FAILURE",
   "critical_failures": [
-    "Player LeBron James (Superstar) has inadequate data coverage: 14.3%",
-    "Player Victor Wembanyama (Rookie) has inadequate data coverage: 14.3%",
-    "Player James Harden (Traded Mid-Season) has inadequate data coverage: 14.3%",
-    "Player Luka Don\u010di\u0107 (International) has inadequate data coverage: 14.3%",
+    "Player LeBron James (Superstar) has inadequate data coverage: 28.6%",
+    "Player Victor Wembanyama (Rookie) has inadequate data coverage: 28.6%",
+    "Player James Harden (Traded Mid-Season) has inadequate data coverage: 28.6%",
+    "Player Luka Don\u010di\u0107 (International) has inadequate data coverage: 28.6%",
     "Player Danny Green (Journeyman Role-Player) has inadequate data coverage: 0.0%"
   ],
   "warnings": [

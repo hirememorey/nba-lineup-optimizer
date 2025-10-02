@@ -39,10 +39,12 @@ The 41+ metrics required for archetype analysis are distributed across specializ
 - **`PlayerSeasonOpponentShootingStats`**: Defensive shooting statistics
 
 #### Analysis Tables
-- **`PlayerSeasonRawStats`**: Traditional box score statistics (legacy table)
-  - **⚠️ WARNING (Oct 2, 2025):** This table is currently being populated **incorrectly**. The pipeline is creating the rows for players but is silently failing to write any of the actual statistical columns (e.g., FGM, FGA, PTS). The table is semantically empty and unusable for analysis until this bug is fixed.
+- **`PlayerSeasonRawStats`**: Traditional box score statistics
+  - **✅ STATUS (Oct 2, 2025):** Fully populated with 710 players and complete statistical data
+  - **Key columns**: `player_id`, `season`, `team_id`, `points`, `field_goals_made`, `field_goals_attempted`, `assists`, `total_rebounds`, `steals`, `blocks`, `turnovers`, `minutes_played`
 - **`PlayerSeasonAdvancedStats`**: Advanced metrics
-  - **⚠️ WARNING (Oct 2, 2025):** This table is currently being populated **incorrectly**. Similar to the raw stats table, it contains player rows but is missing all advanced statistical columns.
+  - **✅ STATUS (Oct 2, 2025):** Fully populated with 540 players and complete advanced statistical data
+  - **Key columns**: `player_id`, `season`, `team_id`, `offensive_rating`, `defensive_rating`, `net_rating`, `usage_percentage`, `true_shooting_percentage`, `effective_field_goal_percentage`
 - **`PlayerSalaries`**: Player salary information
 - **`PlayerSkills`**: Player skill ratings (DARKO)
 - **`Possessions`**: Play-by-play possession data

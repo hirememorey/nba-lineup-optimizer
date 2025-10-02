@@ -1,0 +1,44 @@
+2025-10-02 09:59:37,161 - INFO - Starting database sanity check for: src/nba_stats/db/nba_stats.db
+2025-10-02 09:59:37,165 - INFO - ✓ Check PASSED: Check for PlayerSeasonRawStats table
+2025-10-02 09:59:37,166 - INFO - ✓ Check PASSED: Check for PlayerSeasonAdvancedStats table
+2025-10-02 09:59:37,166 - INFO - ✓ Check PASSED: Check for data in PlayerSeasonRawStats
+2025-10-02 09:59:37,166 - ERROR - ✗ Check FAILED: Check for logical shooting stats (FGM <= FGA) | Reason: no such column: fgm
+2025-10-02 09:59:37,166 - ERROR - ✗ Check FAILED: Check for logical three-point stats (FG3M <= FG3A) | Reason: no such column: fg3m
+2025-10-02 09:59:37,166 - ERROR - ✗ Check FAILED: Check for logical free throw stats (FTM <= FTA) | Reason: no such column: ftm
+2025-10-02 09:59:37,166 - ERROR - ✗ Check FAILED: Check for negative stats | Reason: no such column: minutes
+2025-10-02 09:59:37,169 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSeasonRawStats
+2025-10-02 09:59:37,170 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSalaries
+2025-10-02 09:59:37,170 - INFO - Database sanity check complete. Report generated at: database_sanity_report.md
+2025-10-02 10:28:45,627 - INFO - Starting database sanity check for: src/nba_stats/db/nba_stats.db
+2025-10-02 10:28:45,630 - INFO - ✓ Check PASSED: Check for PlayerSeasonRawStats table
+2025-10-02 10:28:45,630 - INFO - ✓ Check PASSED: Check for PlayerSeasonAdvancedStats table
+2025-10-02 10:28:45,631 - INFO - ✓ Check PASSED: Check for data in PlayerSeasonRawStats
+2025-10-02 10:28:45,634 - INFO - ✓ Check PASSED: Check for logical shooting stats (FGM <= FGA)
+2025-10-02 10:28:45,634 - INFO - ✓ Check PASSED: Check for logical three-point stats (FG3M <= FG3A)
+2025-10-02 10:28:45,634 - INFO - ✓ Check PASSED: Check for logical free throw stats (FTM <= FTA)
+2025-10-02 10:28:45,634 - INFO - ✓ Check PASSED: Check for negative stats
+2025-10-02 10:28:45,636 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSeasonRawStats
+2025-10-02 10:28:45,637 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSalaries
+2025-10-02 10:28:45,638 - INFO - Database sanity check complete. Report generated at: database_sanity_report.md
+2025-10-02 10:41:33,442 - INFO - Starting database sanity check for: src/nba_stats/db/nba_stats.db
+2025-10-02 10:41:33,446 - INFO - ✓ Check PASSED: Check for PlayerSeasonRawStats table
+2025-10-02 10:41:33,446 - INFO - ✓ Check PASSED: Check for PlayerSeasonAdvancedStats table
+2025-10-02 10:41:33,446 - INFO - ✓ Check PASSED: Check for data in PlayerSeasonRawStats
+2025-10-02 10:41:33,450 - INFO - ✓ Check PASSED: Check for logical shooting stats (FGM <= FGA)
+2025-10-02 10:41:33,450 - INFO - ✓ Check PASSED: Check for logical three-point stats (FG3M <= FG3A)
+2025-10-02 10:41:33,450 - INFO - ✓ Check PASSED: Check for logical free throw stats (FTM <= FTA)
+2025-10-02 10:41:33,450 - INFO - ✓ Check PASSED: Check for negative stats
+2025-10-02 10:41:33,452 - ERROR - ✗ Check FAILED: Check for orphan players in PlayerSeasonRawStats | Reason: Test condition not met
+2025-10-02 10:41:33,453 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSalaries
+2025-10-02 10:41:33,454 - INFO - Database sanity check complete. Report generated at: database_sanity_report.md
+2025-10-02 10:45:11,355 - INFO - Starting database sanity check for: src/nba_stats/db/nba_stats.db
+2025-10-02 10:45:11,358 - INFO - ✓ Check PASSED: Check for PlayerSeasonRawStats table
+2025-10-02 10:45:11,358 - INFO - ✓ Check PASSED: Check for PlayerSeasonAdvancedStats table
+2025-10-02 10:45:11,358 - INFO - ✓ Check PASSED: Check for data in PlayerSeasonRawStats
+2025-10-02 10:45:11,360 - INFO - ✓ Check PASSED: Check for logical shooting stats (FGM <= FGA)
+2025-10-02 10:45:11,360 - INFO - ✓ Check PASSED: Check for logical three-point stats (FG3M <= FG3A)
+2025-10-02 10:45:11,360 - INFO - ✓ Check PASSED: Check for logical free throw stats (FTM <= FTA)
+2025-10-02 10:45:11,360 - INFO - ✓ Check PASSED: Check for negative stats
+2025-10-02 10:45:11,362 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSeasonRawStats
+2025-10-02 10:45:11,363 - INFO - ✓ Check PASSED: Check for orphan players in PlayerSalaries
+2025-10-02 10:45:11,363 - INFO - Database sanity check complete. Report generated at: database_sanity_report.md

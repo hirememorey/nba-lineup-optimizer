@@ -1,0 +1,88 @@
+{
+  "verification_timestamp": "2025-10-02 09:58:18",
+  "season": "2024-25",
+  "summary": {
+    "total_checks": 12,
+    "checks_passed": 12,
+    "checks_failed": 0,
+    "success_rate": 100.0,
+    "critical_failures": 0,
+    "warnings": 0
+  },
+  "check_details": [
+    {
+      "name": "Data fetcher initialization",
+      "status": "PASS",
+      "duration": 0.0,
+      "critical": true
+    },
+    {
+      "name": "Available metrics retrieval",
+      "status": "PASS",
+      "duration": 4.76837158203125e-06,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: FTPCT",
+      "status": "PASS",
+      "duration": 0.1842050552368164,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: TSPCT",
+      "status": "PASS",
+      "duration": 4.520581007003784,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: THPAr",
+      "status": "PASS",
+      "duration": 0.12952280044555664,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: FTr",
+      "status": "PASS",
+      "duration": 0.22830796241760254,
+      "critical": true
+    },
+    {
+      "name": "Critical metric: TRBPCT",
+      "status": "PASS",
+      "duration": 0.28957390785217285,
+      "critical": true
+    },
+    {
+      "name": "FTPCT data completeness",
+      "status": "PASS",
+      "duration": 0.16198086738586426,
+      "critical": true
+    },
+    {
+      "name": "TSPCT data completeness",
+      "status": "PASS",
+      "duration": 0.14727282524108887,
+      "critical": true
+    },
+    {
+      "name": "THPAr data completeness",
+      "status": "PASS",
+      "duration": 0.12791705131530762,
+      "critical": true
+    },
+    {
+      "name": "FTPCT value consistency",
+      "status": "PASS",
+      "duration": 0.1232919692993164,
+      "critical": true
+    },
+    {
+      "name": "TSPCT value consistency",
+      "status": "PASS",
+      "duration": 0.20037078857421875,
+      "critical": true
+    }
+  ],
+  "critical_failures": [],
+  "warnings": []
+}

@@ -76,29 +76,29 @@ class DatabaseSanityVerifier:
             self._run_check(
                 conn,
                 name="Check for logical shooting stats (FGM <= FGA)",
-                query="SELECT player_id, season, fgm, fga FROM PlayerSeasonRawStats WHERE fgm > fga;",
+                query="SELECT player_id, season, field_goals_made, field_goals_attempted FROM PlayerSeasonRawStats WHERE field_goals_made > field_goals_attempted;",
                 test_func=lambda result: len(result) == 0,
                 description="Checks for any records where field goals made are greater than field goals attempted."
             )
             self._run_check(
                 conn,
                 name="Check for logical three-point stats (FG3M <= FG3A)",
-                query="SELECT player_id, season, fg3m, fg3a FROM PlayerSeasonRawStats WHERE fg3m > fg3a;",
+                query="SELECT player_id, season, three_pointers_made, three_pointers_attempted FROM PlayerSeasonRawStats WHERE three_pointers_made > three_pointers_attempted;",
                 test_func=lambda result: len(result) == 0,
                 description="Checks for any records where three-pointers made are greater than three-pointers attempted."
             )
             self._run_check(
                 conn,
                 name="Check for logical free throw stats (FTM <= FTA)",
-                query="SELECT player_id, season, ftm, fta FROM PlayerSeasonRawStats WHERE ftm > fta;",
+                query="SELECT player_id, season, free_throws_made, free_throws_attempted FROM PlayerSeasonRawStats WHERE free_throws_made > free_throws_attempted;",
                 test_func=lambda result: len(result) == 0,
                 description="Checks for any records where free throws made are greater than free throws attempted."
             )
             self._run_check(
                 conn,
                 name="Check for negative stats",
-                query="SELECT player_id, season, MIN(games_played, minutes, pts, oreb, dreb, ast, stl, blk, tov, pf)"
-                      "FROM PlayerSeasonRawStats WHERE games_played < 0 OR minutes < 0 OR pts < 0 OR oreb < 0 OR dreb < 0 OR ast < 0 OR stl < 0 OR blk < 0 OR tov < 0 OR pf < 0;",
+                query="SELECT player_id, season, MIN(games_played, minutes_played, points, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls)"
+                      "FROM PlayerSeasonRawStats WHERE games_played < 0 OR minutes_played < 0 OR points < 0 OR offensive_rebounds < 0 OR defensive_rebounds < 0 OR assists < 0 OR steals < 0 OR blocks < 0 OR turnovers < 0 OR personal_fouls < 0;",
                 test_func=lambda result: len(result) == 0,
                 description="Checks for any negative values in core statistical columns."
             )
