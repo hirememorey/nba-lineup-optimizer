@@ -1,18 +1,18 @@
-# Data Quality Issues Report - RESOLVED
+# Data Quality Issues Report - PARTIALLY RESOLVED
 
 **Date**: October 3, 2025  
-**Status**: ✅ **ISSUES RESOLVED**  
-**Impact**: Archetype clustering system is now fully operational with high-quality data
+**Status**: ⚠️ **PARTIALLY RESOLVED - CRITICAL GAPS REMAIN**  
+**Impact**: Archetype clustering system operational but with incomplete feature data
 
 ## Executive Summary
 
-All critical data quality issues have been successfully resolved through comprehensive data pipeline fixes and table reconstruction. The player archetype clustering system now operates with complete, validated data and produces reliable, meaningful results.
+While significant progress has been made on data quality issues, critical gaps remain in advanced tracking statistics. The player archetype clustering system operates with improved data quality but still lacks essential features for comprehensive analysis.
 
-## Issues Resolved
+## Issues Status
 
 ### 1. Missing Essential Features - RESOLVED ✅
 
-**Solution**: All critical features are now fully populated through comprehensive data pipeline fixes.
+**Solution**: Shot distance and range features are now fully populated through comprehensive data pipeline fixes.
 
 | Feature | Description | Coverage (Before) | Coverage (After) | Status |
 |---------|-------------|-------------------|------------------|---------|
@@ -22,17 +22,17 @@ All critical data quality issues have been successfully resolved through compreh
 | `TENto16r` | 10-16 foot range | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** |
 | `SIXTto3PTr` | 16+ foot to 3PT range | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** |
 
-### 2. Sparse Advanced Features - RESOLVED ✅
+### 2. Sparse Advanced Features - PARTIALLY RESOLVED ⚠️
 
-**Solution**: All tracking and advanced features are now properly populated.
+**Current Status**: Mixed results on tracking and advanced features. Some categories are populated, others remain at zero.
 
 | Feature Category | Coverage (Before) | Coverage (After) | Status | Examples |
 |------------------|-------------------|------------------|---------|----------|
-| Drive Statistics | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** | `DRIVES`, `DRFGA`, `DRPTSPCT` |
-| Catch & Shoot | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** | `CSFGA`, `CS3PA` |
-| Pull-up Shooting | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** | `PUFGA`, `PU3PA` |
-| Post-up Play | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** | `PSTUPFGA`, `PSTUPPTSPCT` |
-| Paint Touches | 0/270 (0%) | 303/303 (100%) | ✅ **RESOLVED** | `PNTTOUCH`, `PNTFGA` |
+| Drive Statistics | 0/270 (0%) | 0/303 (0%) | ❌ **STILL MISSING** | `DRIVES`, `DRFGA`, `DRPTSPCT` |
+| Catch & Shoot | 0/270 (0%) | 301/303 (99%) | ✅ **RESOLVED** | `CSFGA`, `CS3PA` |
+| Pull-up Shooting | 0/270 (0%) | 0/303 (0%) | ❌ **STILL MISSING** | `PUFGA`, `PU3PA` |
+| Post-up Play | 0/270 (0%) | 0/303 (0%) | ❌ **STILL MISSING** | `PSTUPFGA`, `PSTUPPTSPCT` |
+| Paint Touches | 0/270 (0%) | 0/303 (0%) | ❌ **STILL MISSING** | `PNTTOUCH`, `PNTFGA` |
 
 ### 3. Incomplete Physical Data - RESOLVED ✅
 
@@ -164,25 +164,60 @@ With most features missing or zero, the K-means algorithm is essentially cluster
 2. **Production Readiness**: Cannot be deployed with current data quality
 3. **Research Validity**: Results cannot be trusted for decision-making
 
+## Current Data Reality (October 3, 2025)
+
+### Critical Finding: Advanced Tracking Stats Still Missing
+
+A first-principles sanity check revealed that despite documentation claiming resolution, several critical advanced tracking statistics remain completely unpopulated:
+
+```sql
+-- Current state of PlayerArchetypeFeatures (2024-25)
+SELECT 
+    COUNT(CASE WHEN AVGDIST > 0 THEN 1 END) as avgdist_populated,      -- 303/303 ✅
+    COUNT(CASE WHEN DRIVES > 0 THEN 1 END) as drives_populated,        -- 0/303 ❌
+    COUNT(CASE WHEN POSTUPS > 0 THEN 1 END) as postups_populated,      -- 0/303 ❌
+    COUNT(CASE WHEN CSFGA > 0 THEN 1 END) as catch_and_shoot_populated -- 301/303 ✅
+FROM PlayerArchetypeFeatures WHERE season = '2024-25';
+```
+
+### Impact Assessment
+
+**What Works:**
+- Shot distance metrics (`AVGDIST`, `Zto3r`, etc.) are fully populated
+- Basic shooting statistics are available
+- Physical measurements (height, wingspan) are complete
+
+**What's Broken:**
+- Drive statistics (`DRIVES`, `DRFGA`, `DRPTSPCT`) - 0% coverage
+- Post-up play (`POSTUPS`, `PSTUPFGA`, `PSTUPPTSPCT`) - 0% coverage  
+- Pull-up shooting (`PUFGA`, `PU3PA`) - 0% coverage
+- Paint touches (`PNTTOUCH`, `PNTFGA`) - 0% coverage
+
+**Business Impact:**
+- Player archetype clustering is based on incomplete data
+- Drive-heavy players (like guards) may be misclassified
+- Post-up specialists (bigs) may be incorrectly categorized
+- Lineup fit analysis will be less accurate
+
 ## Recommended Solutions
 
-### Short-term (Immediate)
+### Immediate (Critical Priority)
 
-1. **Manual Archetype Assignment**: Create a manual override system for known players
-2. **Simplified Clustering**: Use only the features that are actually populated
-3. **Data Validation**: Add comprehensive data quality checks
+1. **Investigate Data Pipeline**: Debug why tracking stats aren't reaching `PlayerArchetypeFeatures`
+2. **Verify Source Data**: Check if tracking data exists in intermediate tables
+3. **Update Documentation**: Correct all status reports to reflect actual data state
 
-### Medium-term (1-2 weeks)
+### Short-term (1-2 weeks)
 
-1. **Fix Data Pipeline**: Investigate and fix the advanced feature extraction
-2. **API Integration**: Ensure all required data is being fetched correctly
-3. **Feature Engineering**: Create reliable features from available data
+1. **Fix Tracking Data Pipeline**: Resolve the gap between source data and final features table
+2. **Implement Data Validation**: Add checks to prevent silent failures in feature population
+3. **Re-run Clustering**: Once tracking data is fixed, re-cluster players with complete features
 
-### Long-term (1 month)
+### Medium-term (1 month)
 
-1. **Complete Data Audit**: Verify all 48 features are properly populated
-2. **Clustering Validation**: Test archetype assignments against basketball knowledge
-3. **Production Deployment**: Only deploy when data quality is verified
+1. **Complete Feature Audit**: Verify all 48 canonical metrics are properly populated
+2. **Validate Archetype Assignments**: Test clustering results against basketball knowledge
+3. **Production Readiness**: Only deploy when data quality is fully verified
 
 ## Files Affected
 
