@@ -1,0 +1,22 @@
+2025-10-03 15:09:35,912 - INFO - Starting optimal player archetype generation...
+2025-10-03 15:09:35,912 - INFO - OptimalArchetypeGenerator initialized
+2025-10-03 15:09:35,912 - INFO - Generating final archetype report for season 2024-25...
+2025-10-03 15:09:35,913 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 15:09:35,913 - INFO - Loading player data for season 2024-25...
+2025-10-03 15:09:35,923 - INFO - Prepared 47 features for 273 players
+2025-10-03 15:09:35,923 - INFO - Generating optimal player archetypes...
+2025-10-03 15:09:35,926 - INFO - PCA reduced 47 features to 13 components
+2025-10-03 15:09:35,926 - INFO - Variance explained: 0.819
+2025-10-03 15:09:35,956 - INFO - Archetype generation completed:
+2025-10-03 15:09:35,957 - INFO -   Silhouette score: 0.235
+2025-10-03 15:09:35,957 - INFO -   Calinski-Harabasz score: 71.258
+2025-10-03 15:09:35,957 - INFO -   Davies-Bouldin score: 1.502
+2025-10-03 15:09:35,957 - INFO - Analyzing archetype characteristics...
+2025-10-03 15:09:35,959 - INFO - Archetype 0 (Big Men): 51 players (18.7%)
+2025-10-03 15:09:35,959 - INFO -   Top players: Jonas Valančiūnas, Nikola Vučević, Jimmy Butler III, Anthony Davis, Mason Plumlee
+2025-10-03 15:09:35,960 - INFO - Archetype 1 (Primary Ball Handlers): 86 players (31.5%)
+2025-10-03 15:09:35,960 - INFO -   Top players: LeBron James, Chris Paul, Kevin Durant, Mike Conley, Russell Westbrook
+2025-10-03 15:09:35,960 - INFO - Archetype 2 (Role Players): 136 players (49.8%)
+2025-10-03 15:09:35,960 - INFO -   Top players: Al Horford, Al Horford, Brook Lopez, Nicolas Batum, Jrue Holiday
+2025-10-03 15:09:35,965 - INFO - Saving models and results to archetype_models_20251003_150935...
+2025-10-03 15:09:35,971 - INFO - Models and results saved to archetype_models_20251003_150935

@@ -23,3 +23,80 @@
 2025-10-03 11:35:38,233 - INFO - Final clustering completed: 2 clusters, Silhouette=0.333, Calinski-Harabasz=90.793
 2025-10-03 11:35:38,233 - INFO - Validating cluster stability with 10 runs...
 2025-10-03 11:35:38,285 - INFO - Stability validation completed: Silhouette mean=0.333±0.000, Stability score=1.000
+2025-10-03 15:07:58,791 - INFO - Starting clustering validation with PCA-based feature engineering...
+2025-10-03 15:07:58,792 - INFO - ClusteringValidator initialized
+2025-10-03 15:07:58,792 - INFO - Generating comprehensive validation report for season 2024-25...
+2025-10-03 15:07:58,792 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 15:07:58,792 - INFO - Running data integrity validation...
+2025-10-03 15:07:58,798 - INFO - Data integrity validation passed: 273 players with clean data
+2025-10-03 15:07:58,798 - INFO - Loading clean player data for season 2024-25...
+2025-10-03 15:07:58,800 - INFO - Loaded 273 players with clean data
+2025-10-03 15:07:58,800 - INFO - Preparing features for clustering...
+2025-10-03 15:07:58,803 - INFO - Prepared 47 features for clustering
+2025-10-03 15:07:58,803 - INFO - Features: ['FTPCT', 'TSPCT', 'THPAr', 'FTr', 'TRBPCT', 'ASTPCT', 'AVGDIST', 'Zto3r', 'THto10r', 'TENto16r', 'SIXTto3PTr', 'HEIGHT', 'WINGSPAN', 'FRNTCTTCH', 'TOP', 'AVGSECPERTCH', 'AVGDRIBPERTCH', 'ELBWTCH', 'POSTUPS', 'PNTTOUCH', 'DRIVES', 'DRFGA', 'DRPTSPCT', 'DRPASSPCT', 'DRASTPCT', 'DRTOVPCT', 'DRPFPCT', 'DRIMFGPCT', 'CSFGA', 'CS3PA', 'PASSESMADE', 'SECAST', 'POTAST', 'PUFGA', 'PU3PA', 'PSTUPFGA', 'PSTUPPTSPCT', 'PSTUPPASSPCT', 'PSTUPASTPCT', 'PSTUPTOVPCT', 'PNTTCHS', 'PNTFGA', 'PNTPTSPCT', 'PNTPASSPCT', 'PNTASTPCT', 'PNTTVPCT', 'AVGFGATTEMPTEDAGAINSTPERGAME']
+2025-10-03 15:07:58,803 - INFO - Phase 0: Engineering feature space with PCA...
+2025-10-03 15:07:58,816 - INFO - PCA Analysis:
+2025-10-03 15:07:58,817 - INFO -   Original features: 47
+2025-10-03 15:07:58,817 - INFO -   Components for 95.0% variance: 23
+2025-10-03 15:07:58,817 - INFO -   Variance explained by 23 components: 0.950
+2025-10-03 15:07:58,817 - INFO - Interpreting principal components...
+2025-10-03 15:07:58,817 - INFO -   PC1 (explains 0.232 of variance):
+2025-10-03 15:07:58,817 - INFO -     TOP: 0.276
+2025-10-03 15:07:58,817 - INFO -     AVGDRIBPERTCH: 0.270
+2025-10-03 15:07:58,817 - INFO -     AVGSECPERTCH: 0.270
+2025-10-03 15:07:58,817 - INFO -     DRIVES: 0.265
+2025-10-03 15:07:58,817 - INFO -     PUFGA: 0.265
+2025-10-03 15:07:58,817 - INFO -   PC2 (explains 0.175 of variance):
+2025-10-03 15:07:58,817 - INFO -     ELBWTCH: 0.280
+2025-10-03 15:07:58,817 - INFO -     THPAr: -0.273
+2025-10-03 15:07:58,817 - INFO -     PNTFGA: 0.269
+2025-10-03 15:07:58,817 - INFO -     PNTTOUCH: 0.267
+2025-10-03 15:07:58,817 - INFO -     PNTTCHS: 0.267
+2025-10-03 15:07:58,817 - INFO -   PC3 (explains 0.089 of variance):
+2025-10-03 15:07:58,817 - INFO -     DRPASSPCT: 0.456
+2025-10-03 15:07:58,817 - INFO -     DRPFPCT: 0.456
+2025-10-03 15:07:58,817 - INFO -     DRASTPCT: 0.456
+2025-10-03 15:07:58,817 - INFO -     DRTOVPCT: 0.456
+2025-10-03 15:07:58,817 - INFO -     CSFGA: 0.146
+2025-10-03 15:07:58,817 - INFO -   PC4 (explains 0.067 of variance):
+2025-10-03 15:07:58,817 - INFO -     CSFGA: 0.436
+2025-10-03 15:07:58,817 - INFO -     CS3PA: 0.402
+2025-10-03 15:07:58,817 - INFO -     THPAr: 0.218
+2025-10-03 15:07:58,817 - INFO -     FRNTCTTCH: 0.201
+2025-10-03 15:07:58,817 - INFO -     PSTUPFGA: 0.201
+2025-10-03 15:07:58,817 - INFO -   PC5 (explains 0.041 of variance):
+2025-10-03 15:07:58,817 - INFO -     TSPCT: 0.397
+2025-10-03 15:07:58,817 - INFO -     PSTUPPASSPCT: -0.329
+2025-10-03 15:07:58,817 - INFO -     TENto16r: -0.306
+2025-10-03 15:07:58,817 - INFO -     DRPTSPCT: 0.299
+2025-10-03 15:07:58,817 - INFO -     PSTUPASTPCT: -0.288
+2025-10-03 15:07:58,817 - INFO - Finding optimal number of clusters...
+2025-10-03 15:07:58,884 - INFO - k=2: Silhouette=0.186, Calinski-Harabasz=57.199, Davies-Bouldin=1.913, Inertia=10068.793
+2025-10-03 15:07:58,892 - INFO - k=3: Silhouette=0.197, Calinski-Harabasz=57.451, Davies-Bouldin=1.710, Inertia=8553.780
+2025-10-03 15:07:58,899 - INFO - k=4: Silhouette=0.208, Calinski-Harabasz=56.831, Davies-Bouldin=1.367, Inertia=7463.532
+2025-10-03 15:07:58,906 - INFO - k=5: Silhouette=0.207, Calinski-Harabasz=49.730, Davies-Bouldin=1.436, Inertia=6999.009
+2025-10-03 15:07:58,916 - INFO - k=6: Silhouette=0.152, Calinski-Harabasz=45.633, Davies-Bouldin=1.724, Inertia=6575.151
+2025-10-03 15:07:58,926 - INFO - k=7: Silhouette=0.118, Calinski-Harabasz=41.231, Davies-Bouldin=1.945, Inertia=6318.056
+2025-10-03 15:07:58,937 - INFO - k=8: Silhouette=0.117, Calinski-Harabasz=38.716, Davies-Bouldin=1.895, Inertia=6028.597
+2025-10-03 15:07:58,949 - INFO - k=9: Silhouette=0.113, Calinski-Harabasz=35.889, Davies-Bouldin=1.928, Inertia=5841.295
+2025-10-03 15:07:58,960 - INFO - k=10: Silhouette=0.102, Calinski-Harabasz=33.016, Davies-Bouldin=1.984, Inertia=5725.374
+2025-10-03 15:07:58,971 - INFO - k=11: Silhouette=0.102, Calinski-Harabasz=31.122, Davies-Bouldin=1.869, Inertia=5573.478
+2025-10-03 15:07:58,983 - INFO - k=12: Silhouette=0.095, Calinski-Harabasz=29.743, Davies-Bouldin=1.993, Inertia=5411.035
+2025-10-03 15:07:58,995 - INFO - k=13: Silhouette=0.094, Calinski-Harabasz=27.891, Davies-Bouldin=2.004, Inertia=5331.171
+2025-10-03 15:07:59,007 - INFO - k=14: Silhouette=0.107, Calinski-Harabasz=26.409, Davies-Bouldin=1.910, Inertia=5243.517
+2025-10-03 15:07:59,020 - INFO - k=15: Silhouette=0.090, Calinski-Harabasz=25.404, Davies-Bouldin=1.978, Inertia=5126.754
+2025-10-03 15:07:59,034 - INFO - k=16: Silhouette=0.088, Calinski-Harabasz=25.155, Davies-Bouldin=1.918, Inertia=4940.459
+2025-10-03 15:07:59,048 - INFO - k=17: Silhouette=0.084, Calinski-Harabasz=23.373, Davies-Bouldin=1.969, Inertia=4955.268
+2025-10-03 15:07:59,062 - INFO - k=18: Silhouette=0.090, Calinski-Harabasz=22.681, Davies-Bouldin=1.880, Inertia=4854.139
+2025-10-03 15:07:59,076 - INFO - k=19: Silhouette=0.096, Calinski-Harabasz=22.565, Davies-Bouldin=1.902, Inertia=4691.605
+2025-10-03 15:07:59,092 - INFO - k=20: Silhouette=0.089, Calinski-Harabasz=20.902, Davies-Bouldin=1.828, Inertia=4745.280
+2025-10-03 15:07:59,092 - INFO - Optimal k (Silhouette): 4
+2025-10-03 15:07:59,092 - INFO - Optimal k (Calinski-Harabasz): 3
+2025-10-03 15:07:59,092 - INFO - Optimal k (Davies-Bouldin): 4
+2025-10-03 15:07:59,092 - INFO - Optimal k (Inertia/Knee): 6
+2025-10-03 15:07:59,092 - INFO - Performing final clustering with k=4...
+2025-10-03 15:07:59,099 - INFO - Final clustering completed: 4 clusters, Silhouette=0.208, Calinski-Harabasz=56.831, Davies-Bouldin=1.367
+2025-10-03 15:07:59,099 - INFO - Validating cluster stability with 10 runs...
+2025-10-03 15:07:59,166 - INFO - Stability validation completed: Silhouette mean=0.207±0.001, Stability score=0.996
+2025-10-03 15:07:59,166 - INFO - Creating visualizations...
+2025-10-03 15:08:00,810 - INFO - Visualizations saved to clustering_analysis_20251003_150759

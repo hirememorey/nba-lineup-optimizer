@@ -1,0 +1,21 @@
+2025-10-03 15:10:45,177 - INFO - Starting lineup supercluster generation...
+2025-10-03 15:10:45,177 - INFO - LineupSuperclusterGenerator initialized
+2025-10-03 15:10:45,177 - INFO - Generating final lineup supercluster report for season 2024-25...
+2025-10-03 15:10:45,178 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 15:10:45,178 - INFO - Loading lineup data for season 2024-25...
+2025-10-03 15:10:45,181 - ERROR - Supercluster generation failed with error: Execution failed on sql '
+            SELECT 
+                offensive_lineup,
+                defensive_lineup,
+                COUNT(*) as possessions,
+                AVG(offensive_rating) as avg_offensive_rating,
+                AVG(defensive_rating) as avg_defensive_rating,
+                AVG(net_rating) as avg_net_rating,
+                AVG(pace) as avg_pace,
+                AVG(offensive_efficiency) as avg_offensive_efficiency,
+                AVG(defensive_efficiency) as avg_defensive_efficiency
+            FROM Possessions 
+            WHERE season = ?
+            GROUP BY offensive_lineup, defensive_lineup
+            HAVING COUNT(*) >= 10  -- Only lineups with at least 10 possessions
+        ': no such column: offensive_lineup

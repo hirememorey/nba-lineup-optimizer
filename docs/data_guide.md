@@ -14,7 +14,7 @@ The project uses a **multi-database approach** with data distributed across thre
 
 ## Current Data Status (October 3, 2025)
 
-**✅ FULLY OPERATIONAL**: All critical data gaps have been resolved. The database now contains comprehensive coverage of the 48 canonical metrics required for archetype analysis. A critical drive statistics API usage bug has been fixed, and a comprehensive three-layer verification system is now in place.
+**✅ FULLY OPERATIONAL WITH ARCHETYPES**: All critical data gaps have been resolved and player archetypes have been successfully generated. The database now contains comprehensive coverage of the 48 canonical metrics required for archetype analysis, and three basketball-meaningful player archetypes are ready for Bayesian modeling integration.
 
 ### Data Coverage Summary:
 - **PlayerArchetypeFeatures**: 273 players with complete feature set and proper variance
@@ -36,6 +36,15 @@ The project uses a **multi-database approach** with data distributed across thre
 3. **Shot Metrics Table References**: ✅ **RESOLVED** - Fixed incorrect table joins in feature generation script. Updated `generate_archetype_features.py` to use `PlayerShotMetrics` table instead of attempting to aggregate from `PlayerShotChart`
 4. **Comprehensive Data Verification Pipeline**: ✅ **IMPLEMENTED** - Created `verify_database_sanity.py` with three-layer verification system to catch data quality issues before they propagate through the analysis pipeline
 5. **Feature Generation**: ✅ **UPDATED** - Regenerated `PlayerArchetypeFeatures` table with corrected data sources and calculations
+
+### Player Archetype Generation (October 3, 2025):
+1. **Optimal K-Value Determination**: ✅ **COMPLETED** - Used rigorous multi-metric evaluation (Silhouette, Calinski-Harabasz, Davies-Bouldin, Inertia) to determine k=3 with PCA (80% variance) as optimal
+2. **Feature Space Engineering**: ✅ **COMPLETED** - Implemented PCA-based dimensionality reduction to address correlation and noise issues (47 → 13 components, 81.9% variance)
+3. **Basketball-Meaningful Archetypes**: ✅ **COMPLETED** - Generated three interpretable archetypes:
+   - **Big Men** (51 players, 18.7%): High height, wingspan, frontcourt presence
+   - **Primary Ball Handlers** (86 players, 31.5%): High usage, driving ability, playmaking
+   - **Role Players** (136 players, 49.8%): Balanced contributors, catch-and-shoot ability
+4. **Model Persistence**: ✅ **COMPLETED** - All models (scaler, PCA, K-means) and results saved for reproducibility
 
 ### Previous Major Fixes:
 - **PlayerSeasonOpponentShootingStats**: ✅ **RESOLVED** - Fixed API response structure mismatch. The NBA API endpoint returns `resultSets` as a dict instead of a list, which was causing validation failures. Created new script `populate_opponent_shooting_stats_v2.py` and updated API client method to handle this special case. Now contains 569 records for 2024-25 season.
@@ -99,25 +108,51 @@ python src/nba_stats/scripts/fix_player_names.py
 
 Follow the on-screen prompts to match names from the CSV files to players in the database. Once complete, re-run the `populate_salaries.py` and `populate_player_skill.py` scripts to finalize the data ingestion.
 
-### Step 3: Core Analysis
+### Step 3: Player Archetype Generation
 
-Once the database is fully populated, you can proceed with the core analysis.
+Once the database is fully populated, you can proceed with generating player archetypes using the new rigorous methodology.
 
-**1. Generate Archetype Features:**
-This script consolidates the 48 required metrics into a single feature set for each player.
+**1. Validate Data Quality:**
+Before generating archetypes, ensure data integrity:
 
 ```bash
-python src/nba_stats/scripts/generate_archetype_features.py
+python verify_database_sanity.py
 ```
 
-**2. Generate Lineup Superclusters:**
+**2. Generate Optimal Player Archetypes:**
+This script uses PCA-based feature engineering and multi-metric evaluation to generate basketball-meaningful archetypes.
+
+```bash
+python generate_optimal_archetypes.py
+```
+
+This will create:
+- Three basketball-meaningful archetypes (Big Men, Primary Ball Handlers, Role Players)
+- Player-to-archetype mappings in CSV format
+- Trained models (scaler, PCA, K-means) for reproducibility
+- Detailed analysis reports and visualizations
+
+**3. Validate Archetype Quality:**
+Review the generated archetypes to ensure they make basketball sense:
+
+```bash
+# Check the generated analysis
+cat archetype_models_*/archetype_analysis.md
+
+# Review player assignments
+head archetype_models_*/player_archetypes.csv
+```
+
+### Step 4: Lineup Supercluster Analysis (Future)
+
+**1. Generate Lineup Superclusters:**
 This step performs K-means clustering on lineups to create the six lineup superclusters.
 
 ```bash
-python src/nba_stats/scripts/generate_lineup_superclusters.py
+python generate_lineup_superclusters.py
 ```
 
-**3. Run the Bayesian Model:**
+**2. Run the Bayesian Model:**
 This is the final, computationally intensive step that fits the Bayesian regression model.
 
 ```bash

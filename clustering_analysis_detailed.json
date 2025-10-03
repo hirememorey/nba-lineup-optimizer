@@ -1,0 +1,553 @@
+{
+  "best_approach": "PCA (80% variance)",
+  "best_k": 3,
+  "best_metrics": {
+    "silhouette": 0.2350614430930438,
+    "min_size": "51",
+    "max_size": "136",
+    "balance_ratio": 0.375,
+    "cluster_sizes": [
+      51,
+      86,
+      136
+    ]
+  },
+  "all_results": {
+    "Raw Features": {
+      "3": {
+        "silhouette": 0.1855052567315659,
+        "min_size": "51",
+        "max_size": "138",
+        "balance_ratio": 0.3695652173913043,
+        "cluster_sizes": [
+          138,
+          84,
+          51
+        ]
+      },
+      "4": {
+        "silhouette": 0.1931408060009844,
+        "min_size": "3",
+        "max_size": "134",
+        "balance_ratio": 0.022388059701492536,
+        "cluster_sizes": [
+          134,
+          85,
+          51,
+          3
+        ]
+      },
+      "5": {
+        "silhouette": 0.13706427222138096,
+        "min_size": "3",
+        "max_size": "113",
+        "balance_ratio": 0.02654867256637168,
+        "cluster_sizes": [
+          33,
+          113,
+          51,
+          73,
+          3
+        ]
+      },
+      "6": {
+        "silhouette": 0.13565141108006606,
+        "min_size": "3",
+        "max_size": "106",
+        "balance_ratio": 0.02830188679245283,
+        "cluster_sizes": [
+          42,
+          40,
+          49,
+          33,
+          3,
+          106
+        ]
+      },
+      "7": {
+        "silhouette": 0.1110716814443155,
+        "min_size": "3",
+        "max_size": "84",
+        "balance_ratio": 0.03571428571428571,
+        "cluster_sizes": [
+          45,
+          15,
+          55,
+          33,
+          3,
+          38,
+          84
+        ]
+      },
+      "8": {
+        "silhouette": 0.10501160800159309,
+        "min_size": "3",
+        "max_size": "66",
+        "balance_ratio": 0.045454545454545456,
+        "cluster_sizes": [
+          41,
+          13,
+          66,
+          36,
+          3,
+          31,
+          47,
+          36
+        ]
+      },
+      "9": {
+        "silhouette": 0.09865487185759224,
+        "min_size": "3",
+        "max_size": "56",
+        "balance_ratio": 0.05357142857142857,
+        "cluster_sizes": [
+          36,
+          36,
+          32,
+          31,
+          56,
+          3,
+          13,
+          35,
+          31
+        ]
+      },
+      "10": {
+        "silhouette": 0.08842361386238796,
+        "min_size": "3",
+        "max_size": "50",
+        "balance_ratio": 0.06,
+        "cluster_sizes": [
+          33,
+          34,
+          14,
+          40,
+          39,
+          3,
+          20,
+          19,
+          21,
+          50
+        ]
+      }
+    },
+    "PCA (95% variance)": {
+      "3": {
+        "silhouette": 0.19719416185158534,
+        "min_size": "51",
+        "max_size": "139",
+        "balance_ratio": 0.3669064748201439,
+        "cluster_sizes": [
+          83,
+          139,
+          51
+        ]
+      },
+      "4": {
+        "silhouette": 0.20765757988245617,
+        "min_size": "3",
+        "max_size": "137",
+        "balance_ratio": 0.021897810218978103,
+        "cluster_sizes": [
+          50,
+          137,
+          83,
+          3
+        ]
+      },
+      "5": {
+        "silhouette": 0.20697168267828053,
+        "min_size": "3",
+        "max_size": "137",
+        "balance_ratio": 0.021897810218978103,
+        "cluster_sizes": [
+          78,
+          137,
+          33,
+          22,
+          3
+        ]
+      },
+      "6": {
+        "silhouette": 0.1523381721629884,
+        "min_size": "3",
+        "max_size": "112",
+        "balance_ratio": 0.026785714285714284,
+        "cluster_sizes": [
+          19,
+          69,
+          112,
+          3,
+          39,
+          31
+        ]
+      },
+      "7": {
+        "silhouette": 0.1180684894569807,
+        "min_size": "3",
+        "max_size": "79",
+        "balance_ratio": 0.0379746835443038,
+        "cluster_sizes": [
+          22,
+          54,
+          37,
+          48,
+          79,
+          30,
+          3
+        ]
+      },
+      "8": {
+        "silhouette": 0.11693924716027747,
+        "min_size": "3",
+        "max_size": "67",
+        "balance_ratio": 0.04477611940298507,
+        "cluster_sizes": [
+          28,
+          42,
+          67,
+          46,
+          18,
+          33,
+          3,
+          36
+        ]
+      },
+      "9": {
+        "silhouette": 0.11273094775333159,
+        "min_size": "3",
+        "max_size": "56",
+        "balance_ratio": 0.05357142857142857,
+        "cluster_sizes": [
+          12,
+          31,
+          19,
+          56,
+          46,
+          36,
+          15,
+          3,
+          55
+        ]
+      },
+      "10": {
+        "silhouette": 0.10217558836956243,
+        "min_size": "3",
+        "max_size": "43",
+        "balance_ratio": 0.06976744186046512,
+        "cluster_sizes": [
+          32,
+          25,
+          13,
+          34,
+          33,
+          3,
+          19,
+          29,
+          42,
+          43
+        ]
+      }
+    },
+    "PCA (80% variance)": {
+      "3": {
+        "silhouette": 0.2350614430930438,
+        "min_size": "51",
+        "max_size": "136",
+        "balance_ratio": 0.375,
+        "cluster_sizes": [
+          51,
+          86,
+          136
+        ]
+      },
+      "4": {
+        "silhouette": 0.24740208196532337,
+        "min_size": "3",
+        "max_size": "134",
+        "balance_ratio": 0.022388059701492536,
+        "cluster_sizes": [
+          50,
+          134,
+          3,
+          86
+        ]
+      },
+      "5": {
+        "silhouette": 0.24788033176624902,
+        "min_size": "3",
+        "max_size": "135",
+        "balance_ratio": 0.022222222222222223,
+        "cluster_sizes": [
+          81,
+          135,
+          3,
+          22,
+          32
+        ]
+      },
+      "6": {
+        "silhouette": 0.19042105781528992,
+        "min_size": "3",
+        "max_size": "111",
+        "balance_ratio": 0.02702702702702703,
+        "cluster_sizes": [
+          42,
+          111,
+          33,
+          69,
+          3,
+          15
+        ]
+      },
+      "7": {
+        "silhouette": 0.17871138182308144,
+        "min_size": "3",
+        "max_size": "99",
+        "balance_ratio": 0.030303030303030304,
+        "cluster_sizes": [
+          3,
+          99,
+          45,
+          11,
+          32,
+          33,
+          50
+        ]
+      },
+      "8": {
+        "silhouette": 0.1496050838817263,
+        "min_size": "3",
+        "max_size": "61",
+        "balance_ratio": 0.04918032786885246,
+        "cluster_sizes": [
+          45,
+          46,
+          38,
+          37,
+          3,
+          12,
+          61,
+          31
+        ]
+      },
+      "9": {
+        "silhouette": 0.13875588717788767,
+        "min_size": "3",
+        "max_size": "65",
+        "balance_ratio": 0.046153846153846156,
+        "cluster_sizes": [
+          37,
+          33,
+          31,
+          3,
+          65,
+          14,
+          37,
+          32,
+          21
+        ]
+      },
+      "10": {
+        "silhouette": 0.13218569870303093,
+        "min_size": "3",
+        "max_size": "46",
+        "balance_ratio": 0.06521739130434782,
+        "cluster_sizes": [
+          38,
+          33,
+          3,
+          18,
+          40,
+          12,
+          29,
+          40,
+          14,
+          46
+        ]
+      }
+    },
+    "PCA (99% variance)": {
+      "3": {
+        "silhouette": 0.1879786343111376,
+        "min_size": "51",
+        "max_size": "139",
+        "balance_ratio": 0.3669064748201439,
+        "cluster_sizes": [
+          83,
+          139,
+          51
+        ]
+      },
+      "4": {
+        "silhouette": 0.19577079690000443,
+        "min_size": "3",
+        "max_size": "135",
+        "balance_ratio": 0.022222222222222223,
+        "cluster_sizes": [
+          51,
+          135,
+          84,
+          3
+        ]
+      },
+      "5": {
+        "silhouette": 0.13559766848064292,
+        "min_size": "3",
+        "max_size": "109",
+        "balance_ratio": 0.027522935779816515,
+        "cluster_sizes": [
+          39,
+          72,
+          50,
+          109,
+          3
+        ]
+      },
+      "6": {
+        "silhouette": 0.16482459654406453,
+        "min_size": "3",
+        "max_size": "131",
+        "balance_ratio": 0.022900763358778626,
+        "cluster_sizes": [
+          35,
+          131,
+          3,
+          54,
+          35,
+          15
+        ]
+      },
+      "7": {
+        "silhouette": 0.13387115257524443,
+        "min_size": "3",
+        "max_size": "107",
+        "balance_ratio": 0.028037383177570093,
+        "cluster_sizes": [
+          39,
+          31,
+          17,
+          107,
+          3,
+          37,
+          39
+        ]
+      },
+      "8": {
+        "silhouette": 0.0942998676755474,
+        "min_size": "3",
+        "max_size": "61",
+        "balance_ratio": 0.04918032786885246,
+        "cluster_sizes": [
+          49,
+          35,
+          36,
+          3,
+          17,
+          40,
+          61,
+          32
+        ]
+      },
+      "9": {
+        "silhouette": 0.09722734878907995,
+        "min_size": "3",
+        "max_size": "64",
+        "balance_ratio": 0.046875,
+        "cluster_sizes": [
+          37,
+          31,
+          13,
+          3,
+          21,
+          35,
+          64,
+          30,
+          39
+        ]
+      },
+      "10": {
+        "silhouette": 0.10336240987872324,
+        "min_size": "3",
+        "max_size": "70",
+        "balance_ratio": 0.04285714285714286,
+        "cluster_sizes": [
+          39,
+          31,
+          33,
+          19,
+          3,
+          70,
+          13,
+          36,
+          16,
+          13
+        ]
+      }
+    }
+  },
+  "data_issues": {
+    "low_var_features": [
+      "FTPCT",
+      "TSPCT",
+      "TRBPCT",
+      "ASTPCT",
+      "DRPTSPCT",
+      "DRIMFGPCT",
+      "PNTASTPCT",
+      "PNTTVPCT"
+    ],
+    "high_corr_pairs": [
+      [
+        "ASTPCT",
+        "POTAST",
+        0.9361054675599343
+      ],
+      [
+        "TOP",
+        "AVGSECPERTCH",
+        0.9091499041688258
+      ],
+      [
+        "TOP",
+        "POTAST",
+        0.9266910545569612
+      ],
+      [
+        "AVGSECPERTCH",
+        "AVGDRIBPERTCH",
+        0.986274883741989
+      ],
+      [
+        "POSTUPS",
+        "PSTUPFGA",
+        0.978598366634465
+      ],
+      [
+        "PNTTOUCH",
+        "PNTTCHS",
+        1.0
+      ],
+      [
+        "PNTTOUCH",
+        "PNTFGA",
+        0.9894571744547223
+      ],
+      [
+        "DRIVES",
+        "DRFGA",
+        0.9631550280245745
+      ],
+      [
+        "DRPASSPCT",
+        "DRASTPCT",
+        0.9999999999999996
+      ],
+      [
+        "DRPASSPCT",
+        "DRTOVPCT",
+        0.9999999999999996
+      ]
+    ]
+  }
+}
