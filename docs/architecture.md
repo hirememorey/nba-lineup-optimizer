@@ -2,222 +2,72 @@
 
 ## Overview
 
-This document describes the completely redesigned NBA data pipeline, built using first-principles reasoning and incorporating the critical insights from the post-mortem analysis. The new architecture addresses the core challenge of **data mapping** rather than API reliability, implementing a sparsity-aware approach to handle missing data gracefully.
+This document describes the NBA data pipeline architecture, which has been designed and refined based on first-principles reasoning and critical insights from post-mortem analyses of past failures. The architecture is built to handle the complexities and unreliability of the unofficial NBA Stats API and to ensure a high degree of data integrity.
 
-## Key Insights & Guiding Principles
+## Core Architectural Principles
 
-The previous implementation failed because it focused on the wrong problem. The core challenge is not API reliability—it's **column mapping**. The NBA API works fine, but the data exists in different endpoints with different column names than expected.
+The system is built on a set of core principles learned from hard-won experience during the project's development.
 
-The new architecture is built on the following principles:
+### 1. Evidence-Driven Development & Data Archaeology
 
-1.  **Mapping-First Approach**: Understand the data landscape completely before building the system.
-2.  **Sparsity-Aware Design**: Build for missing data from the start; don't try to achieve 100% coverage.
-3.  **Forensic Data Analysis**: Use comprehensive API reconnaissance to discover all available columns.
-4.  **Incremental Validation**: Test and verify each piece before moving to the next.
-5.  **Centralized Architecture**: Use a single, robust data fetcher instead of scattered, fragile scripts.
+*   **Principle**: Assume documentation is outdated and build based on the ground truth of the data. The project's history is filled with instances where the documented schema or API behavior did not match reality.
+*   **Implementation**: Before writing code, the actual database schema was discovered using `sqlite3` commands and API responses were inspected manually. This "data archaeology" informed the creation of an anti-corruption layer (`db_mapping.py`) to handle discrepancies between the expected and actual data structures.
 
-### Architectural Notes & Lessons Learned
+### 2. Validation-First & Contract Enforcement
 
-A developer picking up this project should be aware of several key architectural decisions and challenges that were overcome during the data population phase. These insights are critical for understanding why the code is structured the way it is and for debugging future issues.
+*   **Principle**: Human trust is a product, not a process. To ensure the reliability of the model, a structured and robust validation process is essential. Furthermore, the contracts between different parts of the system must be automatically enforced to prevent drift.
+*   **Implementation**:
+    *   **Model Governance Dashboard**: A dedicated Streamlit application for the structured, human-in-the-loop validation of model coefficients. It was built *first* to ensure a trusted path to production for the model.
+    *   **Semantic Prototyping**: A fast validation script (`semantic_prototype.py`) runs in 60 seconds (vs. 18 hours for the full model) to check that the analytical logic is sound.
+    *   **Continuous Schema Validation**: A `LiveSchemaValidator` checks for data drift at runtime against a set of expectations defined in `schema_expectations.yml`.
 
-#### 1. The "Sacred Schema" Principle
+### 3. The "Sacred Schema" and Resumability
 
-*   **Problem**: Initial attempts to run the data pipeline resulted in database errors because different scripts contained their own `CREATE TABLE` statements, which conflicted with the official, migrated schema.
-*   **Principle**: A data pipeline's integrity relies on a single source of truth for its schema. Application-level code should **never** define or alter the schema on the fly.
-*   **Solution**: The authoritative schema is now defined **exclusively** in the database migration scripts. All `CREATE TABLE` statements have been ruthlessly removed from other scripts.
+*   **Principle**: A data pipeline's integrity relies on a single source of truth for its schema, and any long-running I/O process is guaranteed to fail.
+*   **Implementation**:
+    *   The authoritative database schema is defined **exclusively** in database migration scripts. Application-level code never defines or alters the schema.
+    *   Long-running scripts like `populate_possessions.py` are **resumable and idempotent**. They query the database first to see what work has already been completed and process only the missing data.
 
-#### 2. Resumption Over Perfection for Long-Running I/O
+### 4. Defensive Programming & Single Source of Truth
 
-*   **Problem**: The `populate_possessions.py` script was originally designed as an "all-or-nothing" operation that was architecturally guaranteed to fail due to inevitable network timeouts, losing all progress on each failure.
-*   **Principle**: Any long-running process involving network I/O is not just likely to fail—it is guaranteed to fail. A robust system is not one that never fails, but one that gracefully handles failure.
-*   **Solution**: The script was refactored to be **resumable and idempotent**. It now queries the database first to see what work has already been done, processes only the missing data, and saves atomically after each unit of work.
+*   **Principle**: The system must be architecturally incapable of processing incomplete player data, and all tools must use the same core logic to prevent inconsistencies.
+*   **Implementation**:
+    *   The `ModelEvaluator` library is the **single source of truth** for all lineup analysis.
+    *   It operates on a "blessed" set of players with complete data, refusing to process any player with incomplete information. This converts a data quality problem into a clear, manageable error.
 
-#### 3. Defensive Programming Against Unpredictable Data
+### 5. Sparsity-Aware Design
 
-*   **Problem**: After fixing system-level issues, `ValueError` exceptions occurred due to the unreliability of the `nba_api` for historical data.
-*   **Principle**: A robust data pipeline must assume its inputs are "guilty until proven innocent" and defensively validate the *shape* of the data at every step.
-*   **Solution**: The lineup inference logic was hardened significantly. The dependency on a failing endpoint was removed, a new algorithm was implemented to find the first five unique players, and a strict validation check was added to enforce the contract of five players, safely skipping and logging any game that violates it.
+*   **Principle**: Not all data will be available for all players. The system must be built for missing data from the start, rather than trying to achieve 100% coverage for every metric.
+*   **Implementation**: Optional enhancement data, like wingspan (which is only available for draft combine attendees), is stored in separate tables with nullable fields (e.g., `PlayerAnthroStats`). This allows the core analysis to proceed without being blocked by sparse, non-essential data.
 
-## Architecture Components
+### 6. Verification at the Right Level of Abstraction
 
-### 1. Enhanced API Client with Silent Failure Detection
+*   **Principle**: The most critical lesson learned was to **always verify the final output table used for analysis**, not just the intermediate source tables.
+*   **Implementation**: The verification process now includes checks on the final `PlayerArchetypeFeatures` table to ensure that data has not only been fetched but has also been correctly transformed and loaded into its final destination. Automated data quality gates and end-to-end pipeline tests are now part of the process.
 
-**Status**: ✅ **IMPLEMENTED**
+## Key Architectural Components
 
-**Problem Solved**: The NBA Stats API often returns `200 OK` with empty data, causing silent data corruption.
+### 1. Enhanced API Client & Pipeline Robustness
 
-**Solution**: 
-- **Post-Fetch Assertion Layer**: `_assert_response_has_data()` method detects empty responses
-- **Custom Exceptions**: `EmptyResponseError` and `UpstreamDataMissingError` for specific failure modes
-- **Retry Logic**: Enhanced retry decorator includes `EmptyResponseError` for automatic retries
-- **Data Validation**: Pydantic models ensure data integrity at system boundaries
+To handle the unreliable nature of the NBA Stats API, the pipeline includes several layers of protection:
 
-**Impact**: Converts silent failures into loud, manageable errors that can be retried automatically.
+*   **Cache-First Development**: A `warm_cache.py` script populates a local cache, allowing development to occur against static, reliable data, decoupling it from the live API.
+*   **Silent Failure Detection**: A "Post-Fetch Assertion Layer" in the API client detects when the API returns a `200 OK` status with an empty data set, converting a silent failure into a loud, retryable error.
+*   **Intelligent Retry Logic**: The `tenacity` library is used to implement exponential backoff for API requests, only retrying on appropriate, transient error conditions.
+*   **Data Integrity Protection**: Pydantic models (`response_models.py`) are used to validate the structure, types, and ranges of all API responses at the system's boundaries, preventing corrupted data from entering the pipeline.
 
-### 2. Sparsity-Aware Data Integration
+### 2. The ModelEvaluator Core Library
 
-**Status**: ✅ **IMPLEMENTED**
+The `ModelEvaluator` is the heart of the analysis system, providing a robust and validated foundation for all tools.
 
-**Problem Solved**: Wingspan data is highly sparse (only available for draft combine attendees), requiring special handling.
+*   **Single Source of Truth**: All tools, including the validation suite, player acquisition tool, and interactive dashboard, use this same library.
+*   **Defensive Data Loading**: It only loads the 270 "blessed" players who have complete skill and archetype data, raising an `IncompletePlayerError` if any player in a lineup is not part of this set.
+*   **Comprehensive Validation**: The library itself is validated by a suite of 16 technical tests (100% coverage) and 7 basketball intelligence tests (85.7% pass rate).
 
-**Solution**:
-- **Separate Table Design**: `PlayerAnthroStats` table with nullable fields for optional enhancement data
-- **Reconnaissance-Driven Approach**: `wingspan_recon.ipynb` notebook quantifies data sparsity before implementation
-- **Dependency Management**: Pre-run checks ensure upstream data exists before processing
-- **Idempotent Operations**: Scripts can be run multiple times safely
+### 3. Possession-Level Modeling System
 
-**Data Coverage**: 45-83 players per season with 100% coverage when data exists.
+This system implements the core methodology from the research paper.
 
-### 3. Isolated Validation & Testing
-
-**Status**: ✅ **IMPLEMENTED**
-
-**Problem Solved**: Complex calculation logic needs validation before production deployment.
-
-**Solution**:
-- **Validation Notebooks**: `validate_shot_metric_logic.ipynb` for perfecting calculation logic
-- **Isolation Testing**: Logic validated on diverse player sample before production
-- **Performance Optimization**: Efficient SQL queries for batch processing
-- **Documentation**: Final production functions documented with proven-correct logic
-
-### 4. Cache-First Development System
-
-**Status**: ✅ **IMPLEMENTED**
-
-The most critical architectural addition addresses the pre-mortem insight about stateful API behavior.
-
-*   **Problem Solved**: Prevents random API failures during long pipeline runs by decoupling development from live API
-*   **Implementation**: `warm_cache.py` populates local cache with representative data
-*   **Key Features**:
-    *   Representative player selection across different categories
-    *   Comprehensive endpoint testing
-    *   Cache integrity verification
-    *   99% reduction in API requests during development
-
-### 2. Comprehensive API Testing Suite
-
-**Status**: ✅ **IMPLEMENTED**
-
-Implements the "Isolate with curl first" principle for reliable API debugging.
-
-*   **Problem Solved**: Ensures API endpoints are working before committing to long pipeline runs
-*   **Implementation**: `test_api_connection.py` provides complete smoke testing
-*   **Key Features**:
-    *   Tests all critical API endpoints
-    *   Validates response structure and data
-    *   Comprehensive reporting with recommendations
-    *   Quick and full test modes
-
-### 3. Data Integrity Protection System
-
-**Status**: ✅ **IMPLEMENTED**
-
-Prevents silent data corruption when API structure changes.
-
-*   **Problem Solved**: Catches API changes immediately with clear error messages
-*   **Implementation**: `src/nba_stats/api/response_models.py` with Pydantic models
-*   **Key Features**:
-    *   Validates all API response structures
-    *   Type checking and range validation
-    *   Clear error messages for debugging
-    *   Defensive programming at system boundaries
-
-### 4. Enhanced Observability System
-
-**Status**: ✅ **IMPLEMENTED**
-
-Provides real-time feedback during long-running operations.
-
-*   **Problem Solved**: Makes long-running operations observable and manageable
-*   **Implementation**: `tqdm` integration in all major loops
-*   **Key Features**:
-    *   Real-time progress bars
-    *   Speed and ETA display
-    *   Graceful degradation without tqdm
-    *   Detailed logging throughout
-
-### 5. Resumability Verification System
-
-**Status**: ✅ **IMPLEMENTED**
-
-Ensures interrupted processes can be safely resumed.
-
-*   **Problem Solved**: Validates that existing resumability features work correctly
-*   **Implementation**: `test_resumability.py` tests the resumability system
-*   **Key Features**:
-    *   Tests interruption and resumption
-    *   Validates data consistency
-    *   Checks for duplicates and corruption
-    *   Comprehensive reporting
-
-### 6. Robust Error Handling System
-
-**Status**: ✅ **IMPLEMENTED**
-
-Provides intelligent retry logic for API failures.
-
-*   **Problem Solved**: Handles network issues and API failures gracefully
-*   **Implementation**: Tenacity integration with exponential backoff
-*   **Key Features**:
-    *   Intelligent retry conditions
-    *   Exponential backoff with jitter
-    *   Rate limiting protection
-    *   Comprehensive error logging
-
-### 7. API Reconnaissance Tool (`api_reconnaissance.py`)
-
-Performs comprehensive forensics on the NBA Stats API to discover all available columns.
-
-*   **Key Features:**
-    *   Tests multiple parameter combinations for each endpoint.
-    *   Discovers schema variations across different player types.
-    *   Generates complete column inventory reports.
-    *   Identifies missing metrics upfront.
-
-### 2. Definitive Metric Mapping (`definitive_metric_mapping.py`)
-
-Provides the authoritative mapping between the 47 canonical metrics from the source paper and their actual API sources.
-
-*   **Key Features:**
-    *   Maps all 47 metrics to their API endpoints and column names.
-    *   Identifies which metrics are missing from the API.
-    *   Provides data type information and validation checks.
-
-### 3. Centralized Data Fetcher (`src/nba_stats/api/data_fetcher.py`)
-
-A unified interface for fetching NBA player data with built-in error handling and schema awareness.
-
-*   **Key Features:**
-    *   Single interface for all API endpoints.
-    *   Built-in rate limiting and retry logic.
-    *   Schema-aware data extraction and data type validation.
-    *   **Persistent Caching Layer**: All API responses are cached locally in the `.cache/` directory for 24 hours, eliminating redundant network calls and providing resilience.
-    *   **Increased Timeout**: The request timeout has been increased to 300 seconds (5 minutes) to handle large, bulk data requests without failing.
-
-### 4. Master Data Pipeline (`master_data_pipeline.py`)
-
-Orchestrates the entire data pipeline with comprehensive validation and reporting.
-
-*   **Key Features:**
-    *   Full and incremental pipeline execution.
-    *   Comprehensive validation and data quality scoring.
-    *   Detailed reporting.
-
-### 5. Data Verification Tool (`data_verification_tool.py`)
-
-Provides comprehensive verification of data completeness, quality, and logical consistency.
-
-*   **Key Features:**
-    *   Completeness and quality metrics.
-    *   Logical consistency checks.
-    *   Sparsity analysis (a key insight from the project's post-mortem).
-    *   Anomaly detection.
-
-### 6. Data Imputation Tool (`data_imputation_tool.py`)
-
-Handles missing values using various imputation strategies, implementing the sparsity-aware approach.
-
-*   **Key Features:**
-    *   Multiple imputation strategies (mean, median, KNN, Random Forest).
-    *   Automatic strategy selection based on data characteristics.
-    *   Validation of imputation quality.
+*   **Anti-Corruption Layers**: It includes a `db_mapping.py` layer to handle schema inconsistencies and the `LiveSchemaValidator` to prevent data drift.
+*   **Semantic Prototyping**: Allows for rapid validation of the analytical logic before running the full, computationally expensive Bayesian model.
+*   **Data Reality**: It was built based on a thorough "data archaeology" process to discover the true state of the database, which led to the discovery of 574,357 possessions with complete lineup data.

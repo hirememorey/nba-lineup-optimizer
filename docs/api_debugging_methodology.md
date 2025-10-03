@@ -103,6 +103,13 @@ Once you have a working `curl` command, update your Python code to match the wor
 **Cause**: Missing required headers that the NBA website includes
 **Solution**: Copy headers exactly from the browser's network tab
 
+### Pattern 4: Inconsistent Response Structures & Column Names
+**Symptom**: Python code fails during data parsing with `KeyError` or similar exceptions, even though the request was successful.
+**Cause**: The API is inconsistent in how it structures responses and names data fields.
+**Solution**: Use the `curl`-first methodology to inspect the raw JSON response. Do not assume consistency across endpoints.
+*   **`resultSets` Variations**: For some endpoints, `resultSets` is an array of objects (`[{...}]`), while for others it is a single object (`{...}`). Your parsing logic must be flexible enough to handle both.
+*   **Column Name Mismatches**: The logical name for a metric (e.g., `FTr`) may not match the column name in the API response (`FTA`). A forensic analysis of the `curl` output is the only way to find the correct field name.
+
 ## Why This Methodology Works
 
 ### 1. Eliminates Variables

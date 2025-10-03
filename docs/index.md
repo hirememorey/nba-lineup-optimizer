@@ -2,57 +2,16 @@
 
 Welcome to the documentation for the NBA Player Acquisition Project. This is the central source of truth for understanding and working with this project.
 
-**Status**: ✅ **MODELEVALUATOR FOUNDATION IMPLEMENTED**
-
-The ModelEvaluator foundation has been successfully implemented following critical insights from post-mortem analysis. This provides a bulletproof foundation for all NBA lineup analysis tools with comprehensive validation and defensive programming. Please see the main `README.md` for more details.
-
-For a new developer, the recommended reading order is:
-1.  `README.md` (in the root directory) for a high-level overview and current status.
-2.  `project_overview.md` for the core concepts.
-3.  `IMPLEMENTATION_COMPLETE.md` for the new ModelEvaluator foundation.
-4.  `possession_modeling_system.md` for the possession-level modeling system.
-5.  `architecture.md` for the technical design.
-6.  `api_debugging_methodology.md` for essential debugging practices.
-7.  `implementation_guide.md` for the new reliability features.
+For a new developer, the recommended starting point is the main `README.md` file in the root directory.
 
 ## Table of Contents
 
--   **[Project Overview](./project_overview.md)**: A detailed explanation of the core concepts, including player archetypes, lineup superclusters, and the Bayesian modeling approach.
+*   **[Project Overview](./project_overview.md)**: A detailed explanation of the core concepts, including player archetypes, lineup superclusters, and the Bayesian modeling approach, based on the source research paper.
 
--   **[ModelEvaluator Foundation](../IMPLEMENTATION_COMPLETE.md)**: **(NEW)** Complete documentation for the ModelEvaluator foundation implementation, including architecture, validation results, and usage.
+*   **[Architecture](./architecture.md)**: A deep dive into the system's design principles, key architectural decisions, and hard-won lessons learned during the project's development.
 
--   **[ModelEvaluator Guide](./model_evaluator_guide.md)**: **(NEW)** Detailed guide for using the ModelEvaluator library, including API reference, usage examples, and troubleshooting.
+*   **[Data Guide](./data_guide.md)**: A comprehensive guide to the project's data architecture, including the multi-database setup and the step-by-step workflow for populating the database and running the analysis pipeline.
 
--   **[Possession-Level Modeling System](./possession_modeling_system.md)**: Complete documentation for the possession-level modeling system implementation, including architecture, usage, and troubleshooting.
+*   **[Data Dictionary](./data_dictionary.md)**: The definitive reference for the multi-database architecture and table structures.
 
--   **[Architecture](./architecture.md)**: A deep dive into the new data pipeline architecture, the guiding principles behind its design, and key lessons learned.
-
--   **[API Debugging Methodology](./api_debugging_methodology.md)**: A critical guide to debugging the unofficial NBA Stats API, centered on the "Isolate with `curl` First" principle.
-
--   **[Data Dictionary](./data_dictionary.md)**: **(NEW)** The definitive reference for the multi-database architecture and table structures.
-
--   **[Database Setup](./database_setup.md)**: A guide to the project's database schema.
-
--   **[Data Pipeline Guide](./data_pipeline.md)**: A step-by-step guide on how to populate the database using the legacy data population scripts.
-
--   **[Data Reconciliation Guide](./data_reconciliation_guide.md)**: A complete guide for achieving 100% data integrity using the enhanced reconciliation system.
-
--   **[Running the Analysis](./running_the_analysis.md)**: Instructions on how to execute the full analysis pipeline, from generating archetypes to running the final Bayesian model.
-
--   **[Implementation Guide](./implementation_guide.md)**: **(NEW)** Complete guide to the new reliability features including cache warming, API testing, data validation, and error handling.
-
--   **[Semantic Data Verification](./semantic_data_verification.md)**: **(NEW)** Critical tool for validating data quality before pipeline execution. Prevents the failure mode where data looks valid but produces garbage analysis results.
-
--   **[Verification Quick Start](./verification_quick_start.md)**: **(NEW)** Quick start guide for the corrected verification system and contract enforcement tests.
-
--   **[Quick Start Guide](./quick_start.md)**: **(NEW)** Step-by-step instructions for getting started with the enhanced pipeline.
-
--   **[Metric Investigation Summary](./metric_investigation_summary.md)**: **(NEW)** Complete findings from the investigation into the 7 missing canonical metrics, including sources and implementation recommendations.
-
--   **[Golden Cohort Validation](../GOLDEN_COHORT_VALIDATION.md)**: **(NEW)** Deep data integrity validation tool for identifying subtle data corruption issues.
-
--   **[Implementation Status](../IMPLEMENTATION_STATUS.md)**: **(NEW)** Current implementation status and next steps for completing the data pipeline.
-
--   **[Analysis Phase Status](../ANALYSIS_PHASE_STATUS.md)**: **(NEW)** Complete status of the player archetype analysis phase with results and next steps.
-
--   **[Core Analysis Status](../CORE_ANALYSIS_STATUS.md)**: **(NEW)** Current status of the core analysis phase including data population results and next steps for player archetype generation.
+*   **[API Debugging Methodology](./api_debugging_methodology.md)**: An essential guide to debugging the unofficial NBA Stats API, centered on the "Isolate with `curl` First" principle.
