@@ -1,0 +1,676 @@
+2025-10-03 11:25:41,155 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:25:41,155 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:25:41,155 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:25:41,281 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:25:41,282 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:25:41,284 - ERROR - Process failed: 2 columns passed, passed data had 33 columns
+2025-10-03 11:25:41,284 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:25:52,513 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:25:52,514 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:25:52,514 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:25:52,623 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:25:52,624 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:25:52,625 - ERROR - Process failed: 42 columns passed, passed data had 33 columns
+2025-10-03 11:25:52,625 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:26:14,253 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:26:14,253 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:26:14,253 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:26:14,384 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:26:14,385 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:26:14,388 - INFO - DataFrame created with 33 columns
+2025-10-03 11:26:14,388 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT']
+2025-10-03 11:26:14,388 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:26:14,391 - ERROR - Process failed: division by zero
+2025-10-03 11:26:14,391 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:26:51,032 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:26:51,032 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:26:51,032 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:26:51,190 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:26:51,191 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:26:51,193 - INFO - DataFrame created with 33 columns
+2025-10-03 11:26:51,193 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT']
+2025-10-03 11:26:51,193 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:26:51,196 - ERROR - Process failed: arg must be a list, tuple, 1-d array, or Series
+2025-10-03 11:26:51,196 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:27:02,548 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:27:02,548 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:27:02,548 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:27:02,652 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:27:02,653 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:27:02,654 - INFO - DataFrame created with 33 columns
+2025-10-03 11:27:02,654 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT']
+2025-10-03 11:27:02,654 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:27:02,655 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:27:02,655 - INFO - Player info shape: (569, 4)
+2025-10-03 11:27:02,659 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:27:02,659 - ERROR - Process failed: arg must be a list, tuple, 1-d array, or Series
+2025-10-03 11:27:02,660 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:27:08,803 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:27:08,803 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:27:08,803 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:27:08,916 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:27:08,917 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:27:08,918 - INFO - DataFrame created with 33 columns
+2025-10-03 11:27:08,918 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT']
+2025-10-03 11:27:08,918 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:27:08,919 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:27:08,919 - INFO - Player info shape: (569, 4)
+2025-10-03 11:27:08,921 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:27:08,921 - ERROR - Process failed: arg must be a list, tuple, 1-d array, or Series
+2025-10-03 11:27:08,922 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:27:21,100 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:27:21,101 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:27:21,101 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:27:21,226 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:27:21,227 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:27:21,228 - INFO - DataFrame created with 33 columns
+2025-10-03 11:27:21,228 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT', 'FGM', 'FGA', 'FG_PCT']
+2025-10-03 11:27:21,228 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:27:21,229 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:27:21,229 - INFO - Player info shape: (569, 4)
+2025-10-03 11:27:21,231 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:27:21,231 - INFO - Processing range 0: FGA col 7, FGM col 6
+2025-10-03 11:27:21,231 - INFO -   FGA column: FGA, FGM column: FGM
+2025-10-03 11:27:21,231 - ERROR - Error processing range 0: arg must be a list, tuple, 1-d array, or Series
+2025-10-03 11:27:21,232 - ERROR - Process failed: arg must be a list, tuple, 1-d array, or Series
+2025-10-03 11:27:21,232 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:28:10,911 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:28:10,912 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:28:10,912 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:28:11,110 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:28:11,111 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:28:11,113 - INFO - DataFrame created with 33 columns
+2025-10-03 11:28:11,113 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM_1', 'FGA_1', 'FG_PCT_1', 'FGM_2', 'FGA_2', 'FG_PCT_2', 'FGM_3', 'FGA_3', 'FG_PCT_3', 'FGM_4', 'FGA_4', 'FG_PCT_4', 'FGM_5', 'FGA_5', 'FG_PCT_5', 'FGM_6', 'FGA_6', 'FG_PCT_6', 'FGM_7', 'FGA_7', 'FG_PCT_7', 'FGM_8', 'FGA_8', 'FG_PCT_8']
+2025-10-03 11:28:11,113 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:28:11,114 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:28:11,114 - INFO - Player info shape: (569, 4)
+2025-10-03 11:28:11,117 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:28:11,117 - INFO - Processing range 0: FGA col 7, FGM col 6
+2025-10-03 11:28:11,118 - INFO -   FGA column: FGA, FGM column: FGM
+2025-10-03 11:28:11,118 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,118 - INFO -   FGA column sample: 0    2.8
+1    0.2
+2    3.2
+3    4.6
+4    0.4
+Name: FGA, dtype: float64
+2025-10-03 11:28:11,118 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,118 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,118 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,118 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,118 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,118 - INFO - Processing range 1: FGA col 10, FGM col 9
+2025-10-03 11:28:11,119 - INFO -   FGA column: FGA_1, FGM column: FGM_1
+2025-10-03 11:28:11,119 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,119 - INFO -   FGA column sample: 0    0.6
+1    0.1
+2    0.8
+3    0.6
+4    0.4
+Name: FGA_1, dtype: float64
+2025-10-03 11:28:11,119 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,119 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,119 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,119 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,119 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,119 - INFO - Processing range 2: FGA col 13, FGM col 12
+2025-10-03 11:28:11,119 - INFO -   FGA column: FGA_2, FGM column: FGM_2
+2025-10-03 11:28:11,119 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,119 - INFO -   FGA column sample: 0    0.1
+1    0.1
+2    0.2
+3    0.6
+4    0.3
+Name: FGA_2, dtype: float64
+2025-10-03 11:28:11,120 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,120 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,120 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,120 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,120 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,120 - INFO - Processing range 3: FGA col 16, FGM col 15
+2025-10-03 11:28:11,120 - INFO -   FGA column: FGA_3, FGM column: FGM_3
+2025-10-03 11:28:11,120 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,120 - INFO -   FGA column sample: 0    0.0
+1    0.4
+2    0.0
+3    0.5
+4    0.3
+Name: FGA_3, dtype: float64
+2025-10-03 11:28:11,120 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,120 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,120 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,121 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,121 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,121 - INFO - Processing range 4: FGA col 19, FGM col 18
+2025-10-03 11:28:11,121 - INFO -   FGA column: FGA_4, FGM column: FGM_4
+2025-10-03 11:28:11,121 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,121 - INFO -   FGA column sample: 0    2.0
+1    1.9
+2    0.7
+3    1.7
+4    0.8
+Name: FGA_4, dtype: float64
+2025-10-03 11:28:11,121 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,121 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,121 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,121 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,121 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,121 - INFO - Processing range 5: FGA col 22, FGM col 21
+2025-10-03 11:28:11,121 - INFO -   FGA column: FGA_5, FGM column: FGM_5
+2025-10-03 11:28:11,121 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,122 - INFO -   FGA column sample: 0    1.9
+1    3.0
+2    2.3
+3    1.7
+4    2.0
+Name: FGA_5, dtype: float64
+2025-10-03 11:28:11,122 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,122 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,122 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,122 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,122 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,122 - INFO - Processing range 6: FGA col 25, FGM col 24
+2025-10-03 11:28:11,122 - INFO -   FGA column: FGA_6, FGM column: FGM_6
+2025-10-03 11:28:11,122 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,122 - INFO -   FGA column sample: 0    0.1
+1    0.2
+2    0.3
+3    0.0
+4    0.2
+Name: FGA_6, dtype: float64
+2025-10-03 11:28:11,122 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,123 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,123 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,123 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,123 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,123 - INFO - Processing range 7: FGA col 28, FGM col 27
+2025-10-03 11:28:11,123 - INFO -   FGA column: FGA_7, FGM column: FGM_7
+2025-10-03 11:28:11,123 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,123 - INFO -   FGA column sample: 0    0.0
+1    0.1
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_7, dtype: float64
+2025-10-03 11:28:11,123 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,123 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,123 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,123 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,124 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,124 - INFO - Processing range 8: FGA col 31, FGM col 30
+2025-10-03 11:28:11,124 - INFO -   FGA column: FGA_8, FGM column: FGM_8
+2025-10-03 11:28:11,124 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,124 - INFO -   FGA column sample: 0    0.0
+1    0.0
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_8, dtype: float64
+2025-10-03 11:28:11,124 - INFO -   FGA column dtype: float64
+2025-10-03 11:28:11,124 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,124 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:28:11,124 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:28:11,124 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:28:11,124 - INFO - Total FGA shape: (569,)
+2025-10-03 11:28:11,124 - INFO - Weighted distance shape: (569,)
+2025-10-03 11:28:11,124 - INFO - AVGDIST shape: (569,)
+2025-10-03 11:28:11,126 - INFO - Converted shot data to 5 canonical metrics
+2025-10-03 11:28:11,126 - INFO - Saving shot metrics for 569 players...
+2025-10-03 11:28:11,131 - ERROR - Database error: table PlayerShotMetrics has no column named player_name
+2025-10-03 11:28:11,132 - ERROR - Process failed: table PlayerShotMetrics has no column named player_name
+2025-10-03 11:28:11,132 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:30:04,527 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:30:04,528 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:30:04,528 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:30:04,756 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:30:04,758 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:30:04,763 - INFO - DataFrame created with 33 columns
+2025-10-03 11:30:04,763 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM_1', 'FGA_1', 'FG_PCT_1', 'FGM_2', 'FGA_2', 'FG_PCT_2', 'FGM_3', 'FGA_3', 'FG_PCT_3', 'FGM_4', 'FGA_4', 'FG_PCT_4', 'FGM_5', 'FGA_5', 'FG_PCT_5', 'FGM_6', 'FGA_6', 'FG_PCT_6', 'FGM_7', 'FGA_7', 'FG_PCT_7', 'FGM_8', 'FGA_8', 'FG_PCT_8']
+2025-10-03 11:30:04,763 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:30:04,766 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:30:04,767 - INFO - Player info shape: (569, 4)
+2025-10-03 11:30:04,771 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:30:04,771 - INFO - Processing range 0: FGA col 7, FGM col 6
+2025-10-03 11:30:04,771 - INFO -   FGA column: FGA, FGM column: FGM
+2025-10-03 11:30:04,771 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,772 - INFO -   FGA column sample: 0    2.8
+1    0.2
+2    3.2
+3    4.6
+4    0.4
+Name: FGA, dtype: float64
+2025-10-03 11:30:04,772 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,772 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,772 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,772 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,772 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,772 - INFO - Processing range 1: FGA col 10, FGM col 9
+2025-10-03 11:30:04,772 - INFO -   FGA column: FGA_1, FGM column: FGM_1
+2025-10-03 11:30:04,773 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,773 - INFO -   FGA column sample: 0    0.6
+1    0.1
+2    0.8
+3    0.6
+4    0.4
+Name: FGA_1, dtype: float64
+2025-10-03 11:30:04,773 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,773 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,773 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,773 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,773 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,773 - INFO - Processing range 2: FGA col 13, FGM col 12
+2025-10-03 11:30:04,773 - INFO -   FGA column: FGA_2, FGM column: FGM_2
+2025-10-03 11:30:04,773 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,774 - INFO -   FGA column sample: 0    0.1
+1    0.1
+2    0.2
+3    0.6
+4    0.3
+Name: FGA_2, dtype: float64
+2025-10-03 11:30:04,774 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,774 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,774 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,774 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,774 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,774 - INFO - Processing range 3: FGA col 16, FGM col 15
+2025-10-03 11:30:04,774 - INFO -   FGA column: FGA_3, FGM column: FGM_3
+2025-10-03 11:30:04,774 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,775 - INFO -   FGA column sample: 0    0.0
+1    0.4
+2    0.0
+3    0.5
+4    0.3
+Name: FGA_3, dtype: float64
+2025-10-03 11:30:04,775 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,775 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,775 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,775 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,775 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,775 - INFO - Processing range 4: FGA col 19, FGM col 18
+2025-10-03 11:30:04,775 - INFO -   FGA column: FGA_4, FGM column: FGM_4
+2025-10-03 11:30:04,775 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,775 - INFO -   FGA column sample: 0    2.0
+1    1.9
+2    0.7
+3    1.7
+4    0.8
+Name: FGA_4, dtype: float64
+2025-10-03 11:30:04,775 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,776 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,776 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,776 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,776 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,776 - INFO - Processing range 5: FGA col 22, FGM col 21
+2025-10-03 11:30:04,776 - INFO -   FGA column: FGA_5, FGM column: FGM_5
+2025-10-03 11:30:04,776 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,776 - INFO -   FGA column sample: 0    1.9
+1    3.0
+2    2.3
+3    1.7
+4    2.0
+Name: FGA_5, dtype: float64
+2025-10-03 11:30:04,776 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,776 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,776 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,776 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,777 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,777 - INFO - Processing range 6: FGA col 25, FGM col 24
+2025-10-03 11:30:04,777 - INFO -   FGA column: FGA_6, FGM column: FGM_6
+2025-10-03 11:30:04,777 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,777 - INFO -   FGA column sample: 0    0.1
+1    0.2
+2    0.3
+3    0.0
+4    0.2
+Name: FGA_6, dtype: float64
+2025-10-03 11:30:04,777 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,777 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,777 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,777 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,777 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,777 - INFO - Processing range 7: FGA col 28, FGM col 27
+2025-10-03 11:30:04,777 - INFO -   FGA column: FGA_7, FGM column: FGM_7
+2025-10-03 11:30:04,777 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,778 - INFO -   FGA column sample: 0    0.0
+1    0.1
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_7, dtype: float64
+2025-10-03 11:30:04,778 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,778 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,778 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,778 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,778 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,778 - INFO - Processing range 8: FGA col 31, FGM col 30
+2025-10-03 11:30:04,778 - INFO -   FGA column: FGA_8, FGM column: FGM_8
+2025-10-03 11:30:04,778 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,778 - INFO -   FGA column sample: 0    0.0
+1    0.0
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_8, dtype: float64
+2025-10-03 11:30:04,778 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:04,779 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,779 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:04,779 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:04,779 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:04,779 - INFO - Total FGA shape: (569,)
+2025-10-03 11:30:04,779 - INFO - Weighted distance shape: (569,)
+2025-10-03 11:30:04,779 - INFO - AVGDIST shape: (569,)
+2025-10-03 11:30:04,781 - INFO - Converted shot data to 5 canonical metrics
+2025-10-03 11:30:04,781 - INFO - Saving shot metrics for 569 players...
+2025-10-03 11:30:04,801 - INFO - Successfully saved shot metrics for 569 players
+2025-10-03 11:30:04,802 - INFO - Updating PlayerArchetypeFeatures with shot metrics...
+2025-10-03 11:30:04,803 - ERROR - Process failed: 'AVGDIST'
+2025-10-03 11:30:04,808 - ERROR - Shot metrics fetcher failed!
+2025-10-03 11:30:16,611 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:30:16,612 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:30:16,612 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:30:16,742 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:30:16,743 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:30:16,745 - INFO - DataFrame created with 33 columns
+2025-10-03 11:30:16,745 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM_1', 'FGA_1', 'FG_PCT_1', 'FGM_2', 'FGA_2', 'FG_PCT_2', 'FGM_3', 'FGA_3', 'FG_PCT_3', 'FGM_4', 'FGA_4', 'FG_PCT_4', 'FGM_5', 'FGA_5', 'FG_PCT_5', 'FGM_6', 'FGA_6', 'FG_PCT_6', 'FGM_7', 'FGA_7', 'FG_PCT_7', 'FGM_8', 'FGA_8', 'FG_PCT_8']
+2025-10-03 11:30:16,745 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:30:16,746 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:30:16,746 - INFO - Player info shape: (569, 4)
+2025-10-03 11:30:16,748 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:30:16,749 - INFO - Processing range 0: FGA col 7, FGM col 6
+2025-10-03 11:30:16,749 - INFO -   FGA column: FGA, FGM column: FGM
+2025-10-03 11:30:16,749 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,749 - INFO -   FGA column sample: 0    2.8
+1    0.2
+2    3.2
+3    4.6
+4    0.4
+Name: FGA, dtype: float64
+2025-10-03 11:30:16,749 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,749 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,749 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,750 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,750 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,750 - INFO - Processing range 1: FGA col 10, FGM col 9
+2025-10-03 11:30:16,750 - INFO -   FGA column: FGA_1, FGM column: FGM_1
+2025-10-03 11:30:16,750 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,750 - INFO -   FGA column sample: 0    0.6
+1    0.1
+2    0.8
+3    0.6
+4    0.4
+Name: FGA_1, dtype: float64
+2025-10-03 11:30:16,750 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,750 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,750 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,750 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,750 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,750 - INFO - Processing range 2: FGA col 13, FGM col 12
+2025-10-03 11:30:16,750 - INFO -   FGA column: FGA_2, FGM column: FGM_2
+2025-10-03 11:30:16,750 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,751 - INFO -   FGA column sample: 0    0.1
+1    0.1
+2    0.2
+3    0.6
+4    0.3
+Name: FGA_2, dtype: float64
+2025-10-03 11:30:16,751 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,751 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,751 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,751 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,751 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,751 - INFO - Processing range 3: FGA col 16, FGM col 15
+2025-10-03 11:30:16,751 - INFO -   FGA column: FGA_3, FGM column: FGM_3
+2025-10-03 11:30:16,751 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,751 - INFO -   FGA column sample: 0    0.0
+1    0.4
+2    0.0
+3    0.5
+4    0.3
+Name: FGA_3, dtype: float64
+2025-10-03 11:30:16,751 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,752 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,752 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,752 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,752 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,752 - INFO - Processing range 4: FGA col 19, FGM col 18
+2025-10-03 11:30:16,752 - INFO -   FGA column: FGA_4, FGM column: FGM_4
+2025-10-03 11:30:16,752 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,752 - INFO -   FGA column sample: 0    2.0
+1    1.9
+2    0.7
+3    1.7
+4    0.8
+Name: FGA_4, dtype: float64
+2025-10-03 11:30:16,752 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,752 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,752 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,752 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,752 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,752 - INFO - Processing range 5: FGA col 22, FGM col 21
+2025-10-03 11:30:16,752 - INFO -   FGA column: FGA_5, FGM column: FGM_5
+2025-10-03 11:30:16,752 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,753 - INFO -   FGA column sample: 0    1.9
+1    3.0
+2    2.3
+3    1.7
+4    2.0
+Name: FGA_5, dtype: float64
+2025-10-03 11:30:16,753 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,753 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,753 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,753 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,753 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,753 - INFO - Processing range 6: FGA col 25, FGM col 24
+2025-10-03 11:30:16,753 - INFO -   FGA column: FGA_6, FGM column: FGM_6
+2025-10-03 11:30:16,753 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,753 - INFO -   FGA column sample: 0    0.1
+1    0.2
+2    0.3
+3    0.0
+4    0.2
+Name: FGA_6, dtype: float64
+2025-10-03 11:30:16,753 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,753 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,753 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,753 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,753 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,754 - INFO - Processing range 7: FGA col 28, FGM col 27
+2025-10-03 11:30:16,754 - INFO -   FGA column: FGA_7, FGM column: FGM_7
+2025-10-03 11:30:16,754 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,754 - INFO -   FGA column sample: 0    0.0
+1    0.1
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_7, dtype: float64
+2025-10-03 11:30:16,754 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,754 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,754 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,754 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,754 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,754 - INFO - Processing range 8: FGA col 31, FGM col 30
+2025-10-03 11:30:16,754 - INFO -   FGA column: FGA_8, FGM column: FGM_8
+2025-10-03 11:30:16,754 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,754 - INFO -   FGA column sample: 0    0.0
+1    0.0
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_8, dtype: float64
+2025-10-03 11:30:16,754 - INFO -   FGA column dtype: float64
+2025-10-03 11:30:16,755 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,755 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:30:16,755 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:30:16,755 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:30:16,755 - INFO - Total FGA shape: (569,)
+2025-10-03 11:30:16,755 - INFO - Weighted distance shape: (569,)
+2025-10-03 11:30:16,755 - INFO - AVGDIST shape: (569,)
+2025-10-03 11:30:16,756 - INFO - Converted shot data to 5 canonical metrics
+2025-10-03 11:30:16,756 - INFO - Saving shot metrics for 569 players...
+2025-10-03 11:30:16,775 - INFO - Successfully saved shot metrics for 569 players
+2025-10-03 11:30:16,775 - INFO - Updating PlayerArchetypeFeatures with shot metrics...
+2025-10-03 11:30:16,790 - INFO - Updated PlayerArchetypeFeatures for 569 players
+2025-10-03 11:30:16,790 - INFO - Shot metrics fetch and update completed successfully!
+2025-10-03 11:30:16,793 - INFO - Shot metrics fetcher completed successfully!
+2025-10-03 11:32:58,317 - INFO - Starting shot metrics fetch and update process...
+2025-10-03 11:32:58,318 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:32:58,318 - INFO - Fetching shot locations data for season 2024-25...
+2025-10-03 11:32:58,466 - INFO - Successfully fetched 569 players' shot data
+2025-10-03 11:32:58,468 - INFO - Converting shot data to canonical metrics...
+2025-10-03 11:32:58,469 - INFO - DataFrame created with 33 columns
+2025-10-03 11:32:58,469 - INFO - Column names: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'AGE', 'NICKNAME', 'FGM', 'FGA', 'FG_PCT', 'FGM_1', 'FGA_1', 'FG_PCT_1', 'FGM_2', 'FGA_2', 'FG_PCT_2', 'FGM_3', 'FGA_3', 'FG_PCT_3', 'FGM_4', 'FGA_4', 'FG_PCT_4', 'FGM_5', 'FGA_5', 'FG_PCT_5', 'FGM_6', 'FGA_6', 'FG_PCT_6', 'FGM_7', 'FGA_7', 'FG_PCT_7', 'FGM_8', 'FGA_8', 'FG_PCT_8']
+2025-10-03 11:32:58,469 - INFO - First few rows shape: (569, 33)
+2025-10-03 11:32:58,470 - INFO - Player info columns: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION']
+2025-10-03 11:32:58,470 - INFO - Player info shape: (569, 4)
+2025-10-03 11:32:58,473 - INFO - Sample player data:    PLAYER_ID  PLAYER_NAME     TEAM_ID TEAM_ABBREVIATION
+0    1630639  A.J. Lawson  1610612761               TOR
+1    1631260     AJ Green  1610612749               MIL
+2025-10-03 11:32:58,474 - INFO - Processing range 0: FGA col 7, FGM col 6
+2025-10-03 11:32:58,474 - INFO -   FGA column: FGA, FGM column: FGM
+2025-10-03 11:32:58,474 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,474 - INFO -   FGA column sample: 0    2.8
+1    0.2
+2    3.2
+3    4.6
+4    0.4
+Name: FGA, dtype: float64
+2025-10-03 11:32:58,474 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,474 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,474 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,475 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,475 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,475 - INFO - Processing range 1: FGA col 10, FGM col 9
+2025-10-03 11:32:58,475 - INFO -   FGA column: FGA_1, FGM column: FGM_1
+2025-10-03 11:32:58,475 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,475 - INFO -   FGA column sample: 0    0.6
+1    0.1
+2    0.8
+3    0.6
+4    0.4
+Name: FGA_1, dtype: float64
+2025-10-03 11:32:58,475 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,475 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,475 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,475 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,475 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,475 - INFO - Processing range 2: FGA col 13, FGM col 12
+2025-10-03 11:32:58,475 - INFO -   FGA column: FGA_2, FGM column: FGM_2
+2025-10-03 11:32:58,475 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,476 - INFO -   FGA column sample: 0    0.1
+1    0.1
+2    0.2
+3    0.6
+4    0.3
+Name: FGA_2, dtype: float64
+2025-10-03 11:32:58,476 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,476 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,476 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,476 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,476 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,476 - INFO - Processing range 3: FGA col 16, FGM col 15
+2025-10-03 11:32:58,476 - INFO -   FGA column: FGA_3, FGM column: FGM_3
+2025-10-03 11:32:58,476 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,476 - INFO -   FGA column sample: 0    0.0
+1    0.4
+2    0.0
+3    0.5
+4    0.3
+Name: FGA_3, dtype: float64
+2025-10-03 11:32:58,476 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,476 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,477 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,477 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,477 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,477 - INFO - Processing range 4: FGA col 19, FGM col 18
+2025-10-03 11:32:58,477 - INFO -   FGA column: FGA_4, FGM column: FGM_4
+2025-10-03 11:32:58,477 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,477 - INFO -   FGA column sample: 0    2.0
+1    1.9
+2    0.7
+3    1.7
+4    0.8
+Name: FGA_4, dtype: float64
+2025-10-03 11:32:58,477 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,477 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,477 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,478 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,478 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,478 - INFO - Processing range 5: FGA col 22, FGM col 21
+2025-10-03 11:32:58,478 - INFO -   FGA column: FGA_5, FGM column: FGM_5
+2025-10-03 11:32:58,478 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,478 - INFO -   FGA column sample: 0    1.9
+1    3.0
+2    2.3
+3    1.7
+4    2.0
+Name: FGA_5, dtype: float64
+2025-10-03 11:32:58,478 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,478 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,478 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,478 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,478 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,478 - INFO - Processing range 6: FGA col 25, FGM col 24
+2025-10-03 11:32:58,478 - INFO -   FGA column: FGA_6, FGM column: FGM_6
+2025-10-03 11:32:58,478 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,479 - INFO -   FGA column sample: 0    0.1
+1    0.2
+2    0.3
+3    0.0
+4    0.2
+Name: FGA_6, dtype: float64
+2025-10-03 11:32:58,479 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,479 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,479 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,479 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,479 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,479 - INFO - Processing range 7: FGA col 28, FGM col 27
+2025-10-03 11:32:58,479 - INFO -   FGA column: FGA_7, FGM column: FGM_7
+2025-10-03 11:32:58,479 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,479 - INFO -   FGA column sample: 0    0.0
+1    0.1
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_7, dtype: float64
+2025-10-03 11:32:58,479 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,480 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,480 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,480 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,480 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,480 - INFO - Processing range 8: FGA col 31, FGM col 30
+2025-10-03 11:32:58,480 - INFO -   FGA column: FGA_8, FGM column: FGM_8
+2025-10-03 11:32:58,480 - INFO -   FGA column data type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,480 - INFO -   FGA column sample: 0    0.0
+1    0.0
+2    0.1
+3    0.0
+4    0.0
+Name: FGA_8, dtype: float64
+2025-10-03 11:32:58,480 - INFO -   FGA column dtype: float64
+2025-10-03 11:32:58,480 - INFO -   FGA values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,480 - INFO -   FGM values shape: (569,), type: <class 'pandas.core.series.Series'>
+2025-10-03 11:32:58,480 - INFO -   Updated total_fga shape: (569,)
+2025-10-03 11:32:58,480 - INFO -   Updated weighted_distance shape: (569,)
+2025-10-03 11:32:58,480 - INFO - Total FGA shape: (569,)
+2025-10-03 11:32:58,481 - INFO - Weighted distance shape: (569,)
+2025-10-03 11:32:58,481 - INFO - AVGDIST shape: (569,)
+2025-10-03 11:32:58,486 - INFO - Converted shot data to 5 canonical metrics
+2025-10-03 11:32:58,487 - INFO - Saving shot metrics for 569 players...
+2025-10-03 11:32:58,493 - INFO - Removed duplicates, processing 569 unique players
+2025-10-03 11:32:58,506 - INFO - Successfully saved shot metrics for 569 players
+2025-10-03 11:32:58,507 - INFO - Updating PlayerArchetypeFeatures with shot metrics...
+2025-10-03 11:32:58,521 - INFO - Updated PlayerArchetypeFeatures for 569 players
+2025-10-03 11:32:58,521 - INFO - Shot metrics fetch and update completed successfully!
+2025-10-03 11:32:58,523 - INFO - Shot metrics fetcher completed successfully!

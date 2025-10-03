@@ -1,0 +1,25 @@
+2025-10-03 11:35:38,110 - INFO - Starting clustering validation with clean data...
+2025-10-03 11:35:38,111 - INFO - ClusteringValidator initialized
+2025-10-03 11:35:38,111 - INFO - Generating comprehensive validation report for season 2024-25...
+2025-10-03 11:35:38,111 - INFO - Connected to database: src/nba_stats/db/nba_stats.db
+2025-10-03 11:35:38,111 - INFO - Loading clean player data for season 2024-25...
+2025-10-03 11:35:38,118 - INFO - Loaded 303 players with clean data
+2025-10-03 11:35:38,118 - INFO - Preparing features for clustering...
+2025-10-03 11:35:38,118 - INFO - Prepared 47 features for clustering
+2025-10-03 11:35:38,118 - INFO - Features: ['FTPCT', 'TSPCT', 'THPAr', 'FTr', 'TRBPCT', 'ASTPCT', 'AVGDIST', 'Zto3r', 'THto10r', 'TENto16r', 'SIXTto3PTr', 'HEIGHT', 'WINGSPAN', 'FRNTCTTCH', 'TOP', 'AVGSECPERTCH', 'AVGDRIBPERTCH', 'ELBWTCH', 'POSTUPS', 'PNTTOUCH', 'DRIVES', 'DRFGA', 'DRPTSPCT', 'DRPASSPCT', 'DRASTPCT', 'DRTOVPCT', 'DRPFPCT', 'DRIMFGPCT', 'CSFGA', 'CS3PA', 'PASSESMADE', 'SECAST', 'POTAST', 'PUFGA', 'PU3PA', 'PSTUPFGA', 'PSTUPPTSPCT', 'PSTUPPASSPCT', 'PSTUPASTPCT', 'PSTUPTOVPCT', 'PNTTCHS', 'PNTFGA', 'PNTPTSPCT', 'PNTPASSPCT', 'PNTASTPCT', 'PNTTVPCT', 'AVGFGATTEMPTEDAGAINSTPERGAME']
+2025-10-03 11:35:38,118 - INFO - Finding optimal number of clusters...
+2025-10-03 11:35:38,157 - INFO - k=2: Silhouette=0.333, Calinski-Harabasz=90.793, Inertia=3491.757
+2025-10-03 11:35:38,163 - INFO - k=3: Silhouette=0.190, Calinski-Harabasz=69.257, Inertia=3109.365
+2025-10-03 11:35:38,171 - INFO - k=4: Silhouette=0.207, Calinski-Harabasz=61.812, Inertia=2805.225
+2025-10-03 11:35:38,179 - INFO - k=5: Silhouette=0.182, Calinski-Harabasz=58.493, Inertia=2546.021
+2025-10-03 11:35:38,189 - INFO - k=6: Silhouette=0.164, Calinski-Harabasz=54.041, Inertia=2379.862
+2025-10-03 11:35:38,196 - INFO - k=7: Silhouette=0.164, Calinski-Harabasz=50.928, Inertia=2236.353
+2025-10-03 11:35:38,205 - INFO - k=8: Silhouette=0.159, Calinski-Harabasz=47.867, Inertia=2127.987
+2025-10-03 11:35:38,216 - INFO - k=9: Silhouette=0.169, Calinski-Harabasz=47.461, Inertia=1983.447
+2025-10-03 11:35:38,227 - INFO - k=10: Silhouette=0.166, Calinski-Harabasz=44.824, Inertia=1912.191
+2025-10-03 11:35:38,227 - INFO - Optimal k (Silhouette): 2
+2025-10-03 11:35:38,227 - INFO - Optimal k (Calinski-Harabasz): 2
+2025-10-03 11:35:38,227 - INFO - Performing final clustering with k=2...
+2025-10-03 11:35:38,233 - INFO - Final clustering completed: 2 clusters, Silhouette=0.333, Calinski-Harabasz=90.793
+2025-10-03 11:35:38,233 - INFO - Validating cluster stability with 10 runs...
+2025-10-03 11:35:38,285 - INFO - Stability validation completed: Silhouette mean=0.333±0.000, Stability score=1.000

@@ -1,0 +1,247 @@
+2025-10-03 11:21:47,364 - INFO - Starting API health check...
+2025-10-03 11:21:47,365 - INFO - Created default configuration at api_endpoints.yml
+2025-10-03 11:21:47,365 - ERROR - No active endpoints found in configuration
+2025-10-03 11:21:47,365 - ERROR - One or more API endpoints failed health check!
+2025-10-03 11:21:56,914 - INFO - Starting API health check...
+2025-10-03 11:21:56,916 - INFO - Loaded endpoint configuration from api_endpoints.yml
+2025-10-03 11:21:56,916 - INFO - Testing 3 active endpoints...
+2025-10-03 11:21:56,916 - INFO - Testing endpoint: catch_shoot
+2025-10-03 11:21:56,916 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:21:57,115 - ERROR -   HTTP 500: 
+2025-10-03 11:21:57,117 - INFO - Testing endpoint: player_tracking
+2025-10-03 11:21:57,117 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashptstats
+2025-10-03 11:21:57,291 - ERROR -   HTTP 500: 
+2025-10-03 11:21:57,294 - INFO - Testing endpoint: shot_locations
+2025-10-03 11:21:57,294 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:21:57,460 - ERROR -   HTTP 500: 
+2025-10-03 11:21:57,462 - INFO - ==================================================
+2025-10-03 11:21:57,462 - INFO - API HEALTH CHECK SUMMARY
+2025-10-03 11:21:57,462 - INFO - ==================================================
+2025-10-03 11:21:57,462 - INFO - Total endpoints tested: 3
+2025-10-03 11:21:57,462 - INFO - Successful: 0
+2025-10-03 11:21:57,462 - INFO - Failed: 3
+2025-10-03 11:21:57,462 - INFO - ==================================================
+2025-10-03 11:21:57,462 - ERROR - FAILED ENDPOINTS:
+2025-10-03 11:21:57,462 - ERROR -   catch_shoot: HTTP 500
+2025-10-03 11:21:57,462 - ERROR -   player_tracking: HTTP 500
+2025-10-03 11:21:57,462 - ERROR -   shot_locations: HTTP 500
+2025-10-03 11:21:57,463 - INFO - Detailed results saved to: api_health_check_20251003_112157.json
+2025-10-03 11:21:57,463 - ERROR - One or more API endpoints failed health check!
+2025-10-03 11:22:21,009 - INFO - Starting API health check...
+2025-10-03 11:22:21,012 - INFO - Loaded endpoint configuration from api_endpoints.yml
+2025-10-03 11:22:21,012 - INFO - Testing 3 active endpoints...
+2025-10-03 11:22:21,012 - INFO - Testing endpoint: catch_shoot
+2025-10-03 11:22:21,012 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:22:21,342 - ERROR -   HTTP 500: 
+2025-10-03 11:22:21,344 - INFO - Testing endpoint: player_tracking
+2025-10-03 11:22:21,345 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashptstats
+2025-10-03 11:22:21,449 - ERROR -   HTTP 500: 
+2025-10-03 11:22:21,450 - INFO - Testing endpoint: shot_locations
+2025-10-03 11:22:21,450 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:22:21,544 - ERROR -   HTTP 500: 
+2025-10-03 11:22:21,545 - INFO - ==================================================
+2025-10-03 11:22:21,545 - INFO - API HEALTH CHECK SUMMARY
+2025-10-03 11:22:21,545 - INFO - ==================================================
+2025-10-03 11:22:21,545 - INFO - Total endpoints tested: 3
+2025-10-03 11:22:21,545 - INFO - Successful: 0
+2025-10-03 11:22:21,545 - INFO - Failed: 3
+2025-10-03 11:22:21,545 - INFO - ==================================================
+2025-10-03 11:22:21,545 - ERROR - FAILED ENDPOINTS:
+2025-10-03 11:22:21,545 - ERROR -   catch_shoot: HTTP 500
+2025-10-03 11:22:21,545 - ERROR -   player_tracking: HTTP 500
+2025-10-03 11:22:21,545 - ERROR -   shot_locations: HTTP 500
+2025-10-03 11:22:21,546 - INFO - Detailed results saved to: api_health_check_20251003_112221.json
+2025-10-03 11:22:21,546 - ERROR - One or more API endpoints failed health check!
+2025-10-03 11:22:42,905 - INFO - Starting API health check...
+2025-10-03 11:22:42,909 - INFO - Loaded endpoint configuration from api_endpoints.yml
+2025-10-03 11:22:42,909 - INFO - Testing 3 active endpoints...
+2025-10-03 11:22:42,909 - INFO - Testing endpoint: catch_shoot
+2025-10-03 11:22:42,909 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:22:43,101 - ERROR -   HTTP 400: {"MeasureType":["Invalid parameters"]}
+2025-10-03 11:22:43,102 - INFO - Testing endpoint: player_tracking
+2025-10-03 11:22:43,102 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashptstats
+2025-10-03 11:22:44,783 - WARNING -   Missing expected fields: ['PLAYER_ID', 'PLAYER_NAME']
+2025-10-03 11:22:44,783 - INFO -   ✓ Success: 30 rows, 24 columns
+2025-10-03 11:22:44,786 - INFO - Testing endpoint: shot_locations
+2025-10-03 11:22:44,786 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:22:44,953 - ERROR -   HTTP 500: 
+2025-10-03 11:22:44,955 - INFO - ==================================================
+2025-10-03 11:22:44,955 - INFO - API HEALTH CHECK SUMMARY
+2025-10-03 11:22:44,955 - INFO - ==================================================
+2025-10-03 11:22:44,955 - INFO - Total endpoints tested: 3
+2025-10-03 11:22:44,955 - INFO - Successful: 1
+2025-10-03 11:22:44,955 - INFO - Failed: 2
+2025-10-03 11:22:44,955 - INFO - ==================================================
+2025-10-03 11:22:44,955 - ERROR - FAILED ENDPOINTS:
+2025-10-03 11:22:44,955 - ERROR -   catch_shoot: HTTP 400
+2025-10-03 11:22:44,955 - ERROR -   shot_locations: HTTP 500
+2025-10-03 11:22:44,956 - INFO - Detailed results saved to: api_health_check_20251003_112244.json
+2025-10-03 11:22:44,956 - ERROR - One or more API endpoints failed health check!
+2025-10-03 11:24:07,699 - INFO - Starting API health check...
+2025-10-03 11:24:07,703 - INFO - Loaded endpoint configuration from api_endpoints.yml
+2025-10-03 11:24:07,703 - INFO - Testing 3 active endpoints...
+2025-10-03 11:24:07,703 - INFO - Testing endpoint: catch_shoot
+2025-10-03 11:24:07,703 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:24:07,880 - ERROR -   HTTP 400: {"MeasureType":["Invalid parameters"]}
+2025-10-03 11:24:07,881 - INFO - Testing endpoint: player_tracking
+2025-10-03 11:24:07,881 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashptstats
+2025-10-03 11:24:07,985 - WARNING -   Missing expected fields: ['PLAYER_ID', 'PLAYER_NAME']
+2025-10-03 11:24:07,985 - INFO -   ✓ Success: 30 rows, 24 columns
+2025-10-03 11:24:07,986 - INFO - Testing endpoint: shot_locations
+2025-10-03 11:24:07,986 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:24:08,154 - ERROR -   HTTP 500: System.InvalidOperationException: Nullable object must have a value.
+   at StatsService.Models.LeagueDashPlayerShotLocationsParameters.get_QueryParameters() in /source/StatsService/Models/LeagueDashPlayerShotLocationsParameters.cs:line 277
+   at Microsoft.Extensions.Internal.PropertyHelper.CallNullSafePropertyGetter[TDeclaringType,TValue](Func`2 getter, Object target)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitChildren(IValidationStrategy strategy)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitComplexType(IValidationStrategy defaultStrategy)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitImplementation(ModelMetadata& metadata, String& key, Object model)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.Visit(ModelMetadata metadata, String key, Object model)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.Validate(ModelMetadata metadata, String key, Object model, Boolean alwaysValidateAtTopLevel, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ObjectModelValidator.Validate(ActionContext actionContext, ValidationStateDictionary validationState, String prefix, Object model, ModelMetadata metadata, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.EnforceBindRequiredAndValidate(ObjectModelValidator baseObjectValidator, ActionContext actionContext, ParameterDescriptor parameter, ModelMetadata metadata, ModelBindingContext modelBindingContext, ModelBindingResult modelBindingResult, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+
+HEADERS
+=======
+Accept: */*
+Host: prod.stats.nba.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+Accept-Encoding: gzip
+Accept-Language: en-US,en;q=0.9
+Origin: https://www.nba.com
+Pragma: no-cache
+Referer: https://www.nba.com/
+traceparent: 00-8ba43ece1ba04ecde0cacfc4c0854cae-c5c869dc96c6bd52-00
+tracestate: 
+Via: 1.1 v1-akamaitech.net(ghost) (AkamaiGHost), 1.1 akamai.net(ghost) (AkamaiGHost)
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-site
+sec-ch-ua: "Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+true-client-ip: 67.250.46.25
+cdn-loop: akamai;v=1.0;c=1
+x-akamai-config-log-detail: true
+akamai-origin-hop: 2
+x-forwarded-proto: https
+x-envoy-external-address: 10.157.75.90
+x-request-id: ed00bbed-9d3e-42aa-a26b-464dc0961c81
+x-envoy-expected-rq-timeout-ms: 91000
+x-request-start: t=1759504964.939
+X-Forwarded-For: 67.250.46.25, 23.206.120.139,10.157.75.90, 192.168.101.71
+x-cache: hit
+X-ttl: -42.940
+X-grace: 86400.000
+X-keep: 0.000
+X-Varnish: 120224114
+
+2025-10-03 11:24:08,157 - INFO - ==================================================
+2025-10-03 11:24:08,157 - INFO - API HEALTH CHECK SUMMARY
+2025-10-03 11:24:08,157 - INFO - ==================================================
+2025-10-03 11:24:08,157 - INFO - Total endpoints tested: 3
+2025-10-03 11:24:08,157 - INFO - Successful: 1
+2025-10-03 11:24:08,157 - INFO - Failed: 2
+2025-10-03 11:24:08,157 - INFO - ==================================================
+2025-10-03 11:24:08,157 - ERROR - FAILED ENDPOINTS:
+2025-10-03 11:24:08,157 - ERROR -   catch_shoot: HTTP 400
+2025-10-03 11:24:08,157 - ERROR -   shot_locations: HTTP 500
+2025-10-03 11:24:08,158 - INFO - Detailed results saved to: api_health_check_20251003_112408.json
+2025-10-03 11:24:08,158 - ERROR - One or more API endpoints failed health check!
+2025-10-03 11:24:41,333 - INFO - Starting API health check...
+2025-10-03 11:24:41,337 - INFO - Loaded endpoint configuration from api_endpoints.yml
+2025-10-03 11:24:41,337 - INFO - Testing 3 active endpoints...
+2025-10-03 11:24:41,337 - INFO - Testing endpoint: catch_shoot
+2025-10-03 11:24:41,337 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:24:41,473 - WARNING -   Missing expected fields: ['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'TEAM_ABBREVIATION', 'CATCH_SHOOT_FGM', 'CATCH_SHOOT_FGA', 'CATCH_SHOOT_FG_PCT']
+2025-10-03 11:24:41,474 - INFO -   ✓ Success: 569 rows, 2 columns
+2025-10-03 11:24:41,475 - INFO - Testing endpoint: player_tracking
+2025-10-03 11:24:41,475 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashptstats
+2025-10-03 11:24:41,641 - WARNING -   Missing expected fields: ['PLAYER_ID', 'PLAYER_NAME']
+2025-10-03 11:24:41,641 - INFO -   ✓ Success: 30 rows, 24 columns
+2025-10-03 11:24:41,643 - INFO - Testing endpoint: shot_locations
+2025-10-03 11:24:41,643 - INFO -   Making request to: https://stats.nba.com/stats/leaguedashplayershotlocations
+2025-10-03 11:24:41,808 - ERROR -   HTTP 500: System.InvalidOperationException: Nullable object must have a value.
+   at StatsService.Models.LeagueDashPlayerShotLocationsParameters.get_QueryParameters() in /source/StatsService/Models/LeagueDashPlayerShotLocationsParameters.cs:line 277
+   at Microsoft.Extensions.Internal.PropertyHelper.CallNullSafePropertyGetter[TDeclaringType,TValue](Func`2 getter, Object target)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitChildren(IValidationStrategy strategy)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitComplexType(IValidationStrategy defaultStrategy)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitImplementation(ModelMetadata& metadata, String& key, Object model)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.Visit(ModelMetadata metadata, String key, Object model)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.Validate(ModelMetadata metadata, String key, Object model, Boolean alwaysValidateAtTopLevel, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ObjectModelValidator.Validate(ActionContext actionContext, ValidationStateDictionary validationState, String prefix, Object model, ModelMetadata metadata, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.EnforceBindRequiredAndValidate(ObjectModelValidator baseObjectValidator, ActionContext actionContext, ParameterDescriptor parameter, ModelMetadata metadata, ModelBindingContext modelBindingContext, ModelBindingResult modelBindingResult, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+
+HEADERS
+=======
+Accept: */*
+Host: prod.stats.nba.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+Accept-Encoding: gzip
+Accept-Language: en-US,en;q=0.9
+Origin: https://www.nba.com
+Pragma: no-cache
+Referer: https://www.nba.com/
+traceparent: 00-517865c9fca3b3d8af4aaccc52f74201-ef3189027ad3043f-00
+tracestate: 
+Via: 1.1 v1-akamaitech.net(ghost) (AkamaiGHost), 1.1 akamai.net(ghost) (AkamaiGHost)
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-site
+sec-ch-ua: "Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+true-client-ip: 67.250.46.25
+cdn-loop: akamai;v=1.0;c=1
+x-akamai-config-log-detail: true
+akamai-origin-hop: 2
+x-forwarded-proto: https
+x-envoy-external-address: 10.157.75.90
+x-request-id: bab2b4c5-6ba1-4bb9-8009-f8be2a50a623
+x-envoy-expected-rq-timeout-ms: 91000
+x-request-start: t=1759505048.140
+X-Forwarded-For: 67.250.46.25, 23.206.120.145,10.157.75.90, 192.168.101.71
+x-cache: hit
+X-ttl: -79.141
+X-grace: 86400.000
+X-keep: 0.000
+X-Varnish: 120493401
+
+2025-10-03 11:24:41,811 - INFO - ==================================================
+2025-10-03 11:24:41,811 - INFO - API HEALTH CHECK SUMMARY
+2025-10-03 11:24:41,811 - INFO - ==================================================
+2025-10-03 11:24:41,811 - INFO - Total endpoints tested: 3
+2025-10-03 11:24:41,811 - INFO - Successful: 2
+2025-10-03 11:24:41,811 - INFO - Failed: 1
+2025-10-03 11:24:41,811 - INFO - ==================================================
+2025-10-03 11:24:41,811 - ERROR - FAILED ENDPOINTS:
+2025-10-03 11:24:41,811 - ERROR -   shot_locations: HTTP 500
+2025-10-03 11:24:41,812 - INFO - Detailed results saved to: api_health_check_20251003_112441.json
+2025-10-03 11:24:41,812 - ERROR - One or more API endpoints failed health check!

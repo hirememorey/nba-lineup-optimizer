@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-03T11:21:57.462813",
+  "summary": {
+    "total_endpoints": 3,
+    "successful": 0,
+    "failed": 3,
+    "all_passed": false
+  },
+  "results": {
+    "catch_shoot": {
+      "status": "FAILED",
+      "error": "HTTP 500",
+      "details": ""
+    },
+    "player_tracking": {
+      "status": "FAILED",
+      "error": "HTTP 500",
+      "details": ""
+    },
+    "shot_locations": {
+      "status": "FAILED",
+      "error": "HTTP 500",
+      "details": ""
+    }
+  }
+}

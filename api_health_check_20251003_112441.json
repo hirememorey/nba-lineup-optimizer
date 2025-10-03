@@ -1,0 +1,100 @@
+{
+  "timestamp": "2025-10-03T11:24:41.812075",
+  "summary": {
+    "total_endpoints": 3,
+    "successful": 2,
+    "failed": 1,
+    "all_passed": false
+  },
+  "results": {
+    "catch_shoot": {
+      "status": "SUCCESS",
+      "row_count": 569,
+      "column_count": 2,
+      "missing_fields": [
+        "PLAYER_ID",
+        "PLAYER_NAME",
+        "TEAM_ID",
+        "TEAM_ABBREVIATION",
+        "CATCH_SHOOT_FGM",
+        "CATCH_SHOOT_FGA",
+        "CATCH_SHOOT_FG_PCT"
+      ],
+      "sample_data": [
+        1630639,
+        "A.J. Lawson",
+        1610612761,
+        "TOR",
+        24.0,
+        "A.J.",
+        1.5,
+        2.8,
+        0.527,
+        0.3,
+        0.6,
+        0.615,
+        0.0,
+        0.1,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.7,
+        2.0,
+        0.353,
+        0.6,
+        1.9,
+        0.306,
+        0.0,
+        0.1,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "player_tracking": {
+      "status": "SUCCESS",
+      "row_count": 30,
+      "column_count": 24,
+      "missing_fields": [
+        "PLAYER_ID",
+        "PLAYER_NAME"
+      ],
+      "sample_data": [
+        1610612737,
+        "ATL",
+        "Atlanta Hawks",
+        82,
+        40,
+        42,
+        241.2,
+        50.3,
+        10.1,
+        21.3,
+        0.474,
+        4.7,
+        5.8,
+        0.804,
+        25.5,
+        0.507,
+        21.4,
+        0.425,
+        5.6,
+        0.112,
+        3.3,
+        0.066,
+        2.9,
+        0.058
+      ]
+    },
+    "shot_locations": {
+      "status": "FAILED",
+      "error": "HTTP 500",
+      "details": "System.InvalidOperationException: Nullable object must have a value.\n   at StatsService.Models.LeagueDashPlayerShotLocationsParameters.get_QueryParameters() in /source/StatsService/Models/LeagueDashPl"
+    }
+  }
+}

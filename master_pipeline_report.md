@@ -1,5 +1,5 @@
 # Master Data Pipeline Report
-Generated on: 2025-10-01 13:37:14
+Generated on: 2025-10-03 10:40:10
 Season: 2024-25
 
 ## Summary Statistics

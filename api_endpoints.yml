@@ -1,0 +1,159 @@
+endpoints:
+  catch_shoot:
+    description: Catch and shoot statistics
+    expected_fields:
+    - PLAYER_ID
+    - PLAYER_NAME
+    - TEAM_ID
+    - TEAM_ABBREVIATION
+    - CATCH_SHOOT_FGM
+    - CATCH_SHOOT_FGA
+    - CATCH_SHOOT_FG_PCT
+    method: GET
+    required_params:
+      College: ''
+      Conference: ''
+      Country: ''
+      DateFrom: ''
+      DateTo: ''
+      DistanceRange: 5ft Range
+      Division: ''
+      DraftPick: ''
+      DraftYear: ''
+      GameScope: ''
+      GameSegment: ''
+      Height: ''
+      ISTRound: ''
+      LastNGames: '0'
+      Location: ''
+      MeasureType: Base
+      Month: '0'
+      OpponentTeamID: '0'
+      Outcome: ''
+      PORound: '0'
+      PaceAdjust: N
+      PerMode: PerGame
+      Period: '0'
+      PlayerExperience: ''
+      PlayerPosition: ''
+      PlusMinus: N
+      Rank: N
+      Season: 2024-25
+      SeasonSegment: ''
+      SeasonType: Regular Season
+      ShotClockRange: ''
+      StarterBench: ''
+      TeamID: '0'
+      VsConference: ''
+      VsDivision: ''
+      Weight: ''
+    status: active
+    url: https://stats.nba.com/stats/leaguedashplayershotlocations
+  player_tracking:
+    description: Player tracking statistics
+    expected_fields:
+    - PLAYER_ID
+    - PLAYER_NAME
+    - TEAM_ID
+    - TEAM_ABBREVIATION
+    - DRIVES
+    - DRIVE_FGA
+    - DRIVE_FG_PCT
+    - DRIVE_PTS
+    method: GET
+    required_params:
+      College: ''
+      Conference: ''
+      Country: ''
+      DateFrom: ''
+      DateTo: ''
+      Division: ''
+      DraftPick: ''
+      DraftYear: ''
+      GameScope: ''
+      GameSegment: ''
+      Height: ''
+      ISTRound: ''
+      LastNGames: '0'
+      Location: ''
+      Month: '0'
+      OpponentTeamID: '0'
+      Outcome: ''
+      PORound: '0'
+      PaceAdjust: N
+      PerMode: PerGame
+      Period: '0'
+      PlayerExperience: ''
+      PlayerPosition: ''
+      PlusMinus: N
+      PtMeasureType: Drives
+      Rank: N
+      Season: 2024-25
+      SeasonSegment: ''
+      SeasonType: Regular Season
+      ShotClockRange: ''
+      StarterBench: ''
+      TeamID: '0'
+      VsConference: ''
+      VsDivision: ''
+      Weight: ''
+    status: active
+    url: https://stats.nba.com/stats/leaguedashptstats
+  shot_locations:
+    description: Player shot locations by distance range
+    expected_fields:
+    - PLAYER_ID
+    - PLAYER_NAME
+    - TEAM_ID
+    - TEAM_ABBREVIATION
+    - FGM
+    - FGA
+    - FG_PCT
+    - FG3M
+    - FG3A
+    - FG3_PCT
+    - RESTRICTED_AREA_FGM
+    - RESTRICTED_AREA_FGA
+    - RESTRICTED_AREA_FG_PCT
+    - IN_THE_PAINT_NON_RA_FGM
+    - IN_THE_PAINT_NON_RA_FGA
+    - IN_THE_PAINT_NON_RA_FG_PCT
+    - MID_RANGE_FGM
+    - MID_RANGE_FGA
+    - MID_RANGE_FG_PCT
+    - LEFT_CORNER_3_FGM
+    - LEFT_CORNER_3_FGA
+    - LEFT_CORNER_3_FG_PCT
+    - RIGHT_CORNER_3_FGM
+    - RIGHT_CORNER_3_FGA
+    - RIGHT_CORNER_3_FG_PCT
+    - ABOVE_THE_BREAK_3_FGM
+    - ABOVE_THE_BREAK_3_FGA
+    - ABOVE_THE_BREAK_3_FG_PCT
+    method: GET
+    required_params:
+      DistanceRange: 5ft Range
+      MeasureType: Base
+      PerMode: PerGame
+      Season: 2024-25
+      SeasonType: Regular Season
+    status: active
+    url: https://stats.nba.com/stats/leaguedashplayershotlocations
+headers:
+  Accept: '*/*'
+  Accept-Language: en-US,en;q=0.9
+  Cache-Control: no-cache
+  Connection: keep-alive
+  Origin: https://www.nba.com
+  Pragma: no-cache
+  Referer: https://www.nba.com/
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-site
+  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+    like Gecko) Chrome/140.0.0.0 Safari/537.36
+  sec-ch-ua: '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"'
+  sec-ch-ua-mobile: ?0
+  sec-ch-ua-platform: '"macOS"'
+retry_attempts: 3
+timeout: 30

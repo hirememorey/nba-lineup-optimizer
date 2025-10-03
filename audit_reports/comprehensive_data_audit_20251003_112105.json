@@ -1,0 +1,1193 @@
+{
+  "audit_metadata": {
+    "timestamp": "2025-10-03T11:21:06.011760",
+    "database_path": "src/nba_stats/db/nba_stats.db",
+    "auditor_version": "1.0.0"
+  },
+  "player_archetype_features_audit": {
+    "timestamp": "2025-10-03T11:21:05.985458",
+    "total_players": 311,
+    "canonical_metrics": {
+      "total": 47,
+      "found": 47,
+      "missing": 0,
+      "missing_list": []
+    },
+    "feature_audit": {
+      "FTPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 308,
+        "zero_count": 3,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 99.04,
+        "zero_percentage": 0.96,
+        "avg_value": 0.7591,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "status": "GOOD"
+      },
+      "TSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 311,
+        "zero_count": 0,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 100.0,
+        "zero_percentage": 0.0,
+        "avg_value": 0.5706,
+        "min_value": 0.326,
+        "max_value": 0.724,
+        "status": "GOOD"
+      },
+      "THPAr": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 303,
+        "zero_count": 8,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 97.43,
+        "zero_percentage": 2.57,
+        "avg_value": 0.423,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "status": "GOOD"
+      },
+      "FTr": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 305,
+        "zero_count": 6,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 98.07,
+        "zero_percentage": 1.93,
+        "avg_value": 0.2334,
+        "min_value": 0.0,
+        "max_value": 0.7049,
+        "status": "GOOD"
+      },
+      "TRBPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 311,
+        "zero_count": 0,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 100.0,
+        "zero_percentage": 0.0,
+        "avg_value": 0.0896,
+        "min_value": 0.029,
+        "max_value": 0.205,
+        "status": "GOOD"
+      },
+      "ASTPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 310,
+        "zero_count": 1,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 99.68,
+        "zero_percentage": 0.32,
+        "avg_value": 0.1591,
+        "min_value": 0.0,
+        "max_value": 0.452,
+        "status": "GOOD"
+      },
+      "AVGDIST": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 92,
+        "zero_count": 219,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 29.58,
+        "zero_percentage": 70.42,
+        "avg_value": 4.0959,
+        "min_value": 0.0,
+        "max_value": 23.85,
+        "status": "POOR"
+      },
+      "Zto3r": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 91,
+        "zero_count": 220,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 29.26,
+        "zero_percentage": 70.74,
+        "avg_value": 0.1181,
+        "min_value": 0.0,
+        "max_value": 0.9714,
+        "status": "POOR"
+      },
+      "THto10r": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 91,
+        "zero_count": 220,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 29.26,
+        "zero_percentage": 70.74,
+        "avg_value": 0.0412,
+        "min_value": 0.0,
+        "max_value": 0.396,
+        "status": "POOR"
+      },
+      "TENto16r": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 84,
+        "zero_count": 227,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 27.01,
+        "zero_percentage": 72.99,
+        "avg_value": 0.0163,
+        "min_value": 0.0,
+        "max_value": 0.2727,
+        "status": "POOR"
+      },
+      "SIXTto3PTr": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 88,
+        "zero_count": 223,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 28.3,
+        "zero_percentage": 71.7,
+        "avg_value": 0.1195,
+        "min_value": 0.0,
+        "max_value": 0.9,
+        "status": "POOR"
+      },
+      "HEIGHT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 178,
+        "zero_count": 133,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 57.23,
+        "zero_percentage": 42.77,
+        "avg_value": 44.9003,
+        "min_value": 0.0,
+        "max_value": 86.0,
+        "status": "FAIR"
+      },
+      "WINGSPAN": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 217,
+        "zero_count": 94,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 69.77,
+        "zero_percentage": 30.23,
+        "avg_value": 57.504,
+        "min_value": 0.0,
+        "max_value": 94.75,
+        "status": "FAIR"
+      },
+      "FRNTCTTCH": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "TOP": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "AVGSECPERTCH": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "AVGDRIBPERTCH": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "ELBWTCH": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "POSTUPS": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTTOUCH": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRIVES": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRFGA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRPTSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRPASSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRASTPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRTOVPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRPFPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "DRIMFGPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "CSFGA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 309,
+        "zero_count": 2,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 99.36,
+        "zero_percentage": 0.64,
+        "avg_value": 2.9576,
+        "min_value": 0.0,
+        "max_value": 8.0,
+        "status": "GOOD"
+      },
+      "CS3PA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 295,
+        "zero_count": 16,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 94.86,
+        "zero_percentage": 5.14,
+        "avg_value": 2.7556,
+        "min_value": 0.0,
+        "max_value": 7.8,
+        "status": "GOOD"
+      },
+      "PASSESMADE": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "SECAST": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "POTAST": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PUFGA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PU3PA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PSTUPFGA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PSTUPPTSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PSTUPPASSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PSTUPASTPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PSTUPTOVPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTTCHS": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTFGA": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTPTSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTPASSPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTASTPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "PNTTVPCT": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      },
+      "AVGFGATTEMPTEDAGAINSTPERGAME": {
+        "total_players": 311,
+        "non_null_count": 311,
+        "positive_count": 0,
+        "zero_count": 311,
+        "non_null_coverage": 100.0,
+        "positive_coverage": 0.0,
+        "zero_percentage": 100.0,
+        "avg_value": 0.0,
+        "min_value": 0.0,
+        "max_value": 0.0,
+        "status": "MISSING"
+      }
+    },
+    "summary": {
+      "status_distribution": {
+        "GOOD": 8,
+        "POOR": 5,
+        "FAIR": 2,
+        "MISSING": 32
+      },
+      "critical_issues": [
+        {
+          "metric": "FRNTCTTCH",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "TOP",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "AVGSECPERTCH",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "AVGDRIBPERTCH",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "ELBWTCH",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "POSTUPS",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTTOUCH",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRIVES",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRFGA",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRPTSPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRPASSPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRASTPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRTOVPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRPFPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "DRIMFGPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PASSESMADE",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "SECAST",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "POTAST",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PUFGA",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PU3PA",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PSTUPFGA",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PSTUPPTSPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PSTUPPASSPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PSTUPASTPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PSTUPTOVPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTTCHS",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTFGA",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTPTSPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTPASSPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTASTPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "PNTTVPCT",
+          "status": "MISSING",
+          "coverage": 0.0
+        },
+        {
+          "metric": "AVGFGATTEMPTEDAGAINSTPERGAME",
+          "status": "MISSING",
+          "coverage": 0.0
+        }
+      ],
+      "total_critical": 32
+    }
+  },
+  "related_tables_audit": {
+    "Players": {
+      "exists": true,
+      "row_count": 5025,
+      "sample_data": [
+        [
+          2,
+          "Byron Scott",
+          "Byron",
+          "Scott",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "2025-06-13 01:57:19",
+          "2025-06-13T15:13:37.786585",
+          null,
+          null,
+          null
+        ],
+        [
+          3,
+          "Grant Long",
+          "Grant",
+          "Long",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "2025-06-13 01:57:19",
+          "2025-06-13T15:13:37.777000",
+          null,
+          null,
+          null
+        ],
+        [
+          7,
+          "Dan Schayes",
+          "Dan",
+          "Schayes",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "2025-06-13 01:57:19",
+          "2025-06-13T15:13:37.786436",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "PlayerSeasonArchetypes": {
+      "exists": true,
+      "row_count": 270,
+      "sample_data": [
+        [
+          2544,
+          "2024-25",
+          3
+        ],
+        [
+          101108,
+          "2024-25",
+          3
+        ],
+        [
+          201142,
+          "2024-25",
+          3
+        ]
+      ]
+    },
+    "PlayerSeasonSkill": {
+      "exists": true,
+      "row_count": 534,
+      "sample_data": [
+        [
+          203999,
+          "2024-25",
+          "Nikola Jokic",
+          "Denver Nuggets",
+          5.15,
+          1.31,
+          6.47,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "2025-06-11 20:55:05",
+          "2025-06-11 20:55:05"
+        ],
+        [
+          1628983,
+          "2024-25",
+          "Shai Gilgeous-Alexander",
+          "Oklahoma City Thunder",
+          5.67,
+          0.77,
+          6.44,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "2025-06-11 20:55:05",
+          "2025-06-11 20:55:05"
+        ],
+        [
+          203507,
+          "2024-25",
+          "Giannis Antetokounmpo",
+          "Milwaukee Bucks",
+          4.2,
+          2.1,
+          6.3,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "2025-06-11 20:55:05",
+          "2025-06-11 20:55:05"
+        ]
+      ]
+    },
+    "PlayerShotChart": {
+      "exists": true,
+      "row_count": 37891,
+      "sample_data": [
+        [
+          1,
+          1629029,
+          1610612742,
+          "0022400007",
+          "2024-25",
+          "Fadeaway Jump Shot",
+          "Made Shot",
+          "2PT Field Goal",
+          "Mid-Range",
+          "Left Side(L)",
+          "8-16 ft.",
+          10,
+          -104,
+          -6,
+          1,
+          "2025-06-11 20:53:18",
+          "2025-06-11 20:53:18"
+        ],
+        [
+          2,
+          1629029,
+          1610612742,
+          "0022400007",
+          "2024-25",
+          "Running Jump Shot",
+          "Made Shot",
+          "3PT Field Goal",
+          "Above the Break 3",
+          "Right Side Center(RC)",
+          "24+ ft.",
+          30,
+          212,
+          224,
+          1,
+          "2025-06-11 20:53:18",
+          "2025-06-11 20:53:18"
+        ],
+        [
+          3,
+          1629029,
+          1610612742,
+          "0022400007",
+          "2024-25",
+          "Step Back Jump shot",
+          "Missed Shot",
+          "2PT Field Goal",
+          "Mid-Range",
+          "Right Side(R)",
+          "8-16 ft.",
+          10,
+          102,
+          41,
+          0,
+          "2025-06-11 20:53:18",
+          "2025-06-11 20:53:18"
+        ]
+      ]
+    },
+    "PlayerSeasonRawStats": {
+      "exists": true,
+      "row_count": 710,
+      "sample_data": [
+        [
+          1641745,
+          "2024-25",
+          1610612760,
+          37,
+          null,
+          5.5,
+          0,
+          2,
+          0.26,
+          0,
+          1,
+          0.194,
+          0,
+          0,
+          0.5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.2,
+          "2025-10-01 20:23:08",
+          "2025-10-01 20:23:08",
+          null
+        ],
+        [
+          1641766,
+          "2024-25",
+          1610612741,
+          4,
+          null,
+          5.4,
+          1,
+          1,
+          0.571,
+          0,
+          0,
+          0.0,
+          0,
+          0,
+          0.0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          -1.3,
+          "2025-10-01 20:23:08",
+          "2025-10-01 20:23:08",
+          null
+        ],
+        [
+          201143,
+          "2024-25",
+          1610612738,
+          60,
+          null,
+          27.6,
+          3,
+          7,
+          0.423,
+          1,
+          5,
+          0.363,
+          0,
+          0,
+          0.895,
+          1,
+          4,
+          6,
+          2,
+          0,
+          0,
+          0,
+          1,
+          9,
+          6.6,
+          "2025-10-01 20:23:08",
+          "2025-10-01 20:23:08",
+          null
+        ]
+      ]
+    },
+    "PlayerSeasonAdvancedStats": {
+      "exists": true,
+      "row_count": 540,
+      "sample_data": [
+        [
+          2544,
+          "2024-25",
+          1610612747,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          112.7,
+          114.0,
+          -1.3,
+          0.395,
+          null,
+          null,
+          0.031,
+          0.187,
+          0.112,
+          11.6,
+          null,
+          0.604,
+          0.291,
+          100.62,
+          0.169,
+          null,
+          "2025-10-01 22:51:19",
+          "2025-10-01 22:51:19"
+        ],
+        [
+          101108,
+          "2024-25",
+          1610612746,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          114.2,
+          115.0,
+          -0.8,
+          0.342,
+          null,
+          null,
+          0.014,
+          0.11,
+          0.062,
+          9.6,
+          null,
+          0.58,
+          0.137,
+          100.48,
+          0.102,
+          null,
+          "2025-10-02 05:01:42",
+          "2025-10-02 05:01:42"
+        ],
+        [
+          200768,
+          "2024-25",
+          1610612755,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          103.8,
+          109.6,
+          -5.8,
+          0.206,
+          null,
+          null,
+          0.016,
+          0.086,
+          0.05,
+          8.4,
+          null,
+          0.525,
+          0.1,
+          99.28,
+          0.067,
+          null,
+          "2025-10-02 05:18:15",
+          "2025-10-02 05:18:15"
+        ]
+      ]
+    }
+  }
+}

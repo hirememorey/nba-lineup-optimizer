@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-10-03T11:24:08.158305",
+  "summary": {
+    "total_endpoints": 3,
+    "successful": 1,
+    "failed": 2,
+    "all_passed": false
+  },
+  "results": {
+    "catch_shoot": {
+      "status": "FAILED",
+      "error": "HTTP 400",
+      "details": "{\"MeasureType\":[\"Invalid parameters\"]}"
+    },
+    "player_tracking": {
+      "status": "SUCCESS",
+      "row_count": 30,
+      "column_count": 24,
+      "missing_fields": [
+        "PLAYER_ID",
+        "PLAYER_NAME"
+      ],
+      "sample_data": [
+        1610612737,
+        "ATL",
+        "Atlanta Hawks",
+        82,
+        40,
+        42,
+        241.2,
+        50.3,
+        10.1,
+        21.3,
+        0.474,
+        4.7,
+        5.8,
+        0.804,
+        25.5,
+        0.507,
+        21.4,
+        0.425,
+        5.6,
+        0.112,
+        3.3,
+        0.066,
+        2.9,
+        0.058
+      ]
+    },
+    "shot_locations": {
+      "status": "FAILED",
+      "error": "HTTP 500",
+      "details": "System.InvalidOperationException: Nullable object must have a value.\n   at StatsService.Models.LeagueDashPlayerShotLocationsParameters.get_QueryParameters() in /source/StatsService/Models/LeagueDashPl"
+    }
+  }
+}
