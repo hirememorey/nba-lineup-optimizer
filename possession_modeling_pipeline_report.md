@@ -1,6 +1,6 @@
 Possession-Level Modeling Pipeline Report
 ============================================================
-Generated: 2025-10-02 14:48:12
+Generated: 2025-10-03 08:57:51
 
 Next Steps:
 1. Review schema validation results
