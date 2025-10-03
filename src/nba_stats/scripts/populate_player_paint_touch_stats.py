@@ -88,7 +88,8 @@ def populate_player_paint_touch_stats(season_to_load: str):
 
 
 if __name__ == '__main__':
+    import logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     # This is an example, the season will be passed by the orchestrator script
-    current_season = "2023-24" 
+    current_season = "2024-25" 
     populate_player_paint_touch_stats(current_season) 

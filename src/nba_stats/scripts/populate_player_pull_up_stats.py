@@ -81,6 +81,7 @@ def populate_player_pull_up_stats(season_to_load: str):
 
 
 if __name__ == '__main__':
+    import logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    current_season = "2023-24" # Example season
+    current_season = "2024-25" # Updated to current season
     populate_player_pull_up_stats(current_season) 

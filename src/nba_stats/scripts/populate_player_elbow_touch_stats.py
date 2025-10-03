@@ -43,9 +43,6 @@ def populate_player_elbow_touch_stats(season_to_load: str):
             'ELBOW_TOUCH_FGA': 'elbow_touch_fga',
             'ELBOW_TOUCH_FGM': 'elbow_touch_fgm',
             'ELBOW_TOUCH_FG_PCT': 'elbow_touch_fg_pct',
-            'ELBOW_TOUCH_FTM': 'elbow_touch_ftm',
-            'ELBOW_TOUCH_FTA': 'elbow_touch_fta',
-            'ELBOW_TOUCH_FT_PCT': 'elbow_touch_ft_pct',
             'ELBOW_TOUCH_PASSES': 'elbow_touch_passes',
             'ELBOW_TOUCH_PASSES_PCT': 'elbow_touch_pass_pct',
             'ELBOW_TOUCH_AST': 'elbow_touch_ast',
@@ -88,7 +85,8 @@ def populate_player_elbow_touch_stats(season_to_load: str):
 
 
 if __name__ == '__main__':
+    import logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     # This is an example, the season will be passed by the orchestrator script
-    current_season = "2023-24" 
+    current_season = "2024-25" 
     populate_player_elbow_touch_stats(current_season) 
