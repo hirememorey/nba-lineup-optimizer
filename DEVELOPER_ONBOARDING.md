@@ -1,7 +1,7 @@
 # Developer Onboarding Guide
 
 **Date**: October 3, 2025  
-**Status**: Analysis Phase Complete
+**Status**: Implementation Complete
 
 ## 🎯 Quick Start for New Developers
 
@@ -54,39 +54,57 @@ Players in database: 5025
 Players with archetypes: 270
 ```
 
-### 3. Launch the Interactive Tool
+### 3. Launch the Complete Analysis Platform
 
 ```bash
-# Start the Streamlit dashboard
+# Start the main Streamlit dashboard
 python run_interrogation_tool.py
 ```
 
-This will open the interactive tool at `http://localhost:8501`
+This will open the complete analysis platform at `http://localhost:8501`
 
-### 4. Run the Demo
+### 4. Launch the Model Governance Dashboard
 
 ```bash
-# See all capabilities programmatically
-python demo_interrogation.py
+# Start the governance dashboard
+python run_governance_dashboard.py
+```
+
+This will open the governance dashboard at `http://localhost:8502`
+
+### 5. Run the Complete Demo
+
+```bash
+# Interactive menu for all tools
+python demo_implementation.py
+
+# Or run the standalone acquisition tool
+python player_acquisition_tool.py
 ```
 
 ## 🏗️ Project Architecture
 
 ### Current State
 
-The project is in the **Analysis Phase** - we have successfully built:
+The project is in the **Implementation Complete** phase - we have successfully built:
+- ✅ **Model Governance Dashboard**: Structured human validation of model coefficients
+- ✅ **Player Acquisition Tool**: Find best 5th player for 4-player core lineups
+- ✅ **Complete Analysis Platform**: Streamlit UI with 6 analysis modes
 - ✅ **Data Pipeline**: Complete with 270 players and 574,357 possessions
 - ✅ **Model Training**: Placeholder implementation with exported coefficients
-- ✅ **Interactive Tools**: Streamlit dashboard for real-time analysis
 - ✅ **Explainable AI**: Skill vs Fit decomposition for lineup recommendations
 
 ### Key Files
 
 ```
-├── model_interrogation_tool.py      # Main Streamlit dashboard
+├── model_governance_dashboard.py    # Model validation dashboard
+├── player_acquisition_tool.py       # Core acquisition logic
+├── model_interrogation_tool.py      # Complete analysis platform
 ├── train_bayesian_model.py          # Model training pipeline
-├── run_interrogation_tool.py        # Tool launcher
-├── demo_interrogation.py            # Programmatic demo
+├── run_governance_dashboard.py      # Governance launcher (port 8502)
+├── run_interrogation_tool.py        # Main UI launcher (port 8501)
+├── demo_implementation.py           # Complete demo system
+├── test_implementation.py           # Test suite
 ├── model_coefficients.csv           # Trained model coefficients
 ├── supercluster_coefficients.csv    # Supercluster coefficients
 ├── src/nba_stats/db/nba_stats.db    # Main database
@@ -111,6 +129,28 @@ The main database (`src/nba_stats/db/nba_stats.db`) contains:
 2. **Lineup Superclusters**: 6 tactical styles for 5-player lineups
 3. **Skill vs Fit**: Players contribute through both individual skill and team fit
 4. **Possession-Level Modeling**: Bayesian model predicts possession outcomes
+5. **Model Governance**: Structured validation process for model coefficients
+6. **Player Acquisition**: Find best 5th player for 4-player core lineups
+
+### New Tools Overview
+
+#### Model Governance Dashboard
+- **Purpose**: Validate model coefficients before production deployment
+- **Key Features**: Side-by-side comparison, litmus test scenarios, guided review
+- **Usage**: Compare current vs candidate models, make approval decisions
+- **Access**: `python run_governance_dashboard.py` (port 8502)
+
+#### Player Acquisition Tool
+- **Purpose**: Find the best 5th player for a 4-player core lineup
+- **Key Features**: Marginal value analysis, archetype diversity, comprehensive recommendations
+- **Usage**: Select core 4 players, get ranked recommendations for 5th player
+- **Access**: Integrated in main UI or standalone `python player_acquisition_tool.py`
+
+#### Complete Analysis Platform
+- **Purpose**: Unified interface for all analysis capabilities
+- **Key Features**: 6 analysis modes, coefficient switching, real-time calculations
+- **Usage**: Comprehensive NBA lineup analysis and exploration
+- **Access**: `python run_interrogation_tool.py` (port 8501)
 
 ### Key Classes
 

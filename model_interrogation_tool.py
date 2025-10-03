@@ -267,11 +267,32 @@ def main():
     
     st.success("✅ Data loaded successfully!")
     
+    # Model coefficient selection
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("Model Configuration")
+    
+    # Find available coefficient files
+    coefficient_files = ["model_coefficients.csv"] + [str(f) for f in Path(".").glob("model_coefficients_*.csv")]
+    
+    selected_coefficients = st.sidebar.selectbox(
+        "Model Coefficients",
+        coefficient_files,
+        index=0
+    )
+    
+    if st.sidebar.button("Reload Model"):
+        with st.spinner("Reloading model coefficients..."):
+            if interrogator.load_model_coefficients(selected_coefficients):
+                st.sidebar.success("✅ Model reloaded!")
+                st.rerun()
+            else:
+                st.sidebar.error("❌ Failed to reload model")
+    
     # Create sidebar for navigation
     st.sidebar.title("Navigation")
     page = st.sidebar.selectbox(
         "Choose Analysis Mode",
-        ["Data Overview", "Player Explorer", "Archetype Analysis", "Lineup Builder", "Model Validation"]
+        ["Data Overview", "Player Explorer", "Archetype Analysis", "Lineup Builder", "Player Acquisition", "Model Validation"]
     )
     
     if page == "Data Overview":
@@ -282,6 +303,8 @@ def main():
         show_archetype_analysis(interrogator)
     elif page == "Lineup Builder":
         show_lineup_builder(interrogator)
+    elif page == "Player Acquisition":
+        show_player_acquisition(interrogator)
     elif page == "Model Validation":
         show_model_validation(interrogator)
 
@@ -509,6 +532,180 @@ def show_lineup_builder(interrogator: ModelInterrogator):
             )
             
             st.plotly_chart(fig, use_container_width=True)
+
+
+def show_player_acquisition(interrogator: ModelInterrogator):
+    """Show player acquisition interface."""
+    st.header("🎯 Player Acquisition Tool")
+    
+    st.markdown("**Find the best 5th player for your 4-player core lineup**")
+    st.markdown("Based on the research paper methodology: given four solidified starters, which fifth player should we add to maximize lineup effectiveness?")
+    
+    # Core lineup selection
+    st.subheader("Select Your Core 4 Players")
+    
+    # Get all players with both archetype and skill data
+    available_players = interrogator.player_data[
+        interrogator.player_data['archetype_id'].notna() & 
+        interrogator.player_data['offensive_darko'].notna()
+    ].copy()
+    
+    selected_core_players = []
+    
+    for i in range(4):
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            player_name = st.selectbox(
+                f"Core Player {i+1}",
+                [""] + available_players['player_name'].tolist(),
+                key=f"core_player_{i+1}"
+            )
+        
+        with col2:
+            if player_name:
+                player = available_players[available_players['player_name'] == player_name].iloc[0]
+                selected_core_players.append(player['player_id'])
+                st.write(f"**{player['archetype_name']}**")
+                st.write(f"O: {player['offensive_darko']:.1f}")
+                st.write(f"D: {player['defensive_darko']:.1f}")
+            else:
+                selected_core_players.append(None)
+    
+    # Analyze core lineup
+    if all(p is not None for p in selected_core_players):
+        st.subheader("Core Lineup Analysis")
+        
+        # Calculate core lineup value
+        core_value = interrogator.calculate_lineup_value(selected_core_players)
+        
+        if "error" in core_value:
+            st.error(core_value["error"])
+        else:
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("Core Value", f"{core_value['total_value']:.3f}")
+            with col2:
+                st.metric("Offensive Skill", f"{core_value['offensive_skill']:.1f}")
+            with col3:
+                st.metric("Defensive Skill", f"{core_value['defensive_skill']:.1f}")
+            with col4:
+                st.metric("Archetype Diversity", core_value['archetype_diversity'])
+            
+            # Show archetype breakdown
+            st.write("**Archetype Distribution:**")
+            archetype_counts = interrogator.player_data[
+                interrogator.player_data['player_id'].isin(selected_core_players)
+            ]['archetype_name'].value_counts()
+            
+            for arch, count in archetype_counts.items():
+                st.write(f"- {arch}: {count}")
+            
+            # Find best 5th player
+            st.subheader("Find Best 5th Player")
+            
+            # Acquisition parameters
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                max_salary = st.number_input(
+                    "Maximum Salary (Million $)", 
+                    min_value=0.0, 
+                    max_value=50.0, 
+                    value=25.0,
+                    step=1.0
+                ) * 1_000_000
+            
+            with col2:
+                n_recommendations = st.slider("Number of recommendations", 5, 20, 10)
+            
+            if st.button("Find Best 5th Player", type="primary"):
+                with st.spinner("Analyzing all available players..."):
+                    # Import the acquisition tool
+                    from player_acquisition_tool import PlayerAcquisitionTool
+                    
+                    # Initialize acquisition tool
+                    acquisition_tool = PlayerAcquisitionTool()
+                    acquisition_tool.conn = interrogator.conn
+                    acquisition_tool.player_data = interrogator.player_data
+                    acquisition_tool.archetype_data = interrogator.archetype_data
+                    
+                    # Load model coefficients if available
+                    if hasattr(interrogator, 'archetype_coefficients') and interrogator.archetype_coefficients is not None:
+                        acquisition_tool.model_coefficients = interrogator.archetype_coefficients
+                    
+                    # Find recommendations
+                    recommendations = acquisition_tool.find_best_fifth_player(
+                        selected_core_players, 
+                        max_salary=max_salary
+                    )
+                    
+                    if recommendations and "error" not in recommendations[0]:
+                        st.success(f"✅ Found {len(recommendations)} recommendations!")
+                        
+                        # Display top recommendations
+                        st.subheader(f"Top {min(n_recommendations, len(recommendations))} Recommendations")
+                        
+                        for i, rec in enumerate(recommendations[:n_recommendations], 1):
+                            with st.expander(f"{i}. {rec['player_name']} ({rec['archetype_name']}) - Marginal Value: {rec['marginal_value']:.3f}"):
+                                col1, col2, col3 = st.columns(3)
+                                
+                                with col1:
+                                    st.metric("Marginal Value", f"{rec['marginal_value']:.3f}")
+                                    st.metric("Lineup Value", f"{rec['lineup_value']:.3f}")
+                                
+                                with col2:
+                                    st.metric("Overall DARKO", f"{rec['overall_darko']:.2f}")
+                                    st.metric("Archetype Diversity", rec['archetype_diversity'])
+                                
+                                with col3:
+                                    st.metric("Offensive DARKO", f"{rec['offensive_darko']:.2f}")
+                                    st.metric("Defensive DARKO", f"{rec['defensive_darko']:.2f}")
+                                
+                                # Show reasoning
+                                st.write("**Why this player?**")
+                                st.write(f"- Adds {rec['marginal_value']:.3f} points to the lineup")
+                                st.write(f"- Brings {rec['archetype_name']} archetype to the team")
+                                st.write(f"- High overall skill rating: {rec['overall_darko']:.2f}")
+                        
+                        # Summary statistics
+                        st.subheader("Recommendation Summary")
+                        
+                        rec_df = pd.DataFrame(recommendations[:n_recommendations])
+                        
+                        col1, col2 = st.columns(2)
+                        
+                        with col1:
+                            st.write("**Archetype Distribution:**")
+                            arch_counts = rec_df['archetype_name'].value_counts()
+                            for arch, count in arch_counts.items():
+                                st.write(f"- {arch}: {count}")
+                        
+                        with col2:
+                            st.write("**Skill Statistics:**")
+                            st.write(f"- Avg Marginal Value: {rec_df['marginal_value'].mean():.3f}")
+                            st.write(f"- Avg Overall DARKO: {rec_df['overall_darko'].mean():.2f}")
+                            st.write(f"- Avg Archetype Diversity: {rec_df['archetype_diversity'].mean():.1f}")
+                        
+                        # Create visualization
+                        fig = px.scatter(
+                            rec_df.head(10),
+                            x='marginal_value',
+                            y='overall_darko',
+                            color='archetype_name',
+                            hover_data=['player_name', 'offensive_darko', 'defensive_darko'],
+                            title="Top 10 Recommendations: Marginal Value vs Overall Skill"
+                        )
+                        fig.update_layout(height=500)
+                        st.plotly_chart(fig, use_container_width=True)
+                        
+                    else:
+                        st.error("❌ No recommendations found")
+                        if recommendations and "error" in recommendations[0]:
+                            st.error(f"Error: {recommendations[0]['error']}")
+    else:
+        st.warning("⚠️ Please select all 4 core players to begin analysis")
 
 
 def show_model_validation(interrogator: ModelInterrogator):
