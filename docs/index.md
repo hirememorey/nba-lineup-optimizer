@@ -17,3 +17,5 @@ For a new developer, the recommended starting point is the main `README.md` file
 *   **[API Debugging Methodology](./api_debugging_methodology.md)**: An essential guide to debugging the unofficial NBA Stats API, centered on the "Isolate with `curl` First" principle.
 
 *   **[Data Verification Methodology](./data_verification_methodology.md)**: A comprehensive methodology for ensuring data quality before proceeding to clustering analysis, based on post-mortem insights from previous data quality failures.
+
+*   **[Data Quality Troubleshooting Guide](./troubleshooting_data_quality.md)**: A practical guide for diagnosing and fixing common data quality issues, including the critical drive statistics API bug and other real-world problems encountered during development.

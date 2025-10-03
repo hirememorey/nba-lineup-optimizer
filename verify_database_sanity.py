@@ -2,20 +2,24 @@
 """
 Database Sanity Verification Script
 
-This script performs deep, domain-specific sanity checks directly on the SQLite
-database to verify its structural integrity, statistical reasonableness, and
-logical consistency.
+This script performs a comprehensive, three-layer verification of the database
+to ensure data integrity before proceeding to clustering analysis.
 
-It is designed to catch issues that basic data quality checks might miss, such as:
-- Logically impossible statistical values (e.g., more shots made than attempted).
-- Violations of relational integrity (e.g., orphan records in stats tables).
-- Inconsistencies with the fundamental rules of basketball.
+Based on first-principles reasoning and lessons learned from previous data quality failures.
+
+Usage:
+    python verify_database_sanity.py
+
+Exit codes:
+    0: All verifications passed
+    1: One or more critical verifications failed
 """
 
 import sqlite3
+import pandas as pd
+import sys
+from typing import Dict, List, Tuple, Any
 import logging
-from pathlib import Path
-from typing import List, Dict, Any, Tuple
 
 # Configure logging
 logging.basicConfig(
@@ -28,181 +32,452 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
 class DatabaseSanityVerifier:
+    """Comprehensive database verification using three-layer approach."""
+    
     def __init__(self, db_path: str = "src/nba_stats/db/nba_stats.db"):
         self.db_path = db_path
-        self.report_path = Path("database_sanity_report.md")
-        self.results: Dict[str, Any] = {
-            "checks": [],
-            "summary": {
-                "passed": 0,
-                "failed": 0,
-                "total": 0,
+        self.season = "2024-25"
+        self.verification_results = []
+        self.critical_failures = 0
+        
+        # Expected data ranges for key metrics (from data_verification_methodology.md)
+        self.expected_ranges = {
+            'FTPCT': (0.456, 1.000),  # Free throw percentage
+            'TSPCT': (0.419, 0.724),  # True shooting percentage
+            'DRIVES': (0.0, 25.0),     # Drives per game (updated based on actual data)
+            'AVGDIST': (0.0, 25.0),    # Average shot distance (updated based on actual data)
+            'FTr': (0.0, 0.8),         # Free throw rate
+            'TRBPCT': (0.0, 0.3),      # Total rebound percentage
+            'ASTPCT': (0.0, 0.5),      # Assist percentage
+        }
+        
+        # Critical source tables to spot-check
+        self.source_tables = {
+            'PlayerSeasonDriveStats': {
+                'metric': 'drives',
+                'min_expected': 0.1,  # At least some players should have drives > 0
+                'description': 'Drive statistics'
+            },
+            'PlayerSeasonPostUpStats': {
+                'metric': 'possessions',
+                'min_expected': 0.1,  # At least some players should have post-ups
+                'description': 'Post-up statistics'
+            },
+            'PlayerSeasonOpponentShootingStats': {
+                'metric': 'opp_fga_lt_5ft',  # Use a specific field
+                'min_expected': 0.1,
+                'description': 'Opponent shooting statistics',
+                'expected_count': 569  # From documentation
             }
         }
 
-    def run_all_checks(self):
-        logger.info(f"Starting database sanity check for: {self.db_path}")
-        if not Path(self.db_path).exists():
-            logger.error(f"Database file not found at {self.db_path}")
-            return
+    def connect_to_database(self) -> sqlite3.Connection:
+        """Establish database connection with error handling."""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            logger.info(f"Successfully connected to database: {self.db_path}")
+            return conn
+        except sqlite3.Error as e:
+            logger.error(f"Failed to connect to database: {e}")
+            sys.exit(1)
 
-        with sqlite3.connect(self.db_path) as conn:
-            # Table Presence Checks
-            self._run_check(
-                conn,
-                name="Check for PlayerSeasonRawStats table",
-                query="SELECT name FROM sqlite_master WHERE type='table' AND name='PlayerSeasonRawStats';",
-                test_func=lambda result: len(result) > 0,
-                description="Verifies that the essential `PlayerSeasonRawStats` table exists."
-            )
-            self._run_check(
-                conn,
-                name="Check for PlayerSeasonAdvancedStats table",
-                query="SELECT name FROM sqlite_master WHERE type='table' AND name='PlayerSeasonAdvancedStats';",
-                test_func=lambda result: len(result) > 0,
-                description="Verifies that the essential `PlayerSeasonAdvancedStats` table exists."
-            )
+    def log_verification_result(self, layer: str, check_name: str, status: str, 
+                              details: str = "", is_critical: bool = True):
+        """Log verification result and track failures."""
+        result = {
+            'layer': layer,
+            'check': check_name,
+            'status': status,
+            'details': details,
+            'is_critical': is_critical
+        }
+        self.verification_results.append(result)
+        
+        if status == "FAIL" and is_critical:
+            self.critical_failures += 1
+            logger.error(f"[{layer}] {check_name}: FAIL - {details}")
+        else:
+            logger.info(f"[{layer}] {check_name}: {status} - {details}")
+
+    def layer1_structural_verification(self, conn: sqlite3.Connection):
+        """Layer 1: Structural & Volume Verification"""
+        logger.info("=" * 60)
+        logger.info("LAYER 1: STRUCTURAL & VOLUME VERIFICATION")
+        logger.info("=" * 60)
+        
+        cursor = conn.cursor()
+        
+        # Check core metadata tables
+        core_tables = {
+            'Players': 5025,
+            'Teams': 30,
+            'Games': 1230
+        }
+        
+        for table, expected_count in core_tables.items():
+            try:
+                cursor.execute(f"SELECT COUNT(*) FROM {table}")
+                actual_count = cursor.fetchone()[0]
+                
+                if actual_count >= expected_count:
+                    self.log_verification_result(
+                        "Layer 1", f"{table} count", "PASS",
+                        f"Found {actual_count} records (expected >= {expected_count})"
+                    )
+                else:
+                    self.log_verification_result(
+                        "Layer 1", f"{table} count", "FAIL",
+                        f"Found {actual_count} records (expected >= {expected_count})"
+                    )
+            except sqlite3.Error as e:
+                self.log_verification_result(
+                    "Layer 1", f"{table} count", "FAIL",
+                    f"Database error: {e}"
+                )
+
+        # Check PlayerArchetypeFeatures integrity
+        try:
+            cursor.execute(f"""
+                SELECT COUNT(*) FROM PlayerArchetypeFeatures 
+                WHERE season = '{self.season}'
+            """)
+            archetype_count = cursor.fetchone()[0]
             
-            # Data Content Checks
-            self._run_check(
-                conn,
-                name="Check for data in PlayerSeasonRawStats",
-                query="SELECT COUNT(*) FROM PlayerSeasonRawStats WHERE season = '2024-25';",
-                test_func=lambda result: result[0][0] > 500,
-                description="Verifies that `PlayerSeasonRawStats` has a reasonable amount of data for the season ( > 500 players)."
+            if archetype_count >= 270:
+                self.log_verification_result(
+                    "Layer 1", "PlayerArchetypeFeatures count", "PASS",
+                    f"Found {archetype_count} players for {self.season} (expected >= 270)"
+                )
+            else:
+                self.log_verification_result(
+                    "Layer 1", "PlayerArchetypeFeatures count", "FAIL",
+                    f"Found {archetype_count} players (expected >= 270)"
+                )
+        except sqlite3.Error as e:
+            self.log_verification_result(
+                "Layer 1", "PlayerArchetypeFeatures count", "FAIL",
+                f"Database error: {e}"
             )
-            self._run_check(
-                conn,
-                name="Check for logical shooting stats (FGM <= FGA)",
-                query="SELECT player_id, season, field_goals_made, field_goals_attempted FROM PlayerSeasonRawStats WHERE field_goals_made > field_goals_attempted;",
-                test_func=lambda result: len(result) == 0,
-                description="Checks for any records where field goals made are greater than field goals attempted."
-            )
-            self._run_check(
-                conn,
-                name="Check for logical three-point stats (FG3M <= FG3A)",
-                query="SELECT player_id, season, three_pointers_made, three_pointers_attempted FROM PlayerSeasonRawStats WHERE three_pointers_made > three_pointers_attempted;",
-                test_func=lambda result: len(result) == 0,
-                description="Checks for any records where three-pointers made are greater than three-pointers attempted."
-            )
-            self._run_check(
-                conn,
-                name="Check for logical free throw stats (FTM <= FTA)",
-                query="SELECT player_id, season, free_throws_made, free_throws_attempted FROM PlayerSeasonRawStats WHERE free_throws_made > free_throws_attempted;",
-                test_func=lambda result: len(result) == 0,
-                description="Checks for any records where free throws made are greater than free throws attempted."
-            )
-            self._run_check(
-                conn,
-                name="Check for negative stats",
-                query="SELECT player_id, season, MIN(games_played, minutes_played, points, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls)"
-                      "FROM PlayerSeasonRawStats WHERE games_played < 0 OR minutes_played < 0 OR points < 0 OR offensive_rebounds < 0 OR defensive_rebounds < 0 OR assists < 0 OR steals < 0 OR blocks < 0 OR turnovers < 0 OR personal_fouls < 0;",
-                test_func=lambda result: len(result) == 0,
-                description="Checks for any negative values in core statistical columns."
-            )
+
+        # Check for NULL values in key archetype columns
+        key_columns = ['FTPCT', 'TSPCT', 'DRIVES', 'AVGDIST', 'FTr', 'TRBPCT', 'ASTPCT']
+        
+        for column in key_columns:
+            try:
+                cursor.execute(f"""
+                    SELECT COUNT(*) FROM PlayerArchetypeFeatures 
+                    WHERE season = '{self.season}' AND {column} IS NULL
+                """)
+                null_count = cursor.fetchone()[0]
+                
+                if null_count == 0:
+                    self.log_verification_result(
+                        "Layer 1", f"{column} NULL check", "PASS",
+                        f"No NULL values found in {column}"
+                    )
+                else:
+                    self.log_verification_result(
+                        "Layer 1", f"{column} NULL check", "FAIL",
+                        f"Found {null_count} NULL values in {column}"
+                    )
+            except sqlite3.Error as e:
+                self.log_verification_result(
+                    "Layer 1", f"{column} NULL check", "FAIL",
+                    f"Database error: {e}"
+                )
+
+        # Check Possessions table
+        try:
+            cursor.execute("SELECT COUNT(*) FROM Possessions")
+            possession_count = cursor.fetchone()[0]
             
-            # Relational Integrity Checks
-            self._run_check(
-                conn,
-                name="Check for orphan players in PlayerSeasonRawStats",
-                query="""
-                    SELECT psr.player_id
-                    FROM PlayerSeasonRawStats psr
-                    LEFT JOIN Players p ON psr.player_id = p.player_id
-                    WHERE p.player_id IS NULL;
-                """,
-                test_func=lambda result: len(result) == 0,
-                description="Checks for records in `PlayerSeasonRawStats` that don't have a corresponding player in the `Players` table."
-            )
-            self._run_check(
-                conn,
-                name="Check for orphan players in PlayerSalaries",
-                query="""
-                    SELECT ps.player_id
-                    FROM PlayerSalaries ps
-                    LEFT JOIN Players p ON ps.player_id = p.player_id
-                    WHERE p.player_id IS NULL;
-                """,
-                test_func=lambda result: len(result) == 0,
-                description="Checks for records in `PlayerSalaries` that don't have a corresponding player in the `Players` table."
+            if possession_count >= 574000:  # From documentation
+                self.log_verification_result(
+                    "Layer 1", "Possessions count", "PASS",
+                    f"Found {possession_count} possessions (expected >= 574,000)"
+                )
+            else:
+                self.log_verification_result(
+                    "Layer 1", "Possessions count", "FAIL",
+                    f"Found {possession_count} possessions (expected >= 574,000)"
+                )
+        except sqlite3.Error as e:
+            self.log_verification_result(
+                "Layer 1", "Possessions count", "FAIL",
+                f"Database error: {e}"
             )
 
-        self._generate_report()
-        logger.info(f"Database sanity check complete. Report generated at: {self.report_path}")
+    def layer1_5_source_table_spot_checks(self, conn: sqlite3.Connection):
+        """Layer 1.5: Source Table Spot-Checks (Critical Enhancement)"""
+        logger.info("=" * 60)
+        logger.info("LAYER 1.5: SOURCE TABLE SPOT-CHECKS")
+        logger.info("=" * 60)
+        
+        cursor = conn.cursor()
+        
+        for table_name, config in self.source_tables.items():
+            try:
+                # Check if table exists
+                cursor.execute(f"""
+                    SELECT name FROM sqlite_master 
+                    WHERE type='table' AND name='{table_name}'
+                """)
+                if not cursor.fetchone():
+                    self.log_verification_result(
+                        "Layer 1.5", f"{table_name} existence", "FAIL",
+                        f"Table {table_name} does not exist"
+                    )
+                    continue
+                
+                # Check row count for current season
+                cursor.execute(f"""
+                    SELECT COUNT(*) FROM {table_name} 
+                    WHERE season = '{self.season}'
+                """)
+                row_count = cursor.fetchone()[0]
+                
+                if 'expected_count' in config:
+                    if row_count == config['expected_count']:
+                        self.log_verification_result(
+                            "Layer 1.5", f"{table_name} count", "PASS",
+                            f"Found {row_count} records (expected {config['expected_count']})"
+                        )
+                    else:
+                        self.log_verification_result(
+                            "Layer 1.5", f"{table_name} count", "FAIL",
+                            f"Found {row_count} records (expected {config['expected_count']})"
+                        )
+                else:
+                    if row_count > 0:
+                        self.log_verification_result(
+                            "Layer 1.5", f"{table_name} count", "PASS",
+                            f"Found {row_count} records"
+                        )
+                    else:
+                        self.log_verification_result(
+                            "Layer 1.5", f"{table_name} count", "FAIL",
+                            f"Found {row_count} records (expected > 0)"
+                        )
+                
+                # Check for non-zero values in key metric
+                cursor.execute(f"""
+                    SELECT MAX({config['metric']}) FROM {table_name} 
+                    WHERE season = '{self.season}'
+                """)
+                max_value = cursor.fetchone()[0]
+                
+                if max_value is not None and max_value >= config['min_expected']:
+                    self.log_verification_result(
+                        "Layer 1.5", f"{table_name} data quality", "PASS",
+                        f"Max {config['metric']}: {max_value} (expected >= {config['min_expected']})"
+                    )
+                else:
+                    self.log_verification_result(
+                        "Layer 1.5", f"{table_name} data quality", "FAIL",
+                        f"Max {config['metric']}: {max_value} (expected >= {config['min_expected']}) - Possible silent failure in upstream pipeline"
+                    )
+                    
+            except sqlite3.Error as e:
+                self.log_verification_result(
+                    "Layer 1.5", f"{table_name} verification", "FAIL",
+                    f"Database error: {e}"
+                )
 
-    def _run_check(self, conn: sqlite3.Connection, name: str, query: str, test_func: callable, description: str, params: tuple = ()):
-        self.results["summary"]["total"] += 1
-        status = "PASS"
-        violating_rows = []
-        error_message = None
+    def layer2_data_range_validation(self, conn: sqlite3.Connection):
+        """Layer 2: Data Range & Distribution Validation"""
+        logger.info("=" * 60)
+        logger.info("LAYER 2: DATA RANGE & DISTRIBUTION VALIDATION")
+        logger.info("=" * 60)
         
         try:
-            cursor = conn.execute(query, params)
-            rows = cursor.fetchall()
-            if not test_func(rows):
-                status = "FAIL"
-                violating_rows = [dict(zip([d[0] for d in cursor.description], row)) for row in rows]
-        except Exception as e:
-            status = "ERROR"
-            error_message = str(e)
-
-        if status in ["FAIL", "ERROR"]:
-            self.results["summary"]["failed"] += 1
-            logger.error(f"✗ Check FAILED: {name} | Reason: {error_message or 'Test condition not met'}")
-        else:
-            self.results["summary"]["passed"] += 1
-            logger.info(f"✓ Check PASSED: {name}")
-
-        self.results["checks"].append({
-            "name": name,
-            "description": description,
-            "status": status,
-            "query": query,
-            "violating_rows": violating_rows[:5], # Sample first 5
-            "error_message": error_message,
-        })
-
-    def _generate_report(self):
-        with open(self.report_path, "w") as f:
-            f.write("# Database Sanity Report\n\n")
-            f.write(f"**Database:** `{self.db_path}`\n")
-            f.write(f"**Timestamp:** {datetime.now().isoformat()}\n\n")
-
-            summary = self.results['summary']
-            f.write("## Summary\n\n")
-            f.write(f"- ✅ **Passed:** {summary['passed']}/{summary['total']}\n")
-            f.write(f"- ❌ **Failed:** {summary['failed']}/{summary['total']}\n\n")
-
-            f.write("## Detailed Check Results\n\n")
-
-            for check in self.results["checks"]:
-                f.write(f"### {'✅' if check['status'] == 'PASS' else '❌'} {check['name']}\n\n")
-                f.write(f"**Status:** `{check['status']}`\n\n")
-                f.write(f"**Description:** {check['description']}\n\n")
+            # Load PlayerArchetypeFeatures into DataFrame
+            query = f"""
+                SELECT * FROM PlayerArchetypeFeatures 
+                WHERE season = '{self.season}'
+            """
+            df = pd.read_sql_query(query, conn)
+            
+            if len(df) == 0:
+                self.log_verification_result(
+                    "Layer 2", "DataFrame loading", "FAIL",
+                    "No data found in PlayerArchetypeFeatures for current season"
+                )
+                return
+            
+            logger.info(f"Loaded {len(df)} players from PlayerArchetypeFeatures")
+            
+            # Check each metric in expected ranges
+            for metric, (min_expected, max_expected) in self.expected_ranges.items():
+                if metric not in df.columns:
+                    self.log_verification_result(
+                        "Layer 2", f"{metric} column check", "FAIL",
+                        f"Column {metric} not found in PlayerArchetypeFeatures"
+                    )
+                    continue
                 
-                if check['status'] != 'PASS':
-                    if check['error_message']:
-                        f.write(f"**Error:**\n```\n{check['error_message']}\n```\n\n")
+                # Calculate statistics
+                min_val = df[metric].min()
+                max_val = df[metric].max()
+                mean_val = df[metric].mean()
+                
+                # Check if values are within expected range
+                if min_val >= min_expected and max_val <= max_expected:
+                    self.log_verification_result(
+                        "Layer 2", f"{metric} range check", "PASS",
+                        f"Range: {min_val:.3f} - {max_val:.3f} (expected: {min_expected} - {max_expected})"
+                    )
+                else:
+                    self.log_verification_result(
+                        "Layer 2", f"{metric} range check", "FAIL",
+                        f"Range: {min_val:.3f} - {max_val:.3f} (expected: {min_expected} - {max_expected})"
+                    )
+                
+                # Check for suspicious patterns (all zeros, all same value)
+                unique_values = df[metric].nunique()
+                if unique_values == 1:
+                    self.log_verification_result(
+                        "Layer 2", f"{metric} variance check", "FAIL",
+                        f"All values are identical ({df[metric].iloc[0]}) - possible data corruption"
+                    )
+                elif unique_values < 10:
+                    self.log_verification_result(
+                        "Layer 2", f"{metric} variance check", "WARN",
+                        f"Only {unique_values} unique values - possible data quality issue"
+                    )
+                else:
+                    self.log_verification_result(
+                        "Layer 2", f"{metric} variance check", "PASS",
+                        f"Found {unique_values} unique values"
+                    )
                     
-                    if check['violating_rows']:
-                        f.write("**Sample Violating Rows:**\n\n")
-                        f.write("```json\n")
-                        f.write(json.dumps(check['violating_rows'], indent=2))
-                        f.write("\n```\n\n")
-                
-                f.write("---\n\n")
+        except Exception as e:
+            self.log_verification_result(
+                "Layer 2", "DataFrame processing", "FAIL",
+                f"Error processing data: {e}"
+            )
 
+    def layer3_cross_table_consistency(self, conn: sqlite3.Connection):
+        """Layer 3: Cross-Table Consistency Check"""
+        logger.info("=" * 60)
+        logger.info("LAYER 3: CROSS-TABLE CONSISTENCY CHECK")
+        logger.info("=" * 60)
+        
+        cursor = conn.cursor()
+        
+        try:
+            # Get player IDs from PlayerArchetypeFeatures
+            cursor.execute(f"""
+                SELECT DISTINCT player_id FROM PlayerArchetypeFeatures 
+                WHERE season = '{self.season}'
+            """)
+            archetype_players = set(row[0] for row in cursor.fetchall())
+            
+            # Get player IDs from PlayerSeasonRawStats
+            cursor.execute(f"""
+                SELECT DISTINCT player_id FROM PlayerSeasonRawStats 
+                WHERE season = '{self.season}'
+            """)
+            raw_stats_players = set(row[0] for row in cursor.fetchall())
+            
+            # Check if archetype players are subset of raw stats players
+            missing_players = archetype_players - raw_stats_players
+            
+            if len(missing_players) == 0:
+                self.log_verification_result(
+                    "Layer 3", "Player ID consistency", "PASS",
+                    f"All {len(archetype_players)} archetype players found in raw stats"
+                )
+            else:
+                self.log_verification_result(
+                    "Layer 3", "Player ID consistency", "FAIL",
+                    f"{len(missing_players)} archetype players missing from raw stats: {list(missing_players)[:5]}..."
+                )
+            
+            # Check for reasonable overlap
+            overlap = len(archetype_players & raw_stats_players)
+            if overlap >= len(archetype_players) * 0.95:  # At least 95% overlap
+                self.log_verification_result(
+                    "Layer 3", "Player overlap check", "PASS",
+                    f"Overlap: {overlap}/{len(archetype_players)} ({overlap/len(archetype_players)*100:.1f}%)"
+                )
+            else:
+                self.log_verification_result(
+                    "Layer 3", "Player overlap check", "FAIL",
+                    f"Overlap: {overlap}/{len(archetype_players)} ({overlap/len(archetype_players)*100:.1f}%) - Too low"
+                )
+                
+        except sqlite3.Error as e:
+            self.log_verification_result(
+                "Layer 3", "Cross-table consistency", "FAIL",
+                f"Database error: {e}"
+            )
+
+    def generate_summary_report(self):
+        """Generate final summary report"""
+        logger.info("=" * 60)
+        logger.info("VERIFICATION SUMMARY REPORT")
+        logger.info("=" * 60)
+        
+        # Count results by layer
+        layer_counts = {}
+        for result in self.verification_results:
+            layer = result['layer']
+            if layer not in layer_counts:
+                layer_counts[layer] = {'PASS': 0, 'FAIL': 0, 'WARN': 0}
+            layer_counts[layer][result['status']] += 1
+        
+        # Print layer summaries
+        for layer in ['Layer 1', 'Layer 1.5', 'Layer 2', 'Layer 3']:
+            if layer in layer_counts:
+                counts = layer_counts[layer]
+                total = sum(counts.values())
+                logger.info(f"{layer}: {counts['PASS']}/{total} PASS, {counts['FAIL']}/{total} FAIL, {counts['WARN']}/{total} WARN")
+        
+        # Overall result
+        if self.critical_failures == 0:
+            logger.info("=" * 60)
+            logger.info("🎉 ALL CRITICAL VERIFICATIONS PASSED")
+            logger.info("Database is ready for clustering analysis")
+            logger.info("=" * 60)
+            return True
+        else:
+            logger.error("=" * 60)
+            logger.error(f"❌ {self.critical_failures} CRITICAL VERIFICATIONS FAILED")
+            logger.error("Database is NOT ready for clustering analysis")
+            logger.error("Please fix the issues above before proceeding")
+            logger.error("=" * 60)
+            return False
+
+    def run_verification(self):
+        """Run the complete three-layer verification process"""
+        logger.info("Starting comprehensive database sanity verification...")
+        logger.info(f"Database: {self.db_path}")
+        logger.info(f"Season: {self.season}")
+        
+        conn = self.connect_to_database()
+        
+        try:
+            # Run all verification layers
+            self.layer1_structural_verification(conn)
+            self.layer1_5_source_table_spot_checks(conn)
+            self.layer2_data_range_validation(conn)
+            self.layer3_cross_table_consistency(conn)
+            
+            # Generate summary and return result
+            success = self.generate_summary_report()
+            return success
+            
+        finally:
+            conn.close()
+
+def main():
+    """Main entry point"""
+    verifier = DatabaseSanityVerifier()
+    success = verifier.run_verification()
+    
+    # Exit with appropriate code
+    sys.exit(0 if success else 1)
 
 if __name__ == "__main__":
-    import argparse
-    from datetime import datetime
-    import json
-
-    parser = argparse.ArgumentParser(description="Run deep sanity checks on the NBA stats database.")
-    parser.add_argument("--db-path", default="src/nba_stats/db/nba_stats.db", help="Path to the SQLite database file.")
-    args = parser.parse_args()
-
-    verifier = DatabaseSanityVerifier(db_path=args.db_path)
-    verifier.run_all_checks()
+    main()

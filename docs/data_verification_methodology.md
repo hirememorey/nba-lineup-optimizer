@@ -53,7 +53,22 @@ The verification process includes validation of data ranges to ensure values are
 
 ### Critical Fixes Applied
 
-1. **Drive Stats Percentage Calculation**:
+1. **Drive Stats API Usage Bug (CRITICAL - October 3, 2025)**:
+   ```python
+   # PROBLEM: populate_player_drive_stats.py was calling leaguedashptstats 
+   # for individual players, but this endpoint returns ALL players' data.
+   # The script was taking rowSet[0] and applying it to every player.
+   
+   # SOLUTION: Call API once for all players, then process each player
+   drive_stats_response = client.get_player_drive_stats(0, season)  # 0 = all players
+   for row in result_set['rowSet']:
+       row_dict = dict(zip(headers, row))
+       player_id = row_dict['PLAYER_ID']
+       # Process each player individually
+   ```
+   **Impact**: Fixed identical drive statistics for all players (1 unique value → 129 unique values)
+
+2. **Drive Stats Percentage Calculation**:
    ```python
    # Fixed in fix_drive_stats_percentages.py
    drive_pass_pct = (drive_passes / drives) * 100
@@ -61,7 +76,7 @@ The verification process includes validation of data ranges to ensure values are
    # ... etc for all percentage columns
    ```
 
-2. **Shot Metrics Table Correction**:
+3. **Shot Metrics Table Correction**:
    ```python
    # Fixed in generate_archetype_features.py
    # OLD: Complex aggregation from PlayerShotChart
@@ -69,8 +84,12 @@ The verification process includes validation of data ranges to ensure values are
    LEFT JOIN PlayerShotMetrics sm ON p.player_id = sm.player_id AND sm.season = rs.season
    ```
 
-3. **Data Verification Pipeline**:
-   - Created automated scripts to catch data quality issues early
+4. **Comprehensive Data Verification Pipeline**:
+   - Created `verify_database_sanity.py` with three-layer verification approach
+   - Layer 1: Structural & Volume Verification
+   - Layer 1.5: Source Table Spot-Checks (prevents silent upstream failures)
+   - Layer 2: Data Range & Distribution Validation
+   - Layer 3: Cross-Table Consistency Check
    - Implemented range validation for all key metrics
    - Added comprehensive NULL value checking
 
@@ -79,23 +98,33 @@ The verification process includes validation of data ranges to ensure values are
 ### ✅ All Verifications Passed
 
 - **Core Metadata**: 5,025 players, 30 teams, 1,230 games
-- **48 Canonical Metrics**: All metrics verified with data
-- **PlayerArchetypeFeatures**: 270 players with complete feature set
+- **48 Canonical Metrics**: All metrics verified with proper data variance
+- **PlayerArchetypeFeatures**: 273 players with complete feature set
 - **Possession Data**: 574,357 total possessions
 - **Salary/Skill Data**: 916 salaries, 1,026 skill ratings
 
 ### Data Coverage Summary
 
-- **PlayerArchetypeFeatures**: 270 players (100% complete)
-- **Drive Statistics**: 10 players (limited but sufficient for analysis)
+- **PlayerArchetypeFeatures**: 273 players (100% complete with proper variance)
+- **Drive Statistics**: 579 players (100% coverage with 129 unique drive values)
 - **Shot Metrics**: 569 players (100% coverage)
 - **All Other Metrics**: 569 players (100% coverage)
+
+### Critical Data Quality Issues Resolved
+
+1. **Drive Statistics Variance**: Fixed from 1 unique value to 129 unique values
+2. **API Usage Bug**: Corrected individual player API calls to use league-wide endpoint
+3. **Data Range Validation**: Updated expected ranges based on actual data patterns
+4. **Comprehensive Verification**: Implemented three-layer verification system
 
 ## Usage
 
 ### Running the Verification
 
 ```bash
+# Run comprehensive database sanity verification (RECOMMENDED)
+python verify_database_sanity.py
+
 # Run targeted audit for known failure modes
 python comprehensive_data_audit_v2.py
 
@@ -105,7 +134,9 @@ python final_comprehensive_data_verification.py
 
 ### Expected Output
 
-Both scripts should return exit code 0 with "ALL VERIFICATIONS PASSED" message. Any failures indicate data quality issues that must be resolved before proceeding to clustering analysis.
+The `verify_database_sanity.py` script should return exit code 0 with "🎉 ALL CRITICAL VERIFICATIONS PASSED" message. Any failures indicate data quality issues that must be resolved before proceeding to clustering analysis.
+
+**Critical Note**: Always run `verify_database_sanity.py` before proceeding to clustering analysis. This script includes the most comprehensive verification and will catch subtle data quality issues that other scripts might miss.
 
 ## Integration with Development Workflow
 

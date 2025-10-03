@@ -14,30 +14,50 @@ The project uses a **multi-database approach** with data distributed across thre
 
 ## Current Data Status (October 3, 2025)
 
-**✅ FULLY OPERATIONAL**: All critical data gaps have been resolved. The database now contains comprehensive coverage of the 48 canonical metrics required for archetype analysis.
+**✅ FULLY OPERATIONAL**: All critical data gaps have been resolved. The database now contains comprehensive coverage of the 48 canonical metrics required for archetype analysis. A critical drive statistics API usage bug has been fixed, and a comprehensive three-layer verification system is now in place.
 
 ### Data Coverage Summary:
-- **PlayerArchetypeFeatures**: 270 players with complete feature set
-- **Drive Statistics**: 269 players (99.6% coverage)
-- **Post-up Play**: 137 players (50.7% coverage)  
-- **Pull-up Shooting**: 263 players (97.4% coverage)
-- **Paint Touches**: 270 players (100% coverage)
-- **Front Court Touches**: 270 players (100% coverage)
-- **Elbow Touches**: 270 players (100% coverage)
-- **Passing Stats**: 270 players (100% coverage)
+- **PlayerArchetypeFeatures**: 273 players with complete feature set and proper variance
+- **Drive Statistics**: 579 players (100% coverage with 129 unique drive values)
+- **Post-up Play**: 569 players (100% coverage)
+- **Pull-up Shooting**: 569 players (100% coverage)
+- **Paint Touches**: 569 players (100% coverage)
+- **Front Court Touches**: 569 players (100% coverage)
+- **Elbow Touches**: 569 players (100% coverage)
+- **Passing Stats**: 569 players (100% coverage)
 - **Opponent Shooting Stats**: 569 players (100% coverage for 2024-25 season)
 - **Possessions**: 574,357 total possessions
 - **Player Salaries**: 916 players
 - **Player Skills**: 1,026 players
 
 ### Recent Critical Fixes Applied (October 3, 2025):
-1. **Drive Stats Percentage Columns**: ✅ **RESOLVED** - Fixed 100% NULL values in `drive_pass_pct` and other percentage columns by implementing proper calculation logic in `fix_drive_stats_percentages.py`
-2. **Shot Metrics Table References**: ✅ **RESOLVED** - Fixed incorrect table joins in feature generation script. Updated `generate_archetype_features.py` to use `PlayerShotMetrics` table instead of attempting to aggregate from `PlayerShotChart`
-3. **Data Verification Pipeline**: ✅ **IMPLEMENTED** - Created comprehensive data verification scripts (`comprehensive_data_audit_v2.py` and `final_comprehensive_data_verification.py`) to catch data quality issues before they propagate through the analysis pipeline
-4. **Feature Generation**: ✅ **UPDATED** - Regenerated `PlayerArchetypeFeatures` table with corrected data sources and calculations
+1. **Drive Stats API Usage Bug**: ✅ **RESOLVED** - Fixed critical bug where individual player API calls were returning identical data for all players. Now properly calls league-wide endpoint and processes each player individually (1 unique value → 129 unique values)
+2. **Drive Stats Percentage Columns**: ✅ **RESOLVED** - Fixed 100% NULL values in `drive_pass_pct` and other percentage columns by implementing proper calculation logic in `fix_drive_stats_percentages.py`
+3. **Shot Metrics Table References**: ✅ **RESOLVED** - Fixed incorrect table joins in feature generation script. Updated `generate_archetype_features.py` to use `PlayerShotMetrics` table instead of attempting to aggregate from `PlayerShotChart`
+4. **Comprehensive Data Verification Pipeline**: ✅ **IMPLEMENTED** - Created `verify_database_sanity.py` with three-layer verification system to catch data quality issues before they propagate through the analysis pipeline
+5. **Feature Generation**: ✅ **UPDATED** - Regenerated `PlayerArchetypeFeatures` table with corrected data sources and calculations
 
 ### Previous Major Fixes:
 - **PlayerSeasonOpponentShootingStats**: ✅ **RESOLVED** - Fixed API response structure mismatch. The NBA API endpoint returns `resultSets` as a dict instead of a list, which was causing validation failures. Created new script `populate_opponent_shooting_stats_v2.py` and updated API client method to handle this special case. Now contains 569 records for 2024-25 season.
+
+## Data Verification Workflow
+
+**CRITICAL**: Before proceeding with any analysis, always run the comprehensive database verification:
+
+```bash
+# Run comprehensive database sanity verification
+python verify_database_sanity.py
+```
+
+This script performs a three-layer verification:
+- **Layer 1**: Structural & Volume Verification (table counts, NULL checks)
+- **Layer 1.5**: Source Table Spot-Checks (prevents silent upstream failures)
+- **Layer 2**: Data Range & Distribution Validation (statistical checks)
+- **Layer 3**: Cross-Table Consistency Check (data integrity)
+
+**Expected Output**: `🎉 ALL CRITICAL VERIFICATIONS PASSED`
+
+If verification fails, do not proceed with analysis. The script will identify specific issues that must be resolved first.
 
 ## Data and Analysis Pipeline Workflow
 
