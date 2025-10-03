@@ -151,21 +151,43 @@ cat archetype_models_*/archetype_analysis.md
 head archetype_models_*/player_archetypes.csv
 ```
 
-### Step 4: Lineup Supercluster Analysis (Future)
+### Step 4: Bayesian Modeling (NEW - October 3, 2025)
 
-**1. Generate Lineup Superclusters:**
-This step performs K-means clustering on lineups to create the six lineup superclusters.
-
-```bash
-python generate_lineup_superclusters.py
-```
-
-**2. Run the Bayesian Model:**
-This is the final, computationally intensive step that fits the Bayesian regression model.
+**1. Create Stratified Sample:**
+Create a representative sample of possessions for model validation.
 
 ```bash
-python src/nba_stats/scripts/run_bayesian_model.py
+python create_stratified_sample.py
 ```
-**Note**: This can take a very long time to run (the paper mentions 18 hours).
+
+**2. Prepare Model Data:**
+Transform possession data into the format required by the Bayesian model.
+
+```bash
+python bayesian_data_prep.py
+```
+
+**3. Run Prototype Model:**
+Validate the model structure and behavior using PyMC.
+
+```bash
+python bayesian_model_prototype.py
+```
+
+**4. Validate Scaling Behavior:**
+Ensure the model learns correctly as data size increases.
+
+```bash
+python quick_scaling_validation.py
+```
+
+**5. Production Model (Future):**
+Run the full Stan model on the complete dataset.
+
+```bash
+# Future implementation
+python run_production_stan_model.py
+```
+**Note**: The full model training will take approximately 18 hours on the complete 574,357 possession dataset.
 
 After the model has finished, the posterior samples of its parameters will be saved and can be used by the analysis tools.
