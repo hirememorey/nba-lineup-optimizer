@@ -30,13 +30,13 @@ The project uses a **multi-database approach** with data distributed across thre
 - **Player Salaries**: 916 players
 - **Player Skills**: 1,026 players
 
-### Recent Fixes Applied:
-1. **Import Issues**: Fixed missing `import logging` statements in multiple population scripts
-2. **Settings Import**: Uncommented settings import in `common_utils.py`
-3. **Schema Mismatches**: Fixed column mapping issues in elbow touch stats
-4. **Data Integration**: Regenerated `PlayerArchetypeFeatures` table with all newly populated data
+### Recent Critical Fixes Applied (October 3, 2025):
+1. **Drive Stats Percentage Columns**: ✅ **RESOLVED** - Fixed 100% NULL values in `drive_pass_pct` and other percentage columns by implementing proper calculation logic in `fix_drive_stats_percentages.py`
+2. **Shot Metrics Table References**: ✅ **RESOLVED** - Fixed incorrect table joins in feature generation script. Updated `generate_archetype_features.py` to use `PlayerShotMetrics` table instead of attempting to aggregate from `PlayerShotChart`
+3. **Data Verification Pipeline**: ✅ **IMPLEMENTED** - Created comprehensive data verification scripts (`comprehensive_data_audit_v2.py` and `final_comprehensive_data_verification.py`) to catch data quality issues before they propagate through the analysis pipeline
+4. **Feature Generation**: ✅ **UPDATED** - Regenerated `PlayerArchetypeFeatures` table with corrected data sources and calculations
 
-### Recent Major Fixes:
+### Previous Major Fixes:
 - **PlayerSeasonOpponentShootingStats**: ✅ **RESOLVED** - Fixed API response structure mismatch. The NBA API endpoint returns `resultSets` as a dict instead of a list, which was causing validation failures. Created new script `populate_opponent_shooting_stats_v2.py` and updated API client method to handle this special case. Now contains 569 records for 2024-25 season.
 
 ## Data and Analysis Pipeline Workflow

@@ -88,10 +88,10 @@ def _get_feature_query(season: str, min_minutes: int) -> str:
         oss.opp_fga_15_19ft,
         oss.opp_fga_20_24ft,
         oss.opp_fga_25_29ft,
-        sc.shots_0_3_ft,
-        sc.shots_3_10_ft,
-        sc.shots_10_16_ft,
-        sc.shots_16_3pt_ft
+        sm.zto3r,
+        sm.thto10r,
+        sm.tento16r,
+        sm.sixtto3ptr
     FROM
         Players p
     INNER JOIN
@@ -116,21 +116,8 @@ def _get_feature_query(season: str, min_minutes: int) -> str:
         PlayerSeasonPullUpStats pull_up ON p.player_id = pull_up.player_id AND pull_up.season = rs.season
     LEFT JOIN
         PlayerSeasonOpponentShootingStats oss ON p.player_id = oss.player_id AND oss.season = rs.season
-    LEFT JOIN (
-        SELECT
-            player_id,
-            season,
-            SUM(CASE WHEN shot_distance <= 3 THEN 1 ELSE 0 END) AS shots_0_3_ft,
-            SUM(CASE WHEN shot_distance > 3 AND shot_distance <= 10 THEN 1 ELSE 0 END) AS shots_3_10_ft,
-            SUM(CASE WHEN shot_distance > 10 AND shot_distance <= 16 THEN 1 ELSE 0 END) AS shots_10_16_ft,
-            SUM(CASE WHEN shot_distance > 16 AND shot_type = '2PT Field Goal' THEN 1 ELSE 0 END) AS shots_16_3pt_ft
-        FROM
-            PlayerShotChart
-        WHERE
-            season = '{season}'
-        GROUP BY
-            player_id, season
-    ) sc ON p.player_id = sc.player_id AND rs.season = sc.season;
+    LEFT JOIN
+        PlayerShotMetrics sm ON p.player_id = sm.player_id AND sm.season = rs.season;
     """
 
 
@@ -175,11 +162,11 @@ def generate_features(season: str):
         features_df.loc[mask_missing_tspct, 'TSPCT'] = features_df[mask_missing_tspct].apply(_calc_tspct, axis=1)
         # ---- END NEW ----
         
-        # Calculate shooting ratios from PlayerShotChart data
-        features_df['Zto3r'] = features_df.apply(lambda row: row['shots_0_3_ft'] / row['field_goals_attempted'] if row['field_goals_attempted'] > 0 else 0, axis=1)
-        features_df['THto10r'] = features_df.apply(lambda row: row['shots_3_10_ft'] / row['field_goals_attempted'] if row['field_goals_attempted'] > 0 else 0, axis=1)
-        features_df['TENto16r'] = features_df.apply(lambda row: row['shots_10_16_ft'] / row['field_goals_attempted'] if row['field_goals_attempted'] > 0 else 0, axis=1)
-        features_df['SIXTto3PTr'] = features_df.apply(lambda row: row['shots_16_3pt_ft'] / row['field_goals_attempted'] if row['field_goals_attempted'] > 0 else 0, axis=1)
+        # Use pre-calculated shooting ratios from PlayerShotMetrics
+        features_df['Zto3r'] = features_df['zto3r'].fillna(0)
+        features_df['THto10r'] = features_df['thto10r'].fillna(0)
+        features_df['TENto16r'] = features_df['tento16r'].fillna(0)
+        features_df['SIXTto3PTr'] = features_df['sixtto3ptr'].fillna(0)
 
         # Calculate AVGFGATTEMPTEDAGAINSTPERGAME
         opp_fga_cols = ['opp_fga_lt_5ft', 'opp_fga_5_9ft', 'opp_fga_10_14ft', 'opp_fga_15_19ft', 'opp_fga_20_24ft', 'opp_fga_25_29ft']

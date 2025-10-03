@@ -1,0 +1,1102 @@
+{
+  "season": "2024-25",
+  "timestamp": "2025-10-03T14:30:27.687988",
+  "overall_status": "FAIL",
+  "critical_issues": [
+    "PlayerSeasonDriveStats.drive_pf_pct: Column completely missing"
+  ],
+  "warnings": [
+    "PlayerSeasonRawStats.avg_shot_distance: 99.86% missing data",
+    "Players.height: 96.46% missing data",
+    "Players.wingspan: 77.43% missing data"
+  ],
+  "table_summaries": {
+    "PlayerSeasonRawStats": {
+      "table": "PlayerSeasonRawStats",
+      "total_rows": 710,
+      "columns_checked": 8,
+      "missing_data": {
+        "minutes_played": {
+          "null_count": 1,
+          "null_percentage": 0.14
+        },
+        "games_played": {
+          "null_count": 1,
+          "null_percentage": 0.14
+        },
+        "field_goals_attempted": {
+          "null_count": 1,
+          "null_percentage": 0.14
+        },
+        "three_pointers_attempted": {
+          "null_count": 1,
+          "null_percentage": 0.14
+        },
+        "free_throws_attempted": {
+          "null_count": 1,
+          "null_percentage": 0.14
+        },
+        "free_throw_percentage": {
+          "null_count": 1,
+          "null_percentage": 0.14
+        },
+        "points": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "avg_shot_distance": {
+          "null_count": 709,
+          "null_percentage": 99.86
+        }
+      },
+      "data_ranges": {
+        "minutes_played": {
+          "min": 0.9,
+          "max": 3036.076666666667,
+          "mean": 835.6253972731546,
+          "std": 833.2397042621185,
+          "median": 570.77
+        },
+        "games_played": {
+          "min": 1.0,
+          "max": 82.0,
+          "mean": 45.85472496473907,
+          "std": 24.13714454344117,
+          "median": 50.0
+        },
+        "field_goals_attempted": {
+          "min": 0.0,
+          "max": 1656.0,
+          "mean": 309.3413258110014,
+          "std": 355.0565630898195,
+          "median": 167.0
+        },
+        "three_pointers_attempted": {
+          "min": 0.0,
+          "max": 811.0,
+          "mean": 130.27503526093088,
+          "std": 163.59014761181535,
+          "median": 52.0
+        },
+        "free_throws_attempted": {
+          "min": 0.0,
+          "max": 707.0,
+          "mean": 75.07193229901269,
+          "std": 105.31049955066793,
+          "median": 32.0
+        },
+        "free_throw_percentage": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.7212665726375177,
+          "std": 0.19907862136032617,
+          "median": 0.763
+        },
+        "points": {
+          "min": 0.0,
+          "max": 2484.0,
+          "mean": 394.3197183098591,
+          "std": 467.32591084265107,
+          "median": 200.5
+        },
+        "avg_shot_distance": {
+          "min": 12.3,
+          "max": 12.3,
+          "mean": 12.3,
+          "std": NaN,
+          "median": 12.3
+        }
+      },
+      "outliers": {
+        "minutes_played": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "games_played": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "field_goals_attempted": {
+          "count": 8,
+          "percentage": 1.13
+        },
+        "three_pointers_attempted": {
+          "count": 12,
+          "percentage": 1.69
+        },
+        "free_throws_attempted": {
+          "count": 16,
+          "percentage": 2.26
+        },
+        "free_throw_percentage": {
+          "count": 32,
+          "percentage": 4.51
+        },
+        "points": {
+          "count": 10,
+          "percentage": 1.41
+        }
+      },
+      "data_types": {
+        "minutes_played": "float64",
+        "games_played": "float64",
+        "field_goals_attempted": "float64",
+        "three_pointers_attempted": "float64",
+        "free_throws_attempted": "float64",
+        "free_throw_percentage": "float64",
+        "points": "int64",
+        "avg_shot_distance": "float64"
+      }
+    },
+    "PlayerSeasonAdvancedStats": {
+      "table": "PlayerSeasonAdvancedStats",
+      "total_rows": 540,
+      "columns_checked": 3,
+      "missing_data": {
+        "true_shooting_percentage": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "rebound_percentage": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "assist_percentage": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "true_shooting_percentage": {
+          "min": 0.0,
+          "max": 0.935,
+          "mean": 0.5513981481481481,
+          "std": 0.1013498999649697,
+          "median": 0.567
+        },
+        "rebound_percentage": {
+          "min": 0.0,
+          "max": 12.0,
+          "mean": 0.12643888888888888,
+          "std": 0.6184262463968758,
+          "median": 0.081
+        },
+        "assist_percentage": {
+          "min": 0.0,
+          "max": 25.3,
+          "mean": 0.22561481481481482,
+          "std": 1.3464438160158596,
+          "median": 0.128
+        }
+      },
+      "outliers": {
+        "true_shooting_percentage": {
+          "count": 11,
+          "percentage": 2.04
+        },
+        "rebound_percentage": {
+          "count": 2,
+          "percentage": 0.37
+        },
+        "assist_percentage": {
+          "count": 2,
+          "percentage": 0.37
+        }
+      },
+      "data_types": {
+        "true_shooting_percentage": "float64",
+        "rebound_percentage": "float64",
+        "assist_percentage": "float64"
+      }
+    },
+    "PlayerSeasonTrackingTouchesStats": {
+      "table": "PlayerSeasonTrackingTouchesStats",
+      "total_rows": 569,
+      "columns_checked": 4,
+      "missing_data": {
+        "front_ct_touches": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "time_of_poss": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "avg_sec_per_touch": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "avg_drib_per_touch": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "front_ct_touches": {
+          "min": 0.3,
+          "max": 56.2,
+          "mean": 17.13567662565905,
+          "std": 10.147754015407388,
+          "median": 15.7
+        },
+        "time_of_poss": {
+          "min": 0.0,
+          "max": 8.6,
+          "mean": 1.6509666080843586,
+          "std": 1.5619946892016903,
+          "median": 1.1
+        },
+        "avg_sec_per_touch": {
+          "min": 1.0,
+          "max": 7.92,
+          "mean": 2.705413005272408,
+          "std": 1.1438013653083603,
+          "median": 2.36
+        },
+        "avg_drib_per_touch": {
+          "min": 0.0,
+          "max": 8.0,
+          "mean": 1.965360281195079,
+          "std": 1.3575870210107424,
+          "median": 1.59
+        }
+      },
+      "outliers": {
+        "front_ct_touches": {
+          "count": 3,
+          "percentage": 0.53
+        },
+        "time_of_poss": {
+          "count": 10,
+          "percentage": 1.76
+        },
+        "avg_sec_per_touch": {
+          "count": 1,
+          "percentage": 0.18
+        },
+        "avg_drib_per_touch": {
+          "count": 2,
+          "percentage": 0.35
+        }
+      },
+      "data_types": {
+        "front_ct_touches": "float64",
+        "time_of_poss": "float64",
+        "avg_sec_per_touch": "float64",
+        "avg_drib_per_touch": "float64"
+      }
+    },
+    "PlayerSeasonElbowTouchStats": {
+      "table": "PlayerSeasonElbowTouchStats",
+      "total_rows": 569,
+      "columns_checked": 1,
+      "missing_data": {
+        "elbow_touches": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "elbow_touches": {
+          "min": 0.0,
+          "max": 10.1,
+          "mean": 0.8356766256590509,
+          "std": 1.1320287196027736,
+          "median": 0.4
+        }
+      },
+      "outliers": {
+        "elbow_touches": {
+          "count": 16,
+          "percentage": 2.81
+        }
+      },
+      "data_types": {
+        "elbow_touches": "float64"
+      }
+    },
+    "PlayerSeasonPostUpStats": {
+      "table": "PlayerSeasonPostUpStats",
+      "total_rows": 569,
+      "columns_checked": 6,
+      "missing_data": {
+        "possessions": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "fga": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "fg_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "pass_frequency_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "assist_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "tov_frequency_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "possessions": {
+          "min": 0.0,
+          "max": 8.8,
+          "mean": 0.3265377855887522,
+          "std": 0.8317312669476404,
+          "median": 0.0
+        },
+        "fga": {
+          "min": 0.0,
+          "max": 3.4,
+          "mean": 0.15026362038664323,
+          "std": 0.3802854294431078,
+          "median": 0.0
+        },
+        "fg_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.22760281195079082,
+          "std": 0.32626441535121997,
+          "median": 0.0
+        },
+        "pass_frequency_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.19324428822495607,
+          "std": 0.2728707809669669,
+          "median": 0.0
+        },
+        "assist_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.03969420035149385,
+          "std": 0.11013113814695777,
+          "median": 0.0
+        },
+        "tov_frequency_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.04249560632688928,
+          "std": 0.12615353823628925,
+          "median": 0.0
+        }
+      },
+      "outliers": {
+        "possessions": {
+          "count": 16,
+          "percentage": 2.81
+        },
+        "fga": {
+          "count": 17,
+          "percentage": 2.99
+        },
+        "fg_pct": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "pass_frequency_pct": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "assist_pct": {
+          "count": 9,
+          "percentage": 1.58
+        },
+        "tov_frequency_pct": {
+          "count": 11,
+          "percentage": 1.93
+        }
+      },
+      "data_types": {
+        "possessions": "float64",
+        "fga": "float64",
+        "fg_pct": "float64",
+        "pass_frequency_pct": "float64",
+        "assist_pct": "float64",
+        "tov_frequency_pct": "float64"
+      }
+    },
+    "PlayerSeasonPaintTouchStats": {
+      "table": "PlayerSeasonPaintTouchStats",
+      "total_rows": 569,
+      "columns_checked": 6,
+      "missing_data": {
+        "paint_touches": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "paint_touch_fga": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "paint_touch_fg_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "paint_touch_pass_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "paint_touch_ast_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "paint_touch_tov_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "paint_touches": {
+          "min": 0.0,
+          "max": 13.0,
+          "mean": 1.8507908611599295,
+          "std": 2.0671398489525576,
+          "median": 1.1
+        },
+        "paint_touch_fga": {
+          "min": 0.0,
+          "max": 9.0,
+          "mean": 1.0478031634446399,
+          "std": 1.2931834790480943,
+          "median": 0.6
+        },
+        "paint_touch_fg_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.5753093145869947,
+          "std": 0.2303024403153349,
+          "median": 0.628
+        },
+        "paint_touch_pass_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.3220140597539543,
+          "std": 0.18987671077552679,
+          "median": 0.297
+        },
+        "paint_touch_ast_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.06442179261862918,
+          "std": 0.09227678405947146,
+          "median": 0.047
+        },
+        "paint_touch_tov_pct": {
+          "min": 0.0,
+          "max": 0.6,
+          "mean": 0.04804745166959578,
+          "std": 0.04912035590356782,
+          "median": 0.044
+        }
+      },
+      "outliers": {
+        "paint_touches": {
+          "count": 16,
+          "percentage": 2.81
+        },
+        "paint_touch_fga": {
+          "count": 14,
+          "percentage": 2.46
+        },
+        "paint_touch_fg_pct": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "paint_touch_pass_pct": {
+          "count": 12,
+          "percentage": 2.11
+        },
+        "paint_touch_ast_pct": {
+          "count": 5,
+          "percentage": 0.88
+        },
+        "paint_touch_tov_pct": {
+          "count": 8,
+          "percentage": 1.41
+        }
+      },
+      "data_types": {
+        "paint_touches": "float64",
+        "paint_touch_fga": "float64",
+        "paint_touch_fg_pct": "float64",
+        "paint_touch_pass_pct": "float64",
+        "paint_touch_ast_pct": "float64",
+        "paint_touch_tov_pct": "float64"
+      }
+    },
+    "PlayerSeasonDriveStats": {
+      "table": "PlayerSeasonDriveStats",
+      "total_rows": 569,
+      "columns_checked": 7,
+      "missing_data": {
+        "drives": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "drive_fga": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "drive_fg_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "drive_pass_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "drive_ast_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "drive_tov_pct": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "drive_pf_pct": {
+          "null_count": 569,
+          "null_percentage": 100.0
+        }
+      },
+      "data_ranges": {
+        "drives": {
+          "min": 0.0,
+          "max": 20.6,
+          "mean": 3.7079086115992967,
+          "std": 3.853088758067863,
+          "median": 2.3
+        },
+        "drive_fga": {
+          "min": 0.0,
+          "max": 10.2,
+          "mean": 1.6796133567662566,
+          "std": 1.8026113271370208,
+          "median": 1.0
+        },
+        "drive_fg_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.4426203866432337,
+          "std": 0.18979878153185548,
+          "median": 0.462
+        },
+        "drive_pass_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.3610049846318832,
+          "std": 0.17992230923650154,
+          "median": 0.36986301369863017
+        },
+        "drive_ast_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.0840896333723881,
+          "std": 0.07960423151875598,
+          "median": 0.08333333333333334
+        },
+        "drive_tov_pct": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.0622431777021131,
+          "std": 0.07109765454947886,
+          "median": 0.05882352941176471
+        }
+      },
+      "outliers": {
+        "drives": {
+          "count": 7,
+          "percentage": 1.23
+        },
+        "drive_fga": {
+          "count": 10,
+          "percentage": 1.76
+        },
+        "drive_fg_pct": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "drive_pass_pct": {
+          "count": 7,
+          "percentage": 1.23
+        },
+        "drive_ast_pct": {
+          "count": 9,
+          "percentage": 1.58
+        },
+        "drive_tov_pct": {
+          "count": 7,
+          "percentage": 1.23
+        }
+      },
+      "data_types": {
+        "drives": "float64",
+        "drive_fga": "float64",
+        "drive_fg_pct": "float64",
+        "drive_pass_pct": "float64",
+        "drive_ast_pct": "float64",
+        "drive_tov_pct": "float64",
+        "drive_pf_pct": "object"
+      }
+    },
+    "PlayerSeasonCatchAndShootStats": {
+      "table": "PlayerSeasonCatchAndShootStats",
+      "total_rows": 569,
+      "columns_checked": 2,
+      "missing_data": {
+        "catch_shoot_fga": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "catch_shoot_3pa": {
+          "null_count": 28,
+          "null_percentage": 4.92
+        }
+      },
+      "data_ranges": {
+        "catch_shoot_fga": {
+          "min": 0.0,
+          "max": 8.0,
+          "mean": 2.2720562390158174,
+          "std": 1.5717609742616359,
+          "median": 2.1
+        },
+        "catch_shoot_3pa": {
+          "min": 0.0,
+          "max": 7.8,
+          "mean": 2.2377079482439926,
+          "std": 1.4889660580265847,
+          "median": 2.1
+        }
+      },
+      "outliers": {
+        "catch_shoot_fga": {
+          "count": 2,
+          "percentage": 0.35
+        },
+        "catch_shoot_3pa": {
+          "count": 3,
+          "percentage": 0.55
+        }
+      },
+      "data_types": {
+        "catch_shoot_fga": "float64",
+        "catch_shoot_3pa": "float64"
+      }
+    },
+    "PlayerSeasonPassingStats": {
+      "table": "PlayerSeasonPassingStats",
+      "total_rows": 569,
+      "columns_checked": 3,
+      "missing_data": {
+        "passes_made": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "secondary_assists": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "potential_assists": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "passes_made": {
+          "min": 0.7,
+          "max": 76.6,
+          "mean": 23.036028119507908,
+          "std": 14.213406896477766,
+          "median": 20.9
+        },
+        "secondary_assists": {
+          "min": 0.0,
+          "max": 1.4,
+          "mean": 0.275219683655536,
+          "std": 0.2638441359260725,
+          "median": 0.2
+        },
+        "potential_assists": {
+          "min": 0.0,
+          "max": 20.7,
+          "mean": 3.7181019332161696,
+          "std": 3.2325271232067614,
+          "median": 2.7
+        }
+      },
+      "outliers": {
+        "passes_made": {
+          "count": 3,
+          "percentage": 0.53
+        },
+        "secondary_assists": {
+          "count": 13,
+          "percentage": 2.28
+        },
+        "potential_assists": {
+          "count": 6,
+          "percentage": 1.05
+        }
+      },
+      "data_types": {
+        "passes_made": "float64",
+        "secondary_assists": "float64",
+        "potential_assists": "float64"
+      }
+    },
+    "PlayerSeasonPullUpStats": {
+      "table": "PlayerSeasonPullUpStats",
+      "total_rows": 569,
+      "columns_checked": 2,
+      "missing_data": {
+        "pull_up_fga": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "pull_up_3pa": {
+          "null_count": 28,
+          "null_percentage": 4.92
+        }
+      },
+      "data_ranges": {
+        "pull_up_fga": {
+          "min": 0.0,
+          "max": 11.9,
+          "mean": 1.7321616871704746,
+          "std": 2.290296985910427,
+          "median": 0.8
+        },
+        "pull_up_3pa": {
+          "min": 0.0,
+          "max": 7.6,
+          "mean": 0.8656192236598891,
+          "std": 1.270856023520625,
+          "median": 0.4
+        }
+      },
+      "outliers": {
+        "pull_up_fga": {
+          "count": 16,
+          "percentage": 2.81
+        },
+        "pull_up_3pa": {
+          "count": 15,
+          "percentage": 2.77
+        }
+      },
+      "data_types": {
+        "pull_up_fga": "float64",
+        "pull_up_3pa": "float64"
+      }
+    },
+    "PlayerSeasonOpponentShootingStats": {
+      "table": "PlayerSeasonOpponentShootingStats",
+      "total_rows": 569,
+      "columns_checked": 10,
+      "missing_data": {
+        "opp_fgm_lt_5ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_lt_5ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_5_9ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_10_14ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_15_19ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_20_24ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_25_29ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_30_34ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_35_39ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "opp_fga_40_plus_ft": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "opp_fgm_lt_5ft": {
+          "min": 0.0,
+          "max": 16.3,
+          "mean": 7.355008787346222,
+          "std": 3.6642083635160096,
+          "median": 7.4
+        },
+        "opp_fga_lt_5ft": {
+          "min": 0.0,
+          "max": 24.0,
+          "mean": 11.492267135325132,
+          "std": 5.6999051720854625,
+          "median": 11.5
+        },
+        "opp_fga_5_9ft": {
+          "min": 0.0,
+          "max": 9.8,
+          "mean": 4.523725834797891,
+          "std": 2.201811714500029,
+          "median": 4.4
+        },
+        "opp_fga_10_14ft": {
+          "min": 0.0,
+          "max": 6.9,
+          "mean": 2.842179261862918,
+          "std": 1.465271508823253,
+          "median": 2.6
+        },
+        "opp_fga_15_19ft": {
+          "min": 0.0,
+          "max": 4.5,
+          "mean": 1.7748681898066785,
+          "std": 0.9030763298832968,
+          "median": 1.7
+        },
+        "opp_fga_20_24ft": {
+          "min": 0.0,
+          "max": 13.0,
+          "mean": 5.816871704745167,
+          "std": 2.8895385711711823,
+          "median": 5.7
+        },
+        "opp_fga_25_29ft": {
+          "min": 0.6,
+          "max": 19.9,
+          "mean": 9.572056239015817,
+          "std": 4.579975108756772,
+          "median": 9.5
+        },
+        "opp_fga_30_34ft": {
+          "min": 0.0,
+          "max": 3.0,
+          "mean": 0.4667838312829526,
+          "std": 0.2761092048040937,
+          "median": 0.5
+        },
+        "opp_fga_35_39ft": {
+          "min": 0.0,
+          "max": 2.0,
+          "mean": 0.0780316344463972,
+          "std": 0.16516847688969988,
+          "median": 0.1
+        },
+        "opp_fga_40_plus_ft": {
+          "min": 0.0,
+          "max": 1.0,
+          "mean": 0.12231985940246044,
+          "std": 0.10093347573488123,
+          "median": 0.1
+        }
+      },
+      "outliers": {
+        "opp_fgm_lt_5ft": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "opp_fga_lt_5ft": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "opp_fga_5_9ft": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "opp_fga_10_14ft": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "opp_fga_15_19ft": {
+          "count": 1,
+          "percentage": 0.18
+        },
+        "opp_fga_20_24ft": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "opp_fga_25_29ft": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "opp_fga_30_34ft": {
+          "count": 5,
+          "percentage": 0.88
+        },
+        "opp_fga_35_39ft": {
+          "count": 4,
+          "percentage": 0.7
+        },
+        "opp_fga_40_plus_ft": {
+          "count": 2,
+          "percentage": 0.35
+        }
+      },
+      "data_types": {
+        "opp_fgm_lt_5ft": "float64",
+        "opp_fga_lt_5ft": "float64",
+        "opp_fga_5_9ft": "float64",
+        "opp_fga_10_14ft": "float64",
+        "opp_fga_15_19ft": "float64",
+        "opp_fga_20_24ft": "float64",
+        "opp_fga_25_29ft": "float64",
+        "opp_fga_30_34ft": "float64",
+        "opp_fga_35_39ft": "float64",
+        "opp_fga_40_plus_ft": "float64"
+      }
+    },
+    "PlayerShotMetrics": {
+      "table": "PlayerShotMetrics",
+      "total_rows": 569,
+      "columns_checked": 5,
+      "missing_data": {
+        "avgdist": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "zto3r": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "thto10r": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "tento16r": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        },
+        "sixtto3ptr": {
+          "null_count": 0,
+          "null_percentage": 0.0
+        }
+      },
+      "data_ranges": {
+        "avgdist": {
+          "min": 0.0,
+          "max": 31.999968000032002,
+          "mean": 14.128061693106941,
+          "std": 4.927551070724637,
+          "median": 14.638294757809625
+        },
+        "zto3r": {
+          "min": 0.0,
+          "max": 10.0,
+          "mean": 1.4092689932339921,
+          "std": 1.8484307387330703,
+          "median": 0.8620689655172414
+        },
+        "thto10r": {
+          "min": 0.0,
+          "max": 10.0,
+          "mean": 0.8046329146988146,
+          "std": 1.218918812330368,
+          "median": 0.45454545454545453
+        },
+        "tento16r": {
+          "min": 0.0,
+          "max": 4.0,
+          "mean": 0.7247176907073012,
+          "std": 0.6377544018540613,
+          "median": 0.5853658536585367
+        },
+        "sixtto3ptr": {
+          "min": 0.0,
+          "max": 10.0,
+          "mean": 1.1603038925534532,
+          "std": 3.075518416368823,
+          "median": 0.0
+        }
+      },
+      "outliers": {
+        "avgdist": {
+          "count": 1,
+          "percentage": 0.18
+        },
+        "zto3r": {
+          "count": 20,
+          "percentage": 3.51
+        },
+        "thto10r": {
+          "count": 10,
+          "percentage": 1.76
+        },
+        "tento16r": {
+          "count": 11,
+          "percentage": 1.93
+        },
+        "sixtto3ptr": {
+          "count": 0,
+          "percentage": 0.0
+        }
+      },
+      "data_types": {
+        "avgdist": "float64",
+        "zto3r": "float64",
+        "thto10r": "float64",
+        "tento16r": "float64",
+        "sixtto3ptr": "float64"
+      }
+    },
+    "Players": {
+      "table": "Players",
+      "total_rows": 5025,
+      "columns_checked": 2,
+      "missing_data": {
+        "height": {
+          "null_count": 4847,
+          "null_percentage": 96.46
+        },
+        "wingspan": {
+          "null_count": 3891,
+          "null_percentage": 77.43
+        }
+      },
+      "data_ranges": {
+        "wingspan": {
+          "min": 70.0,
+          "max": 98.25,
+          "mean": 82.42910052910054,
+          "std": 3.9201917701866877,
+          "median": 82.5
+        }
+      },
+      "outliers": {
+        "wingspan": {
+          "count": 3,
+          "percentage": 0.26
+        }
+      },
+      "data_types": {
+        "height": "object",
+        "wingspan": "float64"
+      }
+    }
+  }
+}

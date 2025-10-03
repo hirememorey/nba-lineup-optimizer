@@ -15,3 +15,5 @@ For a new developer, the recommended starting point is the main `README.md` file
 *   **[Data Dictionary](./data_dictionary.md)**: The definitive reference for the multi-database architecture and table structures.
 
 *   **[API Debugging Methodology](./api_debugging_methodology.md)**: An essential guide to debugging the unofficial NBA Stats API, centered on the "Isolate with `curl` First" principle.
+
+*   **[Data Verification Methodology](./data_verification_methodology.md)**: A comprehensive methodology for ensuring data quality before proceeding to clustering analysis, based on post-mortem insights from previous data quality failures.
