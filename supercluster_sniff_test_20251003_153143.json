@@ -1,0 +1,39 @@
+{
+  "timestamp": "2025-10-03T15:31:43.927124",
+  "total_superclusters": 10,
+  "validation_criteria": {
+    "size_distribution": {
+      "min_size": 1,
+      "max_size": 13,
+      "size_ratio": 13.0,
+      "pass": false
+    },
+    "distinct_patterns": {
+      "archetype_patterns": [
+        55.38461538461539,
+        40.0,
+        40.0,
+        80.0,
+        40.0,
+        80.0,
+        52.5,
+        60.0,
+        80.0,
+        60.0
+      ],
+      "distinct_count": 5,
+      "pass": false
+    },
+    "meaningful_differences": {
+      "features_with_variance": 18,
+      "total_features": 18,
+      "pass": true
+    }
+  },
+  "overall_assessment": "FAIL",
+  "recommendations": [
+    "\u274c Validation failed - re-examine feature engineering and clustering parameters",
+    "\u274c Size distribution issue - some superclusters too large/small",
+    "\u274c Archetype patterns not distinct enough - consider different k value"
+  ]
+}

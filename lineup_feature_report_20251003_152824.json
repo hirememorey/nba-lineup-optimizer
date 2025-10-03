@@ -1,0 +1,140 @@
+{
+  "timestamp": "2025-10-03T15:28:24.144538",
+  "total_archetype_lineups": 1,
+  "features_calculated": 18,
+  "feature_summary": {
+    "WFGMPercUAST": {
+      "mean": 0.06679595827900912,
+      "std": NaN,
+      "min": 0.06679595827900912,
+      "max": 0.06679595827900912,
+      "null_count": 0
+    },
+    "WFGMPercAST": {
+      "mean": 0.11946256286086794,
+      "std": NaN,
+      "min": 0.11946256286086794,
+      "max": 0.11946256286086794,
+      "null_count": 0
+    },
+    "WThreeFGMPercUAST": {
+      "mean": 0.029217358912274165,
+      "std": NaN,
+      "min": 0.029217358912274165,
+      "max": 0.029217358912274165,
+      "null_count": 0
+    },
+    "WThreeFGMPercAST": {
+      "mean": 0.15564127398025704,
+      "std": NaN,
+      "min": 0.15564127398025704,
+      "max": 0.15564127398025704,
+      "null_count": 0
+    },
+    "WTwoFGMPercUAST": {
+      "mean": 0.08498770720804619,
+      "std": NaN,
+      "min": 0.08498770720804619,
+      "max": 0.08498770720804619,
+      "null_count": 0
+    },
+    "WTwoFGMPercAST": {
+      "mean": 0.1012704414229838,
+      "std": NaN,
+      "min": 0.1012704414229838,
+      "max": 0.1012704414229838,
+      "null_count": 0
+    },
+    "WPercPTSPITP": {
+      "mean": 0.08004777425963866,
+      "std": NaN,
+      "min": 0.08004777425963866,
+      "max": 0.08004777425963866,
+      "null_count": 0
+    },
+    "WPercPTSOffTO": {
+      "mean": 0.02885211398770721,
+      "std": NaN,
+      "min": 0.02885211398770721,
+      "max": 0.02885211398770721,
+      "null_count": 0
+    },
+    "WPercPTSFT": {
+      "mean": 0.027558763270627677,
+      "std": NaN,
+      "min": 0.027558763270627677,
+      "max": 0.027558763270627677,
+      "null_count": 0
+    },
+    "WPercPTSFBPS": {
+      "mean": 0.025225460979698265,
+      "std": NaN,
+      "min": 0.025225460979698265,
+      "max": 0.025225460979698265,
+      "null_count": 0
+    },
+    "WPercPTS3PT": {
+      "mean": 0.06655764574408643,
+      "std": NaN,
+      "min": 0.06655764574408643,
+      "max": 0.06655764574408643,
+      "null_count": 0
+    },
+    "WPercPTSMR": {
+      "mean": 0.012097317936300988,
+      "std": NaN,
+      "min": 0.012097317936300988,
+      "max": 0.012097317936300988,
+      "null_count": 0
+    },
+    "WPercPTS2PT": {
+      "mean": 0.09214052896256286,
+      "std": NaN,
+      "min": 0.09214052896256286,
+      "max": 0.09214052896256286,
+      "null_count": 0
+    },
+    "WPercFGA3PT": {
+      "mean": 0.07887148444775563,
+      "std": NaN,
+      "min": 0.07887148444775563,
+      "max": 0.07887148444775563,
+      "null_count": 0
+    },
+    "WPercFGA2PT": {
+      "mean": 0.10738461538461538,
+      "std": NaN,
+      "min": 0.10738461538461538,
+      "max": 0.10738461538461538,
+      "null_count": 0
+    },
+    "WOppTORATIOpercent": {
+      "mean": 0.025842242503259456,
+      "std": NaN,
+      "min": 0.025842242503259456,
+      "max": 0.025842242503259456,
+      "null_count": 0
+    },
+    "WOppFTARATE": {
+      "mean": 0.04526159433786552,
+      "std": NaN,
+      "min": 0.04526159433786552,
+      "max": 0.04526159433786552,
+      "null_count": 0
+    },
+    "WPACE": {
+      "mean": 19.17512292791954,
+      "std": NaN,
+      "min": 19.17512292791954,
+      "max": 19.17512292791954,
+      "null_count": 0
+    }
+  },
+  "data_quality": {
+    "total_minutes_sum": 10738.0,
+    "archetype_count_sum": 2000,
+    "missing_values": 0,
+    "infinite_values": 0
+  },
+  "output_file": "lineup_features_20251003_152824.csv"
+}

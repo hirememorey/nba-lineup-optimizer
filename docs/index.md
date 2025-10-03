@@ -21,3 +21,5 @@ For a new developer, the recommended starting point is the main `README.md` file
 *   **[Data Quality Troubleshooting Guide](./troubleshooting_data_quality.md)**: A practical guide for diagnosing and fixing common data quality issues, including the critical drive statistics API bug and other real-world problems encountered during development.
 
 *   **[Archetype Generation Methodology](./archetype_generation_methodology.md)**: A comprehensive guide to the rigorous methodology used to generate player archetypes, including PCA-based feature engineering, multi-metric cluster evaluation, and basketball-meaningful archetype validation.
+
+*   **[Lineup Supercluster Methodology](./lineup_supercluster_methodology.md)**: A comprehensive guide to the methodology used to generate lineup superclusters, including data quality resolution, data density assessment, and qualitative validation framework to ensure basketball-meaningful results.
