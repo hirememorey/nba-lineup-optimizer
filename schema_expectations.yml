@@ -1,0 +1,130 @@
+# Schema Expectations Configuration
+# This file defines the exact schema requirements for the possession-level modeling system
+# Based on empirical investigation of the actual database (see DATA_REALITY_REPORT.md)
+
+database_path: "src/nba_stats/db/nba_stats.db"
+
+tables:
+  PlayerSeasonSkill:
+    required: true
+    columns:
+      player_id: INTEGER
+      season: TEXT
+      offensive_darko: REAL
+      defensive_darko: REAL
+      darko: REAL
+      offensive_epm: REAL
+      defensive_epm: REAL
+      epm: REAL
+      offensive_raptor: REAL
+      defensive_raptor: REAL
+      raptor: REAL
+    min_rows: 500
+    sample_query: "SELECT COUNT(*) FROM PlayerSeasonSkill WHERE season = '2024-25'"
+    expected_min_count: 500
+
+  PlayerSeasonArchetypes:
+    required: true
+    columns:
+      player_id: INTEGER
+      season: TEXT
+      archetype_id: INTEGER
+    min_rows: 200
+    sample_query: "SELECT COUNT(*) FROM PlayerSeasonArchetypes WHERE season = '2024-25'"
+    expected_min_count: 200
+
+  Archetypes:
+    required: true
+    columns:
+      archetype_id: INTEGER
+      archetype_name: TEXT
+    min_rows: 6
+    sample_query: "SELECT COUNT(*) FROM Archetypes"
+    expected_min_count: 6
+
+  Possessions:
+    required: true
+    columns:
+      game_id: TEXT
+      event_num: INTEGER
+      event_type: TEXT
+      home_player_1_id: INTEGER
+      home_player_2_id: INTEGER
+      home_player_3_id: INTEGER
+      home_player_4_id: INTEGER
+      home_player_5_id: INTEGER
+      away_player_1_id: INTEGER
+      away_player_2_id: INTEGER
+      away_player_3_id: INTEGER
+      away_player_4_id: INTEGER
+      away_player_5_id: INTEGER
+      offensive_team_id: INTEGER
+      defensive_team_id: INTEGER
+    min_rows: 500000
+    sample_query: "SELECT COUNT(*) FROM Possessions WHERE home_player_1_id IS NOT NULL"
+    expected_min_count: 500000
+
+  Games:
+    required: true
+    columns:
+      game_id: TEXT
+      game_date: TEXT
+      home_team_id: INTEGER
+      away_team_id: INTEGER
+      season: TEXT
+    min_rows: 1000
+    sample_query: "SELECT COUNT(*) FROM Games WHERE season = '2024-25'"
+    expected_min_count: 1000
+
+  Players:
+    required: true
+    columns:
+      player_id: INTEGER
+      player_name: TEXT
+      first_name: TEXT
+      last_name: TEXT
+    min_rows: 500
+    sample_query: "SELECT COUNT(*) FROM Players"
+    expected_min_count: 500
+
+# Critical column mappings (actual vs expected)
+column_mappings:
+  skill_ratings:
+    offensive_rating: offensive_darko
+    defensive_rating: defensive_darko
+  archetypes:
+    archetype_name: archetype_id  # Need to join with Archetypes table
+
+# Data quality requirements
+data_quality:
+  possession_lineup_completeness: 0.95  # 95% of possessions must have complete lineup data
+  archetype_coverage: 0.80  # 80% of players must have archetype assignments
+  skill_coverage: 0.90  # 90% of players must have skill ratings
+
+# Validation queries
+validation_queries:
+  lineup_completeness: |
+    SELECT 
+      COUNT(*) as total_possessions,
+      SUM(CASE WHEN home_player_1_id IS NOT NULL AND home_player_2_id IS NOT NULL 
+               AND home_player_3_id IS NOT NULL AND home_player_4_id IS NOT NULL 
+               AND home_player_5_id IS NOT NULL AND away_player_1_id IS NOT NULL 
+               AND away_player_2_id IS NOT NULL AND away_player_3_id IS NOT NULL 
+               AND away_player_4_id IS NOT NULL AND away_player_5_id IS NOT NULL 
+               THEN 1 ELSE 0 END) as complete_lineups
+    FROM Possessions
+  
+  archetype_coverage: |
+    SELECT 
+      COUNT(DISTINCT p.player_id) as total_players,
+      COUNT(DISTINCT pa.player_id) as players_with_archetypes
+    FROM Players p
+    LEFT JOIN PlayerSeasonArchetypes pa ON p.player_id = pa.player_id AND pa.season = '2024-25'
+  
+  skill_coverage: |
+    SELECT 
+      COUNT(DISTINCT p.player_id) as total_players,
+      COUNT(DISTINCT ps.player_id) as players_with_skills
+    FROM Players p
+    LEFT JOIN PlayerSeasonSkill ps ON p.player_id = ps.player_id AND ps.season = '2024-25'
+

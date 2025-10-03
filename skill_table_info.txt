@@ -1,0 +1,15 @@
+0|player_id|INTEGER|1||1
+1|season|TEXT|1||2
+2|player_name|TEXT|0||0
+3|team_abbreviation|TEXT|0||0
+4|offensive_darko|REAL|0||0
+5|defensive_darko|REAL|0||0
+6|darko|REAL|0||0
+7|offensive_epm|REAL|0||0
+8|defensive_epm|REAL|0||0
+9|epm|REAL|0||0
+10|offensive_raptor|REAL|0||0
+11|defensive_raptor|REAL|0||0
+12|raptor|REAL|0||0
+13|created_at|TIMESTAMP|0|CURRENT_TIMESTAMP|0
+14|updated_at|TIMESTAMP|0|CURRENT_TIMESTAMP|0

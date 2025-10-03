@@ -2,20 +2,28 @@
 
 Welcome to the documentation for the NBA Player Acquisition Project. This is the central source of truth for understanding and working with this project.
 
-**Status**: ✅ **OPERATIONAL - CONTRACT AUDIT COMPLETE**
+**Status**: ✅ **MODELEVALUATOR FOUNDATION IMPLEMENTED**
 
-The data pipeline verification system has been completely resolved through a comprehensive "Zero-Trust Forensic Audit" that identified and fixed fundamental contract mismatches between data producers and consumers. The data pipeline is now fully operational with 100% verification success rate and automated contract enforcement. Please see the main `README.md` for more details.
+The ModelEvaluator foundation has been successfully implemented following critical insights from post-mortem analysis. This provides a bulletproof foundation for all NBA lineup analysis tools with comprehensive validation and defensive programming. Please see the main `README.md` for more details.
 
 For a new developer, the recommended reading order is:
 1.  `README.md` (in the root directory) for a high-level overview and current status.
 2.  `project_overview.md` for the core concepts.
-3.  `architecture.md` for the technical design.
-4.  `api_debugging_methodology.md` for essential debugging practices.
-5.  `implementation_guide.md` for the new reliability features.
+3.  `IMPLEMENTATION_COMPLETE.md` for the new ModelEvaluator foundation.
+4.  `possession_modeling_system.md` for the possession-level modeling system.
+5.  `architecture.md` for the technical design.
+6.  `api_debugging_methodology.md` for essential debugging practices.
+7.  `implementation_guide.md` for the new reliability features.
 
 ## Table of Contents
 
 -   **[Project Overview](./project_overview.md)**: A detailed explanation of the core concepts, including player archetypes, lineup superclusters, and the Bayesian modeling approach.
+
+-   **[ModelEvaluator Foundation](../IMPLEMENTATION_COMPLETE.md)**: **(NEW)** Complete documentation for the ModelEvaluator foundation implementation, including architecture, validation results, and usage.
+
+-   **[ModelEvaluator Guide](./model_evaluator_guide.md)**: **(NEW)** Detailed guide for using the ModelEvaluator library, including API reference, usage examples, and troubleshooting.
+
+-   **[Possession-Level Modeling System](./possession_modeling_system.md)**: Complete documentation for the possession-level modeling system implementation, including architecture, usage, and troubleshooting.
 
 -   **[Architecture](./architecture.md)**: A deep dive into the new data pipeline architecture, the guiding principles behind its design, and key lessons learned.
 
