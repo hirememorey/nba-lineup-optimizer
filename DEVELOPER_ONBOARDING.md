@@ -237,6 +237,19 @@ The `ModelInterrogator` class provides:
 - **Incorrect Assignments**: Some players have clearly wrong archetypes
 - **See**: `DATA_QUALITY_ISSUES.md` for detailed analysis
 
+### 🚨 Critical Lesson: Verification Process Failure
+**IMPORTANT**: This project demonstrates a critical failure in data verification processes. Despite extensive database validation, we missed that the final clustering table (`PlayerArchetypeFeatures`) had mostly zero values.
+
+**Key Takeaway**: Always verify the final output table used for analysis, not just intermediate data sources. The verification script existed but was never run on the final table.
+
+**What to Check First**: Before using any clustering results, run:
+```sql
+SELECT COUNT(*) as total, 
+       COUNT(CASE WHEN AVGDIST > 0 THEN 1 END) as avgdist_populated,
+       COUNT(CASE WHEN Zto3r > 0 THEN 1 END) as zto3r_populated
+FROM PlayerArchetypeFeatures WHERE season = '2024-25';
+```
+
 ### Model Status
 - **Current Implementation**: Placeholder coefficients for demonstration
 - **Real Training**: Requires 18-hour MCMC process with Stan/PyMC
