@@ -231,6 +231,12 @@ The `ModelInterrogator` class provides:
 
 ## 🚨 Important Notes
 
+### ⚠️ Critical Data Quality Issues
+- **Archetype Classifications**: Currently unreliable due to missing features
+- **Missing Features**: Essential features like shot distance are not populated
+- **Incorrect Assignments**: Some players have clearly wrong archetypes
+- **See**: `DATA_QUALITY_ISSUES.md` for detailed analysis
+
 ### Model Status
 - **Current Implementation**: Placeholder coefficients for demonstration
 - **Real Training**: Requires 18-hour MCMC process with Stan/PyMC
@@ -239,6 +245,7 @@ The `ModelInterrogator` class provides:
 ### Data Limitations
 - **Season**: 2024-25 data (different from paper's 2022-23)
 - **Coverage**: 270 players with complete data (50.6% of skill players)
+- **Feature Quality**: Many advanced features are missing or zero
 - **Validation**: Cannot directly replicate paper's specific examples
 
 ### Architecture

@@ -7,11 +7,11 @@ The project has recently undergone a complete architectural redesign based on fi
 ## Current Status
 
 **Date**: October 3, 2025  
-**Status**: ✅ **IMPLEMENTATION COMPLETE**
+**Status**: ⚠️ **TECHNICAL IMPLEMENTATION COMPLETE - DATA QUALITY ISSUES IDENTIFIED**
 
-> **Note:** The project has successfully implemented the complete analysis platform with Model Governance Dashboard and Player Acquisition Tool. This addresses critical pre-mortem insights by building human validation tools first, ensuring trustworthy model deployment.
+> **Note:** The project has successfully implemented the complete analysis platform with Model Governance Dashboard and Player Acquisition Tool. However, critical data quality issues have been discovered that affect the reliability of player archetype classifications.
 
-**LATEST ACHIEVEMENT**: The complete implementation is now **READY FOR PRODUCTION** with all critical components in place. The system provides a comprehensive platform for NBA player acquisition with explainable AI, model governance, and real-time validation.
+**LATEST UPDATE**: While the technical infrastructure is fully functional, the system has **DATA QUALITY ISSUES** that must be resolved before production use. See `DATA_QUALITY_ISSUES.md` for details.
 
 **Key Implementation Highlights:**
 - **Model Governance Dashboard** - Structured human validation of model coefficients
@@ -21,6 +21,16 @@ The project has recently undergone a complete architectural redesign based on fi
 - **Basketball Logic Validation** - Automated tests ensure model reasoning makes sense
 - **Real-time Calculations** - Live lineup value analysis using trained coefficients
 - **270 blessed players** with complete skills + archetypes data for 2024-25 season
+
+## ⚠️ Important Limitations
+
+**CRITICAL**: The system currently has data quality issues that affect archetype classifications:
+
+- **Missing Features**: Essential features like shot distance are not populated
+- **Incorrect Archetypes**: Some player classifications are clearly wrong (e.g., Stephen Curry as "3&D")
+- **Limited Reliability**: Player acquisition recommendations may be inaccurate
+
+**Before using for real decisions, please review `DATA_QUALITY_ISSUES.md` for detailed analysis.**
 
 **Key Achievement**: All verification failures have been resolved by correcting the data access patterns and implementing proper contract enforcement.
 

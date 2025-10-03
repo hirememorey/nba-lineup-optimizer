@@ -337,7 +337,7 @@ def show_data_overview(interrogator: ModelInterrogator):
         title="Players by Archetype",
         labels={'x': 'Archetype', 'y': 'Number of Players'}
     )
-    fig.update_xaxis(tickangle=45)
+    fig.update_layout(xaxis_tickangle=45)
     st.plotly_chart(fig, use_container_width=True)
     
     # Show skill distribution
