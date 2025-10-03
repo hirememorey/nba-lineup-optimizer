@@ -27,13 +27,12 @@ The project's core infrastructure and analysis tools are fully implemented and f
     *   **Front Court Touches**: 270 players (100% coverage)
     *   **Elbow Touches**: 270 players (100% coverage)
     *   **Passing Stats**: 270 players (100% coverage)
+    *   **Opponent Shooting Stats**: 569 players (100% coverage) ✅ **RECENTLY FIXED**
 *   **Comprehensive Database**: 270 players with complete archetype features, 574k+ possessions, and all supporting data.
 
-### Minor Issues ⚠️
+### Recent Major Fixes ✅
 
-*   **PlayerSeasonOpponentShootingStats**: 0 records (NBA API endpoint returning empty responses)
-    *   **Impact**: Minimal - this represents a small gap that shouldn't significantly impact model performance
-    *   **Status**: API-side issue, not a code problem
+*   **PlayerSeasonOpponentShootingStats**: ✅ **RESOLVED** - Fixed API response structure mismatch. The NBA API endpoint returns `resultSets` as a dict instead of a list, which was causing validation failures. Created new script and updated API client method. Now contains 569 records for 2024-25 season.
 
 ### Next Steps
 

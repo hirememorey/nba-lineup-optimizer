@@ -25,6 +25,7 @@ The project uses a **multi-database approach** with data distributed across thre
 - **Front Court Touches**: 270 players (100% coverage)
 - **Elbow Touches**: 270 players (100% coverage)
 - **Passing Stats**: 270 players (100% coverage)
+- **Opponent Shooting Stats**: 569 players (100% coverage for 2024-25 season)
 - **Possessions**: 574,357 total possessions
 - **Player Salaries**: 916 players
 - **Player Skills**: 1,026 players
@@ -35,8 +36,8 @@ The project uses a **multi-database approach** with data distributed across thre
 3. **Schema Mismatches**: Fixed column mapping issues in elbow touch stats
 4. **Data Integration**: Regenerated `PlayerArchetypeFeatures` table with all newly populated data
 
-### Known Issues:
-- **PlayerSeasonOpponentShootingStats**: 0 records (NBA API endpoint returning empty responses - API-side issue, not code problem)
+### Recent Major Fixes:
+- **PlayerSeasonOpponentShootingStats**: ✅ **RESOLVED** - Fixed API response structure mismatch. The NBA API endpoint returns `resultSets` as a dict instead of a list, which was causing validation failures. Created new script `populate_opponent_shooting_stats_v2.py` and updated API client method to handle this special case. Now contains 569 records for 2024-25 season.
 
 ## Data and Analysis Pipeline Workflow
 

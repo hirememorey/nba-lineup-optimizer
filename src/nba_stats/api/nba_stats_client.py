@@ -1302,6 +1302,9 @@ class NBAStatsClient:
         """
         Fetches league-wide opponent shooting stats for all players for a given season.
         This endpoint provides opponent shooting stats broken down by distance ranges.
+        
+        Note: This endpoint returns resultSets as a dict instead of a list, so we bypass
+        the normal validation and handle it specially.
         """
         logger.info(f"Fetching league-wide opponent shooting locations for Season {season} with simplified params.")
         
@@ -1324,7 +1327,49 @@ class NBAStatsClient:
             "TeamID": 0,
             "PORound": 0,
         }
-        return self.make_request(endpoint, params=params)
+        
+        # This endpoint returns resultSets as a dict, not a list, so we need to handle it specially
+        cache_path = self._get_cache_path(endpoint, params)
+        cached_data = self._read_from_cache(cache_path)
+        if cached_data:
+            return cached_data
+
+        url = f"{self.base_url.rstrip('/')}/{endpoint.lstrip('/')}"
+        
+        try:
+            self._wait_for_rate_limit()
+            
+            logger.info(f"Making request to {url} with params: {params}")
+            response = self.session.get(
+                url,
+                params=params,
+                timeout=self.timeout,
+                allow_redirects=True
+            )
+            
+            logger.info(f"Received response with status code: {response.status_code}")
+            response.raise_for_status()
+            
+            data = response.json()
+            
+            # Special validation for this endpoint - resultSets is a dict, not a list
+            if not data or 'resultSets' not in data:
+                raise EmptyResponseError(f"Empty response or missing 'resultSets' from {endpoint}")
+            
+            result_sets = data['resultSets']
+            if not isinstance(result_sets, dict) or 'rowSet' not in result_sets:
+                raise EmptyResponseError(f"Invalid 'resultSets' structure from {endpoint}")
+            
+            row_set = result_sets.get('rowSet', [])
+            if not row_set or not isinstance(row_set, list) or len(row_set) == 0:
+                raise EmptyResponseError(f"Empty or invalid 'rowSet' from {endpoint}")
+            
+            self._write_to_cache(cache_path, data)
+            return data
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to make request to {endpoint}: {e}")
+            return None
 
     def get_league_player_advanced_stats(self, season: str, season_type: str = "Regular Season") -> Optional[Dict[str, Any]]:
         """
