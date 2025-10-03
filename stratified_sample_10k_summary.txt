@@ -1,0 +1,9 @@
+Stratified Sample Summary
+========================
+
+Total possessions: 5000
+Unique matchups: 4
+Archetype distribution:
+  Big Men: 2811
+  Primary Ball Handlers: 3711
+  Role Players: 4985

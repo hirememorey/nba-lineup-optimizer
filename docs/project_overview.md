@@ -20,23 +20,40 @@ To capture a player's on-court role, the system categorizes every player into on
   3. **Role Players** (136 players, 49.8%): Balanced contributors, catch-and-shoot ability, defensive presence
      - *Examples*: Al Horford, Brook Lopez, Nicolas Batum, Jrue Holiday
 
-### 2. Lineup Superclusters
+### 2. Lineup Superclusters ✅ **IMPLEMENTED**
 
-Just as individual players have archetypes, five-player lineups have collective strategies. The model identifies **six "superclusters"** to represent the tactical style of a lineup.
+Just as individual players have archetypes, five-player lineups have collective strategies. The model identifies **two "superclusters"** to represent the tactical style of a lineup (adjusted from the paper's six based on data density constraints).
 
-- **How it Works**: Using K-means clustering on lineup-level statistics, the model groups lineups based on their shared strategic characteristics (e.g., pace, three-point attempt rate, shot creation style).
+- **How it Works**: Lineups are clustered using K-means algorithm on weighted average statistics derived from player archetype compositions. The analysis revealed that k=2 provides optimal basketball-meaningful separation given the available data.
 
-- **The 6 Superclusters**:
-  1. Three-Point Symphony
-  2. Half-Court Individual Shot Creators
-  3. Slashing Offenses
-  4. All-Around with Midrange
-  5. Chaos Instigators
-  6. Up-Tempo Distributors
+- **The 2 Implemented Superclusters**:
+  1. **Supercluster 0**: "Balanced Lineups" (30% Big Men, 40% Ball Handlers, 30% Role Players)
+  2. **Supercluster 1**: "Role Player Heavy" (87% Role Players)
 
-### 3. Bayesian Possession-level Modeling
+### 3. Bayesian Possession-Level Modeling ✅ **IMPLEMENTED**
 
-The core of the analysis is a Bayesian regression model that predicts the outcome (in expected net points) of a single NBA possession.
+The core analytical engine that estimates the value of different player combinations in specific matchups.
+
+- **How it Works**: Uses Bayesian regression to model possession outcomes based on the interaction between offensive and defensive lineup superclusters and individual player skills (DARKO ratings).
+
+- **Model Specification**:
+  ```
+  E[y_i] = β_0,m_i + Σ_a β^off_a,m_i * Z^off_ia - Σ_a β^def_a,m_i * Z^def_ia
+  ```
+  Where:
+  - `y_i` is the expected net points for possession i
+  - `m_i` is the matchup (offensive supercluster, defensive supercluster)
+  - `a` is the archetype (Big Men, Primary Ball Handlers, Role Players)
+  - `Z^off_ia` and `Z^def_ia` are aggregated skill ratings by archetype
+  - `β` coefficients are estimated using MCMC sampling
+
+- **Implementation Status**:
+  - ✅ Data preparation pipeline completed
+  - ✅ PyMC prototype model validated (excellent convergence)
+  - ✅ Statistical scaling analysis completed
+  - 🔄 Production Stan model ready for implementation
+
+### 4. Player Acquisition and Lineup Valuation
 
 The model estimates a player's impact based on their offensive and defensive skill (using the DARKO metric), but critically, it weights this skill based on the full context of the possession:
 - The player's own **archetype**.

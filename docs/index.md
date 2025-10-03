@@ -23,3 +23,7 @@ For a new developer, the recommended starting point is the main `README.md` file
 *   **[Archetype Generation Methodology](./archetype_generation_methodology.md)**: A comprehensive guide to the rigorous methodology used to generate player archetypes, including PCA-based feature engineering, multi-metric cluster evaluation, and basketball-meaningful archetype validation.
 
 *   **[Lineup Supercluster Methodology](./lineup_supercluster_methodology.md)**: A comprehensive guide to the methodology used to generate lineup superclusters, including data quality resolution, data density assessment, and qualitative validation framework to ensure basketball-meaningful results.
+
+*   **[Bayesian Modeling Implementation](./bayesian_modeling_implementation.md)**: A comprehensive guide to the Bayesian possession-level modeling system, including data preparation pipeline, prototype model validation, and scaling analysis. This is the core analytical engine of the project.
+
+*   **[Implementation Guide](./implementation_guide.md)**: A quick-start guide for new developers joining the project, covering the current state, key insights, and next steps for continued development.
