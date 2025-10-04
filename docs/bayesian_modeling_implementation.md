@@ -1,7 +1,7 @@
 # Bayesian Modeling Implementation
 
 **Date**: October 3, 2025  
-**Status**: ✅ **PHASE 1 COMPLETED - PRODUCTION READY**
+**Status**: ✅ **PHASE 1 COMPLETED - SCALING ISSUES DISCOVERED**
 
 ## Overview
 
@@ -16,11 +16,30 @@ This document describes the implementation of the Bayesian possession-level mode
 - **Statistical Scaling Analysis**: Confirmed model learning behavior
 - **Model Architecture**: Complete implementation of research paper methodology
 
-### Phase 2: Production Implementation 🔄 **READY TO BEGIN**
+### Phase 2: Production Implementation ❌ **SCALING ISSUES DISCOVERED**
 
-- **Stan Model Implementation**: Ready to begin based on validated prototype
-- **Full-Scale Training**: Ready for 18-hour training run on complete dataset
-- **Model Integration**: Ready for integration into ModelEvaluator library
+- **Stan Model Implementation**: ✅ Completed but fails on large samples (>5k possessions)
+- **Full-Scale Training**: ❌ BLOCKED - Stan model hangs indefinitely on larger datasets
+- **Model Integration**: 🔄 Use PyMC prototype for production until Stan scaling resolved
+
+## ⚠️ CRITICAL SCALING ISSUES DISCOVERED
+
+### The Problem
+During implementation, we discovered that the Stan model has significant scaling limitations:
+
+- ✅ **Works perfectly** on small samples (≤5,000 possessions)
+- ❌ **Hangs indefinitely** on larger samples (≥95,000 possessions)
+- 🔄 **Current workaround**: Use PyMC prototype for production
+
+### What This Means
+- The 18-hour production training run would likely fail
+- Stan model is not production-ready for the full 574k dataset
+- PyMC prototype remains the only viable option for production
+
+### Next Steps
+1. **Immediate**: Use PyMC prototype for production deployment
+2. **Investigation**: Research Stan model simplification techniques
+3. **Alternative**: Consider chunked processing or different sampling algorithms
 
 ## Core Components
 
@@ -44,9 +63,22 @@ preparer.run(input_csv="stratified_sample_10k.csv",
              output_csv="bayesian_model_data.csv")
 ```
 
-### 2. Prototype Model (`bayesian_model_prototype.py`)
+### 2. Prototype Model (`bayesian_model_prototype.py`) ✅ **PRODUCTION READY**
 
 The `BayesianModelPrototype` class implements the Bayesian model using PyMC for fast validation.
+
+**Status**: ✅ **RECOMMENDED FOR PRODUCTION** - Works reliably on all sample sizes
+
+### 3. Stan Model Implementation (`train_bayesian_model.py` + `bayesian_model.stan`) ❌ **SCALING ISSUES**
+
+The Stan implementation provides production-grade Bayesian modeling but has critical scaling limitations.
+
+**Files:**
+- `bayesian_model.stan`: Stan model definition
+- `train_bayesian_model.py`: Python wrapper using cmdstanpy
+- `compare_models.py`: Utility to compare PyMC vs Stan results
+
+**Status**: ❌ **NOT PRODUCTION READY** - Hangs on samples >5k possessions
 
 **Model Specification:**
 ```
