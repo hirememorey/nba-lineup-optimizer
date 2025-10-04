@@ -30,4 +30,10 @@ For a new developer, the recommended starting point is the main `README.md` file
 
 *   **[Model Integration Guide](../IMPLEMENTATION_COMPLETE.md)**: Complete documentation of the model integration implementation, including the Model Factory, Enhanced Dashboard, and performance optimization features.
 
+*   **[Production Implementation Summary](../IMPLEMENTATION_SUMMARY.md)**: Complete documentation of the production system implementation, including authentication, monitoring, user management, and deployment.
+
+*   **[Production Features](./production_features.md)**: Detailed documentation of all production features including authentication, data protection, user analytics, monitoring, and administrative capabilities.
+
+*   **[Deployment Guide](../DEPLOYMENT.md)**: Comprehensive deployment documentation for production systems, including Docker deployment, configuration, and security considerations.
+
 *   **[Implementation Guide](./implementation_guide.md)**: A quick-start guide for new developers joining the project, covering the current state, key insights, and next steps for continued development.
