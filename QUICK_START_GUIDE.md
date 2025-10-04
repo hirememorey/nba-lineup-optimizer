@@ -1,32 +1,53 @@
-# Quick Start Guide - Model Integration
+# Quick Start Guide - Production System
 
 **Date**: October 3, 2025  
-**Status**: ✅ **READY FOR USE**
+**Status**: ✅ **PRODUCTION READY**
 
 ## Overview
 
-This guide provides quick instructions for using the newly integrated model switching capabilities. The system now supports seamless switching between the original placeholder model and the production model with real coefficients.
+This guide provides quick instructions for using the production NBA Lineup Optimizer system. The system now includes authentication, user management, monitoring, and enterprise-grade features while maintaining the core analytical capabilities.
 
 ## Quick Start
 
-### 1. Launch the Enhanced Dashboard
+### 1. Deploy the Production System
+
+#### Option A: Docker Deployment (Recommended)
 
 ```bash
-# Start the enhanced dashboard (RECOMMENDED)
-python run_enhanced_dashboard.py
+# Deploy the complete production system
+docker-compose up -d
+
+# Check logs
+docker-compose logs -f
+
+# Access dashboard at http://localhost:8502
 ```
 
-This opens the dashboard at `http://localhost:8502` with full model switching capabilities.
+#### Option B: Direct Python Deployment
 
-### 2. Use Model Switching
+```bash
+# Run the production system
+python run_production.py
 
-1. **Select Model**: Use the sidebar dropdown to choose between:
-   - "Original Model (8-Archetype)" - Placeholder model
-   - "Production Model (3-Archetype)" - Real coefficients
+# Access dashboard at http://localhost:8502
+```
 
-2. **Enter Lineup**: Input 5 player IDs (comma-separated) or use sample lineups
+### 2. Login and Access Features
 
-3. **Evaluate**: Click "Evaluate Lineup" to see results
+1. **Login**: Use default credentials:
+   - Admin: `admin` / `admin123`
+   - User: `user` / `user123`
+
+2. **Navigate**: Use the sidebar to access:
+   - Model switching and lineup evaluation
+   - Personal dashboard and analytics
+   - System metrics and monitoring
+   - Admin panel (admin users only)
+
+3. **Evaluate Lineups**: 
+   - Enter 5 player IDs or use sample lineups
+   - Switch between production and original models
+   - Compare models side-by-side
 
 4. **Compare Models**: Enable "Comparison Mode" to see both models side-by-side
 
