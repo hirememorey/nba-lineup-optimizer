@@ -28,4 +28,6 @@ For a new developer, the recommended starting point is the main `README.md` file
 
 *   **[Production Bayesian Model](./production_bayesian_model.md)**: Documentation for the deployed production model, including architecture decisions, performance metrics, and integration instructions. This is the operational model currently in use.
 
+*   **[Model Integration Guide](../IMPLEMENTATION_COMPLETE.md)**: Complete documentation of the model integration implementation, including the Model Factory, Enhanced Dashboard, and performance optimization features.
+
 *   **[Implementation Guide](./implementation_guide.md)**: A quick-start guide for new developers joining the project, covering the current state, key insights, and next steps for continued development.
