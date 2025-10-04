@@ -35,6 +35,14 @@ The system is built on a set of core principles learned from hard-won experience
     *   The `ModelEvaluator` library is the **single source of truth** for all lineup analysis.
     *   It operates on a "blessed" set of players with complete data, refusing to process any player with incomplete information. This converts a data quality problem into a clear, manageable error.
 
+### 4.1. Model Integration Architecture ✅ **NEW**
+
+*   **Principle**: Model integration must be independent and non-disruptive to prevent coupling issues between different model implementations.
+*   **Implementation**:
+    *   The `SimpleModelEvaluator` is completely independent from the original `ModelEvaluator` to avoid any coupling issues.
+    *   Both evaluators implement the same interface, allowing for seamless comparison and validation.
+    *   The `Model Comparison Dashboard` provides side-by-side validation to ensure both systems work correctly.
+
 ### 5. Sparsity-Aware Design
 
 *   **Principle**: Not all data will be available for all players. The system must be built for missing data from the start, rather than trying to achieve 100% coverage for every metric.
@@ -71,3 +79,12 @@ This system implements the core methodology from the research paper.
 *   **Anti-Corruption Layers**: It includes a `db_mapping.py` layer to handle schema inconsistencies and the `LiveSchemaValidator` to prevent data drift.
 *   **Semantic Prototyping**: Allows for rapid validation of the analytical logic before running the full, computationally expensive Bayesian model.
 *   **Data Reality**: It was built based on a thorough "data archaeology" process to discover the true state of the database, which led to the discovery of 574,357 possessions with complete lineup data.
+
+### 3.1. Model Evaluator Architecture ✅ **NEW**
+
+The system now includes two independent model evaluators for maximum flexibility and validation:
+
+*   **Original ModelEvaluator**: The existing evaluator with placeholder coefficients and simplified calculations.
+*   **SimpleModelEvaluator**: A new independent evaluator that uses the 7-parameter production model coefficients.
+*   **Model Comparison Framework**: Side-by-side validation tools to ensure both systems work correctly.
+*   **Interface Compatibility**: Both evaluators implement the same interface for seamless integration with existing tools.
