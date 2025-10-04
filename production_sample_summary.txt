@@ -1,0 +1,11 @@
+Production Sample Summary
+========================
+
+Total possessions: 95,975
+Unique matchups: 4
+
+Matchup distribution:
+  (0, 0): 25,000 possessions
+  (0, 1): 25,000 possessions
+  (1, 0): 25,000 possessions
+  (1, 1): 20,975 possessions

@@ -1,0 +1,67 @@
+[
+  {
+    "sample_size": 10000,
+    "runtime_seconds": 30.50757384300232,
+    "runtime_minutes": 0.5084595640500387,
+    "max_rhat": 1.0,
+    "min_ess": 870.0,
+    "divergent_transitions": 0,
+    "convergence_status": "EXCELLENT",
+    "unique_matchups": 4,
+    "draws": 1000,
+    "tune": 500,
+    "chains": 2
+  },
+  {
+    "sample_size": 25000,
+    "runtime_seconds": 78.92039489746094,
+    "runtime_minutes": 1.3153399149576823,
+    "max_rhat": 1.0,
+    "min_ess": 696.0,
+    "divergent_transitions": 0,
+    "convergence_status": "EXCELLENT",
+    "unique_matchups": 4,
+    "draws": 1000,
+    "tune": 500,
+    "chains": 2
+  },
+  {
+    "sample_size": 50000,
+    "runtime_seconds": 179.58096194267273,
+    "runtime_minutes": 2.993016032377879,
+    "max_rhat": 1.0,
+    "min_ess": 732.0,
+    "divergent_transitions": 0,
+    "convergence_status": "EXCELLENT",
+    "unique_matchups": 4,
+    "draws": 1000,
+    "tune": 500,
+    "chains": 2
+  },
+  {
+    "sample_size": 100000,
+    "runtime_seconds": 178.71398091316223,
+    "runtime_minutes": 2.978566348552704,
+    "max_rhat": 1.0,
+    "min_ess": 732.0,
+    "divergent_transitions": 0,
+    "convergence_status": "EXCELLENT",
+    "unique_matchups": 4,
+    "draws": 1000,
+    "tune": 500,
+    "chains": 2
+  },
+  {
+    "sample_size": 200000,
+    "runtime_seconds": 183.42141366004944,
+    "runtime_minutes": 3.057023561000824,
+    "max_rhat": 1.0,
+    "min_ess": 732.0,
+    "divergent_transitions": 0,
+    "convergence_status": "EXCELLENT",
+    "unique_matchups": 4,
+    "draws": 1000,
+    "tune": 500,
+    "chains": 2
+  }
+]
