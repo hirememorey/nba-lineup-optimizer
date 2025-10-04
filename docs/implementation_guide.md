@@ -18,10 +18,11 @@ This guide provides everything a new developer needs to understand the current s
 
 ### 🔄 **CURRENT PHASE**
 
-**Phase 2: Production Stan Model Implementation**
-- PyMC prototype validated and ready for conversion to Stan
-- Full-scale training ready for 574,357 possession dataset
-- Model integration into ModelEvaluator library pending
+**Phase 2: Stan Model Implementation - SCALING ISSUES DISCOVERED**
+- ✅ PyMC prototype validated and working
+- ✅ Stan model implemented and validated on small samples (5k possessions)
+- ❌ **CRITICAL**: Stan model fails to converge on larger samples (95k+ possessions)
+- 🔄 **NEXT**: Model simplification or alternative approach needed for production scale
 
 ## Key Files and Their Purpose
 
@@ -29,19 +30,24 @@ This guide provides everything a new developer needs to understand the current s
 
 ```
 ├── create_stratified_sample.py          # Creates validation samples
+├── create_production_sample.py          # Creates production-scale samples
 ├── bayesian_data_prep.py               # Data transformation pipeline
-├── bayesian_model_prototype.py         # PyMC prototype model
-├── quick_scaling_validation.py         # Model validation
+├── bayesian_model_prototype.py         # PyMC prototype model (WORKING)
+├── train_bayesian_model.py             # Stan model implementation (SCALING ISSUES)
+├── bayesian_model.stan                 # Stan model definition
+├── compare_models.py                   # Model comparison utility
 └── docs/bayesian_modeling_implementation.md  # Complete documentation
 ```
 
 ### Data Files
 
 ```
-├── stratified_sample_10k.csv           # 5,000 possession sample
-├── bayesian_model_data.csv             # Model-ready data
+├── stratified_sample_10k.csv           # 5,000 possession sample (VALIDATED)
+├── production_sample.csv               # 95,000 possession sample (SCALING ISSUES)
+├── bayesian_model_data.csv             # Model-ready data (5k sample)
+├── production_bayesian_data.csv        # Model-ready data (95k sample)
 ├── lineup_supercluster_results/        # Supercluster assignments
-└── src/nba_stats/db/nba_stats.db      # Main database
+└── src/nba_stats/db/nba_stats.db      # Main database (574k possessions)
 ```
 
 ### Generated Reports
@@ -76,7 +82,15 @@ This guide provides everything a new developer needs to understand the current s
 
 ## Critical Insights for New Developers
 
-### 1. Data Format Issues
+### 1. **SCALING ISSUES - READ THIS FIRST**
+**CRITICAL**: The Stan model implementation has significant scaling limitations:
+- ✅ **Works perfectly** on small samples (≤5,000 possessions)
+- ❌ **Hangs indefinitely** on larger samples (≥95,000 possessions)
+- 🔄 **Current workaround**: Use PyMC prototype for production until Stan scaling is resolved
+
+**Immediate Action Required**: Before attempting any large-scale training, test on small samples first.
+
+### 2. Data Format Issues
 **IMPORTANT**: The database stores archetype lineup IDs as binary data, but the working format uses underscores (`0_1_2_2_2`). Always load supercluster mappings from the JSON file:
 
 ```python
@@ -89,21 +103,21 @@ with open('lineup_supercluster_results/supercluster_assignments.json', 'r') as f
 # lineup_to_supercluster = load_from_database()  # This will fail
 ```
 
-### 2. Model Convergence
+### 3. Model Convergence
 The PyMC prototype shows excellent convergence on small samples but borderline convergence on larger samples (R-hat: 1.01). For production implementation:
 
 - Use 4+ chains instead of 2
 - Increase tuning samples
 - Consider model simplification if convergence issues persist
 
-### 3. Data Preparation Pipeline
+### 4. Data Preparation Pipeline
 The `BayesianDataPreparer` class is the single source of truth for data transformation. It handles:
 - Player archetype mappings
 - Team ID resolution
 - Z matrix calculation (aggregated skills by archetype)
 - Offensive vs defensive lineup determination
 
-### 4. Model Architecture
+### 5. Model Architecture
 The implemented model exactly matches the research paper:
 ```
 E[y_i] = β_0,m_i + Σ_a β^off_a,m_i * Z^off_ia - Σ_a β^def_a,m_i * Z^def_ia
@@ -111,15 +125,21 @@ E[y_i] = β_0,m_i + Σ_a β^off_a,m_i * Z^off_ia - Σ_a β^def_a,m_i * Z^def_ia
 
 ## Next Steps for Development
 
-### Immediate (Phase 2)
-1. **Convert PyMC to Stan**: The prototype is ready for production conversion
-2. **Implement Full-Scale Training**: Run on complete 574,357 possession dataset
-3. **Address Convergence**: Optimize sampling parameters for large datasets
+### Immediate (Phase 2) - SCALING ISSUES DISCOVERED
+1. **❌ BLOCKED**: Stan model fails on large samples (>5k possessions)
+2. **🔄 ALTERNATIVE**: Use PyMC prototype for production (proven to work)
+3. **🔧 INVESTIGATE**: Stan model simplification or parameter tuning
+4. **📊 VALIDATE**: Test PyMC on full 574k dataset
 
 ### Future (Phase 3)
-1. **Model Integration**: Integrate into ModelEvaluator library
+1. **Model Integration**: Integrate PyMC model into ModelEvaluator library
 2. **Outcome Calculation**: Implement proper expected net points calculation
 3. **Performance Optimization**: Optimize for production use
+
+### Known Issues Requiring Resolution
+1. **Stan Scaling**: Model hangs indefinitely on samples >5k possessions
+2. **Convergence**: May need more chains/tuning for large datasets
+3. **Memory**: Large datasets may require chunked processing
 
 ## Running the Current System
 
