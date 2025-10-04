@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-10-03T21:40:08.684889",
+  "data_size": 5000,
+  "unique_matchups": 4,
+  "stan_data": {
+    "N": 5000,
+    "M": 4
+  },
+  "convergence_quality": "UNKNOWN"
+}

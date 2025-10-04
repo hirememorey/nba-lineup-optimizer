@@ -26,4 +26,6 @@ For a new developer, the recommended starting point is the main `README.md` file
 
 *   **[Bayesian Modeling Implementation](./bayesian_modeling_implementation.md)**: A comprehensive guide to the Bayesian possession-level modeling system, including data preparation pipeline, prototype model validation, and scaling analysis. This is the core analytical engine of the project.
 
+*   **[Production Bayesian Model](./production_bayesian_model.md)**: Documentation for the deployed production model, including architecture decisions, performance metrics, and integration instructions. This is the operational model currently in use.
+
 *   **[Implementation Guide](./implementation_guide.md)**: A quick-start guide for new developers joining the project, covering the current state, key insights, and next steps for continued development.

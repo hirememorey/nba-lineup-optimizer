@@ -1,0 +1,18 @@
+Stan Bayesian Model Report
+==========================
+
+Data Summary:
+  Total possessions: 5000
+  Unique matchups: 4
+  Outcome statistics:
+    Mean: -0.0101
+    Std: 1.0033
+
+Convergence Diagnostics:
+  Max R-hat: 1.0061
+  Min ESS: 547
+  Divergent transitions: 0
+
+Model Validation:
+  ✅ R-hat values indicate good convergence
+  ✅ Effective sample size is adequate

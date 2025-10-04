@@ -4,10 +4,10 @@ Bayesian Model Data Summary
 Total possessions: 5000
 Unique matchups: 4
 Outcome statistics:
-  Mean: -0.0076
-  Std: 1.0059
-  Min: -4.0275
-  Max: 3.5407
+  Mean: -0.0101
+  Std: 1.0033
+  Min: -3.6758
+  Max: 3.3084
 
 Z matrix statistics:
   z_off_0: mean=-0.1704, std=1.5128

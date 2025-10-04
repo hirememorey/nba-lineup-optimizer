@@ -1,0 +1,11 @@
+Stan Bayesian Model Training Report
+==================================
+
+Data Summary:
+  Total possessions: 5000
+  Unique matchups: 4
+  Outcome statistics:
+    Mean: -0.0117
+    Std: 0.9878
+
+Convergence Diagnostics:
