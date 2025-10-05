@@ -1,0 +1,137 @@
+{
+  "validation_passed": true,
+  "pass_rate": 0.7142857142857143,
+  "test_results": [
+    {
+      "test_name": "basic_skill_impact",
+      "passed": true,
+      "actual_value": 5.637273928339749,
+      "expected_value": 0.1,
+      "difference": 5.537273928339749,
+      "tolerance": 0.1,
+      "message": "High-skill lineup (3.1470) vs low-skill lineup (-2.4903)",
+      "details": {
+        "high_skill_value": 3.1470182355291714,
+        "low_skill_value": -2.4902556928105772,
+        "difference": 5.637273928339749,
+        "high_skill_players": [
+          "Nikola Joki\u0107",
+          "Shai Gilgeous-Alexander",
+          "Giannis Antetokounmpo",
+          "Jayson Tatum",
+          "Luka Don\u010di\u0107"
+        ],
+        "low_skill_players": [
+          "Cody Williams",
+          "Bub Carrington",
+          "Markieff Morris",
+          "Nick Smith Jr.",
+          "Jeff Green"
+        ]
+      }
+    },
+    {
+      "test_name": "positional_balance",
+      "passed": true,
+      "actual_value": 0.28271076278135876,
+      "expected_value": 0.05,
+      "difference": 0.23271076278135877,
+      "tolerance": 0.05,
+      "message": "Balanced lineup (3.1175) vs imbalanced lineup (2.8348)",
+      "details": {
+        "balanced_value": 3.1175052383431434,
+        "imbalanced_value": 2.8347944755617847,
+        "difference": 0.28271076278135876,
+        "balanced_archetype_distribution": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        },
+        "imbalanced_archetype_distribution": {
+          "0": 1,
+          "1": 4,
+          "2": 0
+        }
+      }
+    },
+    {
+      "test_name": "defensive_impact",
+      "passed": true,
+      "actual_value": 0.16831721991511284,
+      "expected_value": 0.05,
+      "difference": 0.11831721991511283,
+      "tolerance": 0.1,
+      "message": "Better defense lineup (1.1792) vs base lineup (1.0109)",
+      "details": {
+        "base_value": 1.010904633801255,
+        "better_defense_value": 1.179221853716368,
+        "difference": 0.16831721991511284,
+        "defensive_improvements": [
+          "Replaced Derrick White with Rudy Gobert",
+          "Replaced Chris Boucher with Draymond Green"
+        ]
+      }
+    },
+    {
+      "test_name": "shooting_spacing",
+      "passed": false,
+      "actual_value": -1.139331648542567,
+      "expected_value": 0.05,
+      "difference": 1.1893316485425671,
+      "tolerance": 0.1,
+      "message": "Better spacing lineup (2.0077) vs poor spacing lineup (3.1470)",
+      "details": {
+        "poor_spacing_value": 3.1470182355291714,
+        "better_spacing_value": 2.0076865869866043,
+        "difference": -1.139331648542567,
+        "spacing_improvements": [
+          "Added shooter: Cam Thomas",
+          "Added shooter: Isaiah Joe"
+        ]
+      }
+    },
+    {
+      "test_name": "ball_dominance_interactions",
+      "passed": false,
+      "actual_value": -0.4345767884746343,
+      "expected_value": 0.05,
+      "difference": 0.4845767884746343,
+      "tolerance": 0.15,
+      "message": "Single ball handler (1.9394) vs multiple ball handlers (2.3740)",
+      "details": {
+        "single_ball_handler_value": 1.9393841366049656,
+        "multiple_ball_handlers_value": 2.3739609250796,
+        "difference": -0.4345767884746343,
+        "ball_handler_count": {
+          "single": 1,
+          "multiple": 3
+        }
+      }
+    },
+    {
+      "test_name": "archetype_diversity",
+      "passed": true,
+      "actual_value": 1.4953997685326048,
+      "expected_value": 0.05,
+      "difference": 1.4453997685326048,
+      "tolerance": 0.1,
+      "message": "Diverse lineup (3.1175) vs homogeneous lineup (1.6221)",
+      "details": {
+        "diverse_value": 3.1175052383431434,
+        "homogeneous_value": 1.6221054698105386,
+        "difference": 1.4953997685326048,
+        "diverse_archetype_distribution": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        },
+        "homogeneous_archetype_distribution": {
+          "0": 0,
+          "1": 0,
+          "2": 5
+        }
+      }
+    },
+    {
+      "test_name": "skill_consistency",
+      "passed": 
