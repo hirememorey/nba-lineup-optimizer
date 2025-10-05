@@ -53,7 +53,7 @@ This guide provides everything a new developer needs to understand the current s
 ├── model_comparison_dashboard.py            # Side-by-side model comparison dashboard
 ├── test_model_integration.py               # Integration test suite
 ├── run_model_comparison.py                 # Dashboard runner script
-└── MODEL_INTEGRATION_SUMMARY.md            # Integration documentation
+└── docs/archive/MODEL_INTEGRATION_SUMMARY.md  # Integration documentation (archived)
 ```
 
 ### Data Files
