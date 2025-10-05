@@ -122,31 +122,71 @@ The NBA Lineup Optimizer project has successfully completed Phase 1 of the fan-f
 - `docs/bayesian_modeling_implementation.md` - Implementation details
 - `README.md` - Project overview
 
-## Next Steps: Fan-Friendly Development
+## Next Steps: Lineup Comparison & Player Swapping Interface
 
-### Immediate (Ready to Do)
-1. **Test the current system**: `streamlit run production_dashboard.py --server.port 8502`
-2. **Explore the results**: Check `production_model_results/` directory
-3. **Review coefficients**: Examine `coefficients.csv` for model insights
-4. **Test model integration**: `python test_model_integration.py`
-5. **Launch comparison dashboard**: `python run_model_comparison.py`
+### **CRITICAL DECISION POINT: Archetype System**
 
-### Phase 1: Fan-Friendly Interface (Priority)
-1. **Team Selection Interface**: Create dropdown for NBA team selection
-2. **Player Search**: Implement name-based player search instead of ID entry
-3. **Current Roster Display**: Show team's current starting 5 and bench players
-4. **Fit Explanations**: Add "why this player fits" explanations using model coefficients
-5. **Free Agent Integration**: Display available free agents for each team
+**Current Issue**: The system uses k=3 archetypes (Big Men, Primary Ball Handlers, Role Players) which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
 
-### Phase 2: Real-World Examples
-1. **Historical Analysis**: Create "Why Westbrook failed with Lakers" case studies
-2. **Pre-built Examples**: Add good/bad fit demonstrations
-3. **Team Needs Analysis**: Generate "Lakers need a 3&D wing" type recommendations
+**Available Data**: 
+- ✅ `player_archetypes_k8.csv` exists with 8 archetypes
+- ✅ Current k=3 system works but is too simplistic for lineup analysis
+- ✅ Need to switch to k=8 for proper lineup comparison interface
 
-### Phase 3: G-League Expansion
-1. **G-League Database**: Add G-League player data and archetype assignments
-2. **Role Player Focus**: Specialized analysis for bench players and hidden gems
-3. **Upside Potential**: Factor in development potential for younger players
+### Phase 1: Data Foundation & Archetype System (2-3 weeks) - **PRIORITY**
+
+#### 1.1 Switch to k=8 Archetype System
+1. **Investigate k=8 Data**: Analyze `player_archetypes_k8.csv` structure and quality
+2. **Update Model Integration**: Modify system to use k=8 archetypes instead of k=3
+3. **Validate Data Quality**: Ensure all major NBA players have proper k=8 assignments
+4. **Update Position Mapping**: Create fan-friendly mappings for 8 archetypes → 5 positions
+
+#### 1.2 Implement Real Possession-Level Analysis
+1. **Fix Model Coefficients**: Ensure Bayesian model works with k=8 archetypes
+2. **Real Lineup Performance**: Calculate actual possession-level lineup efficiency
+3. **System Identification**: Use real data to identify what makes lineups work
+
+### Phase 2: Lineup-Centric Interface (2-3 weeks)
+
+#### 2.1 Starting Lineup Display & Analysis
+1. **Team Starting 5**: Display current lineup with real performance metrics
+2. **Lineup Chemistry Score**: Overall lineup performance rating based on actual data
+3. **System Identification**: "This lineup excels in..." (fast break, half-court, etc.)
+
+#### 2.2 Player Swapping Interface
+1. **Drag-and-Drop Swapping**: Click to swap any player in the starting 5
+2. **Real-Time Impact Analysis**: Show immediate +/- impact of the swap
+3. **Position Validation**: Ensure swaps maintain valid lineup composition
+4. **Alternative Player Suggestions**: "Similar players who might fit better"
+
+#### 2.3 Lineup Comparison Mode
+1. **Side-by-Side View**: Compare two different lineups
+2. **Head-to-Head Analysis**: "Lineup A vs Lineup B" performance metrics
+3. **Key Differences Highlighting**: What makes each lineup unique
+
+### Phase 3: Advanced Features (2-3 weeks)
+
+#### 3.1 Cross-Team Player Analysis
+1. **"How would Player X fit on Team Y?"**: Show system-specific analysis
+2. **System Compatibility Score**: Rate how well a player fits different systems
+3. **Historical Context**: "Similar to when [Player] joined [Team] in [Year]"
+
+#### 3.2 Real-World Examples
+1. **Case Studies**: "Why Westbrook failed with Lakers but succeeded with Clippers"
+2. **Pre-built Scenarios**: Common lineup optimization problems
+3. **Success Stories**: Examples of great lineup fits
+
+### **Why This Approach is Critical**
+
+**The Current Problem**: The k=3 archetype system cannot meaningfully distinguish between different NBA "systems" or show nuanced player fit. With only 3 player types, lineup analysis becomes shallow and unhelpful.
+
+**The Solution**: Switch to k=8 archetypes to capture the rich diversity of NBA playstyles, enabling meaningful lineup comparison and player swapping analysis.
+
+**Success Metrics**:
+- [ ] All major NBA players properly mapped to k=8 archetypes
+- [ ] Real possession-level lineup performance calculations working
+- [ ] Users can swap players and see meaningful impact analysis
+- [ ] System can identify and compare different NBA "systems"
 
 ### Integration Phase ✅ **COMPLETED**
 1. **✅ SimpleModelEvaluator**: Independent 7-parameter model evaluator created
