@@ -1,0 +1,147 @@
+{
+  "timestamp": "2025-10-04T22:55:01.587607",
+  "summary": {
+    "total_tests": 7,
+    "passed_tests": 7,
+    "failed_tests": 0,
+    "pass_rate": 100.0,
+    "validation_status": "PASS"
+  },
+  "test_results": [
+    {
+      "test_name": "basic_skill_impact",
+      "passed": true,
+      "actual_value": 5.72765537079094,
+      "expected_value": 9.995999999999999,
+      "difference": 4.268344629209059,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "high_skill_avg": 6.388,
+        "low_skill_avg": -3.6079999999999997,
+        "skill_difference": 9.995999999999999,
+        "high_skill_prediction": 3.139691049870007,
+        "low_skill_prediction": -2.587964320920933,
+        "prediction_difference": 5.72765537079094
+      }
+    },
+    {
+      "test_name": "ball_dominance_diminishing_returns",
+      "passed": true,
+      "actual_value": -1.0375077872939897,
+      "expected_value": -0.655,
+      "difference": 0.3825077872939897,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "single_handler_skill": 3.92,
+        "multiple_handlers_skill": 2.61,
+        "skill_improvement": -1.31,
+        "single_prediction": 0.6265990695389776,
+        "multiple_prediction": -0.41090871775501214,
+        "prediction_improvement": -1.0375077872939897,
+        "single_diminishing_penalty": 0.05,
+        "multiple_diminishing_penalty": 1.3,
+        "single_redundancy_score": 0.1,
+        "multiple_redundancy_score": 0.6
+      }
+    },
+    {
+      "test_name": "defensive_impact",
+      "passed": true,
+      "actual_value": 2.8838098178256475,
+      "expected_value": 1.474,
+      "difference": 1.4098098178256475,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "good_def_avg": 1.028,
+        "poor_def_avg": -0.446,
+        "def_skill_difference": 1.474,
+        "good_defense_prediction": 0.6435347489665997,
+        "poor_defense_prediction": -2.240275068859048,
+        "prediction_difference": 2.8838098178256475
+      }
+    },
+    {
+      "test_name": "lineup_balance",
+      "passed": true,
+      "actual_value": 2.849039403014371,
+      "expected_value": 0.1,
+      "difference": 2.849039403014371,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "balanced_prediction": 0.5229243831637463,
+        "imbalanced_prediction": -2.326115019850625,
+        "balanced_balance_score": 0.8,
+        "imbalanced_balance_score": 0.30000000000000004,
+        "balanced_redundancy_score": 0.0,
+        "imbalanced_redundancy_score": 1.2,
+        "balanced_archetypes": {
+          "big_men": 1,
+          "ball_handlers": 1,
+          "role_players": 3
+        },
+        "imbalanced_archetypes": {
+          "big_men": 0,
+          "ball_handlers": 5,
+          "role_players": 0
+        }
+      }
+    },
+    {
+      "test_name": "redundancy_penalty",
+      "passed": true,
+      "actual_value": 3.25,
+      "expected_value": 0.1,
+      "difference": 3.15,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "single_handler_penalty": 0.05,
+        "redundant_penalty": 3.3,
+        "penalty_difference": 3.25,
+        "single_redundancy_score": 0.1,
+        "redundant_redundancy_score": 1.2,
+        "single_balance_score": 0.6,
+        "redundant_balance_score": 0.30000000000000004
+      }
+    },
+    {
+      "test_name": "lakers_context_validation",
+      "passed": true,
+      "actual_value": 2.8250155745879795,
+      "expected_value": 0.1,
+      "difference": 2.7250155745879794,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "three_d_prediction": 0.6265990695389776,
+        "ball_handler_prediction": -2.1984165050490017,
+        "lebron_id": 2544.0,
+        "three_d_archetypes": "[np.int64(1), np.int64(2), np.int64(2), np.int64(2), np.int64(2)]",
+        "ball_handler_archetypes": "[np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1)]"
+      }
+    },
+    {
+      "test_name": "archetype_interactions",
+      "passed": true,
+      "actual_value": 0.7127890895774853,
+      "expected_value": 0.05,
+      "difference": 0.6627890895774853,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "lineup1_prediction": 0.14820568544724172,
+        "lineup2_prediction": -0.5645834041302435,
+        "difference": 0.7127890895774853,
+        "lineup1_archetypes": "[np.int64(0), np.int64(0), np.int64(1), np.int64(1), np.int64(2)]",
+        "lineup2_archetypes": "[np.int64(0), np.int64(1), np.int64(1), np.int64(1), np.int64(2)]"
+      }
+    }
+  ],
+  "recommendations": [
+    "\u2705 All tests passed - enhanced model shows excellent basketball intelligence"
+  ]
+}

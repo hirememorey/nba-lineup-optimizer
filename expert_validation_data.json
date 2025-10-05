@@ -1,0 +1,1038 @@
+{
+  "experts": {
+    "expert_001": {
+      "expert_id": "expert_001",
+      "name": "Coach Mike Johnson",
+      "credentials": "Former NBA Assistant Coach (15 years), Current College Head Coach",
+      "expertise_areas": [
+        "Team Building",
+        "Player Development",
+        "Tactics",
+        "Roster Construction"
+      ],
+      "contact_info": "coach.mike@example.com",
+      "is_active": true,
+      "created_date": "2025-10-04T22:35:38.213262"
+    },
+    "expert_002": {
+      "expert_id": "expert_002",
+      "name": "Sarah Chen",
+      "credentials": "NBA Analyst for ESPN, Former WNBA Player, Basketball Analytics Expert",
+      "expertise_areas": [
+        "Analytics",
+        "Player Evaluation",
+        "Team Strategy",
+        "Salary Cap Management"
+      ],
+      "contact_info": "sarah.chen@example.com",
+      "is_active": true,
+      "created_date": "2025-10-04T22:35:38.214501"
+    },
+    "expert_003": {
+      "expert_id": "expert_003",
+      "name": "Marcus Williams",
+      "credentials": "Former NBA Point Guard (12 years), Current Player Development Coach",
+      "expertise_areas": [
+        "Player Chemistry",
+        "Locker Room Dynamics",
+        "On-Court Leadership",
+        "Skill Development"
+      ],
+      "contact_info": "marcus.williams@example.com",
+      "is_active": true,
+      "created_date": "2025-10-04T22:35:38.215045"
+    },
+    "expert_004": {
+      "expert_id": "expert_004",
+      "name": "David Rodriguez",
+      "credentials": "Former NBA General Manager, Current Consultant",
+      "expertise_areas": [
+        "Roster Construction",
+        "Salary Cap",
+        "Trade Negotiations",
+        "Draft Strategy"
+      ],
+      "contact_info": "david.rodriguez@example.com",
+      "is_active": true,
+      "created_date": "2025-10-04T22:35:38.215562"
+    },
+    "expert_005": {
+      "expert_id": "expert_005",
+      "name": "Lisa Thompson",
+      "credentials": "Senior NBA Writer for The Athletic, 20+ years covering the league",
+      "expertise_areas": [
+        "League Trends",
+        "Player Movement",
+        "Team Dynamics",
+        "Historical Context"
+      ],
+      "contact_info": "lisa.thompson@example.com",
+      "is_active": true,
+      "created_date": "2025-10-04T22:35:38.216070"
+    }
+  },
+  "scenarios": {
+    "lakers_2022_pre_trade": {
+      "scenario_id": "lakers_2022_pre_trade",
+      "title": "Lakers 2022-23 Pre-Trade Deadline",
+      "description": "The Lakers have LeBron James, Anthony Davis, and Austin Reaves as their core. They need a fifth starter. The model should recommend 3&D players over ball-dominant guards because LeBron draws double teams, creating open shots for 3&D players.",
+      "team_context": {
+        "team_name": "Los Angeles Lakers",
+        "current_roster": [
+          {
+            "player_name": "LeBron James",
+            "role": "Offensive Juggernaut",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Anthony Davis",
+            "role": "Two-Way Big",
+            "archetype": "Big Men"
+          },
+          {
+            "player_name": "Austin Reaves",
+            "role": "Combo Guard",
+            "archetype": "Role Players"
+          },
+          {
+            "player_name": "Rui Hachimura",
+            "role": "Forward",
+            "archetype": "Role Players"
+          }
+        ],
+        "team_needs": [
+          "Point Guard",
+          "3&D Wing",
+          "Defensive Specialist"
+        ],
+        "salary_cap_situation": "Limited flexibility",
+        "playoff_aspirations": "High"
+      },
+      "available_players": [
+        {
+          "player_name": "D'Angelo Russell",
+          "role": "Point Guard",
+          "archetype": "Primary Ball Handler"
+        },
+        {
+          "player_name": "Malik Beasley",
+          "role": "3&D Wing",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Jarred Vanderbilt",
+          "role": "Defensive Forward",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Patrick Beverley",
+          "role": "Defensive Guard",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Lonnie Walker IV",
+          "role": "Scoring Guard",
+          "archetype": "Role Players"
+        }
+      ],
+      "expected_insights": [
+        "3&D players should be preferred over ball-dominant guards",
+        "LeBron's ball dominance creates spacing for catch-and-shoot players",
+        "Defensive specialists should be valued for team balance"
+      ],
+      "difficulty_level": "intermediate",
+      "created_date": "2025-10-04T22:35:38.216593"
+    },
+    "pacers_2022_mid_season": {
+      "scenario_id": "pacers_2022_mid_season",
+      "title": "Pacers 2022-23 Mid-Season",
+      "description": "The Pacers have Tyrese Haliburton, Bennedict Mathurin, Buddy Hield, and Myles Turner. Three of their four core players have negative defensive ratings. The model should prioritize defensive players over positional needs.",
+      "team_context": {
+        "team_name": "Indiana Pacers",
+        "current_roster": [
+          {
+            "player_name": "Tyrese Haliburton",
+            "role": "Point Guard",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Bennedict Mathurin",
+            "role": "Shooting Guard",
+            "archetype": "Role Players"
+          },
+          {
+            "player_name": "Buddy Hield",
+            "role": "Shooting Guard",
+            "archetype": "Role Players"
+          },
+          {
+            "player_name": "Myles Turner",
+            "role": "Center",
+            "archetype": "Big Men"
+          }
+        ],
+        "team_needs": [
+          "Defensive Specialist",
+          "Power Forward",
+          "Veteran Leadership"
+        ],
+        "salary_cap_situation": "Flexible",
+        "playoff_aspirations": "Building for future"
+      },
+      "available_players": [
+        {
+          "player_name": "Jalen Smith",
+          "role": "Power Forward",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "T.J. McConnell",
+          "role": "Defensive Guard",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Oshae Brissett",
+          "role": "Defensive Forward",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Daniel Theis",
+          "role": "Defensive Big",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Chris Duarte",
+          "role": "3&D Wing",
+          "archetype": "Role Players"
+        }
+      ],
+      "expected_insights": [
+        "Defensive needs should override positional needs",
+        "Team with poor defense should prioritize defensive players",
+        "Veteran leadership may be undervalued by pure skill metrics"
+      ],
+      "difficulty_level": "intermediate",
+      "created_date": "2025-10-04T22:35:38.217093"
+    },
+    "suns_2023_preseason": {
+      "scenario_id": "suns_2023_preseason",
+      "title": "Suns 2023-24 Pre-Season",
+      "description": "The Suns have Bradley Beal, Devin Booker, and Kevin Durant as three offensive juggernauts. They need to decide between keeping Deandre Ayton (offensive big) or trading for a defensive big. The model should recommend defensive balance over offensive firepower.",
+      "team_context": {
+        "team_name": "Phoenix Suns",
+        "current_roster": [
+          {
+            "player_name": "Bradley Beal",
+            "role": "Shooting Guard",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Devin Booker",
+            "role": "Shooting Guard",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Kevin Durant",
+            "role": "Small Forward",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Deandre Ayton",
+            "role": "Center",
+            "archetype": "Big Men"
+          }
+        ],
+        "team_needs": [
+          "Defensive Balance",
+          "Rim Protection",
+          "Team Chemistry"
+        ],
+        "salary_cap_situation": "Luxury tax",
+        "playoff_aspirations": "Championship or bust"
+      },
+      "available_players": [
+        {
+          "player_name": "Jusuf Nurkic",
+          "role": "Offensive Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Rudy Gobert",
+          "role": "Defensive Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Clint Capela",
+          "role": "Defensive Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Brook Lopez",
+          "role": "3&D Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Bam Adebayo",
+          "role": "Two-Way Center",
+          "archetype": "Big Men"
+        }
+      ],
+      "expected_insights": [
+        "Defensive bigs provide better balance with offensive juggernauts",
+        "Rim protection is crucial for teams with perimeter-heavy offense",
+        "Team chemistry and fit matter more than individual skill"
+      ],
+      "difficulty_level": "advanced",
+      "created_date": "2025-10-04T22:35:38.217596"
+    },
+    "warriors_2023_roster": {
+      "scenario_id": "warriors_2023_roster",
+      "title": "Warriors 2023-24 Roster Construction",
+      "description": "The Warriors need to build around Steph Curry, Klay Thompson, and Draymond Green. They need to find the right balance of youth and experience, offense and defense. The model should understand the Warriors' system and recommend players who fit their style.",
+      "team_context": {
+        "team_name": "Golden State Warriors",
+        "current_roster": [
+          {
+            "player_name": "Stephen Curry",
+            "role": "Point Guard",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Klay Thompson",
+            "role": "Shooting Guard",
+            "archetype": "Role Players"
+          },
+          {
+            "player_name": "Draymond Green",
+            "role": "Power Forward",
+            "archetype": "Big Men"
+          },
+          {
+            "player_name": "Andrew Wiggins",
+            "role": "Small Forward",
+            "archetype": "Role Players"
+          }
+        ],
+        "team_needs": [
+          "Center",
+          "Bench Depth",
+          "Defensive Versatility"
+        ],
+        "salary_cap_situation": "Luxury tax",
+        "playoff_aspirations": "Championship contention"
+      },
+      "available_players": [
+        {
+          "player_name": "Kevon Looney",
+          "role": "Defensive Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "James Wiseman",
+          "role": "Young Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Jonathan Kuminga",
+          "role": "Young Forward",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Moses Moody",
+          "role": "Young Guard",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Gary Payton II",
+          "role": "Defensive Guard",
+          "archetype": "Role Players"
+        }
+      ],
+      "expected_insights": [
+        "System fit matters more than individual talent",
+        "Defensive versatility is crucial for Warriors' switching defense",
+        "Youth development should be balanced with win-now needs"
+      ],
+      "difficulty_level": "advanced",
+      "created_date": "2025-10-04T22:35:38.218094"
+    },
+    "thunder_2023_development": {
+      "scenario_id": "thunder_2023_development",
+      "title": "Thunder 2023-24 Development",
+      "description": "The Thunder are building around Shai Gilgeous-Alexander and have a young core. They need to decide between adding veterans for immediate help or continuing to develop young players. The model should understand the balance between development and competitiveness.",
+      "team_context": {
+        "team_name": "Oklahoma City Thunder",
+        "current_roster": [
+          {
+            "player_name": "Shai Gilgeous-Alexander",
+            "role": "Point Guard",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Josh Giddey",
+            "role": "Point Guard",
+            "archetype": "Primary Ball Handler"
+          },
+          {
+            "player_name": "Chet Holmgren",
+            "role": "Center",
+            "archetype": "Big Men"
+          },
+          {
+            "player_name": "Jalen Williams",
+            "role": "Small Forward",
+            "archetype": "Role Players"
+          }
+        ],
+        "team_needs": [
+          "Veteran Leadership",
+          "Shooting",
+          "Defensive Anchor"
+        ],
+        "salary_cap_situation": "Flexible",
+        "playoff_aspirations": "Building for future"
+      },
+      "available_players": [
+        {
+          "player_name": "Mike Muscala",
+          "role": "Veteran Center",
+          "archetype": "Big Men"
+        },
+        {
+          "player_name": "Kenrich Williams",
+          "role": "Veteran Forward",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Isaiah Joe",
+          "role": "Shooting Guard",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Luguentz Dort",
+          "role": "Defensive Guard",
+          "archetype": "Role Players"
+        },
+        {
+          "player_name": "Aleksej Pokusevski",
+          "role": "Young Forward",
+          "archetype": "Role Players"
+        }
+      ],
+      "expected_insights": [
+        "Veteran leadership is crucial for young teams",
+        "Shooting is essential for modern NBA success",
+        "Defensive anchors help young players develop"
+      ],
+      "difficulty_level": "intermediate",
+      "created_date": "2025-10-04T22:35:38.218586"
+    }
+  },
+  "recommendations": {
+    "rec_lakers_2022_pre_trade_20251004_223431": {
+      "recommendation_id": "rec_lakers_2022_pre_trade_20251004_223431",
+      "scenario_id": "lakers_2022_pre_trade",
+      "recommended_player": {
+        "player_id": 1629020,
+        "player_name": "Jarred Vanderbilt",
+        "archetype": "Big Men",
+        "skill_rating": 0.79,
+        "predicted_outcome": 0.9311234393386021,
+        "lineup": [
+          2544,
+          203076,
+          1629060,
+          1630559,
+          1629020
+        ]
+      },
+      "reasoning": "Model recommends Jarred Vanderbilt based on predicted lineup outcome of 0.931",
+      "confidence_score": 0.9311234393386021,
+      "alternative_options": [
+        {
+          "player_id": 1627736,
+          "player_name": "Malik Beasley",
+          "archetype": "Role Players",
+          "skill_rating": 0.62,
+          "predicted_outcome": 0.9269635719817798,
+          "lineup": [
+            2544,
+            203076,
+            1629060,
+            1630559,
+            1627736
+          ]
+        },
+        {
+          "player_id": 1626156,
+          "player_name": "D'Angelo Russell",
+          "archetype": "Primary Ball Handlers",
+          "skill_rating": 0.62,
+          "predicted_outcome": 0.896574588133618,
+          "lineup": [
+            2544,
+            203076,
+            1629060,
+            1630559,
+            1626156
+          ]
+        },
+        {
+          "player_id": 1629022,
+          "player_name": "Lonnie Walker IV",
+          "archetype": "Role Players",
+          "skill_rating": -2.04,
+          "predicted_outcome": 0.5638705988371366,
+          "lineup": [
+            2544,
+            203076,
+            1629060,
+            1630559,
+            1629022
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:34:31.985482"
+    },
+    "rec_pacers_2022_mid_season_20251004_223431": {
+      "recommendation_id": "rec_pacers_2022_mid_season_20251004_223431",
+      "scenario_id": "pacers_2022_mid_season",
+      "recommended_player": {
+        "player_id": 1630188,
+        "player_name": "Jalen Smith",
+        "archetype": "Role Players",
+        "skill_rating": 0.3,
+        "predicted_outcome": 0.22311915531752957,
+        "lineup": [
+          1626167,
+          1627741,
+          1630169,
+          1631097,
+          1630188
+        ]
+      },
+      "reasoning": "Model recommends Jalen Smith based on predicted lineup outcome of 0.223",
+      "confidence_score": 0.22311915531752957,
+      "alternative_options": [
+        {
+          "player_id": 204456,
+          "player_name": "T.J. McConnell",
+          "archetype": "Primary Ball Handlers",
+          "skill_rating": -0.06,
+          "predicted_outcome": 0.19109594066787056,
+          "lineup": [
+            1626167,
+            1627741,
+            1630169,
+            1631097,
+            204456
+          ]
+        },
+        {
+          "player_id": 1629052,
+          "player_name": "Oshae Brissett",
+          "archetype": "Role Players",
+          "skill_rating": -1.37,
+          "predicted_outcome": -0.011551720565197127,
+          "lineup": [
+            1626167,
+            1627741,
+            1630169,
+            1631097,
+            1629052
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:34:31.990032"
+    },
+    "rec_suns_2023_preseason_20251004_223431": {
+      "recommendation_id": "rec_suns_2023_preseason_20251004_223431",
+      "scenario_id": "suns_2023_preseason",
+      "recommended_player": {
+        "player_id": 203497,
+        "player_name": "Rudy Gobert",
+        "archetype": "Big Men",
+        "skill_rating": 2.72,
+        "predicted_outcome": 0.6253982360862493,
+        "lineup": [
+          201142,
+          203078,
+          1626164,
+          1629028,
+          203497
+        ]
+      },
+      "reasoning": "Model recommends Rudy Gobert based on predicted lineup outcome of 0.625",
+      "confidence_score": 0.6253982360862493,
+      "alternative_options": [
+        {
+          "player_id": 1628389,
+          "player_name": "Bam Adebayo",
+          "archetype": "Big Men",
+          "skill_rating": 1.18,
+          "predicted_outcome": 0.4348720238391933,
+          "lineup": [
+            201142,
+            203078,
+            1626164,
+            1629028,
+            1628389
+          ]
+        },
+        {
+          "player_id": 201572,
+          "player_name": "Brook Lopez",
+          "archetype": "Role Players",
+          "skill_rating": 1.18,
+          "predicted_outcome": 0.42635290068108955,
+          "lineup": [
+            201142,
+            203078,
+            1626164,
+            1629028,
+            201572
+          ]
+        },
+        {
+          "player_id": 203991,
+          "player_name": "Clint Capela",
+          "archetype": "Big Men",
+          "skill_rating": 0.45,
+          "predicted_outcome": 0.34479963596125507,
+          "lineup": [
+            201142,
+            203078,
+            1626164,
+            1629028,
+            203991
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:34:31.992923"
+    },
+    "rec_warriors_2023_roster_20251004_223431": {
+      "recommendation_id": "rec_warriors_2023_roster_20251004_223431",
+      "scenario_id": "warriors_2023_roster",
+      "recommended_player": {
+        "player_id": 1627780,
+        "player_name": "Gary Payton II",
+        "archetype": "Role Players",
+        "skill_rating": 1.0,
+        "predicted_outcome": 0.5790966412088698,
+        "lineup": [
+          201939,
+          202691,
+          203110,
+          203952,
+          1627780
+        ]
+      },
+      "reasoning": "Model recommends Gary Payton II based on predicted lineup outcome of 0.579",
+      "confidence_score": 0.5790966412088698,
+      "alternative_options": [
+        {
+          "player_id": 1626172,
+          "player_name": "Kevon Looney",
+          "archetype": "Big Men",
+          "skill_rating": 0.73,
+          "predicted_outcome": 0.5377960942722554,
+          "lineup": [
+            201939,
+            202691,
+            203110,
+            203952,
+            1626172
+          ]
+        },
+        {
+          "player_id": 1630541,
+          "player_name": "Moses Moody",
+          "archetype": "Role Players",
+          "skill_rating": 0.62,
+          "predicted_outcome": 0.5360547261508696,
+          "lineup": [
+            201939,
+            202691,
+            203110,
+            203952,
+            1630541
+          ]
+        },
+        {
+          "player_id": 1630228,
+          "player_name": "Jonathan Kuminga",
+          "archetype": "Role Players",
+          "skill_rating": -0.02,
+          "predicted_outcome": 0.45113920385124245,
+          "lineup": [
+            201939,
+            202691,
+            203110,
+            203952,
+            1630228
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:34:31.996335"
+    },
+    "rec_thunder_2023_development_20251004_223432": {
+      "recommendation_id": "rec_thunder_2023_development_20251004_223432",
+      "scenario_id": "thunder_2023_development",
+      "recommended_player": {
+        "player_id": 1630198,
+        "player_name": "Isaiah Joe",
+        "archetype": "Role Players",
+        "skill_rating": 1.67,
+        "predicted_outcome": 1.5000284141440567,
+        "lineup": [
+          1628983,
+          1630581,
+          1631114,
+          1631096,
+          1630198
+        ]
+      },
+      "reasoning": "Model recommends Isaiah Joe based on predicted lineup outcome of 1.500",
+      "confidence_score": 1.5000284141440567,
+      "alternative_options": [
+        {
+          "player_id": 1629026,
+          "player_name": "Kenrich Williams",
+          "archetype": "Role Players",
+          "skill_rating": 1.62,
+          "predicted_outcome": 1.4790049310923998,
+          "lineup": [
+            1628983,
+            1630581,
+            1631114,
+            1631096,
+            1629026
+          ]
+        },
+        {
+          "player_id": 1629652,
+          "player_name": "Luguentz Dort",
+          "archetype": "Role Players",
+          "skill_rating": 0.67,
+          "predicted_outcome": 1.3536036238550389,
+          "lineup": [
+            1628983,
+            1630581,
+            1631114,
+            1631096,
+            1629652
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:34:32.000919"
+    },
+    "rec_lakers_2022_pre_trade_20251004_223538": {
+      "recommendation_id": "rec_lakers_2022_pre_trade_20251004_223538",
+      "scenario_id": "lakers_2022_pre_trade",
+      "recommended_player": {
+        "player_id": 1629020,
+        "player_name": "Jarred Vanderbilt",
+        "archetype": "Big Men",
+        "skill_rating": 0.79,
+        "predicted_outcome": 0.7118109740165679,
+        "lineup": [
+          2544,
+          203076,
+          1629060,
+          1630559,
+          1629020
+        ]
+      },
+      "reasoning": "Model recommends Jarred Vanderbilt based on predicted lineup outcome of 0.712",
+      "confidence_score": 0.7118109740165679,
+      "alternative_options": [
+        {
+          "player_id": 1627736,
+          "player_name": "Malik Beasley",
+          "archetype": "Role Players",
+          "skill_rating": 0.62,
+          "predicted_outcome": 0.7076511066597455,
+          "lineup": [
+            2544,
+            203076,
+            1629060,
+            1630559,
+            1627736
+          ]
+        },
+        {
+          "player_id": 1626156,
+          "player_name": "D'Angelo Russell",
+          "archetype": "Primary Ball Handlers",
+          "skill_rating": 0.62,
+          "predicted_outcome": 0.40060819796562214,
+          "lineup": [
+            2544,
+            203076,
+            1629060,
+            1630559,
+            1626156
+          ]
+        },
+        {
+          "player_id": 1629022,
+          "player_name": "Lonnie Walker IV",
+          "archetype": "Role Players",
+          "skill_rating": -2.04,
+          "predicted_outcome": 0.3445581335151023,
+          "lineup": [
+            2544,
+            203076,
+            1629060,
+            1630559,
+            1629022
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:35:38.221906"
+    },
+    "rec_pacers_2022_mid_season_20251004_223538": {
+      "recommendation_id": "rec_pacers_2022_mid_season_20251004_223538",
+      "scenario_id": "pacers_2022_mid_season",
+      "recommended_player": {
+        "player_id": 1630188,
+        "player_name": "Jalen Smith",
+        "archetype": "Role Players",
+        "skill_rating": 0.3,
+        "predicted_outcome": 0.22311915531752957,
+        "lineup": [
+          1626167,
+          1627741,
+          1630169,
+          1631097,
+          1630188
+        ]
+      },
+      "reasoning": "Model recommends Jalen Smith based on predicted lineup outcome of 0.223",
+      "confidence_score": 0.22311915531752957,
+      "alternative_options": [
+        {
+          "player_id": 204456,
+          "player_name": "T.J. McConnell",
+          "archetype": "Primary Ball Handlers",
+          "skill_rating": -0.06,
+          "predicted_outcome": 0.046252903298988846,
+          "lineup": [
+            1626167,
+            1627741,
+            1630169,
+            1631097,
+            204456
+          ]
+        },
+        {
+          "player_id": 1629052,
+          "player_name": "Oshae Brissett",
+          "archetype": "Role Players",
+          "skill_rating": -1.37,
+          "predicted_outcome": -0.011551720565197127,
+          "lineup": [
+            1626167,
+            1627741,
+            1630169,
+            1631097,
+            1629052
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:35:38.224889"
+    },
+    "rec_suns_2023_preseason_20251004_223538": {
+      "recommendation_id": "rec_suns_2023_preseason_20251004_223538",
+      "scenario_id": "suns_2023_preseason",
+      "recommended_player": {
+        "player_id": 203497,
+        "player_name": "Rudy Gobert",
+        "archetype": "Big Men",
+        "skill_rating": 2.72,
+        "predicted_outcome": 0.09592060333933461,
+        "lineup": [
+          201142,
+          203078,
+          1626164,
+          1629028,
+          203497
+        ]
+      },
+      "reasoning": "Model recommends Rudy Gobert based on predicted lineup outcome of 0.096",
+      "confidence_score": 0.09592060333933461,
+      "alternative_options": [
+        {
+          "player_id": 1628389,
+          "player_name": "Bam Adebayo",
+          "archetype": "Big Men",
+          "skill_rating": 1.18,
+          "predicted_outcome": -0.09460560890772135,
+          "lineup": [
+            201142,
+            203078,
+            1626164,
+            1629028,
+            1628389
+          ]
+        },
+        {
+          "player_id": 201572,
+          "player_name": "Brook Lopez",
+          "archetype": "Role Players",
+          "skill_rating": 1.18,
+          "predicted_outcome": -0.10312473206582518,
+          "lineup": [
+            201142,
+            203078,
+            1626164,
+            1629028,
+            201572
+          ]
+        },
+        {
+          "player_id": 203991,
+          "player_name": "Clint Capela",
+          "archetype": "Big Men",
+          "skill_rating": 0.45,
+          "predicted_outcome": -0.1846779967856597,
+          "lineup": [
+            201142,
+            203078,
+            1626164,
+            1629028,
+            203991
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:35:38.227565"
+    },
+    "rec_warriors_2023_roster_20251004_223538": {
+      "recommendation_id": "rec_warriors_2023_roster_20251004_223538",
+      "scenario_id": "warriors_2023_roster",
+      "recommended_player": {
+        "player_id": 1627780,
+        "player_name": "Gary Payton II",
+        "archetype": "Role Players",
+        "skill_rating": 1.0,
+        "predicted_outcome": 0.439094116656943,
+        "lineup": [
+          201939,
+          202691,
+          203110,
+          203952,
+          1627780
+        ]
+      },
+      "reasoning": "Model recommends Gary Payton II based on predicted lineup outcome of 0.439",
+      "confidence_score": 0.439094116656943,
+      "alternative_options": [
+        {
+          "player_id": 1626172,
+          "player_name": "Kevon Looney",
+          "archetype": "Big Men",
+          "skill_rating": 0.73,
+          "predicted_outcome": 0.39779356972032864,
+          "lineup": [
+            201939,
+            202691,
+            203110,
+            203952,
+            1626172
+          ]
+        },
+        {
+          "player_id": 1630541,
+          "player_name": "Moses Moody",
+          "archetype": "Role Players",
+          "skill_rating": 0.62,
+          "predicted_outcome": 0.3960522015989428,
+          "lineup": [
+            201939,
+            202691,
+            203110,
+            203952,
+            1630541
+          ]
+        },
+        {
+          "player_id": 1630228,
+          "player_name": "Jonathan Kuminga",
+          "archetype": "Role Players",
+          "skill_rating": -0.02,
+          "predicted_outcome": 0.31113667929931565,
+          "lineup": [
+            201939,
+            202691,
+            203110,
+            203952,
+            1630228
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:35:38.230524"
+    },
+    "rec_thunder_2023_development_20251004_223538": {
+      "recommendation_id": "rec_thunder_2023_development_20251004_223538",
+      "scenario_id": "thunder_2023_development",
+      "recommended_player": {
+        "player_id": 1630198,
+        "player_name": "Isaiah Joe",
+        "archetype": "Role Players",
+        "skill_rating": 1.67,
+        "predicted_outcome": 0.9117199333141516,
+        "lineup": [
+          1628983,
+          1630581,
+          1631114,
+          1631096,
+          1630198
+        ]
+      },
+      "reasoning": "Model recommends Isaiah Joe based on predicted lineup outcome of 0.912",
+      "confidence_score": 0.9117199333141516,
+      "alternative_options": [
+        {
+          "player_id": 1629026,
+          "player_name": "Kenrich Williams",
+          "archetype": "Role Players",
+          "skill_rating": 1.62,
+          "predicted_outcome": 0.8906964502624947,
+          "lineup": [
+            1628983,
+            1630581,
+            1631114,
+            1631096,
+            1629026
+          ]
+        },
+        {
+          "player_id": 1629652,
+          "player_name": "Luguentz Dort",
+          "archetype": "Role Players",
+          "skill_rating": 0.67,
+          "predicted_outcome": 0.7652951430251336,
+          "lineup": [
+            1628983,
+            1630581,
+            1631114,
+            1631096,
+            1629652
+          ]
+        }
+      ],
+      "model_type": "simple",
+      "created_date": "2025-10-04T22:35:38.233987"
+    }
+  },
+  "evaluations": {}
+}
