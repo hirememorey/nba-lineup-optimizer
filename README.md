@@ -229,11 +229,20 @@ result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 
 Before switching to k=8 archetypes, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper. **Statistical convergence does not equal semantic validity.**
 
+**CRITICAL INSIGHT**: We currently have 2024-25 season data, but the original paper used 2022-23 data. This temporal mismatch makes validation impossible. We must first populate our database with 2022-23 data to match the paper's context.
+
 **Validation Requirements**:
-- [ ] Test 7-parameter model against original paper's examples (Lakers, Pacers, Suns)
-- [ ] Verify model correctly identifies 3&D players fit better with LeBron than ball-dominant guards
-- [ ] Confirm model shows defensive bigs fit better with offensive juggernauts than offensive bigs
-- [ ] Validate model captures team needs (Pacers' defensive needs over positional needs)
+- [ ] **PRIORITY 1**: Populate database with 2022-23 season data to match original paper
+- [ ] Test 7-parameter model against original paper's examples (Lakers, Pacers, Suns) using 2022-23 data
+- [ ] Verify model correctly identifies 3&D players fit better with LeBron than ball-dominant guards (2022-23 context)
+- [ ] Confirm model shows defensive bigs fit better with offensive juggernauts than offensive bigs (2022-23 context)
+- [ ] Validate model captures team needs (Pacers' defensive needs over positional needs in 2022-23)
+
+**Why 2022-23 Data is Critical**:
+- Player roles and effectiveness change significantly between seasons
+- Team systems evolve (Lakers 2022-23 vs 2024-25 are completely different)
+- The paper's insights are based on 2022-23 player performances and team contexts
+- We cannot validate against examples from a different season
 
 **If validation fails**: We must either improve the model or adjust our expectations before proceeding.
 
