@@ -43,11 +43,21 @@ class FanFriendlyMapper:
         self.db_path = db_path
         self.conn = None
         
-        # Archetype to position mapping - more nuanced approach
+        # Archetype to position mapping - distribute across all 5 positions
         self.archetype_to_position = {
             0: "C",  # Big Men -> Center
             1: "PG", # Primary Ball Handlers -> Point Guard
             2: "SF"  # Role Players -> Small Forward (most versatile)
+        }
+        
+        # Additional mapping for SG and PF positions
+        # We'll use a more sophisticated approach to assign SG and PF
+        self.position_distribution = {
+            "C": [0],      # Big Men -> Center
+            "PG": [1],     # Primary Ball Handlers -> Point Guard  
+            "SG": [1, 2],  # Mix of Ball Handlers and Role Players -> Shooting Guard
+            "SF": [2],     # Role Players -> Small Forward
+            "PF": [0, 2]   # Mix of Big Men and Role Players -> Power Forward
         }
         
         # Archetype to role mapping
@@ -55,6 +65,15 @@ class FanFriendlyMapper:
             0: "Rim Protector",  # Big Men
             1: "Playmaker",      # Primary Ball Handlers
             2: "3&D Wing"        # Role Players
+        }
+        
+        # Position-specific role mapping
+        self.position_role_mapping = {
+            "C": "Rim Protector",
+            "PG": "Playmaker", 
+            "SG": "Shooter",
+            "SF": "3&D Wing",
+            "PF": "Stretch Big"
         }
         
         # Special player mappings for better accuracy
@@ -89,7 +108,9 @@ class FanFriendlyMapper:
         self.role_descriptions = {
             "Rim Protector": "Defensive anchor who protects the paint",
             "Playmaker": "Primary ball handler who creates for others",
-            "3&D Wing": "Shooter and defender who spaces the floor"
+            "3&D Wing": "Shooter and defender who spaces the floor",
+            "Shooter": "Perimeter scorer who can stretch the floor",
+            "Stretch Big": "Big man who can shoot from outside"
         }
     
     def connect_database(self) -> bool:
@@ -100,6 +121,32 @@ class FanFriendlyMapper:
         except Exception as e:
             print(f"Database connection failed: {e}")
             return False
+    
+    def assign_position_and_role(self, player_name: str, archetype_id: int) -> Tuple[str, str]:
+        """Assign position and role based on archetype with better distribution."""
+        # Check for special player mappings first
+        if player_name in self.special_player_mappings:
+            return self.special_player_mappings[player_name]
+        
+        # Use a more sophisticated distribution based on archetype
+        if archetype_id == 0:  # Big Men
+            # Distribute between C and PF
+            if hash(player_name) % 2 == 0:
+                return "C", "Rim Protector"
+            else:
+                return "PF", "Stretch Big"
+        elif archetype_id == 1:  # Primary Ball Handlers
+            # Distribute between PG and SG
+            if hash(player_name) % 2 == 0:
+                return "PG", "Playmaker"
+            else:
+                return "SG", "Shooter"
+        else:  # Role Players (archetype_id == 2)
+            # Distribute between SF and PF
+            if hash(player_name) % 2 == 0:
+                return "SF", "3&D Wing"
+            else:
+                return "PF", "Stretch Big"
     
     def load_players(self) -> List[PlayerInfo]:
         """Load all players with fan-friendly mappings."""
@@ -130,12 +177,8 @@ class FanFriendlyMapper:
         
         players = []
         for _, row in df.iterrows():
-            # Check for special player mappings first
-            if row['player_name'] in self.special_player_mappings:
-                position, role = self.special_player_mappings[row['player_name']]
-            else:
-                position = self.archetype_to_position.get(row['archetype_id'], 'SF')
-                role = self.archetype_to_role.get(row['archetype_id'], '3&D Wing')
+            # Use the new position assignment logic
+            position, role = self.assign_position_and_role(row['player_name'], row['archetype_id'])
             
             player = PlayerInfo(
                 player_id=row['player_id'],

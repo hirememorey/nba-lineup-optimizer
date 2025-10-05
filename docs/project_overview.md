@@ -6,19 +6,26 @@ This document provides a comprehensive overview of the "Algorithmic NBA Player A
 
 The model is built on the premise that a player's value is deeply contextual. It depends not only on their talent but also on their specific role and how that role interacts with the roles of their teammates and opponents.
 
-### 1. Player Archetypes ✅ **IMPLEMENTED**
+### 1. Player Archetypes ⚠️ **NEEDS UPGRADE TO k=8**
 
-To capture a player's on-court role, the system categorizes every player into one of **three distinct archetypes** based on rigorous data analysis. These are not traditional positions (PG, SG) but are instead based on playstyle, determined using PCA-based feature engineering and multi-metric clustering evaluation.
+**Current State**: The system uses k=3 archetypes which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
 
-- **How it Works**: Players are clustered using K-means algorithm on PCA-transformed features derived from 48 advanced statistics. The analysis revealed that k=3 with PCA (80% variance) provides optimal basketball-meaningful separation.
-
-- **The 3 Implemented Archetypes**:
+**Current k=3 Archetypes** (Limited for lineup analysis):
   1. **Big Men** (51 players, 18.7%): High height, wingspan, frontcourt presence, paint touches
-     - *Examples*: Jonas Valančiūnas, Anthony Davis, Rudy Gobert, Giannis Antetokounmpo
-  2. **Primary Ball Handlers** (86 players, 31.5%): High usage, driving ability, playmaking skills
-     - *Examples*: LeBron James, Stephen Curry, Kevin Durant, James Harden
+  2. **Primary Ball Handlers** (86 players, 31.5%): High usage, driving ability, playmaking skills  
   3. **Role Players** (136 players, 49.8%): Balanced contributors, catch-and-shoot ability, defensive presence
-     - *Examples*: Al Horford, Brook Lopez, Nicolas Batum, Jrue Holiday
+
+**Available k=8 Data**: `player_archetypes_k8.csv` exists with 8 archetypes that align with the original research paper:
+  1. **Scoring Wings**
+  2. **Non-Shooting, Defensive Minded Bigs**
+  3. **Offensive Minded Bigs**
+  4. **Versatile Frontcourt Players**
+  5. **Offensive Juggernauts**
+  6. **3&D Players**
+  7. **Defensive Minded Guards**
+  8. **Playmaking, Initiating Guards**
+
+**Why k=8 is Critical**: With only 3 archetypes, lineup analysis becomes shallow and unhelpful. The k=8 system captures the rich diversity of NBA playstyles needed for meaningful lineup comparison and player swapping analysis.
 
 ### 2. Lineup Superclusters ✅ **IMPLEMENTED**
 

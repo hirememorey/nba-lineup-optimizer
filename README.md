@@ -221,24 +221,30 @@ print(f"Model type: {result.model_type}")
 result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 ```
 
-## Roadmap: Making It Fan-Friendly
+## Roadmap: Lineup Comparison & Player Swapping Interface
 
-### Phase 1: Fan-Friendly Interface (2-3 weeks)
-- **Team Selection**: Dropdown to select NBA teams instead of entering player IDs
-- **Player Search**: Search by name instead of requiring player IDs
-- **Current Roster Display**: Show team's current starting 5 and bench
-- **Fit Explanations**: "This player fits because..." explanations using model coefficients
-- **Free Agent Integration**: Show available free agents for each team
+### **CRITICAL NEXT STEP: Switch to k=8 Archetype System**
 
-### Phase 2: Real-World Examples (1-2 weeks)
-- **Historical Analysis**: "Why Westbrook failed with Lakers" case studies
-- **Pre-built Examples**: Good/bad fit demonstrations
-- **Team Needs Analysis**: "Lakers need a 3&D wing" type recommendations
+**Current Limitation**: The system uses k=3 archetypes which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
 
-### Phase 3: G-League Expansion (3-4 weeks)
-- **G-League Database**: Add G-League player data and archetype assignments
-- **Role Player Focus**: Specialized analysis for bench players and hidden gems
-- **Upside Potential**: Factor in development potential for younger players
+**Available Data**: `player_archetypes_k8.csv` exists with 8 archetypes ready to use.
+
+### Phase 1: Data Foundation & Archetype System (2-3 weeks) - **PRIORITY**
+- **Switch to k=8 Archetypes**: Use the existing k=8 data instead of k=3
+- **Update Model Integration**: Modify system to work with 8 archetypes
+- **Real Possession Analysis**: Implement actual possession-level lineup performance
+- **Position Mapping**: Create fan-friendly mappings for 8 archetypes → 5 positions
+
+### Phase 2: Lineup-Centric Interface (2-3 weeks)
+- **Starting Lineup Display**: Show team's current starting 5 with real performance metrics
+- **Player Swapping**: Drag-and-drop interface to swap players and see impact
+- **Lineup Comparison**: Side-by-side comparison of different lineups
+- **System Analysis**: Identify what makes different lineups work
+
+### Phase 3: Advanced Features (2-3 weeks)
+- **Cross-Team Analysis**: "How would Player X fit on Team Y?"
+- **Real-World Examples**: "Why Westbrook failed with Lakers" case studies
+- **System Optimization**: Data-driven lineup improvement suggestions
 
 ## Documentation
 

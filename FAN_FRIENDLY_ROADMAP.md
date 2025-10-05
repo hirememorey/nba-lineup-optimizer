@@ -20,11 +20,16 @@ Transform the NBA Lineup Optimizer from a technical tool into a fan-friendly app
 - **Data Pipeline**: 604 players with complete archetype assignments and 574k+ possessions
 - **Performance**: Models load in seconds, evaluations are fast
 
-### 🚀 **Next Phase: Real-World Examples**
-- **Historical Analysis**: "Why Westbrook failed with Lakers" case studies
-- **Pre-built Examples**: Good/bad fit demonstrations for common scenarios
-- **Team Needs Analysis**: "Lakers need a 3&D wing" type recommendations
-- **G-League Integration**: Not yet implemented for finding hidden gems
+### ❌ **Critical Limitation Identified**
+- **k=3 Archetype System**: Only 3 player types severely limits lineup analysis granularity
+- **Missing Core Value**: No lineup comparison or player swapping functionality
+- **Shallow Analysis**: Cannot meaningfully distinguish between different NBA "systems"
+
+### 🚀 **Next Phase: Lineup Comparison & Player Swapping**
+- **Switch to k=8 Archetypes**: Use existing k=8 data for richer analysis
+- **Lineup Swapping Interface**: Drag-and-drop player swapping with real-time impact
+- **System Analysis**: Identify what makes different lineups work
+- **Cross-Team Analysis**: "How would Player X fit on Team Y?"
 
 ## Phase 1: Fan-Friendly Interface ✅ **COMPLETED**
 
