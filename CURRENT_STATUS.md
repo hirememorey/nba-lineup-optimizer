@@ -124,6 +124,20 @@ The NBA Lineup Optimizer project has successfully completed Phase 1 of the fan-f
 
 ## Next Steps: Lineup Comparison & Player Swapping Interface
 
+### **🚨 CRITICAL VALIDATION REQUIRED BEFORE PROCEEDING**
+
+**Phase 0: Basketball Validation (1-2 weeks) - MANDATORY PREREQUISITE**
+
+Before switching to k=8 archetypes, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper. **Statistical convergence does not equal semantic validity.**
+
+**Validation Requirements**:
+- [ ] Test 7-parameter model against original paper's examples (Lakers, Pacers, Suns)
+- [ ] Verify model correctly identifies 3&D players fit better with LeBron than ball-dominant guards
+- [ ] Confirm model shows defensive bigs fit better with offensive juggernauts than offensive bigs
+- [ ] Validate model captures team needs (Pacers' defensive needs over positional needs)
+
+**If validation fails**: We must either improve the model or adjust our expectations before proceeding.
+
 ### **CRITICAL DECISION POINT: Archetype System**
 
 **Current Issue**: The system uses k=3 archetypes (Big Men, Primary Ball Handlers, Role Players) which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
@@ -132,6 +146,7 @@ The NBA Lineup Optimizer project has successfully completed Phase 1 of the fan-f
 - ✅ `player_archetypes_k8.csv` exists with 8 archetypes
 - ✅ Current k=3 system works but is too simplistic for lineup analysis
 - ✅ Need to switch to k=8 for proper lineup comparison interface
+- ⚠️ **MUST VALIDATE MODEL FIRST** - No amount of UI polish can fix broken analytics
 
 ### Phase 1: Data Foundation & Archetype System (2-3 weeks) - **PRIORITY**
 

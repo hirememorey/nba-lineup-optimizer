@@ -223,7 +223,21 @@ result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 
 ## Roadmap: Lineup Comparison & Player Swapping Interface
 
-### **CRITICAL NEXT STEP: Switch to k=8 Archetype System**
+### **🚨 CRITICAL VALIDATION REQUIRED BEFORE PROCEEDING**
+
+**Phase 0: Basketball Validation (1-2 weeks) - MANDATORY PREREQUISITE**
+
+Before switching to k=8 archetypes, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper. **Statistical convergence does not equal semantic validity.**
+
+**Validation Requirements**:
+- [ ] Test 7-parameter model against original paper's examples (Lakers, Pacers, Suns)
+- [ ] Verify model correctly identifies 3&D players fit better with LeBron than ball-dominant guards
+- [ ] Confirm model shows defensive bigs fit better with offensive juggernauts than offensive bigs
+- [ ] Validate model captures team needs (Pacers' defensive needs over positional needs)
+
+**If validation fails**: We must either improve the model or adjust our expectations before proceeding.
+
+### **CRITICAL NEXT STEP: Switch to k=8 Archetype System (Only if validation passes)**
 
 **Current Limitation**: The system uses k=3 archetypes which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
 
@@ -235,13 +249,13 @@ result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 - **Real Possession Analysis**: Implement actual possession-level lineup performance
 - **Position Mapping**: Create fan-friendly mappings for 8 archetypes → 5 positions
 
-### Phase 2: Lineup-Centric Interface (2-3 weeks)
+### Phase 2: Lineup-Centric Interface (2-3 weeks) - **ONLY IF VALIDATION PASSES**
 - **Starting Lineup Display**: Show team's current starting 5 with real performance metrics
 - **Player Swapping**: Drag-and-drop interface to swap players and see impact
 - **Lineup Comparison**: Side-by-side comparison of different lineups
 - **System Analysis**: Identify what makes different lineups work
 
-### Phase 3: Advanced Features (2-3 weeks)
+### Phase 3: Advanced Features (2-3 weeks) - **ONLY IF VALIDATION PASSES**
 - **Cross-Team Analysis**: "How would Player X fit on Team Y?"
 - **Real-World Examples**: "Why Westbrook failed with Lakers" case studies
 - **System Optimization**: Data-driven lineup improvement suggestions

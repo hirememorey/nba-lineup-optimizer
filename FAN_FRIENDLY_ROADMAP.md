@@ -25,7 +25,12 @@ Transform the NBA Lineup Optimizer from a technical tool into a fan-friendly app
 - **Missing Core Value**: No lineup comparison or player swapping functionality
 - **Shallow Analysis**: Cannot meaningfully distinguish between different NBA "systems"
 
-### 🚀 **Next Phase: Lineup Comparison & Player Swapping**
+### 🚨 **Next Phase: Basketball Validation (MANDATORY PREREQUISITE)**
+- **Validate 7-Parameter Model**: Test against original paper's basketball examples
+- **Ensure Basketball Accuracy**: Verify model captures contextual player interactions
+- **Document Model Limitations**: Understand what insights we may have lost
+
+### 🚀 **Future Phase: Lineup Comparison & Player Swapping (Only if validation passes)**
 - **Switch to k=8 Archetypes**: Use existing k=8 data for richer analysis
 - **Lineup Swapping Interface**: Drag-and-drop player swapping with real-time impact
 - **System Analysis**: Identify what makes different lineups work
@@ -103,7 +108,21 @@ Transform the NBA Lineup Optimizer from a technical tool into a fan-friendly app
 - Salary cap data integration
 - Fit ranking algorithm
 
-## Phase 2: Real-World Examples (1-2 weeks)
+## Phase 0: Basketball Validation (1-2 weeks) - **MANDATORY PREREQUISITE**
+
+### 0.1 Model Validation Against Original Paper
+**Goal**: Verify our simplified model captures the contextual insights that made the original paper valuable
+
+**Tasks**:
+- [ ] Test 7-parameter model against Lakers example (3&D players fit better with LeBron than ball-dominant guards)
+- [ ] Validate Pacers example (defensive needs over positional needs)
+- [ ] Verify Suns example (defensive bigs fit better with offensive juggernauts than offensive bigs)
+- [ ] Create basketball validation test suite
+- [ ] Document any basketball insights lost in simplification
+
+**Critical Insight**: Statistical convergence does not equal semantic validity. We must ensure our model actually captures basketball reality before proceeding.
+
+## Phase 2: Real-World Examples (1-2 weeks) - **ONLY IF VALIDATION PASSES**
 
 ### 2.1 Historical Analysis
 **Goal**: Create compelling case studies that fans can relate to
@@ -147,7 +166,7 @@ Transform the NBA Lineup Optimizer from a technical tool into a fan-friendly app
 - Need identification system
 - Recommendation engine
 
-## Phase 3: G-League Expansion (3-4 weeks)
+## Phase 3: G-League Expansion (3-4 weeks) - **ONLY IF VALIDATION PASSES**
 
 ### 3.1 G-League Database
 **Goal**: Add G-League player data and archetype assignments
@@ -251,6 +270,8 @@ Transform the NBA Lineup Optimizer from a technical tool into a fan-friendly app
 
 ## Conclusion
 
-This roadmap transforms the NBA Lineup Optimizer from a technical tool into a fan-friendly application that helps NBA fans understand player-team fit. The phased approach ensures steady progress while maintaining the robust analytical foundation that makes the system valuable.
+This roadmap transforms the NBA Lineup Optimizer from a technical tool into a fan-friendly application that helps NBA fans understand player-team fit. However, **the critical first step is validating our simplified model against the original paper's basketball insights**.
 
-The key is to build on the existing strong foundation rather than rebuilding, focusing on user experience enhancements that make the powerful analytics accessible to NBA fans.
+**Key Insight**: Statistical convergence does not equal semantic validity. We must ensure our 7-parameter model actually captures the contextual player interactions that made the original paper valuable before proceeding with any further development.
+
+The phased approach ensures steady progress while maintaining the robust analytical foundation that makes the system valuable. The key is to build on a validated analytical foundation rather than rebuilding, focusing on user experience enhancements that make the powerful analytics accessible to NBA fans.

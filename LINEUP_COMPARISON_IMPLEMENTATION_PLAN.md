@@ -28,6 +28,39 @@ The NBA Lineup Optimizer needs to evolve from individual player analysis to **li
 
 ## Implementation Plan
 
+### **🚨 Phase 0: Basketball Validation (1-2 weeks) - MANDATORY PREREQUISITE**
+
+**CRITICAL INSIGHT**: Statistical convergence does not equal semantic validity. Before switching to k=8 archetypes, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper.
+
+#### 0.1 Model Validation Against Original Paper
+**Goal**: Verify our simplified model captures the contextual insights that made the original paper valuable
+
+**Tasks**:
+- [ ] Test 7-parameter model against Lakers example (3&D players fit better with LeBron than ball-dominant guards)
+- [ ] Validate Pacers example (defensive needs over positional needs)
+- [ ] Verify Suns example (defensive bigs fit better with offensive juggernauts than offensive bigs)
+- [ ] Create basketball validation test suite
+- [ ] Document any basketball insights lost in simplification
+
+**Deliverables**:
+- Basketball validation test results
+- Analysis of model limitations
+- Decision on whether to proceed with k=8 or improve model first
+
+#### 0.2 Model Improvement (If Validation Fails)
+**Goal**: Either improve the model or adjust expectations before proceeding
+
+**Tasks**:
+- [ ] Explore middle-ground approaches (matchup-specific for common matchups, shared for rare ones)
+- [ ] Consider alternative modeling approaches
+- [ ] Document trade-offs between model complexity and basketball accuracy
+- [ ] Decide on final modeling approach
+
+**Deliverables**:
+- Improved model or acceptance of limitations
+- Updated model documentation
+- Clear expectations for k=8 implementation
+
 ### **Phase 1: Data Foundation & Archetype System (2-3 weeks) - PRIORITY**
 
 #### 1.1 Investigate k=8 Data Structure
@@ -205,22 +238,29 @@ k=8 Archetype Data → Position Mapping → Lineup Analysis → Interface Displa
 ## Next Steps
 
 ### **Immediate Actions (This Week)**
+1. **🚨 CRITICAL: Basketball Validation**: Test 7-parameter model against original paper examples
+2. **Create Validation Test Suite**: Build comprehensive basketball validation framework
+3. **Document Model Limitations**: Clearly document what insights we may have lost in simplification
+
+### **Week 1-2 (Only if validation passes)**
 1. **Analyze k=8 Data**: Investigate `player_archetypes_k8.csv` structure and quality
 2. **Create Data Mapping**: Map k=8 archetypes to research paper archetypes
 3. **Update Documentation**: Document the archetype system changes
 
-### **Week 1-2**
+### **Week 3-4 (Only if validation passes)**
 1. **Update Model Integration**: Modify system to use k=8 archetypes
 2. **Test Data Quality**: Validate all major players have proper assignments
 3. **Update Position Mapping**: Create fan-friendly mappings for 8 archetypes
 
-### **Week 3-4**
+### **Week 5-6 (Only if validation passes)**
 1. **Implement Lineup Analysis**: Build lineup performance calculator
 2. **Create Swapping Interface**: Build player swapping functionality
 3. **Test with Real Data**: Validate with actual NBA lineups
 
 ## Conclusion
 
-This implementation plan addresses the critical limitation of the current k=3 archetype system and provides a clear path to building a meaningful lineup comparison and player swapping interface. The key insight is that we need richer archetype data to enable sophisticated lineup analysis that fans will find valuable.
+This implementation plan addresses the critical limitation of the current k=3 archetype system and provides a clear path to building a meaningful lineup comparison and player swapping interface. However, **the critical first step is validating our simplified model against the original paper's basketball insights**.
 
-**The critical first step is switching to k=8 archetypes, which will unlock the system's potential for meaningful lineup analysis.**
+**Key Insight**: Statistical convergence does not equal semantic validity. We must ensure our 7-parameter model actually captures the contextual player interactions that made the original paper valuable before proceeding with k=8 implementation.
+
+**The critical first step is basketball validation, which will determine whether we can proceed with k=8 archetypes or need to improve our modeling approach.**
