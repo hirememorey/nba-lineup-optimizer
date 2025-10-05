@@ -1,39 +1,41 @@
 # Documentation Hub
 
-Welcome to the documentation for the NBA Player Acquisition Project. This is the central source of truth for understanding and working with this project.
+Welcome to the documentation for the NBA Lineup Optimizer project. This is the central source of truth for understanding and working with this project.
 
-For a new developer, the recommended starting point is the main `README.md` file in the root directory.
+**For new developers, start with the main `README.md` file in the root directory.**
 
-## Table of Contents
+## Quick Start
 
-*   **[Project Overview](./project_overview.md)**: A detailed explanation of the core concepts, including player archetypes, lineup superclusters, and the Bayesian modeling approach, based on the source research paper.
+*   **[README.md](../README.md)**: Project overview, current status, and quick start guide
+*   **[CURRENT_STATUS.md](../CURRENT_STATUS.md)**: Detailed current state and next steps
+*   **[QUICK_START_GUIDE.md](../QUICK_START_GUIDE.md)**: Step-by-step instructions for getting started
 
-*   **[Architecture](./architecture.md)**: A deep dive into the system's design principles, key architectural decisions, and hard-won lessons learned during the project's development.
+## Core Documentation
 
-*   **[Data Guide](./data_guide.md)**: A comprehensive guide to the project's data architecture, including the multi-database setup and the step-by-step workflow for populating the database and running the analysis pipeline.
+### Project Understanding
+*   **[Project Overview](./project_overview.md)**: Core concepts, player archetypes, lineup superclusters, and Bayesian modeling approach
+*   **[Architecture](./architecture.md)**: System design principles, key decisions, and lessons learned
+*   **[Data Dictionary](./data_dictionary.md)**: Definitive reference for the multi-database architecture and table structures
 
-*   **[Data Dictionary](./data_dictionary.md)**: The definitive reference for the multi-database architecture and table structures.
+### Data & Analysis
+*   **[Data Guide](./data_guide.md)**: Data architecture, multi-database setup, and analysis pipeline workflow
+*   **[Troubleshooting Data Quality](./troubleshooting_data_quality.md)**: Practical guide for diagnosing and fixing data quality issues
 
-*   **[API Debugging Methodology](./api_debugging_methodology.md)**: An essential guide to debugging the unofficial NBA Stats API, centered on the "Isolate with `curl` First" principle.
+### Production System
+*   **[Production Features](./production_features.md)**: Authentication, data protection, user analytics, monitoring, and admin capabilities
+*   **[Deployment Guide](../DEPLOYMENT.md)**: Docker deployment, configuration, and security considerations
+*   **[Implementation Guide](./implementation_guide.md)**: Quick-start guide for new developers
 
-*   **[Data Verification Methodology](./data_verification_methodology.md)**: A comprehensive methodology for ensuring data quality before proceeding to clustering analysis, based on post-mortem insights from previous data quality failures.
+## Methodology Deep Dives
 
-*   **[Data Quality Troubleshooting Guide](./troubleshooting_data_quality.md)**: A practical guide for diagnosing and fixing common data quality issues, including the critical drive statistics API bug and other real-world problems encountered during development.
+*   **[API Debugging](./methodology/api_debugging_methodology.md)**: Essential guide to debugging the NBA Stats API using "Isolate with `curl` First" principle
+*   **[Data Verification](./methodology/data_verification_methodology.md)**: Comprehensive methodology for ensuring data quality before clustering analysis
+*   **[Archetype Generation](./methodology/archetype_generation_methodology.md)**: Rigorous methodology for generating player archetypes with PCA-based feature engineering
+*   **[Lineup Superclusters](./methodology/lineup_supercluster_methodology.md)**: Methodology for generating lineup superclusters with qualitative validation
+*   **[Bayesian Modeling](./methodology/bayesian_modeling_implementation.md)**: Core analytical engine implementation and scaling analysis
+*   **[Production Bayesian Model](./production_bayesian_model.md)**: Deployed production model documentation and integration instructions
+*   **[Opponent Shooting Stats](./methodology/opponent_shooting_stats_implementation.md)**: Implementation details for defensive shooting statistics
 
-*   **[Archetype Generation Methodology](./archetype_generation_methodology.md)**: A comprehensive guide to the rigorous methodology used to generate player archetypes, including PCA-based feature engineering, multi-metric cluster evaluation, and basketball-meaningful archetype validation.
+## Archived Documentation
 
-*   **[Lineup Supercluster Methodology](./lineup_supercluster_methodology.md)**: A comprehensive guide to the methodology used to generate lineup superclusters, including data quality resolution, data density assessment, and qualitative validation framework to ensure basketball-meaningful results.
-
-*   **[Bayesian Modeling Implementation](./bayesian_modeling_implementation.md)**: A comprehensive guide to the Bayesian possession-level modeling system, including data preparation pipeline, prototype model validation, and scaling analysis. This is the core analytical engine of the project.
-
-*   **[Production Bayesian Model](./production_bayesian_model.md)**: Documentation for the deployed production model, including architecture decisions, performance metrics, and integration instructions. This is the operational model currently in use.
-
-*   **[Model Integration Guide](../IMPLEMENTATION_COMPLETE.md)**: Complete documentation of the model integration implementation, including the Model Factory, Enhanced Dashboard, and performance optimization features.
-
-*   **[Production Implementation Summary](../IMPLEMENTATION_SUMMARY.md)**: Complete documentation of the production system implementation, including authentication, monitoring, user management, and deployment.
-
-*   **[Production Features](./production_features.md)**: Detailed documentation of all production features including authentication, data protection, user analytics, monitoring, and administrative capabilities.
-
-*   **[Deployment Guide](../DEPLOYMENT.md)**: Comprehensive deployment documentation for production systems, including Docker deployment, configuration, and security considerations.
-
-*   **[Implementation Guide](./implementation_guide.md)**: A quick-start guide for new developers joining the project, covering the current state, key insights, and next steps for continued development.
+Historical and completed implementation documents are available in the [archive](./archive/) directory for reference.

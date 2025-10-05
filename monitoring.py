@@ -17,13 +17,14 @@ class MonitoringSystem:
     
     def __init__(self):
         self.config = get_config()
+        self.start_time = time.time()
         self.setup_logging()
         self.metrics = {
             "requests": 0,
             "errors": 0,
             "model_evaluations": 0,
             "avg_response_time": 0.0,
-            "start_time": time.time()
+            "start_time": self.start_time
         }
     
     def setup_logging(self):

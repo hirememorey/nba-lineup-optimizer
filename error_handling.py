@@ -124,10 +124,10 @@ class MonitoringSystem:
     
     def __init__(self, config):
         self.config = config
+        self.start_time = time.time()
         self.metrics_file = Path("data/metrics.json")
         self.metrics_file.parent.mkdir(exist_ok=True)
         self.metrics = self._load_metrics()
-        self.start_time = time.time()
     
     def _load_metrics(self) -> Dict[str, Any]:
         """Load metrics from file."""

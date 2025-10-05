@@ -17,7 +17,7 @@ import base64
 
 from config import get_config
 from auth import auth_manager
-from monitoring import get_monitoring_system, get_error_handler
+from monitoring import MonitoringSystem, log_error
 from user_onboarding import get_user_analytics
 from data_protection import get_data_protection
 
@@ -26,8 +26,8 @@ class AdminPanel:
     
     def __init__(self):
         self.config = get_config()
-        self.monitoring = get_monitoring_system(self.config)
-        self.error_handler = get_error_handler(self.config)
+        self.monitoring = MonitoringSystem()
+        self.error_handler = log_error
         self.user_analytics = get_user_analytics(self.config)
         self.data_protection = get_data_protection(self.config)
     

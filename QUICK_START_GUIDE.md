@@ -1,13 +1,35 @@
-# Quick Start Guide - Production System
+# Quick Start Guide - NBA Lineup Optimizer
 
-**Date**: October 3, 2025  
-**Status**: ✅ **PRODUCTION READY**
+**Date**: October 4, 2025  
+**Status**: ✅ **PHASE 1 COMPLETE** - Fan-Friendly Interface Available
 
 ## Overview
 
-This guide provides quick instructions for using the production NBA Lineup Optimizer system. The system now includes authentication, user management, monitoring, and enterprise-grade features while maintaining the core analytical capabilities.
+This guide provides quick instructions for using the NBA Lineup Optimizer system. The system now includes both a fan-friendly interface for NBA fans and a production system for advanced users.
 
-## Quick Start
+## Quick Start Options
+
+### Option 1: Fan-Friendly Dashboard 🏀 (Recommended for NBA Fans)
+
+**For NBA fans who want to explore player-team fit:**
+
+```bash
+# Start the fan-friendly dashboard
+python run_fan_dashboard.py
+
+# Access at http://localhost:8501
+```
+
+**Features:**
+- Select any of 30 NBA teams
+- Search players by name
+- Get basketball-intuitive fit explanations
+- View free agent recommendations
+- Analyze team roster balance
+
+### Option 2: Production System (Advanced Users)
+
+**For technical users and administrators:**
 
 ### 1. Deploy the Production System
 

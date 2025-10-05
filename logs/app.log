@@ -1,0 +1,111 @@
+2025-10-04 14:33:26,938 - __main__ - ERROR - Dashboard startup error: name 'time' is not defined
+Traceback (most recent call last):
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/production_dashboard.py", line 417, in main
+    dashboard = ProductionDashboard()
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/production_dashboard.py", line 55, in __init__
+    self.initialize_session_state()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/production_dashboard.py", line 66, in initialize_session_state
+    st.session_state.session_id = f"session_{int(time.time())}"
+                                                 ^^^^
+NameError: name 'time' is not defined. Did you forget to import 'time'?
+2025-10-04 14:33:54,267 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:33:54,268 - nba_stats.performance_optimizer - INFO - Lazy loading original ModelEvaluator...
+2025-10-04 14:33:54,314 - nba_stats.performance_optimizer - INFO - Original ModelEvaluator loaded
+2025-10-04 14:33:54,314 - nba_stats.performance_optimizer - INFO - Lazy loading SimpleModelEvaluator...
+2025-10-04 14:33:54,332 - nba_stats.simple_model_evaluator - INFO - ✅ Loaded production model coefficients
+2025-10-04 14:33:54,332 - nba_stats.simple_model_evaluator - INFO - ✅ SimpleModelEvaluator initialized with 525 blessed players
+2025-10-04 14:33:54,332 - nba_stats.performance_optimizer - INFO - SimpleModelEvaluator loaded
+2025-10-04 14:33:54,332 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:33:54,332 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:33:54,365 - __main__ - ERROR - Dashboard startup error: 'MonitoringSystem' object has no attribute 'start_time'
+Traceback (most recent call last):
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 336, in wrapper
+    monitor = MonitoringSystem(config)
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 129, in __init__
+    self.metrics = self._load_metrics()
+                   ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 140, in _load_metrics
+    return self._initialize_metrics()
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 150, in _initialize_metrics
+    "start_time": self.start_time,
+                  ^^^^^^^^^^^^^^^
+AttributeError: 'MonitoringSystem' object has no attribute 'start_time'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/production_dashboard.py", line 419, in main
+    dashboard.run()
+    ~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/production_dashboard.py", line 363, in run
+    if not self.initialize_models():
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 346, in wrapper
+    monitor = MonitoringSystem(config)
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 129, in __init__
+    self.metrics = self._load_metrics()
+                   ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 140, in _load_metrics
+    return self._initialize_metrics()
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/error_handling.py", line 150, in _initialize_metrics
+    "start_time": self.start_time,
+                  ^^^^^^^^^^^^^^^
+AttributeError: 'MonitoringSystem' object has no attribute 'start_time'
+2025-10-04 14:35:28,105 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:35:28,105 - nba_stats.performance_optimizer - INFO - Lazy loading original ModelEvaluator...
+2025-10-04 14:35:28,140 - nba_stats.performance_optimizer - INFO - Original ModelEvaluator loaded
+2025-10-04 14:35:28,140 - nba_stats.performance_optimizer - INFO - Lazy loading SimpleModelEvaluator...
+2025-10-04 14:35:28,156 - nba_stats.simple_model_evaluator - INFO - ✅ Loaded production model coefficients
+2025-10-04 14:35:28,156 - nba_stats.simple_model_evaluator - INFO - ✅ SimpleModelEvaluator initialized with 525 blessed players
+2025-10-04 14:35:28,156 - nba_stats.performance_optimizer - INFO - SimpleModelEvaluator loaded
+2025-10-04 14:35:28,156 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:35:28,156 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:35:43,018 - git.cmd - DEBUG - Popen(['git', 'version'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,046 - git.cmd - DEBUG - Popen(['git', 'version'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,059 - git.util - DEBUG - sys.platform='darwin', git_executable='git'
+2025-10-04 14:35:43,061 - git.cmd - DEBUG - Popen(['git', 'version'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,079 - git.cmd - DEBUG - Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,097 - git.cmd - DEBUG - Popen(['git', 'remote', 'get-url', '--all', 'origin'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,114 - git.cmd - DEBUG - Popen(['git', 'status', '--porcelain', '--untracked-files'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,139 - git.cmd - DEBUG - Popen(['git', 'diff', '--abbrev=40', '--full-index', '-M', '--raw', '-z', '--no-color'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,151 - git.cmd - DEBUG - Popen(['git', 'cat-file', '--batch-check'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=<valid stream>, shell=False, universal_newlines=False)
+2025-10-04 14:35:43,159 - git.cmd - DEBUG - Popen(['git', 'rev-list', 'origin/main..main', '--'], cwd=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer, stdin=None, shell=False, universal_newlines=False)
+2025-10-04 14:35:56,128 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:35:56,130 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:35:56,132 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:35:56,291 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:35:56,291 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:35:56,291 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:36:25,413 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:36:25,415 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:36:25,416 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:36:25,547 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:36:25,547 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:36:25,547 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:36:38,182 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:36:38,183 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:36:38,184 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:36:38,305 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:36:38,305 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:36:38,305 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:54:09,760 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:54:09,761 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:54:09,761 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:54:09,966 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:54:09,967 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:54:09,967 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:54:11,746 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:54:11,748 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:54:11,748 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:54:11,888 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:54:11,888 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:54:11,888 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:54:13,178 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:54:13,179 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:54:13,179 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
+2025-10-04 14:54:13,233 - nba_stats.performance_optimizer - INFO - Preloading both model evaluators...
+2025-10-04 14:54:13,233 - nba_stats.performance_optimizer - INFO - Both models preloaded successfully
+2025-10-04 14:54:13,233 - monitoring - INFO - User action: models_initialized | User: anonymous | Details: {}
