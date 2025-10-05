@@ -79,219 +79,58 @@ The NBA Lineup Optimizer project has successfully completed Phase 1 of the fan-f
 | Training Time | 85 seconds | ✅ Fast |
 | Parameters | 7 | ✅ Optimal |
 
-## Files You Need to Know
+## Key Files
 
-### Production Model
-- `simplified_bayesian_model.py` - Main model implementation
-- `run_production_model.py` - Production runner
-- `production_bayesian_data.csv` - Model-ready dataset
+### **Production System**
+- `production_dashboard.py` - Main production dashboard
+- `run_production.py` - Production system runner
+- `fan_friendly_dashboard.py` - Fan-friendly interface
+- `run_fan_dashboard.py` - Fan dashboard runner
 
-### Model Integration ✅ **COMPLETE**
-- `src/nba_stats/model_factory.py` - Unified interface for both model evaluators
-- `src/nba_stats/performance_optimizer.py` - Performance optimization utilities
-- `enhanced_model_dashboard.py` - Enhanced dashboard with model switching
-- `run_enhanced_dashboard.py` - Enhanced dashboard runner script
-- `src/nba_stats/simple_model_evaluator.py` - Independent 7-parameter model evaluator
-- `model_comparison_dashboard.py` - Side-by-side model comparison dashboard
-- `test_model_integration.py` - Integration test suite
-- `test_integration_end_to_end.py` - End-to-end integration tests
-- `run_model_comparison.py` - Dashboard runner script
-- `docs/archive/MODEL_INTEGRATION_SUMMARY.md` - Integration documentation (archived)
+### **Model & Data**
+- `simplified_bayesian_model.py` - Production model implementation
+- `src/nba_stats/model_factory.py` - Model evaluation interface
+- `src/nba_stats/simple_model_evaluator.py` - 7-parameter model evaluator
 
-### Production System ✅ **COMPLETE**
-- `production_dashboard.py` - Main production dashboard with all features
-- `run_production.py` - Production system runner script
-- `config.py` - Configuration management system
-- `auth.py` - Authentication and user management
-- `data_protection.py` - Encryption and audit logging
-- `user_onboarding.py` - User analytics and onboarding system
-- `error_handling.py` - Error handling and monitoring
-- `admin_panel.py` - Administrative interface
-- `monitoring.py` - Performance monitoring and metrics
-- `Dockerfile.production` - Production Docker configuration
-- `docker-compose.yml` - Multi-service deployment
-- `nginx.conf` - Reverse proxy configuration
-- `DEPLOYMENT.md` - Complete deployment documentation
+### **Configuration**
+- `config.py` - Configuration management
+- `auth.py` - Authentication system
+- `data_protection.py` - Data encryption and audit logging
 
-### Results
-- `production_model_results/` - Generated model artifacts
-- `production_coefficient_plots.png` - Visualization plots
+### **Documentation**
+- `README.md` - Main project overview
+- `DOCUMENTATION.md` - Documentation index
+- `docs/` - Technical documentation directory
+
+## Next Steps
+
+**🚨 CRITICAL PREREQUISITE**: Basketball validation must be completed before any further development. See **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)** for detailed requirements.
+
+**Key Requirements**:
+- [ ] Populate database with 2022-23 season data to match original paper context
+- [ ] Validate 7-parameter model against original paper's basketball examples
+- [ ] Verify model captures contextual player interactions from original research
+
+**Only if validation passes**:
+- Switch to k=8 archetypes for richer lineup analysis
+- Implement lineup comparison and player swapping interface
+- Add real-world examples and case studies
+
+## Getting Started
+
+### Quick Start
+```bash
+# Fan-friendly dashboard
+python run_fan_dashboard.py
+
+# Production system
+python run_production.py
+```
 
 ### Documentation
-- `docs/production_bayesian_model.md` - Complete model documentation
-- `docs/bayesian_modeling_implementation.md` - Implementation details
-- `README.md` - Project overview
-
-## Next Steps: Lineup Comparison & Player Swapping Interface
-
-### **🚨 CRITICAL VALIDATION REQUIRED BEFORE PROCEEDING**
-
-**Phase 0: Basketball Validation (1-2 weeks) - MANDATORY PREREQUISITE**
-
-Before switching to k=8 archetypes, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper. **Statistical convergence does not equal semantic validity.**
-
-**CRITICAL INSIGHT**: We currently have 2024-25 season data, but the original paper used 2022-23 data. This temporal mismatch makes validation impossible. We must first populate our database with 2022-23 data to match the paper's context.
-
-**Validation Requirements**:
-- [ ] **PRIORITY 1**: Populate database with 2022-23 season data to match original paper
-- [ ] Test 7-parameter model against original paper's examples (Lakers, Pacers, Suns) using 2022-23 data
-- [ ] Verify model correctly identifies 3&D players fit better with LeBron than ball-dominant guards (2022-23 context)
-- [ ] Confirm model shows defensive bigs fit better with offensive juggernauts than offensive bigs (2022-23 context)
-- [ ] Validate model captures team needs (Pacers' defensive needs over positional needs in 2022-23)
-
-**Why 2022-23 Data is Critical**:
-- Player roles and effectiveness change significantly between seasons
-- Team systems evolve (Lakers 2022-23 vs 2024-25 are completely different)
-- The paper's insights are based on 2022-23 player performances and team contexts
-- We cannot validate against examples from a different season
-
-**If validation fails**: We must either improve the model or adjust our expectations before proceeding.
-
-### **CRITICAL DECISION POINT: Archetype System**
-
-**Current Issue**: The system uses k=3 archetypes (Big Men, Primary Ball Handlers, Role Players) which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
-
-**Available Data**: 
-- ✅ `player_archetypes_k8.csv` exists with 8 archetypes
-- ✅ Current k=3 system works but is too simplistic for lineup analysis
-- ✅ Need to switch to k=8 for proper lineup comparison interface
-- ⚠️ **MUST VALIDATE MODEL FIRST** - No amount of UI polish can fix broken analytics
-
-### Phase 1: Data Foundation & Archetype System (2-3 weeks) - **PRIORITY**
-
-#### 1.1 Switch to k=8 Archetype System
-1. **Investigate k=8 Data**: Analyze `player_archetypes_k8.csv` structure and quality
-2. **Update Model Integration**: Modify system to use k=8 archetypes instead of k=3
-3. **Validate Data Quality**: Ensure all major NBA players have proper k=8 assignments
-4. **Update Position Mapping**: Create fan-friendly mappings for 8 archetypes → 5 positions
-
-#### 1.2 Implement Real Possession-Level Analysis
-1. **Fix Model Coefficients**: Ensure Bayesian model works with k=8 archetypes
-2. **Real Lineup Performance**: Calculate actual possession-level lineup efficiency
-3. **System Identification**: Use real data to identify what makes lineups work
-
-### Phase 2: Lineup-Centric Interface (2-3 weeks)
-
-#### 2.1 Starting Lineup Display & Analysis
-1. **Team Starting 5**: Display current lineup with real performance metrics
-2. **Lineup Chemistry Score**: Overall lineup performance rating based on actual data
-3. **System Identification**: "This lineup excels in..." (fast break, half-court, etc.)
-
-#### 2.2 Player Swapping Interface
-1. **Drag-and-Drop Swapping**: Click to swap any player in the starting 5
-2. **Real-Time Impact Analysis**: Show immediate +/- impact of the swap
-3. **Position Validation**: Ensure swaps maintain valid lineup composition
-4. **Alternative Player Suggestions**: "Similar players who might fit better"
-
-#### 2.3 Lineup Comparison Mode
-1. **Side-by-Side View**: Compare two different lineups
-2. **Head-to-Head Analysis**: "Lineup A vs Lineup B" performance metrics
-3. **Key Differences Highlighting**: What makes each lineup unique
-
-### Phase 3: Advanced Features (2-3 weeks)
-
-#### 3.1 Cross-Team Player Analysis
-1. **"How would Player X fit on Team Y?"**: Show system-specific analysis
-2. **System Compatibility Score**: Rate how well a player fits different systems
-3. **Historical Context**: "Similar to when [Player] joined [Team] in [Year]"
-
-#### 3.2 Real-World Examples
-1. **Case Studies**: "Why Westbrook failed with Lakers but succeeded with Clippers"
-2. **Pre-built Scenarios**: Common lineup optimization problems
-3. **Success Stories**: Examples of great lineup fits
-
-### **Why This Approach is Critical**
-
-**The Current Problem**: The k=3 archetype system cannot meaningfully distinguish between different NBA "systems" or show nuanced player fit. With only 3 player types, lineup analysis becomes shallow and unhelpful.
-
-**The Solution**: Switch to k=8 archetypes to capture the rich diversity of NBA playstyles, enabling meaningful lineup comparison and player swapping analysis.
-
-**Success Metrics**:
-- [ ] All major NBA players properly mapped to k=8 archetypes
-- [ ] Real possession-level lineup performance calculations working
-- [ ] Users can swap players and see meaningful impact analysis
-- [ ] System can identify and compare different NBA "systems"
-
-### Integration Phase ✅ **COMPLETED**
-1. **✅ SimpleModelEvaluator**: Independent 7-parameter model evaluator created
-2. **✅ Model Comparison Dashboard**: Side-by-side validation tools implemented
-3. **✅ Integration Testing**: Comprehensive test suite validates both systems
-4. **✅ Production Ready**: System ready for production model coefficient integration
-
-### Future Enhancements
-1. **Model refinement**: Consider more sophisticated architectures
-2. **Additional features**: Expand beyond the current 3 archetypes
-3. **Performance optimization**: Further speed improvements
-
-## How to Get Started
-
-### 1. Verify Environment
-```bash
-# Check Python version (3.8+)
-python --version
-
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements_streamlit.txt
-```
-
-### 2. Run Production Model
-```bash
-# Run the production model
-python run_production_model.py
-
-# Expected output: Perfect convergence in ~85 seconds
-```
-
-### 3. Explore Results
-```bash
-# Check generated results
-ls -la production_model_results/
-
-# View coefficient analysis
-cat production_model_results/coefficients.csv
-```
-
-### 4. Launch Analysis Tools
-```bash
-# Start the analysis platform
-python run_interrogation_tool.py
-
-# Start the governance dashboard
-python run_governance_dashboard.py
-```
-
-## Key Insights for New Developers
-
-### What We Learned
-1. **Model complexity must match data density** - Don't over-parameterize
-2. **Statistical convergence ≠ semantic validity** - Always validate coefficients make sense
-3. **Simpler is often better** - The simplified model is more robust than the complex one
-4. **Data quality is everything** - 100% coverage was essential for success
-
-### Common Pitfalls to Avoid
-1. **Don't assume the paper's model will work** - Adapt to your data constraints
-2. **Don't ignore convergence warnings** - "Borderline" convergence usually means failure
-3. **Don't skip semantic validation** - Statistical success doesn't guarantee meaningful results
-4. **Don't rush to complex solutions** - Start simple and add complexity only when needed
-
-## Support and Resources
-
-### Documentation
-- `docs/` directory contains comprehensive guides
-- `README.md` has quick start instructions
-- `CURRENT_STATUS.md` (this file) for current state
-
-### Key Contacts
-- Check commit history for context on decisions
-- Review `docs/implementation_guide.md` for detailed technical context
-- See `docs/production_bayesian_model.md` for model-specific details
-
-### Getting Help
-1. **Check the logs**: Look for error messages in console output
-2. **Verify data**: Ensure `production_bayesian_data.csv` exists
-3. **Test incrementally**: Start with small tests before full runs
-4. **Review documentation**: Most issues are covered in the docs
+- **[README.md](README.md)** - Main project overview
+- **[DOCUMENTATION.md](DOCUMENTATION.md)** - Complete documentation index
+- **[QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)** - Detailed setup instructions
 
 ## Success Metrics
 
@@ -300,6 +139,6 @@ The project has achieved:
 - ✅ **Perfect model convergence** (R-hat: 1.000)
 - ✅ **Fast training time** (85 seconds)
 - ✅ **Basketball-meaningful results** with interpretable parameters
-- ✅ **Production-ready system** ready for integration
+- ✅ **Production-ready system** with fan-friendly interface
 
 The foundation is solid and ready for the next phase of development.
