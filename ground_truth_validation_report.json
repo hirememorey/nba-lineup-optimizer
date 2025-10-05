@@ -1,0 +1,148 @@
+{
+  "summary": {
+    "total_tests": 7,
+    "passed_tests": 5,
+    "failed_tests": 2,
+    "pass_rate": 71.42857142857143,
+    "validation_status": "FAIL"
+  },
+  "test_results": [
+    {
+      "test_name": "basic_skill_impact",
+      "passed": true,
+      "actual_value": 5.413393206981444,
+      "expected_value": 9.436,
+      "difference": 4.022606793018556,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "high_skill_avg": 5.986,
+        "low_skill_avg": -3.45,
+        "skill_difference": 9.436,
+        "high_skill_prediction": 3.1470182355291714,
+        "low_skill_prediction": -2.2663749714522723,
+        "prediction_difference": 5.413393206981444
+      }
+    },
+    {
+      "test_name": "positional_balance",
+      "passed": false,
+      "actual_value": 0.0,
+      "expected_value": 0.1,
+      "difference": 0.0,
+      "tolerance": 0.1,
+      "error_message": "Not enough archetypes for balanced lineup test",
+      "details": {}
+    },
+    {
+      "test_name": "defensive_impact",
+      "passed": true,
+      "actual_value": 1.0034921707993254,
+      "expected_value": 1.7380000000000007,
+      "difference": 0.7345078292006753,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "base_def_avg": 1.41,
+        "improved_def_avg": 3.1480000000000006,
+        "def_skill_difference": 1.7380000000000007,
+        "base_prediction": 0.41824102477935055,
+        "improved_prediction": 1.4217331955786758,
+        "prediction_difference": 1.0034921707993254
+      }
+    },
+    {
+      "test_name": "shooting_spacing",
+      "passed": true,
+      "actual_value": 0.2110901254262053,
+      "expected_value": 0.1,
+      "difference": 0.2110901254262053,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "balanced_prediction": 0.7613927674433649,
+        "imbalanced_prediction": 0.5503026420171596,
+        "balanced_archetypes": [
+          1,
+          1,
+          1,
+          2,
+          2
+        ],
+        "imbalanced_archetypes": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "test_name": "ball_dominance",
+      "passed": "False",
+      "actual_value": 0.2719576284265417,
+      "expected_value": -1.6733333333333333,
+      "difference": 1.945290961759875,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "single_handler_skill": 3.92,
+        "multiple_handlers_skill": 2.2466666666666666,
+        "skill_improvement": -1.6733333333333333,
+        "single_prediction": 0.48943513901682323,
+        "multiple_prediction": 0.7613927674433649,
+        "prediction_improvement": 0.2719576284265417
+      }
+    },
+    {
+      "test_name": "archetype_interactions",
+      "passed": true,
+      "actual_value": 0.11198700585080645,
+      "expected_value": 0.05,
+      "difference": 0.06198700585080645,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "lineup1_prediction": 0.3780507097748134,
+        "lineup2_prediction": 0.26606370392400697,
+        "difference": 0.11198700585080645,
+        "lineup1_archetypes": [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "lineup2_archetypes": [
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "test_name": "context_sensitivity",
+      "passed": true,
+      "actual_value": 4.3501688137973815,
+      "expected_value": 0.05,
+      "difference": 4.300168813797382,
+      "tolerance": 0.1,
+      "error_message": null,
+      "details": {
+        "context1_prediction": 3.1470182355291714,
+        "context2_prediction": -1.2031505782682104,
+        "prediction_difference": 4.3501688137973815,
+        "context1_skill_avg": 5.985999999999999,
+        "context2_skill_avg": -1.954
+      }
+    }
+  ],
+  "recommendations": [
+    "\u274c Some tests failed - model needs improvement before proceeding",
+    "\ud83d\udd27 Fix positional balance - model may not understand lineup composition",
+    "\ud83d\udd27 Fix ball dominance - model may not capture diminishing returns"
+  ]
+}

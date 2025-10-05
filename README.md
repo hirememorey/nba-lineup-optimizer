@@ -172,15 +172,21 @@ result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 
 ## Roadmap
 
-### **🚨 Phase 0: Basketball Validation (MANDATORY PREREQUISITE)**
+### **🚨 Phase 0: Ground Truth Validation (CRITICAL BLOCKER)**
 
-**Critical Issue**: Statistical convergence does not equal semantic validity. Before proceeding, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper.
+**Status**: ✅ **VALIDATION COMPLETE** - Model Issues Identified
+
+**Critical Findings**: Ground truth validation revealed fundamental model issues that must be fixed before any further development:
+
+- ❌ **Negative Defensive Coefficients**: All defensive coefficients are negative, suggesting defensive skill is harmful
+- ❌ **Ball Dominance Test Failure**: Model shows improvement when adding multiple ball handlers instead of diminishing returns
+- ⚠️ **Validation Results**: 5/7 tests passing (71.4%) - needs 80% to proceed
 
 **Required Actions**:
-- [ ] **PRIORITY 1**: Populate database with 2022-23 season data to match original paper context
-- [ ] Test model against original paper's examples (Lakers, Pacers, Suns) using 2022-23 data
-- [ ] Verify model captures contextual player interactions from original research
-- [ ] Document any basketball insights lost in model simplification
+- [ ] **PRIORITY 1**: Fix defensive coefficient signs (critical model error)
+- [ ] **PRIORITY 2**: Fix ball dominance logic (model doesn't understand diminishing returns)
+- [ ] **PRIORITY 3**: Re-run ground truth validation (must achieve 100% pass rate)
+- [ ] **ONLY THEN**: Proceed with 2022-23 data migration and paper validation
 
 ### **Phase 1: k=8 Archetype System (Only if validation passes)**
 - Switch from k=3 to k=8 archetypes for richer lineup analysis

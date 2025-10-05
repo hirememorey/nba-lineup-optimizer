@@ -11,7 +11,8 @@
 
 ### **Current Status**
 - **[CURRENT_STATUS.md](CURRENT_STATUS.md)** - Detailed current status and technical implementation
-- **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)** - Critical validation requirements for next phase
+- **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)** - Ground truth validation results and requirements
+- **[ground_truth_validation_summary.md](ground_truth_validation_summary.md)** - Comprehensive validation findings and analysis
 
 ## Technical Documentation
 
@@ -29,6 +30,13 @@
 - **[docs/implementation_guide.md](docs/implementation_guide.md)** - Technical implementation details
 - **[docs/troubleshooting_data_quality.md](docs/troubleshooting_data_quality.md)** - Data quality troubleshooting
 - **[docs/api_debugging_methodology.md](docs/methodology/api_debugging_methodology.md)** - API debugging guide
+
+### **Validation Tools**
+- **[ground_truth_validation.py](ground_truth_validation.py)** - Ground truth basketball validation framework
+- **[investigate_model_failures.py](investigate_model_failures.py)** - Model failure investigation tools
+- **[VALIDATION_TOOLS_GUIDE.md](VALIDATION_TOOLS_GUIDE.md)** - Complete guide to using validation tools
+- **[ground_truth_validation_report.json](ground_truth_validation_report.json)** - Latest validation results
+- **[model_failure_investigation.json](model_failure_investigation.json)** - Detailed model analysis
 
 ## Historical Documentation
 
