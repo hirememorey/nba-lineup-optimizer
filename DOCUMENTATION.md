@@ -11,6 +11,7 @@
 
 ### **Current Status**
 - **[CURRENT_STATUS.md](CURRENT_STATUS.md)** - Detailed current status and technical implementation
+- **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - Next phase: Data-driven basketball intelligence approach
 - **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)** - Ground truth validation results and requirements
 - **[ground_truth_validation_summary.md](ground_truth_validation_summary.md)** - Comprehensive validation findings and analysis
 
@@ -24,6 +25,7 @@
 ### **Data & Models**
 - **[docs/data_dictionary.md](docs/data_dictionary.md)** - Complete database schema reference
 - **[docs/production_bayesian_model.md](docs/production_bayesian_model.md)** - Production model documentation
+- **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - Data-driven basketball intelligence methodology
 - **[docs/methodology/](docs/methodology/)** - Detailed methodology documentation
 
 ### **Implementation Guides**

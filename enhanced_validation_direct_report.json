@@ -1,0 +1,84 @@
+{
+  "summary": {
+    "total_tests": 4,
+    "passed_tests": 3,
+    "pass_rate": 75.0,
+    "validation_status": "FAIL"
+  },
+  "test_results": [
+    {
+      "test_name": "basic_skill_impact",
+      "passed": false,
+      "actual_value": -7.188881501718561,
+      "expected_value": 9.452666666666666,
+      "difference": 16.641548168385228,
+      "tolerance": 0.1,
+      "details": {
+        "high_skill_avg": 5.406,
+        "low_skill_avg": -4.046666666666667,
+        "skill_difference": 9.452666666666666,
+        "high_prediction": -11.650979642768469,
+        "low_prediction": -4.462098141049908,
+        "prediction_difference": -7.188881501718561
+      }
+    },
+    {
+      "test_name": "ball_dominance",
+      "passed": true,
+      "actual_value": -3.962728193295197,
+      "expected_value": -0.4319999999999995,
+      "difference": 3.5307281932951975,
+      "tolerance": 0.1,
+      "details": {
+        "single_handler_skill": 5.67,
+        "multiple_handlers_skill": 5.238,
+        "skill_improvement": -0.4319999999999995,
+        "single_prediction": -0.48561586339503476,
+        "multiple_prediction": -4.448344056690232,
+        "prediction_improvement": -3.962728193295197,
+        "single_enhancement": -2.4250000000000003,
+        "multiple_enhancement": -6.825,
+        "single_archetypes": {
+          "1": 1,
+          "2": 4
+        },
+        "multiple_archetypes": {
+          "1": 3,
+          "2": 2
+        }
+      }
+    },
+    {
+      "test_name": "defensive_impact",
+      "passed": true,
+      "actual_value": 0.4379548120315566,
+      "expected_value": 1.9733333333333334,
+      "difference": 1.5353785213017768,
+      "tolerance": 0.1,
+      "details": {
+        "base_def_avg": -2.4533333333333336,
+        "improved_def_avg": -0.48000000000000015,
+        "def_skill_difference": 1.9733333333333334,
+        "base_prediction": -3.5998244953497154,
+        "improved_prediction": -3.1618696833181588,
+        "prediction_difference": 0.4379548120315566
+      }
+    },
+    {
+      "test_name": "context_sensitivity",
+      "passed": true,
+      "actual_value": -8.429730143672602,
+      "expected_value": 9.605,
+      "difference": 18.034730143672604,
+      "tolerance": 0.1,
+      "details": {
+        "context1_skill_avg": 5.47,
+        "context2_skill_avg": -4.135,
+        "skill_difference": 9.605,
+        "context1_prediction": -11.650979642768469,
+        "context2_prediction": -3.221249499095867,
+        "prediction_difference": -8.429730143672602
+      }
+    }
+  ]
+}

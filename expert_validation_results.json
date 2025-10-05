@@ -1,0 +1,326 @@
+{
+  "validation_timestamp": "2025-10-04T22:35:38.219104",
+  "scenarios_validated": [
+    {
+      "scenario_id": "lakers_2022_pre_trade",
+      "scenario_title": "Lakers 2022-23 Pre-Trade Deadline",
+      "recommendation_id": "rec_lakers_2022_pre_trade_20251004_223538",
+      "recommended_player": {
+        "player_id": 1629020,
+        "player_name": "Jarred Vanderbilt",
+        "archetype": "Big Men",
+        "skill_rating": 0.79,
+        "predicted_outcome": 0.7118109740165679,
+        "lineup": [
+          2544,
+          203076,
+          1629060,
+          1630559,
+          1629020
+        ]
+      },
+      "scenario_score": 5.739999999999999,
+      "expert_evaluations": [
+        {
+          "expert_id": "expert_001",
+          "expert_name": "Coach Mike Johnson",
+          "basketball_sense": 5,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Jarred Vanderbilt makes sense for this scenario",
+          "confidence_level": 7
+        },
+        {
+          "expert_id": "expert_002",
+          "expert_name": "Sarah Chen",
+          "basketball_sense": 5,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Jarred Vanderbilt makes sense for this scenario",
+          "confidence_level": 9
+        },
+        {
+          "expert_id": "expert_003",
+          "expert_name": "Marcus Williams",
+          "basketball_sense": 7,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Jarred Vanderbilt makes sense for this scenario",
+          "confidence_level": 7
+        },
+        {
+          "expert_id": "expert_004",
+          "expert_name": "David Rodriguez",
+          "basketball_sense": 5,
+          "expert_rating": 7,
+          "explanation": "Mock evaluation: Jarred Vanderbilt makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_005",
+          "expert_name": "Lisa Thompson",
+          "basketball_sense": 7,
+          "expert_rating": 6,
+          "explanation": "Mock evaluation: Jarred Vanderbilt makes sense for this scenario",
+          "confidence_level": 7
+        }
+      ]
+    },
+    {
+      "scenario_id": "pacers_2022_mid_season",
+      "scenario_title": "Pacers 2022-23 Mid-Season",
+      "recommendation_id": "rec_pacers_2022_mid_season_20251004_223538",
+      "recommended_player": {
+        "player_id": 1630188,
+        "player_name": "Jalen Smith",
+        "archetype": "Role Players",
+        "skill_rating": 0.3,
+        "predicted_outcome": 0.22311915531752957,
+        "lineup": [
+          1626167,
+          1627741,
+          1630169,
+          1631097,
+          1630188
+        ]
+      },
+      "scenario_score": 5.38,
+      "expert_evaluations": [
+        {
+          "expert_id": "expert_001",
+          "expert_name": "Coach Mike Johnson",
+          "basketball_sense": 5,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Jalen Smith makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_002",
+          "expert_name": "Sarah Chen",
+          "basketball_sense": 5,
+          "expert_rating": 6,
+          "explanation": "Mock evaluation: Jalen Smith makes sense for this scenario",
+          "confidence_level": 7
+        },
+        {
+          "expert_id": "expert_003",
+          "expert_name": "Marcus Williams",
+          "basketball_sense": 5,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Jalen Smith makes sense for this scenario",
+          "confidence_level": 9
+        },
+        {
+          "expert_id": "expert_004",
+          "expert_name": "David Rodriguez",
+          "basketball_sense": 6,
+          "expert_rating": 6,
+          "explanation": "Mock evaluation: Jalen Smith makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_005",
+          "expert_name": "Lisa Thompson",
+          "basketball_sense": 5,
+          "expert_rating": 7,
+          "explanation": "Mock evaluation: Jalen Smith makes sense for this scenario",
+          "confidence_level": 9
+        }
+      ]
+    },
+    {
+      "scenario_id": "suns_2023_preseason",
+      "scenario_title": "Suns 2023-24 Pre-Season",
+      "recommendation_id": "rec_suns_2023_preseason_20251004_223538",
+      "recommended_player": {
+        "player_id": 203497,
+        "player_name": "Rudy Gobert",
+        "archetype": "Big Men",
+        "skill_rating": 2.72,
+        "predicted_outcome": 0.09592060333933461,
+        "lineup": [
+          201142,
+          203078,
+          1626164,
+          1629028,
+          203497
+        ]
+      },
+      "scenario_score": 3.9799999999999995,
+      "expert_evaluations": [
+        {
+          "expert_id": "expert_001",
+          "expert_name": "Coach Mike Johnson",
+          "basketball_sense": 3,
+          "expert_rating": 4,
+          "explanation": "Mock evaluation: Rudy Gobert makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_002",
+          "expert_name": "Sarah Chen",
+          "basketball_sense": 4,
+          "expert_rating": 6,
+          "explanation": "Mock evaluation: Rudy Gobert makes sense for this scenario",
+          "confidence_level": 8
+        },
+        {
+          "expert_id": "expert_003",
+          "expert_name": "Marcus Williams",
+          "basketball_sense": 6,
+          "expert_rating": 4,
+          "explanation": "Mock evaluation: Rudy Gobert makes sense for this scenario",
+          "confidence_level": 7
+        },
+        {
+          "expert_id": "expert_004",
+          "expert_name": "David Rodriguez",
+          "basketball_sense": 3,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Rudy Gobert makes sense for this scenario",
+          "confidence_level": 9
+        },
+        {
+          "expert_id": "expert_005",
+          "expert_name": "Lisa Thompson",
+          "basketball_sense": 3,
+          "expert_rating": 3,
+          "explanation": "Mock evaluation: Rudy Gobert makes sense for this scenario",
+          "confidence_level": 8
+        }
+      ]
+    },
+    {
+      "scenario_id": "warriors_2023_roster",
+      "scenario_title": "Warriors 2023-24 Roster Construction",
+      "recommendation_id": "rec_warriors_2023_roster_20251004_223538",
+      "recommended_player": {
+        "player_id": 1627780,
+        "player_name": "Gary Payton II",
+        "archetype": "Role Players",
+        "skill_rating": 1.0,
+        "predicted_outcome": 0.439094116656943,
+        "lineup": [
+          201939,
+          202691,
+          203110,
+          203952,
+          1627780
+        ]
+      },
+      "scenario_score": 4.3,
+      "expert_evaluations": [
+        {
+          "expert_id": "expert_001",
+          "expert_name": "Coach Mike Johnson",
+          "basketball_sense": 3,
+          "expert_rating": 3,
+          "explanation": "Mock evaluation: Gary Payton II makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_002",
+          "expert_name": "Sarah Chen",
+          "basketball_sense": 5,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Gary Payton II makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_003",
+          "expert_name": "Marcus Williams",
+          "basketball_sense": 5,
+          "expert_rating": 6,
+          "explanation": "Mock evaluation: Gary Payton II makes sense for this scenario",
+          "confidence_level": 8
+        },
+        {
+          "expert_id": "expert_004",
+          "expert_name": "David Rodriguez",
+          "basketball_sense": 3,
+          "expert_rating": 6,
+          "explanation": "Mock evaluation: Gary Payton II makes sense for this scenario",
+          "confidence_level": 7
+        },
+        {
+          "expert_id": "expert_005",
+          "expert_name": "Lisa Thompson",
+          "basketball_sense": 4,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Gary Payton II makes sense for this scenario",
+          "confidence_level": 9
+        }
+      ]
+    },
+    {
+      "scenario_id": "thunder_2023_development",
+      "scenario_title": "Thunder 2023-24 Development",
+      "recommendation_id": "rec_thunder_2023_development_20251004_223538",
+      "recommended_player": {
+        "player_id": 1630198,
+        "player_name": "Isaiah Joe",
+        "archetype": "Role Players",
+        "skill_rating": 1.67,
+        "predicted_outcome": 0.9117199333141516,
+        "lineup": [
+          1628983,
+          1630581,
+          1631114,
+          1631096,
+          1630198
+        ]
+      },
+      "scenario_score": 5.92,
+      "expert_evaluations": [
+        {
+          "expert_id": "expert_001",
+          "expert_name": "Coach Mike Johnson",
+          "basketball_sense": 6,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Isaiah Joe makes sense for this scenario",
+          "confidence_level": 6
+        },
+        {
+          "expert_id": "expert_002",
+          "expert_name": "Sarah Chen",
+          "basketball_sense": 7,
+          "expert_rating": 5,
+          "explanation": "Mock evaluation: Isaiah Joe makes sense for this scenario",
+          "confidence_level": 8
+        },
+        {
+          "expert_id": "expert_003",
+          "expert_name": "Marcus Williams",
+          "basketball_sense": 5,
+          "expert_rating": 7,
+          "explanation": "Mock evaluation: Isaiah Joe makes sense for this scenario",
+          "confidence_level": 7
+        },
+        {
+          "expert_id": "expert_004",
+          "expert_name": "David Rodriguez",
+          "basketball_sense": 5,
+          "expert_rating": 7,
+          "explanation": "Mock evaluation: Isaiah Joe makes sense for this scenario",
+          "confidence_level": 9
+        },
+        {
+          "expert_id": "expert_005",
+          "expert_name": "Lisa Thompson",
+          "basketball_sense": 6,
+          "expert_rating": 7,
+          "explanation": "Mock evaluation: Isaiah Joe makes sense for this scenario",
+          "confidence_level": 8
+        }
+      ]
+    }
+  ],
+  "overall_score": 5.064,
+  "expert_consensus": {},
+  "model_performance": {},
+  "recommendations": [
+    "\u274c Model shows moderate basketball intelligence - significant improvements needed",
+    "\ud83d\udd27 Improve model performance on scenario: Lakers 2022-23 Pre-Trade Deadline",
+    "\ud83d\udd27 Improve model performance on scenario: Pacers 2022-23 Mid-Season",
+    "\ud83d\udd27 Improve model performance on scenario: Suns 2023-24 Pre-Season",
+    "\ud83d\udd27 Improve model performance on scenario: Warriors 2023-24 Roster Construction",
+    "\ud83d\udd27 Improve model performance on scenario: Thunder 2023-24 Development"
+  ]
+}
