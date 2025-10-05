@@ -32,15 +32,34 @@ The NBA Lineup Optimizer needs to evolve from individual player analysis to **li
 
 **CRITICAL INSIGHT**: Statistical convergence does not equal semantic validity. Before switching to k=8 archetypes, we must validate that our simplified 7-parameter model actually captures the basketball insights from the original research paper.
 
-#### 0.1 Model Validation Against Original Paper
+**TEMPORAL MISMATCH CRISIS**: We currently have 2024-25 season data, but the original paper used 2022-23 data. This makes validation impossible. We must first populate our database with 2022-23 data to match the paper's context.
+
+#### 0.1 Populate 2022-23 Data (PRIORITY 1)
+**Goal**: Ensure we have the same data context as the original paper
+
+**Tasks**:
+- [ ] Backup current 2024-25 data before switching seasons
+- [ ] Modify data pipeline scripts to fetch 2022-23 data
+- [ ] Populate database with 2022-23 player statistics, salaries, and skills
+- [ ] Regenerate player archetypes using 2022-23 data
+- [ ] Regenerate lineup superclusters using 2022-23 data
+- [ ] Validate data quality and completeness for 2022-23 season
+
+#### 0.2 Model Validation Against Original Paper
 **Goal**: Verify our simplified model captures the contextual insights that made the original paper valuable
 
 **Tasks**:
-- [ ] Test 7-parameter model against Lakers example (3&D players fit better with LeBron than ball-dominant guards)
-- [ ] Validate Pacers example (defensive needs over positional needs)
-- [ ] Verify Suns example (defensive bigs fit better with offensive juggernauts than offensive bigs)
-- [ ] Create basketball validation test suite
+- [ ] Test 7-parameter model against Lakers example (3&D players fit better with LeBron than ball-dominant guards) using 2022-23 data
+- [ ] Validate Pacers example (defensive needs over positional needs) using 2022-23 data
+- [ ] Verify Suns example (defensive bigs fit better with offensive juggernauts than offensive bigs) using 2022-23 data
+- [ ] Create basketball validation test suite with 2022-23 context
 - [ ] Document any basketball insights lost in simplification
+
+**Why 2022-23 Data is Critical**:
+- Player roles and effectiveness change significantly between seasons
+- Team systems evolve (Lakers 2022-23 vs 2024-25 are completely different)
+- The paper's insights are based on 2022-23 player performances and team contexts
+- We cannot validate against examples from a different season
 
 **Deliverables**:
 - Basketball validation test results

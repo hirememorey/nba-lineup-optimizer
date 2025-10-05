@@ -122,6 +122,27 @@ Transform the NBA Lineup Optimizer from a technical tool into a fan-friendly app
 
 **Critical Insight**: Statistical convergence does not equal semantic validity. We must ensure our model actually captures basketball reality before proceeding.
 
+**TEMPORAL MISMATCH CRISIS**: We currently have 2024-25 season data, but the original paper used 2022-23 data. This makes validation impossible. We must first populate our database with 2022-23 data to match the paper's context.
+
+## Phase 0: Populate 2022-23 Data (1-2 weeks) - **MANDATORY PREREQUISITE**
+
+### 0.1 Data Migration
+**Goal**: Ensure we have the same data context as the original paper
+
+**Tasks**:
+- [ ] Backup current 2024-25 data before switching seasons
+- [ ] Modify data pipeline scripts to fetch 2022-23 data
+- [ ] Populate database with 2022-23 player statistics, salaries, and skills
+- [ ] Regenerate player archetypes using 2022-23 data
+- [ ] Regenerate lineup superclusters using 2022-23 data
+- [ ] Validate data quality and completeness for 2022-23 season
+
+**Why 2022-23 Data is Critical**:
+- Player roles and effectiveness change significantly between seasons
+- Team systems evolve (Lakers 2022-23 vs 2024-25 are completely different)
+- The paper's insights are based on 2022-23 player performances and team contexts
+- We cannot validate against examples from a different season
+
 ## Phase 2: Real-World Examples (1-2 weeks) - **ONLY IF VALIDATION PASSES**
 
 ### 2.1 Historical Analysis
