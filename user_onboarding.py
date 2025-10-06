@@ -281,8 +281,8 @@ class UserOnboarding:
             
             We offer two analytical models:
             
-            **Production Model (3-Archetype)**:
-            - Uses 3 player archetypes: Big Men, Primary Ball Handlers, Role Players
+            **Production Model**:
+            - Uses player archetypes for lineup analysis
             - Optimized for accuracy and speed
             - Recommended for most use cases
             
@@ -305,9 +305,9 @@ class UserOnboarding:
             - Negative values indicate defensive advantage
             
             **Player Archetypes**: Each player's role classification
-            - Big Men: Height, wingspan, frontcourt presence
-            - Primary Ball Handlers: High usage, driving ability, playmaking
-            - Role Players: Balanced contributors, catch-and-shoot ability
+            - Archetype 0: Height, wingspan, frontcourt presence
+            - Archetype 1: High usage, driving ability, playmaking
+            - Archetype 2: Balanced contributors, catch-and-shoot ability
             
             **Skill Scores**: Detailed breakdown of player abilities
             - Offensive and defensive skill ratings

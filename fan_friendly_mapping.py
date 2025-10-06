@@ -45,26 +45,26 @@ class FanFriendlyMapper:
         
         # Archetype to position mapping - distribute across all 5 positions
         self.archetype_to_position = {
-            0: "C",  # Big Men -> Center
-            1: "PG", # Primary Ball Handlers -> Point Guard
-            2: "SF"  # Role Players -> Small Forward (most versatile)
+            0: "C",  # Archetype 0 -> Center
+            1: "PG", # Archetype 1 -> Point Guard
+            2: "SF"  # Archetype 2 -> Small Forward (most versatile)
         }
         
         # Additional mapping for SG and PF positions
         # We'll use a more sophisticated approach to assign SG and PF
         self.position_distribution = {
-            "C": [0],      # Big Men -> Center
-            "PG": [1],     # Primary Ball Handlers -> Point Guard  
-            "SG": [1, 2],  # Mix of Ball Handlers and Role Players -> Shooting Guard
-            "SF": [2],     # Role Players -> Small Forward
-            "PF": [0, 2]   # Mix of Big Men and Role Players -> Power Forward
+            "C": [0],      # Archetype 0 -> Center
+            "PG": [1],     # Archetype 1 -> Point Guard  
+            "SG": [1, 2],  # Mix of Archetype 1 and 2 -> Shooting Guard
+            "SF": [2],     # Archetype 2 -> Small Forward
+            "PF": [0, 2]   # Mix of Archetype 0 and 2 -> Power Forward
         }
         
         # Archetype to role mapping
         self.archetype_to_role = {
-            0: "Rim Protector",  # Big Men
-            1: "Playmaker",      # Primary Ball Handlers
-            2: "3&D Wing"        # Role Players
+            0: "Rim Protector",  # Archetype 0
+            1: "Playmaker",      # Archetype 1
+            2: "3&D Wing"        # Archetype 2
         }
         
         # Position-specific role mapping
@@ -129,19 +129,19 @@ class FanFriendlyMapper:
             return self.special_player_mappings[player_name]
         
         # Use a more sophisticated distribution based on archetype
-        if archetype_id == 0:  # Big Men
+        if archetype_id == 0:  # Archetype 0
             # Distribute between C and PF
             if hash(player_name) % 2 == 0:
                 return "C", "Rim Protector"
             else:
                 return "PF", "Stretch Big"
-        elif archetype_id == 1:  # Primary Ball Handlers
+        elif archetype_id == 1:  # Archetype 1
             # Distribute between PG and SG
             if hash(player_name) % 2 == 0:
                 return "PG", "Playmaker"
             else:
                 return "SG", "Shooter"
-        else:  # Role Players (archetype_id == 2)
+        else:  # Archetype 2
             # Distribute between SF and PF
             if hash(player_name) % 2 == 0:
                 return "SF", "3&D Wing"

@@ -141,13 +141,13 @@ Build a system that:
 
 ### 2. Data Pipeline
 - **Complete NBA data collection** (574,357 possessions, 651 players)
-- **Player archetype generation** (k=3 system - being replaced with k=8)
+- **Player archetype generation** (k=8 system ready for implementation)
 - **Data quality validation** (100% coverage with fallback assignments)
 - **Possession data ready** for k=8 archetype analysis
 
 ### 3. Data-Driven Model Foundation
 - **Data analysis infrastructure** ready for real possession data analysis
-- **k=8 archetype system** ready for implementation (replacing k=3)
+- **k=8 archetype system** ready for implementation
 - **Real pattern discovery** tools ready for 574,357 possessions
 - **Grounded model architecture** ready for data-driven implementation
 

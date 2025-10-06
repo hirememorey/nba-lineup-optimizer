@@ -30,11 +30,11 @@ The original paper by Brill, Hughes, and Waldbaum succeeded because they:
 
 1. **Used Real Possession Data**: 574,357 possessions from 2022-23 NBA season
 2. **Discovered Patterns**: Let the data reveal what actually works
-3. **Built Grounded Models**: Used matchup-specific coefficients based on real performance differences
+3. **Built Grounded Models**: Used contextual coefficients based on real performance differences
 4. **Validated Against Reality**: Tested against actual basketball outcomes
 
 ### **Their Key Insight**
-The original paper's "basketball intelligence" wasn't imposed - it was **discovered** from the data. Their 36-parameter model with matchup-specific coefficients wasn't arbitrary - it was what the data required to capture real contextual interactions.
+The original paper's "basketball intelligence" wasn't imposed - it was **discovered** from the data. Their 36-parameter model with contextual coefficients wasn't arbitrary - it was what the data required to capture real contextual interactions.
 
 ## Our Validation-First Solution
 
