@@ -178,17 +178,14 @@ Instead of arbitrary penalties, build models that:
 
 ## Next Steps
 
-**🚨 CRITICAL PREREQUISITE**: Basketball validation must be completed before any further development. See **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)** for detailed requirements.
+**🎯 PHASE 1: Data-Driven Implementation (CURRENT PRIORITY)**
 
-**Key Requirements**:
-- [ ] Populate database with 2022-23 season data to match original paper context
-- [ ] Validate 7-parameter model against original paper's basketball examples
-- [ ] Verify model captures contextual player interactions from original research
-
-**Only if validation passes**:
-- Switch to k=8 archetypes for richer lineup analysis
-- Implement lineup comparison and player swapping interface
-- Add real-world examples and case studies
+**Implementation Priorities**:
+- [ ] **PRIORITY 1**: Analyze 574,357 possessions to discover real basketball patterns
+- [ ] **PRIORITY 2**: Calculate actual performance differences from data
+- [ ] **PRIORITY 3**: Build grounded models based on real insights
+- [ ] **PRIORITY 4**: Implement k=8 archetype system for richer analysis
+- [ ] **PRIORITY 5**: Validate against current NBA examples with data-driven approach
 
 ## Getting Started
 

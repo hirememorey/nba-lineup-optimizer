@@ -180,7 +180,7 @@ result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 **Implementation Plan**: Build basketball intelligence from real possession data analysis:
 
 - [ ] **PRIORITY 1**: Analyze 574,357 possessions to discover real basketball patterns
-- [ ] **PRIORITY 2**: Calculate actual performance differences from data (not arbitrary penalties)
+- [ ] **PRIORITY 2**: Calculate actual performance differences from data
 - [ ] **PRIORITY 3**: Build grounded models based on real basketball insights
 - [ ] **PRIORITY 4**: Implement k=8 archetype system for richer lineup analysis
 - [ ] **PRIORITY 5**: Validate against current NBA examples with data-driven approach
@@ -208,7 +208,7 @@ result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
 - **`docs/project_overview.md`**: Core concepts from the source research paper
 - **`docs/architecture.md`**: System design principles and architectural decisions
 - **`docs/data_dictionary.md`**: Complete database schema reference
-- **`BASKETBALL_VALIDATION_REQUIREMENTS.md`**: Critical validation requirements for next phase
+- **`DATA_DRIVEN_APPROACH.md`**: Data-driven basketball intelligence implementation guide
 
 ### **Implementation History**
 - **`docs/archive/`**: Archived implementation documents and historical analysis 

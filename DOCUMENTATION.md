@@ -12,8 +12,6 @@
 ### **Current Status**
 - **[CURRENT_STATUS.md](CURRENT_STATUS.md)** - Detailed current status and technical implementation
 - **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - Next phase: Data-driven basketball intelligence approach
-- **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)** - Ground truth validation results and requirements
-- **[ground_truth_validation_summary.md](ground_truth_validation_summary.md)** - Comprehensive validation findings and analysis
 
 ## Technical Documentation
 
@@ -87,7 +85,7 @@
 3. Check **[docs/production_bayesian_model.md](docs/production_bayesian_model.md)** for model details
 
 ### **For Next Phase Development**
-1. **CRITICAL**: Read **[BASKETBALL_VALIDATION_REQUIREMENTS.md](BASKETBALL_VALIDATION_REQUIREMENTS.md)**
+1. **CRITICAL**: Read **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)**
 2. Review **[docs/archive/](docs/archive/)** for historical context
 3. Study **[docs/methodology/](docs/methodology/)** for technical details
 
