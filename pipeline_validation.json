@@ -13,203 +13,203 @@
   "empty_metrics": [],
   "coverage_stats": {
     "FTPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "TSPCT": {
-      "player_count": 568,
-      "non_null_count": 568,
+      "player_count": 538,
+      "non_null_count": 538,
       "coverage_pct": 100.0
     },
     "THPAr": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "FTr": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "TRBPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "ASTPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "FRNTCTTCH": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "TOP": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "AVGSECPERTCH": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "AVGDRIBPERTCH": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "ELBWTCH": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "POSTUPS": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PNTTOUCH": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRIVES": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRFGA": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRPTSPCT": {
-      "player_count": 551,
-      "non_null_count": 551,
+      "player_count": 523,
+      "non_null_count": 523,
       "coverage_pct": 100.0
     },
     "DRPASSPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRASTPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRTOVPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRPFPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "DRIMFGPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "CSFGA": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "CS3PA": {
-      "player_count": 569,
-      "non_null_count": 541,
-      "coverage_pct": 95.07908611599298
+      "player_count": 539,
+      "non_null_count": 523,
+      "coverage_pct": 97.03153988868274
     },
     "PASSESMADE": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "SECAST": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "POTAST": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PUFGA": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PU3PA": {
-      "player_count": 569,
-      "non_null_count": 541,
-      "coverage_pct": 95.07908611599298
+      "player_count": 539,
+      "non_null_count": 523,
+      "coverage_pct": 97.03153988868274
     },
     "PSTUPFGA": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PSTUPPTSPCT": {
-      "player_count": 537,
-      "non_null_count": 537,
+      "player_count": 515,
+      "non_null_count": 515,
       "coverage_pct": 100.0
     },
     "PSTUPPASSPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PSTUPASTPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PSTUPTOVPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PNTTCHS": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PNTFGA": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PNTPTSPCT": {
-      "player_count": 480,
-      "non_null_count": 480,
+      "player_count": 418,
+      "non_null_count": 418,
       "coverage_pct": 100.0
     },
     "PNTPASSPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PNTASTPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "PNTTVPCT": {
-      "player_count": 569,
-      "non_null_count": 569,
+      "player_count": 539,
+      "non_null_count": 539,
       "coverage_pct": 100.0
     },
     "AVGFGATTEMPTEDAGAINSTPERGAME": {
-      "player_count": 567,
-      "non_null_count": 567,
+      "player_count": 535,
+      "non_null_count": 535,
       "coverage_pct": 100.0
     }
   }
