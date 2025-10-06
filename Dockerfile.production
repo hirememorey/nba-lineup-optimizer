@@ -32,7 +32,7 @@ COPY . .
 RUN mkdir -p /app/logs /app/data /app/models
 
 # Set permissions
-RUN chmod +x run_enhanced_dashboard.py
+RUN chmod +x run_production_dashboard.py
 
 # Expose the port
 EXPOSE 8502
@@ -42,4 +42,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8502/_stcore/health || exit 1
 
 # Run the application
-CMD ["python", "run_enhanced_dashboard.py"]
+CMD ["python", "run_production_dashboard.py"]
