@@ -219,9 +219,6 @@ python run_production.py
 
 The project has achieved:
 - ✅ **100% data coverage** for player archetypes
-- ✅ **Perfect model convergence** (R-hat: 1.000)
-- ✅ **Fast training time** (85 seconds)
-- ✅ **Basketball-meaningful results** with interpretable parameters
 - ✅ **Production-ready system** with fan-friendly interface
 
 The foundation is solid and ready for the next phase of development.
