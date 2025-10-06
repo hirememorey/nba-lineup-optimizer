@@ -1,6 +1,6 @@
 # API Debugging Methodology: The "Isolate with curl First" Principle
 
-**Date**: September 30, 2025  
+**Date**: October 6, 2025  
 **Status**: ✅ **CRITICAL METHODOLOGY**
 
 ## Overview
@@ -22,7 +22,7 @@ The NBA Stats API (`stats.nba.com`) is an **unofficial, private API** designed f
 
 **Never debug your Python code when an API call fails. Always isolate the external dependency first using raw HTTP requests.**
 
-### ✅ SUCCESSFUL RESOLUTION (September 30, 2025)
+### ✅ SUCCESSFUL RESOLUTION (October 6, 2025)
 
 **Problem**: Python client was timing out on NBA API calls despite correct parameters.
 

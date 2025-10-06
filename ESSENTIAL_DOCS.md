@@ -1,6 +1,6 @@
 # Essential Documentation for New Developers
 
-**Last Updated**: October 4, 2025
+**Last Updated**: October 6, 2025
 
 ## Quick Start Path for New Developers
 
@@ -30,9 +30,9 @@
 ## Key Points for New Developers
 
 ### **Current State** (October 6, 2025)
-- ✅ **Phase 1 90% Complete**: Fan-friendly interface, production system, data pipeline, DARKO integration
-- 🎯 **Next Phase**: Complete Phase 1 with salary data, then implement k=8 archetype system
-- 📊 **Data Ready**: 574,357 possessions (2024-25), 651 players, 100% coverage, 549 DARKO ratings (2022-23)
+- ✅ **Phase 1 Complete**: Fan-friendly interface, production system, data pipeline, DARKO integration, salary data
+- 🎯 **Next Phase**: Implement k=8 archetype clustering and reproduce original paper
+- 📊 **Data Ready**: 574,357 possessions (2024-25), 651 players, 100% coverage, 549 DARKO ratings (2022-23), 459 salary records (2022-23)
 
 ### **Critical Understanding**
 - **Validation-First Approach**: Reproduce original paper with 2022-23 data to validate implementation
@@ -42,8 +42,8 @@
 
 ### **Next Steps**
 1. Read **[DARKO_DATA_INTEGRATION_SUMMARY.md](DARKO_DATA_INTEGRATION_SUMMARY.md)** for DARKO integration details
-2. Collect remaining salary data for 2022-23 season
-3. Implement k=8 archetype clustering exactly as described
+2. Implement k=8 archetype clustering exactly as described in the original paper
+3. Reproduce the Bayesian model with 2022-23 data
 4. Validate against Lakers, Pacers, and Suns examples from paper
 
 ## Files Removed (Outdated)
