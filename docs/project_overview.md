@@ -49,7 +49,6 @@ The core analytical engine that estimates the value of different player combinat
 
 - **Implementation Status**:
   - ✅ Data preparation pipeline completed
-  - ✅ PyMC prototype model validated (excellent convergence)
   - ✅ Statistical scaling analysis completed
   - 🔄 Production Stan model ready for implementation
 
