@@ -49,8 +49,8 @@ def check_requirements():
     coeff_path = "model_coefficients.csv"
     if not Path(coeff_path).exists():
         logger.warning(f"Model coefficients not found at {coeff_path}")
-        logger.warning("The SimpleModelEvaluator will use placeholder coefficients")
-        logger.warning("Run the production model pipeline to generate real coefficients")
+        logger.warning("Data-driven model evaluator not yet implemented")
+        logger.warning("This will be available in Phase 1 of the data-driven approach")
     
     return True
 

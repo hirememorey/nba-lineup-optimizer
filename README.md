@@ -19,7 +19,7 @@ The NBA Lineup Optimizer has completed its foundational infrastructure and is re
 - **Player Search**: Name-based search with instant fit analysis
 - **Team Analysis**: Roster display with position balance and needs identification
 - **Free Agent Recommendations**: Team-specific player recommendations with basketball explanations
-- **Production Dashboard**: Web interface with authentication and model switching
+- **Production Dashboard**: Web interface with authentication and data-driven models
 - **Data Pipeline**: 651 players with complete archetype assignments and 574,357 possessions
 - **Robust Infrastructure**: Complete data pipeline, validation framework, and production system
 
@@ -157,18 +157,19 @@ export ENABLE_AUTH=false
 python production_dashboard.py
 ```
 
-### Using the Model Factory in Code
+### Using Data-Driven Models in Code
 
 ```python
-from src.nba_stats.model_factory import ModelFactory, evaluate_lineup
+from data_analysis.data_driven_model_evaluator import DataDrivenModelEvaluator
 
-# Evaluate with production model
-result = evaluate_lineup([2544, 101108, 201142, 201143, 201144], "simple")
+# Create data-driven evaluator
+evaluator = DataDrivenModelEvaluator("src/nba_stats/db/nba_stats.db")
+
+# Evaluate lineup using real possession data
+result = evaluator.evaluate_lineup([2544, 101108, 201142, 201143, 201144])
 print(f"Predicted outcome: {result.predicted_outcome}")
-print(f"Model type: {result.model_type}")
-
-# Evaluate with fallback
-result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
+print(f"Confidence: {result.confidence}")
+print(f"Breakdown: {result.breakdown}")
 ```
 
 ## Roadmap

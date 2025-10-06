@@ -76,36 +76,31 @@ python run_production.py
 ### 3. Use in Code
 
 ```python
-from src.nba_stats.model_factory import ModelFactory, evaluate_lineup
+from data_analysis.data_driven_model_evaluator import DataDrivenModelEvaluator
 
-# Evaluate with production model
-result = evaluate_lineup([2544, 101108, 201142, 201143, 201144], "simple")
+# Create data-driven evaluator
+evaluator = DataDrivenModelEvaluator("src/nba_stats/db/nba_stats.db")
+
+# Evaluate lineup using real possession data
+result = evaluator.evaluate_lineup([2544, 101108, 201142, 201143, 201144])
 print(f"Predicted outcome: {result.predicted_outcome}")
-print(f"Model type: {result.model_type}")
-
-# Evaluate with fallback (automatically falls back if primary fails)
-result = ModelFactory.evaluate_lineup_with_fallback(lineup, "simple")
+print(f"Confidence: {result.confidence}")
+print(f"Breakdown: {result.breakdown}")
 ```
 
 ## Key Features
 
-### 🎯 **Model Switching**
-- **Sidebar Controls**: Easy toggle between models
-- **Real-time Switching**: Instant model changes
-- **Visual Indicators**: Clear model type display
-- **Fallback Protection**: Automatic fallback if primary model fails
-
-### ⚖️ **Comparison Mode**
-- **Side-by-Side Evaluation**: Compare both models on same lineup
-- **Detailed Metrics**: See differences in predictions
-- **Performance Comparison**: Compare evaluation times
-- **Result Validation**: Verify both models work correctly
+### 🎯 **Data-Driven Analysis**
+- **Real Possession Data**: Analysis based on 574,357 actual possessions
+- **Basketball Intelligence**: Discovered patterns from real game data
+- **k=8 Archetype System**: Rich player archetypes for meaningful analysis
+- **Live Updates**: Real-time relevance for 2025-26 season
 
 ### 📊 **Performance Monitoring**
-- **Real-time Metrics**: Track evaluation times and errors
-- **Caching Statistics**: See cache hit rates
-- **Memory Usage**: Monitor resource consumption
-- **Error Tracking**: Track and display error rates
+- **Real-time Metrics**: Track evaluation times and accuracy
+- **Data Quality**: Monitor possession data completeness
+- **Pattern Discovery**: Track discovered basketball insights
+- **Validation Results**: Verify against real NBA examples
 
 ## Sample Lineups
 
@@ -160,16 +155,16 @@ print(metrics)
 ### Model Validation
 
 ```python
-from src.nba_stats.model_factory import ModelFactory
+from data_analysis.data_driven_model_evaluator import DataDrivenModelEvaluator
 
-# Validate model type
-if ModelFactory.validate_model_type("simple"):
-    print("Simple model is available")
+# Create data-driven evaluator
+evaluator = DataDrivenModelEvaluator("src/nba_stats/db/nba_stats.db")
 
-# Get available models
-models = ModelFactory.get_available_models()
-for model in models:
-    print(f"{model['name']}: {model['description']}")
+# Check if evaluator is ready
+if evaluator.is_ready():
+    print("Data-driven model is ready")
+else:
+    print("Data-driven model needs initialization")
 ```
 
 ## Next Steps

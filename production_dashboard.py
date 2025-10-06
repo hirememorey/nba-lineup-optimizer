@@ -27,11 +27,8 @@ from error_handling import error_handler, monitor_performance
 from user_onboarding import get_user_onboarding
 from admin_panel import show_admin_panel
 
-# Import model components
-from nba_stats.model_factory import ModelFactory, ModelType, NormalizedLineupEvaluation
-from nba_stats.model_evaluator import ModelEvaluator
-from nba_stats.simple_model_evaluator import SimpleModelEvaluator
-from nba_stats.performance_optimizer import OptimizedModelFactory, get_performance_metrics, preload_models
+# Import data-driven model components (to be implemented)
+# from data_analysis.data_driven_model_evaluator import DataDrivenModelEvaluator
 
 # Set up logging
 config = get_config()
@@ -51,7 +48,7 @@ class ProductionDashboard:
     
     def __init__(self):
         self.config = config
-        self.model_factory = None
+        self.data_driven_evaluator = None  # To be implemented
         self.user_onboarding = get_user_onboarding(self.config)
         self.initialize_session_state()
     
@@ -68,12 +65,13 @@ class ProductionDashboard:
     
     @monitor_performance("dashboard_initialization")
     def initialize_models(self):
-        """Initialize model factory and preload models."""
+        """Initialize data-driven model evaluator."""
         try:
-            if self.model_factory is None:
-                self.model_factory = OptimizedModelFactory()
-                preload_models()
-                log_user_action("models_initialized")
+            if self.data_driven_evaluator is None:
+                # TODO: Implement data-driven model evaluator
+                # self.data_driven_evaluator = DataDrivenModelEvaluator("src/nba_stats/db/nba_stats.db")
+                st.warning("Data-driven model evaluator not yet implemented. This will be available in Phase 1.")
+                log_user_action("data_driven_models_pending")
             return True
         except Exception as e:
             log_error(e, "model_initialization")
@@ -167,18 +165,28 @@ class ProductionDashboard:
             st.warning(f"⚠️ {st.session_state.error_count} errors")
     
     @monitor_performance("lineup_evaluation")
-    def evaluate_lineup(self, lineup_ids: list, model_type: str) -> NormalizedLineupEvaluation:
-        """Evaluate lineup with error handling."""
+    def evaluate_lineup(self, lineup_ids: list, model_type: str = "data_driven"):
+        """Evaluate lineup with data-driven approach."""
         try:
-            if not self.model_factory:
+            if not self.data_driven_evaluator:
                 if not self.initialize_models():
-                    raise Exception("Failed to initialize models")
+                    raise Exception("Failed to initialize data-driven models")
             
-            result = self.model_factory.evaluate_lineup(lineup_ids, model_type)
-            log_user_action("lineup_evaluated", {
+            # TODO: Implement data-driven lineup evaluation
+            # result = self.data_driven_evaluator.evaluate_lineup(lineup_ids)
+            st.warning("Data-driven lineup evaluation not yet implemented. This will be available in Phase 1.")
+            
+            # Placeholder result for now
+            result = type('Result', (), {
+                'predicted_outcome': 0.0,
+                'confidence': 0.0,
+                'breakdown': {'skill_impact': 0.0, 'diminishing_returns': 0.0, 'synergy_impact': 0.0, 'balance_impact': 0.0},
+                'model_type': 'data_driven_placeholder'
+            })()
+            
+            log_user_action("lineup_evaluation_pending", {
                 "lineup": lineup_ids,
-                "model_type": model_type,
-                "predicted_outcome": result.predicted_outcome
+                "model_type": model_type
             })
             return result
             
