@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 class BayesianDataPreparer:
-    """Prepares data for Bayesian possession-level modeling."""
+    """Prepares data for Bayesian modeling."""
     
     def __init__(self, db_path: str = "src/nba_stats/db/nba_stats.db"):
         self.db_path = db_path

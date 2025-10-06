@@ -6,7 +6,7 @@
 
 Unlike the technical version that uses complex archetypes and statistical models, the Fan Edition translates advanced analytics into basketball language that fans understand:
 
-- **Positions**: PG, SG, SF, PF, C (not "Primary Ball Handlers" or "Big Men")
+- **Positions**: PG, SG, SF, PF, C (not technical archetypes)
 - **Roles**: Playmaker, 3&D Wing, Rim Protector (not statistical archetypes)
 - **Explanations**: "Your team needs a 3-point shooter" (not "archetype coefficient 0.003")
 - **Team Analysis**: Shows position balance and identifies specific needs
@@ -57,9 +57,9 @@ The system maps technical archetypes to familiar basketball positions:
 
 | Technical Archetype | Basketball Position | Role |
 |-------------------|-------------------|------|
-| Big Men (0) | Center (C) | Rim Protector |
-| Primary Ball Handlers (1) | Point Guard (PG) | Playmaker |
-| Role Players (2) | Small Forward (SF) | 3&D Wing |
+| Archetype 0 | Center (C) | Rim Protector |
+| Archetype 1 | Point Guard (PG) | Playmaker |
+| Archetype 2 | Small Forward (SF) | 3&D Wing |
 
 ### Special Player Mappings
 For better accuracy, well-known players have custom mappings:

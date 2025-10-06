@@ -8,7 +8,7 @@ The model is built on the premise that a player's value is deeply contextual. It
 
 ### 1. Player Archetypes 🎯 **k=8 SYSTEM TARGET**
 
-**Current State**: The system currently uses k=3 archetypes (Big Men, Primary Ball Handlers, Role Players) but is transitioning to k=8 for richer analysis.
+**Current State**: The system is implementing k=8 archetypes for richer analysis.
 
 **Target k=8 Archetypes** (Ready for implementation):
   1. **Scoring Wings**
@@ -26,9 +26,9 @@ The model is built on the premise that a player's value is deeply contextual. It
 
 The current supercluster system is being redesigned as part of the transition to k=8 archetypes. The previous k=2 system will be replaced with a new methodology.
 
-- **Current State**: Previous k=2 supercluster system (Balanced vs Specialized lineups) is being phased out
+- **Current State**: Supercluster system being redesigned for k=8 archetypes
 - **Next Phase**: New supercluster methodology will be developed alongside k=8 archetype implementation
-- **Rationale**: The k=2 system was based on k=3 archetypes and needs to be redesigned for k=8
+- **Rationale**: Supercluster system needs to be redesigned for k=8 archetypes
 
 ### 3. Bayesian Possession-Level Modeling ✅ **IMPLEMENTED**
 

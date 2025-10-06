@@ -37,7 +37,7 @@
 ### **Critical Understanding**
 - **Validation-First Approach**: Reproduce original paper with 2022-23 data to validate implementation
 - **Ground Truth Validation**: Only way to know our implementation is correct
-- **k=8 Archetype System**: Replace current k=3 system with proven 8-archetype approach
+- **k=8 Archetype System**: Implement proven 8-archetype approach
 - **Scale After Validation**: Apply validated methodology to current data
 
 ### **Next Steps**
