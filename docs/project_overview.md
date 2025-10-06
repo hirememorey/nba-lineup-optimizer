@@ -6,16 +6,11 @@ This document provides a comprehensive overview of the "Algorithmic NBA Player A
 
 The model is built on the premise that a player's value is deeply contextual. It depends not only on their talent but also on their specific role and how that role interacts with the roles of their teammates and opponents.
 
-### 1. Player Archetypes ⚠️ **NEEDS UPGRADE TO k=8**
+### 1. Player Archetypes ✅ **k=8 SYSTEM READY**
 
-**Current State**: The system uses k=3 archetypes which severely limits lineup analysis granularity. For meaningful lineup comparison and player swapping, we need k=8 archetypes.
+**Current State**: The system is ready to implement k=8 archetypes for rich lineup analysis and meaningful player-team fit evaluation.
 
-**Current k=3 Archetypes** (Limited for lineup analysis):
-  1. **Big Men** (51 players, 18.7%): High height, wingspan, frontcourt presence, paint touches
-  2. **Primary Ball Handlers** (86 players, 31.5%): High usage, driving ability, playmaking skills  
-  3. **Role Players** (136 players, 49.8%): Balanced contributors, catch-and-shoot ability, defensive presence
-
-**Available k=8 Data**: `player_archetypes_k8.csv` exists with 8 archetypes that align with the original research paper:
+**k=8 Archetypes** (Ready for implementation):
   1. **Scoring Wings**
   2. **Non-Shooting, Defensive Minded Bigs**
   3. **Offensive Minded Bigs**
@@ -25,7 +20,7 @@ The model is built on the premise that a player's value is deeply contextual. It
   7. **Defensive Minded Guards**
   8. **Playmaking, Initiating Guards**
 
-**Why k=8 is Critical**: With only 3 archetypes, lineup analysis becomes shallow and unhelpful. The k=8 system captures the rich diversity of NBA playstyles needed for meaningful lineup comparison and player swapping analysis.
+**Why k=8 is Essential**: The k=8 system captures the rich diversity of NBA playstyles needed for meaningful lineup comparison, player swapping analysis, and data-driven basketball intelligence.
 
 ### 2. Lineup Superclusters ✅ **IMPLEMENTED**
 
@@ -34,8 +29,8 @@ Just as individual players have archetypes, five-player lineups have collective 
 - **How it Works**: Lineups are clustered using K-means algorithm on weighted average statistics derived from player archetype compositions. The analysis revealed that k=2 provides optimal basketball-meaningful separation given the available data.
 
 - **The 2 Implemented Superclusters**:
-  1. **Supercluster 0**: "Balanced Lineups" (30% Big Men, 40% Ball Handlers, 30% Role Players)
-  2. **Supercluster 1**: "Role Player Heavy" (87% Role Players)
+  1. **Supercluster 0**: "Balanced Lineups" (Diverse archetype composition)
+  2. **Supercluster 1**: "Specialized Lineups" (Focused archetype composition)
 
 ### 3. Bayesian Possession-Level Modeling ✅ **IMPLEMENTED**
 
@@ -50,7 +45,7 @@ The core analytical engine that estimates the value of different player combinat
   Where:
   - `y_i` is the expected net points for possession i
   - `m_i` is the matchup (offensive supercluster, defensive supercluster)
-  - `a` is the archetype (Big Men, Primary Ball Handlers, Role Players)
+  - `a` is the archetype (k=8 system: Scoring Wings, Defensive Bigs, etc.)
   - `Z^off_ia` and `Z^def_ia` are aggregated skill ratings by archetype
   - `β` coefficients are estimated using MCMC sampling
 

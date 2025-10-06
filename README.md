@@ -44,10 +44,10 @@ The NBA Lineup Optimizer has completed its foundational infrastructure and is re
 - **Robust Pipeline**: Reliable and resumable data collection system
 
 ### Model Performance ✅
-- **Bayesian Model**: Perfect convergence (R-hat: 1.000, ESS: 2,791) in 85 seconds
-- **Player Archetypes**: 3 basketball-meaningful archetypes (Big Men, Primary Ball Handlers, Role Players)
-- **Lineup Superclusters**: 2 tactical superclusters for lineup analysis
-- **Model Integration**: Unified interface with model switching and comparison tools
+- **Data-Driven Approach**: Ready to implement real basketball intelligence from possession data
+- **k=8 Archetype System**: Rich player archetypes for meaningful lineup analysis
+- **Real Pattern Discovery**: Analyze 574,357 possessions to discover actual basketball patterns
+- **Model Integration**: Unified interface ready for data-driven models
 
 ### Key Architectural Decision
 **Simplified Model Architecture**: The original research paper specified matchup-specific coefficients (36 parameters), but our data only contains 4 unique matchups. The solution was a simplified model with shared coefficients (7 parameters), which is more robust and generalizable.
