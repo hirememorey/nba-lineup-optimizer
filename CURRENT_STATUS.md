@@ -124,7 +124,6 @@ Instead of arbitrary penalties, build models that:
 
 ### 4. Data-Driven Model Foundation ✅ **READY**
 - **Data analysis infrastructure** ready for real possession data analysis
-- **k=8 archetype system** prepared for rich lineup analysis
 - **Real pattern discovery** tools ready for 574,357 possessions
 - **Grounded model architecture** ready for data-driven implementation
 
@@ -137,16 +136,12 @@ Instead of arbitrary penalties, build models that:
 - **Docker Deployment** - Containerized deployment with Nginx reverse proxy
 - **Monitoring** - Real-time system health, performance metrics, and alerting
 
-## Key Architectural Decision
-
-**Simplified Model Architecture**: The original research paper specified matchup-specific coefficients (36 parameters), but our data only contains 4 unique matchups. This created an impossible parameter-to-data ratio. The solution was a simplified model with shared coefficients across matchups (7 parameters), which is more robust and generalizable.
 
 ## Data-Driven Model Status
 
 | Component | Status | Description |
 |-----------|--------|-------------|
 | Possession Data | ✅ Ready | 574,357 possessions available for analysis |
-| k=8 Archetypes | ✅ Ready | Rich archetype system prepared |
 | Pattern Discovery | 🎯 Next | Real basketball intelligence from data |
 | Grounded Models | 🎯 Next | Data-driven diminishing returns and synergy |
 

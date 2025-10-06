@@ -45,12 +45,8 @@ The NBA Lineup Optimizer has completed its foundational infrastructure and is re
 
 ### Model Performance ✅
 - **Data-Driven Approach**: Ready to implement real basketball intelligence from possession data
-- **k=8 Archetype System**: Rich player archetypes for meaningful lineup analysis
 - **Real Pattern Discovery**: Analyze 574,357 possessions to discover actual basketball patterns
 - **Model Integration**: Unified interface ready for data-driven models
-
-### Key Architectural Decision
-**Simplified Model Architecture**: The original research paper specified matchup-specific coefficients (36 parameters), but our data only contains 4 unique matchups. The solution was a simplified model with shared coefficients (7 parameters), which is more robust and generalizable.
 
 ## Getting Started
 
