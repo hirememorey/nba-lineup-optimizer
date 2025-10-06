@@ -1,6 +1,6 @@
 # Data Dictionary
 
-**Date**: September 30, 2025  
+**Date**: October 6, 2025  
 **Status**: ✅ **CRITICAL REFERENCE DOCUMENT**
 
 ## Overview
@@ -40,10 +40,10 @@ The 41+ metrics required for archetype analysis are distributed across specializ
 
 #### Analysis Tables
 - **`PlayerSeasonRawStats`**: Traditional box score statistics
-  - **✅ STATUS (Oct 2, 2025):** Fully populated with 710 players and complete statistical data
+  - **✅ STATUS (Oct 6, 2025):** Fully populated with 710 players and complete statistical data
   - **Key columns**: `player_id`, `season`, `team_id`, `points`, `field_goals_made`, `field_goals_attempted`, `assists`, `total_rebounds`, `steals`, `blocks`, `turnovers`, `minutes_played`
 - **`PlayerSeasonAdvancedStats`**: Advanced metrics
-  - **✅ STATUS (Oct 2, 2025):** Fully populated with 540 players and complete advanced statistical data
+  - **✅ STATUS (Oct 6, 2025):** Fully populated with 540 players and complete advanced statistical data
   - **Key columns**: `player_id`, `season`, `team_id`, `offensive_rating`, `defensive_rating`, `net_rating`, `usage_percentage`, `true_shooting_percentage`, `effective_field_goal_percentage`
 - **`PlayerSalaries`**: Player salary information
 - **`PlayerSkills`**: Player skill ratings (DARKO)

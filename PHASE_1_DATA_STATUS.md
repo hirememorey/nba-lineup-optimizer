@@ -103,7 +103,8 @@ Phase 1 aims to reproduce the original paper by Brill, Hughes, and Waldbaum usin
 
 ### New Files
 - `populate_2022_23_data.py`: Script to populate database with 2022-23 data
-- `collect_2022_23_missing_data.py`: Script to collect missing DARKO and salary data
+- `populate_darko_data.py`: Script to collect DARKO skill ratings
+- `populate_2022_23_salaries.py`: Script to collect salary data
 
 ### Modified Files
 - `master_data_pipeline.py`: Extended to support 2022-23 season
@@ -113,9 +114,9 @@ Phase 1 aims to reproduce the original paper by Brill, Hughes, and Waldbaum usin
 ## Next Developer Instructions
 
 1. **Check Current Status**: Review this file and `CURRENT_STATUS.md`
-2. **Collect Missing Data**: Use the provided scripts and manual collection methods
-3. **Validate Data**: Run data quality checks before proceeding
-4. **Continue Phase 1**: Implement k=8 clustering once data is complete
+2. **Implement k=8 Archetype Clustering**: Use the complete 2022-23 dataset
+3. **Reproduce Bayesian Model**: Implement the exact model from the research paper
+4. **Validate Against Examples**: Test Lakers, Pacers, and Suns examples
 
 ## Contact
 

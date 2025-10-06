@@ -91,10 +91,10 @@ The original research paper can now be reproduced because:
 4. **Bayesian model** can now use real skill ratings
 
 ### 🎯 **Next Steps**
-1. **Collect salary data** for 2022-23 season (final blocker)
-2. **Implement k=8 archetype clustering** exactly as described in paper
-3. **Reproduce Bayesian model** with real DARKO coefficients
-4. **Validate against Lakers, Pacers, Suns examples**
+1. **Implement k=8 archetype clustering** exactly as described in paper
+2. **Reproduce Bayesian model** with real DARKO coefficients
+3. **Validate against Lakers, Pacers, Suns examples**
+4. **Scale to current data** for real-time relevance
 
 ## Data Quality Metrics
 
