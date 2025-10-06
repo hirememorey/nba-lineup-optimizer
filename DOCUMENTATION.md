@@ -22,7 +22,6 @@
 
 ### **Data & Models**
 - **[docs/data_dictionary.md](docs/data_dictionary.md)** - Complete database schema reference
-- **[docs/production_bayesian_model.md](docs/production_bayesian_model.md)** - Production model documentation
 - **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - Data-driven basketball intelligence methodology
 - **[docs/methodology/](docs/methodology/)** - Detailed methodology documentation
 
@@ -82,7 +81,7 @@
 ### **For Researchers**
 1. Review **[source_paper.md](source_paper.md)** for original research
 2. Examine **[docs/project_overview.md](docs/project_overview.md)** for implementation
-3. Check **[docs/production_bayesian_model.md](docs/production_bayesian_model.md)** for model details
+3. Check **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** for data-driven methodology
 
 ### **For Next Phase Development**
 1. **CRITICAL**: Read **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)**
