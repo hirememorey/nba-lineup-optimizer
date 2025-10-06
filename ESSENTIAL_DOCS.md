@@ -1,0 +1,61 @@
+# Essential Documentation for New Developers
+
+**Last Updated**: October 4, 2025
+
+## Quick Start Path for New Developers
+
+### 1. **Start Here** - Project Overview
+- **[README.md](README.md)** - Main project overview, current status, and quick start
+- **[CURRENT_STATUS.md](CURRENT_STATUS.md)** - Detailed current state and next steps
+
+### 2. **Understand the Vision** - Core Concepts  
+- **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - **CRITICAL**: Next phase implementation plan
+- **[source_paper.md](source_paper.md)** - Original research paper by Brill, Hughes, and Waldbaum
+- **[docs/project_overview.md](docs/project_overview.md)** - Core concepts and methodology
+
+### 3. **Get Running** - Implementation
+- **[QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)** - Step-by-step setup instructions
+- **[FAN_FRIENDLY_README.md](FAN_FRIENDLY_README.md)** - Fan dashboard guide
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide
+
+### 4. **Technical Reference** - System Details
+- **[docs/architecture.md](docs/architecture.md)** - System design principles
+- **[docs/data_dictionary.md](docs/data_dictionary.md)** - Database schema reference
+- **[docs/production_features.md](docs/production_features.md)** - Production system features
+
+### 5. **Methodology** - Technical Implementation
+- **[docs/methodology/](docs/methodology/)** - Detailed methodology documentation
+- **[docs/troubleshooting_data_quality.md](docs/troubleshooting_data_quality.md)** - Data quality troubleshooting
+
+## Key Points for New Developers
+
+### **Current State** (October 4, 2025)
+- ✅ **Phase 1 Complete**: Fan-friendly interface, production system, data pipeline
+- 🎯 **Next Phase**: Data-driven basketball intelligence implementation
+- 📊 **Data Ready**: 574,357 possessions, 651 players, 100% coverage
+
+### **Critical Understanding**
+- **Data-Driven Approach**: All models must be built from real possession data analysis
+- **No Arbitrary Parameters**: Never use mathematical penalties without data justification
+- **Real Basketball Intelligence**: Discover patterns from data, don't impose them
+
+### **Next Steps**
+1. Read **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** for implementation plan
+2. Analyze 574,357 possessions to discover real basketball patterns
+3. Build models based on actual performance differences
+4. Validate against current NBA examples
+
+## Files Removed (Outdated)
+- `IMPLEMENTATION_GUIDE.md` - Redundant with DATA_DRIVEN_APPROACH.md
+- `VALIDATION_TOOLS_GUIDE.md` - Referenced old approach
+- `DOCUMENTATION.md` - Redundant index file
+- `docs/index.md` - Redundant index file
+- `CRITICAL_DATA_MIGRATION_PLAN.md` - Contradicted data-driven approach
+- `docs/stan_scaling_issues.md` - Referenced old model approach
+- `docs/archive/` - Entire directory of outdated files
+
+---
+
+**Total Documentation**: 18 essential markdown files (down from 40+)
+**Focus**: Data-driven basketball intelligence implementation
+**Status**: Ready for new developer onboarding
