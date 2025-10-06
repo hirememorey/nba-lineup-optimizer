@@ -6,11 +6,11 @@ This document provides a comprehensive overview of the "Algorithmic NBA Player A
 
 The model is built on the premise that a player's value is deeply contextual. It depends not only on their talent but also on their specific role and how that role interacts with the roles of their teammates and opponents.
 
-### 1. Player Archetypes ✅ **k=8 SYSTEM READY**
+### 1. Player Archetypes 🎯 **k=8 SYSTEM TARGET**
 
-**Current State**: The system is ready to implement k=8 archetypes for rich lineup analysis and meaningful player-team fit evaluation.
+**Current State**: The system currently uses k=3 archetypes (Big Men, Primary Ball Handlers, Role Players) but is transitioning to k=8 for richer analysis.
 
-**k=8 Archetypes** (Ready for implementation):
+**Target k=8 Archetypes** (Ready for implementation):
   1. **Scoring Wings**
   2. **Non-Shooting, Defensive Minded Bigs**
   3. **Offensive Minded Bigs**
@@ -22,15 +22,13 @@ The model is built on the premise that a player's value is deeply contextual. It
 
 **Why k=8 is Essential**: The k=8 system captures the rich diversity of NBA playstyles needed for meaningful lineup comparison, player swapping analysis, and data-driven basketball intelligence.
 
-### 2. Lineup Superclusters ✅ **IMPLEMENTED**
+### 2. Lineup Superclusters 🔄 **BEING REDESIGNED**
 
-Just as individual players have archetypes, five-player lineups have collective strategies. The model identifies **two "superclusters"** to represent the tactical style of a lineup (adjusted from the paper's six based on data density constraints).
+The current supercluster system is being redesigned as part of the transition to k=8 archetypes. The previous k=2 system will be replaced with a new methodology.
 
-- **How it Works**: Lineups are clustered using K-means algorithm on weighted average statistics derived from player archetype compositions. The analysis revealed that k=2 provides optimal basketball-meaningful separation given the available data.
-
-- **The 2 Implemented Superclusters**:
-  1. **Supercluster 0**: "Balanced Lineups" (Diverse archetype composition)
-  2. **Supercluster 1**: "Specialized Lineups" (Focused archetype composition)
+- **Current State**: Previous k=2 supercluster system (Balanced vs Specialized lineups) is being phased out
+- **Next Phase**: New supercluster methodology will be developed alongside k=8 archetype implementation
+- **Rationale**: The k=2 system was based on k=3 archetypes and needs to be redesigned for k=8
 
 ### 3. Bayesian Possession-Level Modeling ✅ **IMPLEMENTED**
 

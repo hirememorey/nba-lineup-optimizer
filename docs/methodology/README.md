@@ -11,7 +11,6 @@ This directory contains detailed methodology documents that explain the "how" be
 
 ### Analytics & Modeling
 - `archetype_generation_methodology.md` - Rigorous methodology for generating player archetypes with PCA-based feature engineering
-- `lineup_supercluster_methodology.md` - Methodology for generating lineup superclusters with qualitative validation
 - `bayesian_modeling_implementation.md` - Core analytical engine implementation and scaling analysis
 
 ## Usage
