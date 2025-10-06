@@ -9,7 +9,7 @@
 - **[CURRENT_STATUS.md](CURRENT_STATUS.md)** - Detailed current state and next steps
 
 ### 2. **Understand the Vision** - Core Concepts  
-- **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - **CRITICAL**: Next phase implementation plan
+- **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** - **CRITICAL**: Ground truth validation implementation plan
 - **[source_paper.md](source_paper.md)** - Original research paper by Brill, Hughes, and Waldbaum
 - **[docs/project_overview.md](docs/project_overview.md)** - Core concepts and methodology
 
@@ -31,19 +31,20 @@
 
 ### **Current State** (October 4, 2025)
 - ✅ **Phase 1 Complete**: Fan-friendly interface, production system, data pipeline
-- 🎯 **Next Phase**: Data-driven basketball intelligence implementation
-- 📊 **Data Ready**: 574,357 possessions, 651 players, 100% coverage
+- 🎯 **Next Phase**: Ground truth validation with 2022-23 data, then scale to current data
+- 📊 **Data Ready**: 574,357 possessions (2024-25), 651 players, 100% coverage
 
 ### **Critical Understanding**
-- **Data-Driven Approach**: All models must be built from real possession data analysis
-- **No Arbitrary Parameters**: Never use mathematical penalties without data justification
-- **Real Basketball Intelligence**: Discover patterns from data, don't impose them
+- **Validation-First Approach**: Reproduce original paper with 2022-23 data to validate implementation
+- **Ground Truth Validation**: Only way to know our implementation is correct
+- **k=8 Archetype System**: Replace current k=3 system with proven 8-archetype approach
+- **Scale After Validation**: Apply validated methodology to current data
 
 ### **Next Steps**
-1. Read **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** for implementation plan
-2. Analyze 574,357 possessions to discover real basketball patterns
-3. Build models based on actual performance differences
-4. Validate against current NBA examples
+1. Read **[DATA_DRIVEN_APPROACH.md](DATA_DRIVEN_APPROACH.md)** for validation implementation plan
+2. Collect 2022-23 season data using paper's methodology
+3. Implement k=8 archetype clustering exactly as described
+4. Validate against Lakers, Pacers, and Suns examples from paper
 
 ## Files Removed (Outdated)
 - `IMPLEMENTATION_GUIDE.md` - Redundant with DATA_DRIVEN_APPROACH.md
