@@ -29,8 +29,8 @@ def check_requirements():
     logger = logging.getLogger(__name__)
     
     # Check if we're in the right directory
-    if not Path("enhanced_model_dashboard_production.py").exists():
-        logger.error("enhanced_model_dashboard_production.py not found in current directory")
+    if not Path("production_dashboard.py").exists():
+        logger.error("production_dashboard.py not found in current directory")
         return False
     
     # Check if database exists
@@ -90,7 +90,7 @@ def main():
         # Launch Streamlit
         subprocess.run([
             sys.executable, "-m", "streamlit", "run", 
-            "enhanced_model_dashboard_production.py",
+            "production_dashboard.py",
             "--server.port", "8502",
             "--server.headless", "true",
             "--server.address", "0.0.0.0"
