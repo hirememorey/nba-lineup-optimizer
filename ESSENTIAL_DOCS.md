@@ -30,24 +30,26 @@
 
 ## Key Points for New Developers
 
-### **Current State** (October 6, 2025)
+### **Current State** (January 3, 2025)
 - ✅ **Phase 1 Complete**: Fan-friendly interface, production system, data pipeline, DARKO integration, salary data
 - ✅ **Ground Truth Validation Complete**: Core basketball principles validated, custom 2022-23 evaluator built
-- 🎯 **Next Phase**: Implement k=8 archetype clustering and reproduce original paper
+- 🎯 **NEW APPROACH**: Case Study Archive validation strategy based on post-mortem analysis
 - 📊 **Data Ready**: 534 players with complete 2022-23 data, 549 DARKO ratings, 459 salary records
+- 🎯 **Next Phase**: Implement Case Study Archive with betting market analysis (2017-2025)
 
 ### **Critical Understanding**
-- **Validation-First Approach**: Reproduce original paper with 2022-23 data to validate implementation
-- **Ground Truth Validation**: Only way to know our implementation is correct
-- **k=8 Archetype System**: Implement proven 8-archetype approach
-- **Scale After Validation**: Apply validated methodology to current data
+- **NEW: Case Study Archive Approach**: Basketball-first validation using historical data (2017-2025)
+- **Post-Mortem Insights**: Basketball is unpredictable - focus on patterns, not predictions
+- **Betting Market Analysis**: Use betting market movements as primary indicator of expectations
+- **Glass Box Advisor**: Separate quantitative analysis from qualitative risk flags
+- **Pattern Recognition**: Look for correlations across historical cases, not single causes
 
 ### **Next Steps**
-1. Read **[GROUND_TRUTH_VALIDATION_RESULTS.md](GROUND_TRUTH_VALIDATION_RESULTS.md)** for validation methodology and results
-2. Review **[DARKO_DATA_INTEGRATION_SUMMARY.md](DARKO_DATA_INTEGRATION_SUMMARY.md)** for DARKO integration details
-3. Implement k=8 archetype clustering exactly as described in the original paper
-4. Reproduce the Bayesian model with 2022-23 data using validated approach
-5. Validate against Lakers, Pacers, and Suns examples from paper
+1. Read **[CASE_STUDY_ARCHIVE_IMPLEMENTATION.md](CASE_STUDY_ARCHIVE_IMPLEMENTATION.md)** for the new basketball-first approach
+2. Review **[CURRENT_STATUS.md](CURRENT_STATUS.md)** for updated project status and post-mortem insights
+3. Start with Phase 1: Historical database construction (2017-2025 cases)
+4. Implement betting market analysis for Hype Score calculation
+5. Build pattern recognition engine for correlation analysis
 
 ## Files Removed (Outdated)
 - `IMPLEMENTATION_GUIDE.md` - Redundant with DATA_DRIVEN_APPROACH.md
