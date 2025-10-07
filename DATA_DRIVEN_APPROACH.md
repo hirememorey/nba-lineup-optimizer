@@ -1,13 +1,39 @@
-# Ground Truth Validation Implementation Guide
+# Basketball-First Validation Implementation Guide
 
-**Date**: October 6, 2025  
-**Status**: 🚀 **READY TO IMPLEMENT** - Validation-First Approach
+**Date**: January 3, 2025  
+**Status**: 🎯 **CASE STUDY ARCHIVE APPROACH** - Basketball-First Validation Strategy
 
 ## Overview
 
-This document provides a comprehensive implementation guide for reproducing the original research paper by Brill, Hughes, and Waldbaum, then scaling to current data. The approach prioritizes ground truth validation over immediate data analysis to ensure we build a system that actually works.
+This document provides a comprehensive implementation guide for the Case Study Archive approach, which embraces basketball's complexity and unpredictability through historical pattern recognition. Based on post-mortem analysis, this approach prioritizes real NBA examples over theoretical constructs to build basketball-intelligent validation.
 
-## Why Ground Truth Validation is Essential
+## Why the Case Study Archive Approach is Necessary
+
+### **Critical Insights from Post-Mortem Analysis**
+
+Previous validation attempts failed because they:
+
+1. **Oversimplified Basketball Complexity**: Tried to find single causes for complex failures
+2. **Ignored Non-Basketball Factors**: Missed chemistry, personality, and expectation dynamics
+3. **Used Binary Success/Failure**: Treated outcomes as absolute rather than relative to expectations
+4. **Lacked Historical Grounding**: Built theoretical models without real NBA validation
+
+### **Core Philosophy: Embrace Uncertainty**
+
+**Basketball is inherently unpredictable and complex**. The Case Study Archive approach:
+- Accepts that some combinations just don't work for unexplainable reasons
+- Focuses on pattern recognition over definitive predictions
+- Separates measurable factors from unmeasurable ones
+- Uses expectations vs. reality framework instead of binary success/failure
+
+### **Implementation Strategy: Glass Box Advisor**
+
+The approach implements a "Glass Box Advisor" that provides:
+- **Quantitative Analysis**: Technical Fit Score based on measurable factors
+- **Qualitative Risk Flags**: Grounded in historical patterns, not arbitrary warnings
+- **Transparent Reporting**: Clear separation of what can be measured vs. what cannot
+
+## Why Ground Truth Validation is Essential (LEGACY APPROACH)
 
 ### **The Original Paper is Our Only Ground Truth**
 The original paper by Brill, Hughes, and Waldbaum is our **only source of validated results**. They:
