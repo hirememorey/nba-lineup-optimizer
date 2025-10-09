@@ -66,13 +66,13 @@ def _get_lineups_from_pbp(pbp_df: pd.DataFrame, home_team_id: int, away_team_id:
     return home_players, away_players
 
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
+@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=4, max=10))
 def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> pd.DataFrame:
     """Fetches play-by-play data for a single game and enriches it with lineup information."""
     logger.info(f"Fetching play-by-play for game_id: {game_id}")
     try:
-        # Increase the timeout to 120 seconds for the API call to handle slow responses
-        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=120)
+        # Increase the timeout to 180 seconds for the API call to handle slow responses
+        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=180)
         pbp_df = pbp.get_data_frames()[0]
 
         if pbp_df.empty:
