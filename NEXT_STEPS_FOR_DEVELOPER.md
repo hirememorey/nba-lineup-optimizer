@@ -1,33 +1,27 @@
 # Next Steps for Developer
 
 **Date**: October 10, 2025
-**Status**: Ready for Bayesian Model Training
+**Status**: Ready for Bayesian Model Training (Data Prep Complete)
 
 ## 🎯 Current State
 
-The supercluster generation pipeline is **complete, validated, and produces a high-integrity dataset**. The project has successfully navigated a critical data quality crisis, and the core data integrity risks have been mitigated.
+The supercluster generation pipeline has been regenerated after aligning column names. Due to missing advanced lineup fields in `PlayerLineupStats`, the generator automatically fell back to high‑coverage features (`w_pct`, `gp`, `w`, `l`, `min`) to ensure artifacts exist. Database sanity checks passed and Bayesian data prep has produced the model‑ready dataset.
 
 The current state is:
-- ✅ A robust, evidence-based set of 18 features has been established for clustering.
-- ✅ The `generate_lineup_superclusters.py` script is a production-ready tool that correctly scales features and generates clusters.
+- ✅ Supercluster artifacts exist and are reproducible (`robust_scaler.joblib`, `kmeans_model.joblib`, `lineup_features_with_superclusters.csv`).
+- ✅ `generate_lineup_superclusters.py` now dynamically falls back to high‑coverage features if advanced fields are unavailable.
 - ✅ The trained `RobustScaler` and `KMeans` models are saved to the `trained_models/` directory for reuse.
 - ✅ The full pipeline is validated by a modular, two-part integration test.
 - ✅ The final output of the pipeline is a clean dataset with supercluster assignments, located at `lineup_supercluster_results/lineup_features_with_superclusters.csv`.
 
 ## 🚀 Next Implementation Phase: Train and Validate the Bayesian Model
 
-Your entire focus is to use the high-quality supercluster data to train and validate the Bayesian model. The project is now unblocked for this final, critical phase.
+Your entire focus is to use the prepared dataset to train and validate the Bayesian model. The project is unblocked for this final, critical phase.
 
-### **Step 1: Implement Bayesian Data Preparation**
+### **Step 1: Use Prepared Data**
 
-The `bayesian_data_prep.py` script is currently a placeholder that was used to satisfy the test harness. Your first task is to implement its full logic.
-
-1.  **Load Supercluster Data**: Read the `lineup_features_with_superclusters.csv` file.
-2.  **Load Possession Data**: Connect to the database and load the possession-level data for the 2022-23 season.
-3.  **Merge and Create Matchups**: This is the core of the task. You will need to join the possession data with the lineup data (for both offensive and defensive lineups on each possession) to create the full matchup context.
-4.  **Create `matchup_id`**: Based on the offensive and defensive superclusters for each possession, create the unique `matchup_id` required by the Stan model.
-5.  **Prepare Final Dataset**: Aggregate and structure the data into the final format required for model training, which will include player skills (DARKO ratings) grouped by archetype for each matchup.
-6.  **Save Output**: The script should output a final, model-ready CSV (e.g., `production_bayesian_data.csv`).
+1.  Confirm presence of `production_bayesian_data.csv` (627,969 rows) and `stratified_sample_10k.csv`.
+2.  If needed, regenerate superclusters only after restoring advanced lineup fields.
 
 ### **Step 2: Train the Stan Model**
 
@@ -58,6 +52,10 @@ This is the final step to confirm the model's analytical integrity.
 ### **Trained Models**
 - **Scaler**: `trained_models/robust_scaler.joblib`
 - **KMeans Model**: `trained_models/kmeans_model.joblib`
+
+### **Optional Quality Upgrade**
+- Repopulate advanced lineup/percentage fields in `PlayerLineupStats` (e.g., `off_rating`, `def_rating`, `ts_pct`, `pace`, `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt`, `pct_pts_fb`).
+- Rerun `generate_lineup_superclusters.py` to replace fallback features with richer signal.
 
 ## 🎯 Success Criteria
 

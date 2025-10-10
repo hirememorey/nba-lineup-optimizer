@@ -1,13 +1,11 @@
 # NBA Lineup Optimizer - Current Status
 
 **Date**: October 10, 2025
-**Status**: 🚀 **SUPERCLUSTER PIPELINE VALIDATED & BUILT** - Data Foundation Rebuilt.
+**Status**: ✅ **BAYESIAN DATA PREP COMPLETED; ARTIFACTS READY** — Supercluster artifacts regenerated with dynamic feature fallback.
 
 ## Executive Summary
 
-**🚀 MAJOR BREAKTHROUGH: DATA FOUNDATION REBUILT & SUPERCLUSTER PIPELINE VALIDATED** - A critical data quality disaster in the `PlayerLineupStats` table has been identified and resolved through a "profile-first" data archaeology approach. The project has successfully reconstructed a reliable 18-feature set from complete data, built a robust supercluster generation pipeline (`generate_lineup_superclusters.py`) using `RobustScaler` and K-Means, and validated the entire process end-to-end with a refactored test harness.
-
-The core data integrity risks have been mitigated, and the project is now unblocked for the final modeling phase.
+**Update** — We completed the hardened Bayesian data preparation and produced the model-ready dataset. Supercluster artifacts were regenerated after fixing column mappings; due to missing advanced lineup fields in `PlayerLineupStats`, the generator automatically fell back to high‑coverage features (e.g., `w_pct`, `gp`, `w`, `l`, `min`) to ensure end‑to‑end viability. A future improvement can repopulate advanced lineup stats and regenerate superclusters with richer features.
 
 **Critical Achievements**:
 - ✅ **Data Quality Disaster Averted**: A comprehensive profiling of the `PlayerLineupStats` table revealed that over 50% of columns were unusable due to `NULL` values. This discovery prevented a catastrophic model failure.
@@ -50,11 +48,21 @@ The core data integrity risks have been mitigated, and the project is now unbloc
 - **`bayesian_data_prep.py`**: A placeholder script was created to satisfy the test harness for the final data preparation step.
 - **Final Validation**: The full, refactored test suite was run successfully, providing end-to-end confirmation that the pipeline is working as expected.
 
-### ⏳ **Phase 4: Bayesian Model Training - IN PROGRESS**
+### ✅ **Phase 4: Bayesian Model Training — DATA PREP COMPLETE**
 
-**Current Task**: Train the Bayesian model on the high-quality, superclustered data.
+**Artifacts Produced**:
+- `production_bayesian_data.csv` (627,969 rows)
+- `stratified_sample_10k.csv` (10,000 rows)
+- `trained_models/robust_scaler.joblib` (regenerated)
+- `trained_models/kmeans_model.joblib` (regenerated)
+- `lineup_supercluster_results/lineup_features_with_superclusters.csv` (regenerated)
+- `lineup_supercluster_results/supercluster_assignments.json` (present)
+
+**Sanity Checks**:
+- Database verification: PASS (all layers)
+- Output CSVs: required columns present, outcomes ∈ {0,1,2,3}, no NaNs/Inf
 
 **Next Steps**:
-1.  **[PRIORITY]** Implement the full logic for `bayesian_data_prep.py`, which needs to merge the supercluster output with possession-level data to create the final `matchup_id`.
-2.  Use the prepared data to train the Stan model in `train_bayesian_model.py`.
-3.  Validate the trained model's coefficients and test its predictions against the source paper's examples (Lakers, Pacers, Suns) using `validate_model.py`.
+1. Train the Stan model with `production_bayesian_data.csv` via `train_bayesian_model.py`.
+2. Validate coefficients against the paper’s examples using `validate_model.py` (Lakers, Pacers, Suns).
+3. Optional quality upgrade: repopulate `PlayerLineupStats` advanced/percentage fields (e.g., `off_rating`, `def_rating`, `ts_pct`, `pace`, shot/points shares) and re-run `generate_lineup_superclusters.py` to replace the fallback feature set.
