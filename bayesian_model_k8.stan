@@ -1,38 +1,37 @@
+// Stan model for Bayesian regression of NBA possession outcomes
+// Equation 2.5 from Brill, Hughes, and Waldbaum
+
 data {
-    int<lower=0> N; // Number of possessions
-    int<lower=0> K; // Number of player archetypes
-    int<lower=0> M; // Number of matchup types (supercluster combinations)
+    int<lower=0> N; // number of observations
+    vector[N] y;    // outcome variable (net points)
     
-    vector[K] Z_off[N]; // Offensive skill vectors
-    vector[K] Z_def[N]; // Defensive skill vectors
-    
-    real y[N]; // Outcome of each possession (net points)
-    
-    int<lower=1, upper=M> matchup_indices[N]; // Index for the matchup type for each possession
+    // Z-scores: aggregated skill ratings by archetype
+    // We have 8 archetypes (0-7) for each side (offense/defense)
+    matrix[N, 8] z_off;
+    matrix[N, 8] z_def;
 }
 
 parameters {
-    real<lower=0> beta_off[M][K]; // Offensive skill coefficients per matchup-archetype
-    real<lower=0> beta_def[M][K]; // Defensive skill coefficients per matchup-archetype
-    real alpha[M];               // Intercept for each matchup type
-    real<lower=0> sigma;         // Error term
+    real beta_0; // intercept
+    
+    // Coefficients for offensive and defensive Z-scores.
+    // We constrain them to be positive as per the paper's methodology.
+    vector<lower=0>[8] beta_off;
+    vector<lower=0>[8] beta_def;
+    
+    // Error term
+    real<lower=0> sigma;
 }
 
 model {
-    // Priors
-    for (m in 1:M) {
-        alpha[m] ~ normal(0, 1);
-        for (k in 1:K) {
-            beta_off[m][k] ~ normal(0, 5); // Weakly-informative prior
-            beta_def[m][k] ~ normal(0, 5); // Weakly-informative prior
-        }
-    }
-    sigma ~ cauchy(0, 5);
-
+    // Priors (weakly-informative as described in the paper)
+    beta_0 ~ normal(0, 5);
+    beta_off ~ normal(0, 5);
+    beta_def ~ normal(0, 5);
+    sigma ~ cauchy(0, 2.5);
+    
     // Likelihood
-    for (i in 1:N) {
-        int m = matchup_indices[i];
-        real mu = alpha[m] + dot_product(beta_off[m], Z_off[i]) - dot_product(beta_def[m], Z_def[i]);
-        y[i] ~ normal(mu, sigma);
-    }
+    // The model predicts the outcome y as a linear combination of the intercept
+    // and the dot products of beta coefficients and Z-score vectors.
+    y ~ normal(beta_0 + z_off * beta_off - z_def * beta_def, sigma);
 } 

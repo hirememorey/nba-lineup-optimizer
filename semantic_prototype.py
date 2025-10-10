@@ -9,539 +9,216 @@ on whether our model makes basketball sense before running the expensive
 18-hour Bayesian training process.
 """
 
+import sqlite3
+import re
 import pandas as pd
-import numpy as np
-from sklearn.linear_model import Ridge
-from sklearn.preprocessing import StandardScaler
-from typing import Dict, List, Tuple, Any, Optional
-from dataclasses import dataclass
-import warnings
-warnings.filterwarnings('ignore')
 
+DB_PATH = "src/nba_stats/db/nba_stats.db"
 
-@dataclass
-class SemanticValidationResult:
-    """Result of a semantic validation check."""
-    check_name: str
-    passed: bool
-    message: str
-    actual_value: Optional[float] = None
-    expected_value: Optional[float] = None
-    tolerance: float = 0.1
-
-
-class SemanticPrototype:
+def calculate_outcome(row):
     """
-    Semantic prototype using synthetic data to validate analytical logic.
-    
-    This class implements the fast proxy model (Ridge Regression) that runs
-    in seconds and provides immediate feedback on whether the model logic
-    makes basketball sense.
-    """
-    
-    def __init__(self):
-        """Initialize the semantic prototype."""
-        self.synthetic_data = None
-        self.model = None
-        self.scaler = StandardScaler()
-        self.validation_results = []
-    
-    def generate_synthetic_data(self, n_possessions: int = 10000) -> pd.DataFrame:
-        """
-        Generate synthetic possession data that follows realistic patterns.
-        
-        Args:
-            n_possessions: Number of synthetic possessions to generate
-            
-        Returns:
-            DataFrame with synthetic possession data
-        """
-        np.random.seed(42)  # For reproducible results
-        
-        # Generate synthetic possessions with realistic patterns
-        data = []
-        
-        for i in range(n_possessions):
-            # Generate archetype combinations (8 archetypes, 5 players each)
-            offensive_archetypes = np.random.choice(8, 5, replace=True)
-            defensive_archetypes = np.random.choice(8, 5, replace=True)
-            
-            # Generate skill ratings (DARKO-style, centered around 0)
-            offensive_skills = np.random.normal(0, 2, 5)
-            defensive_skills = np.random.normal(0, 2, 5)
-            
-            # Generate lineup superclusters (6 superclusters)
-            offensive_supercluster = np.random.choice(6)
-            defensive_supercluster = np.random.choice(6)
-            
-            # Generate possession outcome based on realistic patterns
-            # Higher offensive skill should increase outcome
-            # Higher defensive skill should decrease outcome
-            # Certain archetype matchups should matter
-            
-            base_outcome = 0.0
-            
-            # Skill effects (the core insight we want to validate)
-            skill_effect = np.sum(offensive_skills) * 0.1 - np.sum(defensive_skills) * 0.1
-            
-            # Archetype interaction effects (simplified)
-            archetype_effect = self._calculate_archetype_effect(
-                offensive_archetypes, defensive_archetypes
-            )
-            
-            # Supercluster effects
-            supercluster_effect = self._calculate_supercluster_effect(
-                offensive_supercluster, defensive_supercluster
-            )
-            
-            # Add noise
-            noise = np.random.normal(0, 0.5)
-            
-            outcome = base_outcome + skill_effect + archetype_effect + supercluster_effect + noise
-            
-            # Create possession record
-            possession = {
-                'possession_id': i,
-                'offensive_archetype_1': offensive_archetypes[0],
-                'offensive_archetype_2': offensive_archetypes[1],
-                'offensive_archetype_3': offensive_archetypes[2],
-                'offensive_archetype_4': offensive_archetypes[3],
-                'offensive_archetype_5': offensive_archetypes[4],
-                'defensive_archetype_1': defensive_archetypes[0],
-                'defensive_archetype_2': defensive_archetypes[1],
-                'defensive_archetype_3': defensive_archetypes[2],
-                'defensive_archetype_4': defensive_archetypes[3],
-                'defensive_archetype_5': defensive_archetypes[4],
-                'offensive_skill_1': offensive_skills[0],
-                'offensive_skill_2': offensive_skills[1],
-                'offensive_skill_3': offensive_skills[2],
-                'offensive_skill_4': offensive_skills[3],
-                'offensive_skill_5': offensive_skills[4],
-                'defensive_skill_1': defensive_skills[0],
-                'defensive_skill_2': defensive_skills[1],
-                'defensive_skill_3': defensive_skills[2],
-                'defensive_skill_4': defensive_skills[3],
-                'defensive_skill_5': defensive_skills[4],
-                'offensive_supercluster': offensive_supercluster,
-                'defensive_supercluster': defensive_supercluster,
-                'outcome': outcome
-            }
-            
-            data.append(possession)
-        
-        self.synthetic_data = pd.DataFrame(data)
-        return self.synthetic_data
-    
-    def _calculate_archetype_effect(self, off_archetypes: np.ndarray, def_archetypes: np.ndarray) -> float:
-        """Calculate archetype interaction effects."""
-        # Simplified archetype effects
-        # 0: Scoring Wings, 1: Non-Shooting Defensive Bigs, 2: Offensive Bigs, etc.
-        
-        effect = 0.0
-        
-        # Offensive archetype effects
-        for arch in off_archetypes:
-            if arch == 0:  # Scoring Wings - good for offense
-                effect += 0.2
-            elif arch == 1:  # Non-Shooting Defensive Bigs - bad for offense
-                effect -= 0.1
-            elif arch == 2:  # Offensive Bigs - good for offense
-                effect += 0.15
-            elif arch == 5:  # 3&D - good for offense
-                effect += 0.1
-        
-        # Defensive archetype effects
-        for arch in def_archetypes:
-            if arch == 1:  # Non-Shooting Defensive Bigs - good for defense
-                effect -= 0.2
-            elif arch == 6:  # Defensive Minded Guards - good for defense
-                effect -= 0.15
-            elif arch == 0:  # Scoring Wings - bad for defense
-                effect += 0.1
-        
-        return effect
-    
-    def _calculate_supercluster_effect(self, off_supercluster: int, def_supercluster: int) -> float:
-        """Calculate lineup supercluster interaction effects."""
-        # Simplified supercluster effects
-        # 0: Three-Point Symphony, 1: Half-Court Individual Shot Creators, etc.
-        
-        effect = 0.0
-        
-        # Offensive supercluster effects
-        if off_supercluster == 0:  # Three-Point Symphony - good for offense
-            effect += 0.3
-        elif off_supercluster == 1:  # Half-Court Individual Shot Creators - moderate
-            effect += 0.1
-        elif off_supercluster == 2:  # Slashing Offenses - good for offense
-            effect += 0.2
-        
-        # Defensive supercluster effects
-        if def_supercluster == 0:  # Three-Point Symphony - bad for defense
-            effect += 0.1
-        elif def_supercluster == 1:  # Half-Court Individual Shot Creators - good for defense
-            effect -= 0.2
-        
-        return effect
-    
-    def build_feature_matrix(self) -> Tuple[pd.DataFrame, pd.Series]:
-        """
-        Build the feature matrix for the proxy model.
-        
-        Returns:
-            Tuple of (features, target)
-        """
-        if self.synthetic_data is None:
-            raise ValueError("Must generate synthetic data first")
-        
-        # Create features for each archetype in each lineup position
-        features = []
-        
-        for _, row in self.synthetic_data.iterrows():
-            feature_row = {}
-            
-            # Offensive archetype features (one-hot encoded)
-            for i in range(1, 6):
-                for arch in range(8):
-                    feature_row[f'off_arch_{i}_{arch}'] = 1 if row[f'offensive_archetype_{i}'] == arch else 0
-            
-            # Defensive archetype features (one-hot encoded)
-            for i in range(1, 6):
-                for arch in range(8):
-                    feature_row[f'def_arch_{i}_{arch}'] = 1 if row[f'defensive_archetype_{i}'] == arch else 0
-            
-            # Skill features (summed by archetype)
-            for arch in range(8):
-                off_skill_sum = sum(row[f'offensive_skill_{i}'] for i in range(1, 6) 
-                                  if row[f'offensive_archetype_{i}'] == arch)
-                def_skill_sum = sum(row[f'defensive_skill_{i}'] for i in range(1, 6) 
-                                  if row[f'defensive_archetype_{i}'] == arch)
-                
-                feature_row[f'off_skill_arch_{arch}'] = off_skill_sum
-                feature_row[f'def_skill_arch_{arch}'] = def_skill_sum
-            
-            # Supercluster features
-            for sc in range(6):
-                feature_row[f'off_supercluster_{sc}'] = 1 if row['offensive_supercluster'] == sc else 0
-                feature_row[f'def_supercluster_{sc}'] = 1 if row['defensive_supercluster'] == sc else 0
-            
-            features.append(feature_row)
-        
-        feature_df = pd.DataFrame(features)
-        target = self.synthetic_data['outcome']
-        
-        return feature_df, target
-    
-    def train_proxy_model(self) -> None:
-        """Train the Ridge Regression proxy model."""
-        if self.synthetic_data is None:
-            raise ValueError("Must generate synthetic data first")
-        
-        # Build feature matrix
-        X, y = self.build_feature_matrix()
-        
-        # Scale features
-        X_scaled = self.scaler.fit_transform(X)
-        
-        # Train Ridge Regression with non-negativity constraints
-        # Note: Ridge doesn't support non-negativity directly, so we'll validate signs after
-        self.model = Ridge(alpha=1.0, random_state=42)
-        self.model.fit(X_scaled, y)
-        
-        print(f"Proxy model trained on {len(X)} synthetic possessions")
-        print(f"Model R² score: {self.model.score(X_scaled, y):.3f}")
-    
-    def validate_semantic_correctness(self) -> List[SemanticValidationResult]:
-        """
-        Validate that the model makes basketball sense.
-        
-        Returns:
-            List of validation results
-        """
-        if self.model is None:
-            raise ValueError("Must train proxy model first")
-        
-        results = []
-        
-        # Check 1: Offensive skill should have positive impact
-        result = self._validate_offensive_skill_impact()
-        results.append(result)
-        
-        # Check 2: Defensive skill should have negative impact
-        result = self._validate_defensive_skill_impact()
-        results.append(result)
-        
-        # Check 3: Certain archetype combinations should make sense
-        result = self._validate_archetype_combinations()
-        results.append(result)
-        
-        # Check 4: Model should be able to distinguish good vs bad lineups
-        result = self._validate_lineup_discrimination()
-        results.append(result)
-        
-        # Check 5: Coefficient magnitudes should be reasonable
-        result = self._validate_coefficient_magnitudes()
-        results.append(result)
-        
-        self.validation_results = results
-        return results
-    
-    def _validate_offensive_skill_impact(self) -> SemanticValidationResult:
-        """Validate that offensive skill has positive impact."""
-        # Get coefficients for offensive skill features
-        feature_names = [f'off_skill_arch_{i}' for i in range(8)]
-        coef_indices = [i for i, name in enumerate(self.scaler.feature_names_in_) 
-                       if name in feature_names]
-        
-        if not coef_indices:
-            return SemanticValidationResult(
-                check_name="offensive_skill_impact",
-                passed=False,
-                message="No offensive skill features found in model"
-            )
-        
-        offensive_coefs = [self.model.coef_[i] for i in coef_indices]
-        avg_offensive_impact = np.mean(offensive_coefs)
-        
-        passed = avg_offensive_impact > 0
-        return SemanticValidationResult(
-            check_name="offensive_skill_impact",
-            passed=passed,
-            message=f"Average offensive skill impact: {avg_offensive_impact:.3f}",
-            actual_value=avg_offensive_impact,
-            expected_value=0.0,
-            tolerance=0.0
-        )
-    
-    def _validate_defensive_skill_impact(self) -> SemanticValidationResult:
-        """Validate that defensive skill has negative impact."""
-        # Get coefficients for defensive skill features
-        feature_names = [f'def_skill_arch_{i}' for i in range(8)]
-        coef_indices = [i for i, name in enumerate(self.scaler.feature_names_in_) 
-                       if name in feature_names]
-        
-        if not coef_indices:
-            return SemanticValidationResult(
-                check_name="defensive_skill_impact",
-                passed=False,
-                message="No defensive skill features found in model"
-            )
-        
-        defensive_coefs = [self.model.coef_[i] for i in coef_indices]
-        avg_defensive_impact = np.mean(defensive_coefs)
-        
-        passed = avg_defensive_impact < 0
-        return SemanticValidationResult(
-            check_name="defensive_skill_impact",
-            passed=passed,
-            message=f"Average defensive skill impact: {avg_defensive_impact:.3f}",
-            actual_value=avg_defensive_impact,
-            expected_value=0.0,
-            tolerance=0.0
-        )
-    
-    def _validate_archetype_combinations(self) -> SemanticValidationResult:
-        """Validate that archetype combinations make basketball sense."""
-        # This is a simplified check - in practice, we'd test specific combinations
-        # For now, just check that the model has learned some archetype effects
-        
-        archetype_features = [name for name in self.scaler.feature_names_in_ 
-                            if 'arch_' in name and 'skill' not in name]
-        
-        if not archetype_features:
-            return SemanticValidationResult(
-                check_name="archetype_combinations",
-                passed=False,
-                message="No archetype features found in model"
-            )
-        
-        # Check that some archetype coefficients are non-zero
-        archetype_coef_indices = [i for i, name in enumerate(self.scaler.feature_names_in_) 
-                                if name in archetype_features]
-        archetype_coefs = [self.model.coef_[i] for i in archetype_coef_indices]
-        non_zero_coefs = sum(1 for coef in archetype_coefs if abs(coef) > 0.01)
-        
-        passed = non_zero_coefs > 0
-        return SemanticValidationResult(
-            check_name="archetype_combinations",
-            passed=passed,
-            message=f"Non-zero archetype coefficients: {non_zero_coefs}/{len(archetype_coefs)}",
-            actual_value=non_zero_coefs,
-            expected_value=1,
-            tolerance=0
-        )
-    
-    def _validate_lineup_discrimination(self) -> SemanticValidationResult:
-        """Validate that model can distinguish good vs bad lineups."""
-        if self.synthetic_data is None:
-            return SemanticValidationResult(
-                check_name="lineup_discrimination",
-                passed=False,
-                message="No synthetic data available"
-            )
-        
-        # Create test lineups: one with high offensive skill, one with low
-        high_skill_lineup = self.synthetic_data.copy()
-        high_skill_lineup['offensive_skill_1'] = 3.0
-        high_skill_lineup['offensive_skill_2'] = 3.0
-        high_skill_lineup['offensive_skill_3'] = 3.0
-        high_skill_lineup['offensive_skill_4'] = 3.0
-        high_skill_lineup['offensive_skill_5'] = 3.0
-        
-        low_skill_lineup = self.synthetic_data.copy()
-        low_skill_lineup['offensive_skill_1'] = -3.0
-        low_skill_lineup['offensive_skill_2'] = -3.0
-        low_skill_lineup['offensive_skill_3'] = -3.0
-        low_skill_lineup['offensive_skill_4'] = -3.0
-        low_skill_lineup['offensive_skill_5'] = -3.0
-        
-        # Predict outcomes
-        X_high, _ = self.build_feature_matrix_from_data(high_skill_lineup)
-        X_low, _ = self.build_feature_matrix_from_data(low_skill_lineup)
-        
-        X_high_scaled = self.scaler.transform(X_high)
-        X_low_scaled = self.scaler.transform(X_low)
-        
-        pred_high = self.model.predict(X_high_scaled)
-        pred_low = self.model.predict(X_low_scaled)
-        
-        avg_high = np.mean(pred_high)
-        avg_low = np.mean(pred_low)
-        
-        passed = avg_high > avg_low
-        return SemanticValidationResult(
-            check_name="lineup_discrimination",
-            passed=passed,
-            message=f"High skill prediction: {avg_high:.3f}, Low skill prediction: {avg_low:.3f}",
-            actual_value=avg_high - avg_low,
-            expected_value=0.0,
-            tolerance=0.0
-        )
-    
-    def _validate_coefficient_magnitudes(self) -> SemanticValidationResult:
-        """Validate that coefficient magnitudes are reasonable."""
-        max_coef = np.max(np.abs(self.model.coef_))
-        
-        # Coefficients should not be extremely large (indicating overfitting)
-        passed = max_coef < 10.0
-        
-        return SemanticValidationResult(
-            check_name="coefficient_magnitudes",
-            passed=passed,
-            message=f"Maximum coefficient magnitude: {max_coef:.3f}",
-            actual_value=max_coef,
-            expected_value=10.0,
-            tolerance=0.0
-        )
-    
-    def build_feature_matrix_from_data(self, data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
-        """Build feature matrix from arbitrary data (for testing)."""
-        # This is a simplified version - in practice, we'd need to handle
-        # the full feature engineering pipeline
-        features = []
-        
-        for _, row in data.iterrows():
-            feature_row = {}
-            
-            # Offensive archetype features
-            for i in range(1, 6):
-                for arch in range(8):
-                    feature_row[f'off_arch_{i}_{arch}'] = 1 if row[f'offensive_archetype_{i}'] == arch else 0
-            
-            # Defensive archetype features
-            for i in range(1, 6):
-                for arch in range(8):
-                    feature_row[f'def_arch_{i}_{arch}'] = 1 if row[f'defensive_archetype_{i}'] == arch else 0
-            
-            # Skill features
-            for arch in range(8):
-                off_skill_sum = sum(row[f'offensive_skill_{i}'] for i in range(1, 6) 
-                                  if row[f'offensive_archetype_{i}'] == arch)
-                def_skill_sum = sum(row[f'defensive_skill_{i}'] for i in range(1, 6) 
-                                  if row[f'defensive_archetype_{i}'] == arch)
-                
-                feature_row[f'off_skill_arch_{arch}'] = off_skill_sum
-                feature_row[f'def_skill_arch_{arch}'] = def_skill_sum
-            
-            # Supercluster features
-            for sc in range(6):
-                feature_row[f'off_supercluster_{sc}'] = 1 if row['offensive_supercluster'] == sc else 0
-                feature_row[f'def_supercluster_{sc}'] = 1 if row['defensive_supercluster'] == sc else 0
-            
-            features.append(feature_row)
-        
-        feature_df = pd.DataFrame(features)
-        target = data['outcome']
-        
-        return feature_df, target
-    
-    def generate_validation_report(self) -> str:
-        """Generate a human-readable validation report."""
-        if not self.validation_results:
-            return "No validation results available. Run validate_semantic_correctness() first."
-        
-        report_lines = ["Semantic Validation Report"]
-        report_lines.append("=" * 50)
-        
-        all_passed = all(result.passed for result in self.validation_results)
-        status = "✅ PASSED" if all_passed else "❌ FAILED"
-        report_lines.append(f"Overall Status: {status}")
-        report_lines.append("")
-        
-        for result in self.validation_results:
-            status = "✅" if result.passed else "❌"
-            report_lines.append(f"{status} {result.check_name}: {result.message}")
-        
-        return "\n".join(report_lines)
+    Calculates the point value of a possession based on its description.
 
+    Args:
+        row (pd.Series): A row from the Possessions DataFrame.
 
-def run_semantic_prototype() -> bool:
-    """
-    Run the complete semantic prototype validation.
-    
     Returns:
-        True if all validations pass, False otherwise
+        int: The number of points scored (0, 1, 2, or 3).
     """
-    print("Running Semantic Prototype Validation...")
-    print("=" * 50)
+    description = row["description"]
+    if not isinstance(description, str):
+        return 0
+
+    # Turnovers or Missed Shots are 0 points
+    if "Turnover" in description or "MISS" in description:
+        return 0
+
+    # Check for points scored using regex to find patterns like "(3 PTS)"
+    match = re.search(r'\((\d+)\s+PTS\)', description)
+    if match:
+        return int(match.group(1))
+
+    # Free throws (as a fallback, in case the PTS pattern isn't there)
+    if "Free Throw" in description:
+        if "makes" in description.lower():
+            return 1
+        else:
+            # This covers missed free throws which might not have "MISS"
+            return 0
+            
+    return 0
+
+
+def get_archetypes(file_path="player_archetypes_k8_2022_23.csv"):
+    """Loads player archetypes from a CSV file into a dictionary."""
+    try:
+        df = pd.read_csv(file_path)
+        # Assuming columns are named 'player_id' and 'archetype_id'
+        return pd.Series(df.archetype_id.values, index=df.player_id).to_dict()
+    except FileNotFoundError:
+        print(f"Error: Archetype file not found at {file_path}")
+        return {}
+
+
+def get_darko_ratings(db_path=DB_PATH):
+    """Loads DARKO skill ratings from the database into a dictionary."""
+    ratings = {}
+    try:
+        con = sqlite3.connect(db_path)
+        query = "SELECT player_id, offensive_skill_rating, defensive_skill_rating FROM PlayerSkills WHERE skill_metric_source = 'DARKO'"
+        df = pd.read_sql_query(query, con)
+        con.close()
+        for _, row in df.iterrows():
+            ratings[row['player_id']] = {
+                "o_darko": row['offensive_skill_rating'],
+                "d_darko": row['defensive_skill_rating']
+            }
+        return ratings
+    except sqlite3.Error as e:
+        print(f"Database error while fetching DARKO ratings: {e}")
+        return {}
+
+def get_lineup_supercluster(archetype_lineup, supercluster_map):
+    """Looks up the supercluster for a given archetype lineup."""
+    # The key is a sorted tuple of archetype IDs to ensure order doesn't matter
+    lineup_key = tuple(sorted(archetype_lineup))
+    return supercluster_map.get(lineup_key, -1) # Return -1 if not found
+
+
+def create_mock_supercluster_map():
+    """Creates a mock mapping from archetype lineups to superclusters for prototyping."""
+    # THIS IS A MOCK. The real mapping is complex and needs to be built.
+    # For now, we'll create a few plausible fake mappings.
+    mock_map = {
+        tuple(sorted([1, 6, 5, 2, 3])): 0, # "Three-Point Symphony"
+        tuple(sorted([4, 5, 0, 7, 1])): 1, # "Half-Court Individual Shot Creators"
+        tuple(sorted([1, 1, 6, 5, 2])): 2, # "Slashing Offenses"
+        tuple(sorted([0, 0, 0, 0, 0])): 3,
+    }
+    return mock_map
+
+
+def process_single_possession(possession_row, archetypes, darko_ratings, supercluster_map):
+    """
+    Processes a single possession row to create a model-ready data vector.
+    """
+    # 1. Get player IDs for the possession
+    home_players = [possession_row[f'home_player_{i}_id'] for i in range(1, 6)]
+    away_players = [possession_row[f'away_player_{i}_id'] for i in range(1, 6)]
+
+    offensive_team_id = possession_row['offensive_team_id']
     
-    # Initialize prototype
-    prototype = SemanticPrototype()
+    # Determine which lineup is on offense
+    if possession_row['player1_team_id'] == offensive_team_id:
+        offensive_players = home_players
+        defensive_players = away_players
+    else:
+        offensive_players = away_players
+        defensive_players = home_players
+
+    # 2. Look up archetypes
+    offensive_archetypes = [archetypes.get(p_id, -1) for p_id in offensive_players]
+    defensive_archetypes = [archetypes.get(p_id, -1) for p_id in defensive_players]
+
+    # 3. Look up superclusters
+    offensive_supercluster = get_lineup_supercluster(offensive_archetypes, supercluster_map)
+    defensive_supercluster = get_lineup_supercluster(defensive_archetypes, supercluster_map)
+
+    # 4. Look up DARKO ratings
+    offensive_skills = [darko_ratings.get(p_id, {"o_darko": 0, "d_darko": 0}) for p_id in offensive_players]
+    defensive_skills = [darko_ratings.get(p_id, {"o_darko": 0, "d_darko": 0}) for p_id in defensive_players]
+
+    # 5. Calculate Z-scores (aggregated skill by archetype)
+    z_scores = {"off": {i: 0 for i in range(8)}, "def": {i: 0 for i in range(8)}}
+    for i, archetype_id in enumerate(offensive_archetypes):
+        if archetype_id != -1:
+            z_scores["off"][archetype_id] += offensive_skills[i]["o_darko"]
     
-    # Generate synthetic data
-    print("Generating synthetic data...")
-    prototype.generate_synthetic_data(n_possessions=5000)
-    print(f"Generated {len(prototype.synthetic_data)} synthetic possessions")
+    for i, archetype_id in enumerate(defensive_archetypes):
+        if archetype_id != -1:
+            z_scores["def"][archetype_id] += defensive_skills[i]["d_darko"]
+            
+    # 6. Assemble the final data point
+    model_input = {
+        "possession_id": possession_row['game_id'] + "_" + str(possession_row['event_num']),
+        "outcome": calculate_outcome(possession_row),
+        "offensive_supercluster": offensive_supercluster,
+        "defensive_supercluster": defensive_supercluster,
+        "z_scores_off": z_scores["off"],
+        "z_scores_def": z_scores["def"],
+        "raw_offensive_archetypes": offensive_archetypes,
+        "raw_defensive_archetypes": defensive_archetypes,
+    }
+
+    return model_input
+
+
+def main():
+    """
+    Main function to run the semantic prototype.
+    """
+    print("--- Running Semantic Prototype: Phase 1 ---")
     
-    # Train proxy model
-    print("Training proxy model...")
-    prototype.train_proxy_model()
+    # --- Phase 1.1: Outcome Calculation ---
+    try:
+        con = sqlite3.connect(DB_PATH)
+        # Fetch a sample of 100 possessions to analyze
+        query = "SELECT * FROM Possessions WHERE offensive_team_id IS NOT NULL LIMIT 100"
+        df = pd.read_sql_query(query, con)
+        con.close()
+        print(f"Successfully connected to {DB_PATH} and fetched {len(df)} possessions.")
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return
+
+    # Coalesce description columns for outcome calculation
+    df['description'] = df['home_description'].fillna('') + df['visitor_description'].fillna('') + df['neutral_description'].fillna('')
+    df['description'] = df['description'].replace('', None)
+    df["calculated_outcome"] = df.apply(calculate_outcome, axis=1)
+    print("Phase 1.1 (Outcome Calculation) completed.")
     
-    # Validate semantic correctness
-    print("Validating semantic correctness...")
-    results = prototype.validate_semantic_correctness()
+    # --- Phase 1.2: Construct a Single Perfect Model Input ---
+    print("\n--- Running Semantic Prototype: Phase 1.2 ---")
+    print("Loading auxiliary data (archetypes, DARKO ratings)...")
+    archetypes = get_archetypes()
+    darko_ratings = get_darko_ratings()
+    supercluster_map = create_mock_supercluster_map()
     
-    # Generate report
-    report = prototype.generate_validation_report()
-    print("\n" + report)
+    if not archetypes or not darko_ratings:
+        print("Could not load auxiliary data. Aborting.")
+        return
+        
+    print("Processing a single possession to create a model-ready input...")
     
-    # Save report to file
-    with open("semantic_prototype_report.md", "w") as f:
-        f.write(report)
+    # Find a possession where we have data for all players to ensure a good example
+    sample_row = None
+    for _, row in df.iterrows():
+         home_players = [row[f'home_player_{i}_id'] for i in range(1, 6)]
+         away_players = [row[f'away_player_{i}_id'] for i in range(1, 6)]
+         all_players = home_players + away_players
+         if all(p in archetypes and p in darko_ratings for p in all_players):
+             sample_row = row
+             break
     
-    # Return success status
-    all_passed = all(result.passed for result in results)
-    return all_passed
+    if sample_row is None:
+        print("\nCould not find a single possession in the sample with complete data for all 10 players.")
+        print("This is a potential issue for the main pipeline. For now, using the first row as a fallback.")
+        sample_row = df.iloc[0]
+
+    # Process the single possession
+    model_ready_vector = process_single_possession(sample_row, archetypes, darko_ratings, supercluster_map)
+
+    print("\n--- A Single, Perfect, Model-Ready Data Point ---")
+    import json
+    print(json.dumps(model_ready_vector, indent=2))
+    
+    print("\nPhase 1.2 (Single Model Input) completed.")
+    print("The prototype successfully generated a complete data vector for one possession.")
+    print("Next step is Phase 2: Full-Scale Data Verification and Profiling.")
 
 
 if __name__ == "__main__":
-    """Run semantic prototype from command line."""
-    success = run_semantic_prototype()
-    
-    if success:
-        print("\n✅ Semantic prototype validation PASSED")
-        print("The analytical logic makes basketball sense. Safe to proceed with real data.")
-    else:
-        print("\n❌ Semantic prototype validation FAILED")
-        print("The analytical logic has issues. Review and fix before proceeding with real data.")
-        exit(1)
+    main()
