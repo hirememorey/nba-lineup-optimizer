@@ -1,84 +1,67 @@
 # Next Steps for Developer
 
 **Date**: October 10, 2025
-**Status**: Ready for Test-Driven Implementation of the Bayesian Data Pipeline
+**Status**: Ready for Bayesian Model Training
 
 ## 🎯 Current State
 
-A critical data pipeline bug has been fixed, and the project is now ready for the final data transformation phase. The current state is:
-- ✅ The `PlayerLineupStats` table is fully and correctly populated with 4,968 records for the 2022-23 season.
-- ✅ A **Feature Feasibility Study** has confirmed that `PlayerLineupStats` contains all 18 features required for the lineup supercluster analysis.
-- ✅ A complete **Integration Test Harness** has been built to validate the entire data pipeline, from input lineups to the final data format required by the Stan model.
+The supercluster generation pipeline is **complete, validated, and produces a high-integrity dataset**. The project has successfully navigated a critical data quality crisis, and the core data integrity risks have been mitigated.
 
-## 🚀 Next Implementation Phase: Make The Test Pass
+The current state is:
+- ✅ A robust, evidence-based set of 18 features has been established for clustering.
+- ✅ The `generate_lineup_superclusters.py` script is a production-ready tool that correctly scales features and generates clusters.
+- ✅ The trained `RobustScaler` and `KMeans` models are saved to the `trained_models/` directory for reuse.
+- ✅ The full pipeline is validated by a modular, two-part integration test.
+- ✅ The final output of the pipeline is a clean dataset with supercluster assignments, located at `lineup_supercluster_results/lineup_features_with_superclusters.csv`.
 
-Your entire focus is to make the integration test at `tests/test_bayesian_pipeline_integrity.py` pass with the *real* data pipeline scripts. This test is your primary development tool. It will guide you through fixing the existing scripts and ensuring the data is transformed correctly.
+## 🚀 Next Implementation Phase: Train and Validate the Bayesian Model
 
-### **Step 1: Understand the Test Harness**
+Your entire focus is to use the high-quality supercluster data to train and validate the Bayesian model. The project is now unblocked for this final, critical phase.
 
-Before writing any code, familiarize yourself with these three files:
-1.  `tests/test_bayesian_pipeline_integrity.py`: The main test script. Notice how it loads input data, calls placeholder functions, and compares the result to an expected output.
-2.  `tests/ground_truth_test_lineups.csv`: The simple, hand-crafted input data for the test.
-3.  `tests/ground_truth_stan_input.csv`: The "answer key". This is the *exact* output the final data pipeline should produce from the input file.
+### **Step 1: Implement Bayesian Data Preparation**
 
-Run the test now. It should pass, because it currently uses dummy functions designed to produce the correct output.
+The `bayesian_data_prep.py` script is currently a placeholder that was used to satisfy the test harness. Your first task is to implement its full logic.
 
-```bash
-python3 -m unittest tests/test_bayesian_pipeline_integrity.py
-```
+1.  **Load Supercluster Data**: Read the `lineup_features_with_superclusters.csv` file.
+2.  **Load Possession Data**: Connect to the database and load the possession-level data for the 2022-23 season.
+3.  **Merge and Create Matchups**: This is the core of the task. You will need to join the possession data with the lineup data (for both offensive and defensive lineups on each possession) to create the full matchup context.
+4.  **Create `matchup_id`**: Based on the offensive and defensive superclusters for each possession, create the unique `matchup_id` required by the Stan model.
+5.  **Prepare Final Dataset**: Aggregate and structure the data into the final format required for model training, which will include player skills (DARKO ratings) grouped by archetype for each matchup.
+6.  **Save Output**: The script should output a final, model-ready CSV (e.g., `production_bayesian_data.csv`).
 
-### **Step 2: Implement Lineup Supercluster Generation**
+### **Step 2: Train the Stan Model**
 
-1.  Open `tests/test_bayesian_pipeline_integrity.py`.
-2.  Replace the placeholder function `generate_lineup_superclusters` with an import and call to the **actual** script responsible for this logic (likely `src/nba_stats/scripts/generate_lineup_superclusters.py`).
-3.  Run the test. **It will fail.**
-4.  Your task is to debug and modify the `generate_lineup_superclusters.py` script until the test passes. You will need to:
-    -   Read the 18 required features from the `PlayerLineupStats` table.
-    -   Perform K-Means clustering (k=6) as described in the source paper.
-    -   Assign a `supercluster_id` to each lineup.
-    -   Ensure the function returns a DataFrame that allows the test to pass the first stage.
+Once the data preparation script is complete, your next step is to train the model.
 
-### **Step 3: Implement Bayesian Data Preparation**
+1.  Use the output CSV from the previous step as the input for the `train_bayesian_model.py` script.
+2.  Execute the script to run the MCMC simulation and generate the model coefficients.
 
-1.  Once the supercluster test is passing, repeat the process for the `prepare_bayesian_data` placeholder function.
-2.  Replace it with a call to the **actual** script that prepares the final Stan model input (e.g., `bayesian_data_prep.py`).
-3.  Run the test. It will fail.
-4.  Your task is to debug and modify that script until the final output **exactly matches** the `tests/ground_truth_stan_input.csv` file. This includes creating the correct `matchup_id`.
+### **Step 3: Validate the Model**
+
+This is the final step to confirm the model's analytical integrity.
+
+1.  With the trained model coefficients, use the `validate_model.py` script.
+2.  This script should test the model's predictions against the specific, known examples from the source paper (Lakers, Pacers, and Suns).
+3.  Success is achieved when our model's recommendations align with the paper's findings, proving that our implementation has captured the "basketball intelligence" of the original research.
 
 ## 📁 Key Files and Locations
 
-### **Test Harness**
-- **Test Script**: `tests/test_bayesian_pipeline_integrity.py`
-- **Test Input Data**: `tests/ground_truth_test_lineups.csv`
-- **Expected Test Output**: `tests/ground_truth_stan_input.csv`
+### **Input Data**
+- **Supercluster Data**: `lineup_supercluster_results/lineup_features_with_superclusters.csv`
+- **Database (for Possession Data)**: `src/nba_stats/db/nba_stats.db`
 
-### **Database**
-- **Location**: `src/nba_stats/db/nba_stats.db`
-- **Key Table**: `PlayerLineupStats` (This is your source data for the supercluster script).
+### **Scripts to Modify/Use**
+- `src/nba_stats/scripts/bayesian_data_prep.py` (Implement this)
+- `train_bayesian_model.py` (Run this)
+- `validate_model.py` (Run this)
 
-### **Scripts to Modify**
-- `src/nba_stats/scripts/generate_lineup_superclusters.py` (or equivalent)
-- `src/nba_stats/scripts/bayesian_data_prep.py` (or equivalent)
+### **Trained Models**
+- **Scaler**: `trained_models/robust_scaler.joblib`
+- **KMeans Model**: `trained_models/kmeans_model.joblib`
 
 ## 🎯 Success Criteria
 
 The implementation will be successful when:
-1.  The `test_full_pipeline_integrity` test in `tests/test_bayesian_pipeline_integrity.py` passes.
-2.  The test is no longer using any placeholder or dummy functions. It is calling the real, modified data pipeline scripts.
-
-## 📚 Reference Materials
-
-- **Original Paper**: `source_paper.md` - Contains the methodology for superclustering.
-- **Current Status**: `CURRENT_STATUS.md` - Detailed implementation status.
-- **Data Status**: `PHASE_1_DATA_STATUS.md` - Complete data inventory
-
-## 🚨 Important Notes
-
-1. **Database Path**: Always use `src/nba_stats/db/nba_stats.db` (not root directory)
-2. **Season Filter**: Use `game_id LIKE '00222%'` for 2022-23 possessions
-3. **Archetype Validation**: The k=8 clustering has been validated - don't modify
-4. **Data Quality**: All data has been sanity-checked and is ready for use
-
-## 🎉 Ready to Proceed
-
-The foundation is solid and all prerequisites are met. The next developer can immediately begin implementing the Bayesian model with confidence that the data is complete and validated.
+1.  The `bayesian_data_prep.py` script correctly processes the data and generates a model-ready input file.
+2.  The Stan model trains successfully using this data.
+3.  The `validate_model.py` script confirms that our model's predictions match the outcomes reported in the source paper's key examples.

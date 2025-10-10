@@ -5,17 +5,48 @@ import sqlite3
 from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
 import time
 import random
+import re
 
-def _to_snake_case(text: str) -> str:
-    """Converts a string from CamelCase to snake_case."""
-    if not text:
+def _to_snake_case(name: str) -> str:
+    """Converts a string from CamelCase or SCREAMING_SNAKE_CASE to snake_case."""
+    if not name:
         return ""
-    s = text[0].lower()
-    for char in text[1:]:
-        if char.isupper():
-            s += '_'
-        s += char.lower()
-    return s.replace('__', '_')
+    # This handles cases like 'PlayerID' -> 'player_id' and 'GROUP_ID' -> 'group_id'
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    # This handles cases like 'W_PCT' -> 'w_pct' by replacing the underscore
+    s2 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1)
+    return s2.lower()
+
+def _schema_reconnaissance(client, season: str):
+    """
+    A temporary function to perform schema reconnaissance on all measure types.
+    It fetches the first page of data for each measure type and prints the headers.
+    This helps identify any inconsistencies in the API response schemas upfront.
+    """
+    logger.info("--- Starting Schema Reconnaissance ---")
+    measure_types = ["Base", "Advanced", "Misc", "Four Factors", "Scoring"]
+    
+    for measure in measure_types:
+        logger.info(f"Fetching headers for {measure} lineup stats...")
+        try:
+            # Fetching data without date filters as per previous findings
+            data = client.get_lineup_stats(
+                season=season, 
+                measure_type=measure
+            )
+            
+            if not data or "resultSets" not in data or not data["resultSets"]:
+                logger.warning(f"No data returned for measure type: {measure}")
+                continue
+
+            result_set = data["resultSets"][0]
+            headers = result_set["headers"]
+            logger.info(f"Headers for '{measure}': {headers}")
+
+        except Exception as e:
+            logger.error(f"Error fetching headers for {measure}: {e}", exc_info=True)
+    logger.info("--- Schema Reconnaissance Complete ---")
+
 
 def _fetch_and_aggregate_lineup_stats(client, season: str) -> dict:
     """Fetches all lineup stat types and aggregates them by lineup group ID."""
@@ -33,11 +64,10 @@ def _fetch_and_aggregate_lineup_stats(client, season: str) -> dict:
     for measure in measure_types:
         logger.info(f"Fetching {measure} lineup stats for {season} season.")
         try:
+            # The API call was failing with date parameters. Removing them as a fix.
             data = client.get_lineup_stats(
                 season=season, 
-                measure_type=measure,
-                date_from=date_from,
-                date_to=date_to
+                measure_type=measure
             )
 
             if measure == "Base":
@@ -116,6 +146,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Populate lineup stats for a given season.")
     parser.add_argument("--season", type=str, default=settings.SEASON_ID, help="The season to populate data for (e.g., '2023-24').")
+    parser.add_argument("--recon", action="store_true", help="Run schema reconnaissance and exit.")
     args = parser.parse_args()
     
-    populate_lineup_stats(season_to_load=args.season) 
+    if args.recon:
+        client = get_nba_stats_client()
+        _schema_reconnaissance(client, season=args.season)
+    else:
+        populate_lineup_stats(season_to_load=args.season) 
