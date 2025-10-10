@@ -1,90 +1,59 @@
-# NBA Data Pipeline Architecture
+# NBA Lineup Optimizer: Architecture and Principles
 
-## Overview
+This document describes the high-level architecture of the NBA Lineup Optimizer and the core principles that guide its development. These principles are based on hard-won experience and are critical for any developer working on this project.
 
-This document describes the NBA data pipeline architecture, which has been designed and refined based on first-principles reasoning and critical insights from post-mortem analyses of past failures. The architecture is built to handle the complexities and unreliability of the unofficial NBA Stats API and to ensure a high degree of data integrity.
+---
 
-## Core Architectural Principles
+## 1. Guiding Principles
 
-The system is built on a set of core principles learned from hard-won experience during the project's development.
+### 1.1. Validation-First Approach
+The most critical principle is to validate our work against a known ground truth before scaling to new data or more complex models.
 
-### 1. Evidence-Driven Development & Data Archaeology
+*   **Implementation**: The entire project is oriented around reproducing the exact methodology and results from the source research paper ("Algorithmic NBA Player Acquisition"). The paper's 2022-23 dataset and its specific examples (Lakers, Pacers, Suns) are treated as the absolute ground truth. Only after this validation is successful will the methodology be applied to more current data.
 
-*   **Principle**: Assume documentation is outdated and build based on the ground truth of the data. The project's history is filled with instances where the documented schema or API behavior did not match reality.
-*   **Implementation**: Before writing code, the actual database schema was discovered using `sqlite3` commands and API responses were inspected manually. This "data archaeology" informed the creation of an anti-corruption layer (`db_mapping.py`) to handle discrepancies between the expected and actual data structures.
+### 1.2. Prototype, Verify, Harden
+For complex tasks like the Bayesian model implementation, we follow a staged approach to de-risk development.
 
-### 2. Validation-First & Contract Enforcement
-
-*   **Principle**: Human trust is a product, not a process. To ensure the reliability of the model, a structured and robust validation process is essential. Furthermore, the contracts between different parts of the system must be automatically enforced to prevent drift.
 *   **Implementation**:
-    *   **Model Governance Dashboard**: A dedicated Streamlit application for the structured, human-in-the-loop validation of model coefficients. It was built *first* to ensure a trusted path to production for the model.
-    *   **Semantic Prototyping**: A fast validation script (`semantic_prototype.py`) runs in 60 seconds (vs. 18 hours for the full model) to check that the analytical logic is sound.
-    *   **Continuous Schema Validation**: A `LiveSchemaValidator` checks for data drift at runtime against a set of expectations defined in `schema_expectations.yml`.
+    1.  **Prototype**: Solve the highest-risk data transformations and logic on a small, isolated scale (`semantic_prototype.py`).
+    2.  **Verify**: Apply the prototype logic to the full dataset to identify all data quality issues and statistical pathologies at scale (`verify_semantic_data.py`).
+    3.  **Harden**: Build the final, robust pipeline or script (`bayesian_data_prep.py`) with explicit logic to handle the issues discovered during verification.
 
-### 3. The "Sacred Schema" and Resumability
+### 1.3. Trace the Full Data Lifecycle
+Instead of assuming scripts work based on their names, we adopt a forensic approach to trace the data's journey from source to destination, auditing the inputs and outputs at each step to find the exact point of failure.
 
-*   **Principle**: A data pipeline's integrity relies on a single source of truth for its schema, and any long-running I/O process is guaranteed to fail.
-*   **Implementation**:
-    *   The authoritative database schema is defined **exclusively** in database migration scripts. Application-level code never defines or alters the schema.
-    *   Long-running scripts like `populate_possessions.py` are **resumable and idempotent**. They query the database first to see what work has already been completed and process only the missing data.
+### 1.4. Evidence-Driven Development (Data Archaeology)
+We assume documentation and schemas can be outdated. Before writing code that depends on a data source, we inspect the raw data directly (e.g., via `sqlite3` or by inspecting API responses with `curl`) to discover its true structure.
 
-### 4. Defensive Programming & Single Source of Truth
+---
 
-*   **Principle**: The system must be architecturally incapable of processing incomplete player data, and all tools must use the same core logic to prevent inconsistencies.
-*   **Implementation**:
-    *   The `ModelEvaluator` library is the **single source of truth** for all lineup analysis.
-    *   It operates on a "blessed" set of players with complete data, refusing to process any player with incomplete information. This converts a data quality problem into a clear, manageable error.
+## 2. System Architecture
 
-### 4.1. Model Integration Architecture ✅ **NEW**
+The project is a modular Python application built around a core analytical engine.
 
-*   **Principle**: Model integration must be independent and non-disruptive to prevent coupling issues between different model implementations.
-*   **Implementation**:
-    *   The `SimpleModelEvaluator` is completely independent from the original `ModelEvaluator` to avoid any coupling issues.
-    *   Both evaluators implement the same interface, allowing for seamless comparison and validation.
-    *   The `Model Comparison Dashboard` provides side-by-side validation to ensure both systems work correctly.
+### 2.1. Core Components
+*   **Data Pipeline (`master_data_pipeline.py`)**: A collection of scripts responsible for fetching raw data from various sources (NBA Stats API, Kaggle, etc.) and populating a local SQLite database. The pipeline is designed to be resumable and idempotent.
+*   **Database (`src/nba_stats/db/nba_stats.db`)**: A SQLite database that serves as the single source of truth for all raw and processed data, including player stats, possession data, and archetype features.
+*   **Analytical Engine (Bayesian Model)**: A series of scripts that implement the core methodology from the source paper. This includes:
+    *   `src/nba_stats/scripts/bayesian_data_prep.py`: Prepares the final model-ready dataset, streaming `Possessions`, aggregating DARKO by archetype, assigning superclusters from archetype lineups, and writing `production_bayesian_data.csv` + `stratified_sample_10k.csv`.
+    *   `bayesian_model_k8.stan`: A Stan file defining the statistical model.
+    *   `bayesian_model_prototype.py`: A script for quickly testing the model on a sample.
+*   **User Interfaces**:
+    *   `fan_friendly_dashboard.py`: A Streamlit application for non-technical users.
+    *   `production_dashboard.py`: A full-featured Streamlit application for developers and administrators, including authentication and monitoring.
 
-### 5. Sparsity-Aware Design
+### 2.2. Data Flow
+1.  **Ingestion**: The `master_data_pipeline.py` and other `populate_*.py` scripts fetch data and store it in the `nba_stats.db`.
+2.  **Preparation**: For the Bayesian model, `src/nba_stats/scripts/bayesian_data_prep.py` reads from the database, performs transformations (Z aggregation by archetype, matchup_id construction), and outputs `production_bayesian_data.csv` and `stratified_sample_10k.csv`.
+3.  **Modeling**: The Stan model is trained on the prepared CSV to produce coefficients.
+4.  **Presentation**: The dashboards read from the database and use the model's outputs to provide analysis to the user.
 
-*   **Principle**: Not all data will be available for all players. The system must be built for missing data from the start, rather than trying to achieve 100% coverage for every metric.
-*   **Implementation**: Optional enhancement data, like wingspan (which is only available for draft combine attendees), is stored in separate tables with nullable fields (e.g., `PlayerAnthroStats`). This allows the core analysis to proceed without being blocked by sparse, non-essential data.
+---
 
-### 6. Verification at the Right Level of Abstraction
+## 3. Core Concepts (from the Source Paper)
 
-*   **Principle**: The most critical lesson learned was to **always verify the final output table used for analysis**, not just the intermediate source tables.
-*   **Implementation**: The verification process now includes checks on the final `PlayerArchetypeFeatures` table to ensure that data has not only been fetched but has also been correctly transformed and loaded into its final destination. Automated data quality gates and end-to-end pipeline tests are now part of the process.
+The model is built on the premise that a player's value is deeply contextual, depending on their role and how it interacts with teammates and opponents.
 
-## Key Architectural Components
-
-### 1. Enhanced API Client & Pipeline Robustness
-
-To handle the unreliable nature of the NBA Stats API, the pipeline includes several layers of protection:
-
-*   **Cache-First Development**: A `warm_cache.py` script populates a local cache, allowing development to occur against static, reliable data, decoupling it from the live API.
-*   **Silent Failure Detection**: A "Post-Fetch Assertion Layer" in the API client detects when the API returns a `200 OK` status with an empty data set, converting a silent failure into a loud, retryable error.
-*   **Intelligent Retry Logic**: The `tenacity` library is used to implement exponential backoff for API requests, only retrying on appropriate, transient error conditions.
-*   **Data Integrity Protection**: Pydantic models (`response_models.py`) are used to validate the structure, types, and ranges of all API responses at the system's boundaries, preventing corrupted data from entering the pipeline.
-
-### 2. The ModelEvaluator Core Library
-
-The `ModelEvaluator` is the heart of the analysis system, providing a robust and validated foundation for all tools.
-
-*   **Single Source of Truth**: All tools, including the validation suite, player acquisition tool, and interactive dashboard, use this same library.
-*   **Defensive Data Loading**: It only loads the 270 "blessed" players who have complete skill and archetype data, raising an `IncompletePlayerError` if any player in a lineup is not part of this set.
-*   **Comprehensive Validation**: The library itself is validated by a suite of 16 technical tests (100% coverage) and 7 basketball intelligence tests (85.7% pass rate).
-
-### 3. Possession-Level Modeling System
-
-This system implements the core methodology from the research paper.
-
-*   **Anti-Corruption Layers**: It includes a `db_mapping.py` layer to handle schema inconsistencies and the `LiveSchemaValidator` to prevent data drift.
-*   **Semantic Prototyping**: Allows for rapid validation of the analytical logic before running the full, computationally expensive Bayesian model.
-*   **Data Reality**: It was built based on a thorough "data archaeology" process to discover the true state of the database, which led to the discovery of 574,357 possessions with complete lineup data.
-
-### 3.1. Model Evaluator Architecture ✅ **NEW**
-
-The system now includes two independent model evaluators for maximum flexibility and validation:
-
-*   **Original ModelEvaluator**: The existing evaluator with placeholder coefficients and simplified calculations.
-*   **SimpleModelEvaluator**: A new independent evaluator that uses the 7-parameter production model coefficients.
-*   **Model Comparison Framework**: Side-by-side validation tools to ensure both systems work correctly.
-*   **Interface Compatibility**: Both evaluators implement the same interface for seamless integration with existing tools.
+*   **Player Archetypes (k=8)**: Players are clustered into one of eight archetypes (e.g., "Scoring Wing," "Defensive Minded Guard") based on 48 canonical metrics that describe their style of play.
+*   **Lineup Superclusters**: Five-player lineups are themselves clustered into groups based on their collective play style (e.g., "Three-Point Symphony," "Slashing Offenses"). This is a critical component that is currently implemented as a placeholder.
+*   **Bayesian Possession-Level Modeling**: The core of the project. A Bayesian regression model estimates the outcome of a single possession based on the matchup between the offensive and defensive superclusters and the aggregated skill (DARKO ratings) of the players in each archetype.

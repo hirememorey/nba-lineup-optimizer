@@ -27,8 +27,11 @@ This project's documentation is curated to provide a clear path for any contribu
 ## Current Status (High-Level)
 
 **Date**: October 10, 2025
-**Status**: 🚀 **SUPERCLUSTER PIPELINE VALIDATED & BUILT** - Data Foundation Rebuilt.
+**Status**: ✅ **BAYESIAN DATA PREP COMPLETE; READY TO TRAIN**
 
-A critical data quality disaster in the `PlayerLineupStats` table has been identified and fixed through a rigorous, "profile-first" data archaeology approach. The project now has a robust, validated pipeline for generating lineup superclusters.
+We completed hardened Bayesian data preparation and produced training files:
+- `production_bayesian_data.csv` (627,969 rows)
+- `stratified_sample_10k.csv`
+- Supercluster artifacts (`robust_scaler.joblib`, `kmeans_model.joblib`, CSV) regenerated with a dynamic feature fallback due to missing advanced lineup fields; optional upgrade is to repopulate advanced lineup metrics and regenerate.
 
-**Next Phase**: The immediate priority is to train the Bayesian model using the high-integrity data produced by the new pipeline. For a detailed breakdown, please see **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)**. 
+**Next Phase**: Train the Bayesian Stan model and validate against the paper’s examples. See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for details and next steps.
