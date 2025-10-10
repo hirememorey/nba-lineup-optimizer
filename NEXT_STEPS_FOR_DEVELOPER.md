@@ -1,88 +1,75 @@
 # Next Steps for Developer
 
-**Date**: October 9, 2025  
-**Status**: Ready for Bayesian Model Implementation
+**Date**: October 10, 2025
+**Status**: Ready for Test-Driven Implementation of the Bayesian Data Pipeline
 
 ## 🎯 Current State
 
-All data collection is complete and validated. The system has:
-- ✅ **574,404 possessions** from 2022-23 season
-- ✅ **k=8 archetype clustering** completed and validated
-- ✅ **Complete player coverage** with DARKO ratings and salary data
-- ✅ **Data quality verified** through comprehensive sanity checks
+A critical data pipeline bug has been fixed, and the project is now ready for the final data transformation phase. The current state is:
+- ✅ The `PlayerLineupStats` table is fully and correctly populated with 4,968 records for the 2022-23 season.
+- ✅ A **Feature Feasibility Study** has confirmed that `PlayerLineupStats` contains all 18 features required for the lineup supercluster analysis.
+- ✅ A complete **Integration Test Harness** has been built to validate the entire data pipeline, from input lineups to the final data format required by the Stan model.
 
-## 🚀 Next Implementation Phase
+## 🚀 Next Implementation Phase: Make The Test Pass
 
-### **Phase 2: Bayesian Model Implementation**
+Your entire focus is to make the integration test at `tests/test_bayesian_pipeline_integrity.py` pass with the *real* data pipeline scripts. This test is your primary development tool. It will guide you through fixing the existing scripts and ensuring the data is transformed correctly.
 
-The next developer should focus on implementing the Bayesian model from the original paper (Equation 2.5). Here's the step-by-step plan:
+### **Step 1: Understand the Test Harness**
 
-#### **Step 1: Data Preparation Script**
-Create a script that:
-1. Loads possession data from `Possessions` table (filter for 2022-23: `game_id LIKE '00222%'`)
-2. Joins with archetype assignments from `player_archetypes_k8_2022_23.csv`
-3. Joins with DARKO ratings from `PlayerSeasonSkill` table
-4. Creates matchup combinations (offensive vs defensive archetype lineups)
-5. Aggregates skill ratings by archetype for each possession
+Before writing any code, familiarize yourself with these three files:
+1.  `tests/test_bayesian_pipeline_integrity.py`: The main test script. Notice how it loads input data, calls placeholder functions, and compares the result to an expected output.
+2.  `tests/ground_truth_test_lineups.csv`: The simple, hand-crafted input data for the test.
+3.  `tests/ground_truth_stan_input.csv`: The "answer key". This is the *exact* output the final data pipeline should produce from the input file.
 
-#### **Step 2: Stan Model Implementation**
-1. Inspect existing `bayesian_model.stan` file
-2. Modify to match Equation 2.5 from the paper
-3. Implement positive constraints on beta coefficients
-4. Set up MCMC sampling (10,000 iterations)
+Run the test now. It should pass, because it currently uses dummy functions designed to produce the correct output.
 
-#### **Step 3: Model Execution**
-1. Create Python script to prepare data and run Stan model
-2. Monitor convergence (R-hat < 1.1)
-3. Save model coefficients and results
+```bash
+python3 -m unittest tests/test_bayesian_pipeline_integrity.py
+```
 
-#### **Step 4: Validation**
-Test against paper examples:
-- Lakers: LeBron + 3&D vs LeBron + ball handlers
-- Pacers: Defensive needs over positional needs  
-- Suns: Defensive bigs vs offensive bigs
+### **Step 2: Implement Lineup Supercluster Generation**
+
+1.  Open `tests/test_bayesian_pipeline_integrity.py`.
+2.  Replace the placeholder function `generate_lineup_superclusters` with an import and call to the **actual** script responsible for this logic (likely `src/nba_stats/scripts/generate_lineup_superclusters.py`).
+3.  Run the test. **It will fail.**
+4.  Your task is to debug and modify the `generate_lineup_superclusters.py` script until the test passes. You will need to:
+    -   Read the 18 required features from the `PlayerLineupStats` table.
+    -   Perform K-Means clustering (k=6) as described in the source paper.
+    -   Assign a `supercluster_id` to each lineup.
+    -   Ensure the function returns a DataFrame that allows the test to pass the first stage.
+
+### **Step 3: Implement Bayesian Data Preparation**
+
+1.  Once the supercluster test is passing, repeat the process for the `prepare_bayesian_data` placeholder function.
+2.  Replace it with a call to the **actual** script that prepares the final Stan model input (e.g., `bayesian_data_prep.py`).
+3.  Run the test. It will fail.
+4.  Your task is to debug and modify that script until the final output **exactly matches** the `tests/ground_truth_stan_input.csv` file. This includes creating the correct `matchup_id`.
 
 ## 📁 Key Files and Locations
 
+### **Test Harness**
+- **Test Script**: `tests/test_bayesian_pipeline_integrity.py`
+- **Test Input Data**: `tests/ground_truth_test_lineups.csv`
+- **Expected Test Output**: `tests/ground_truth_stan_input.csv`
+
 ### **Database**
 - **Location**: `src/nba_stats/db/nba_stats.db`
-- **Key Tables**: `Possessions`, `PlayerArchetypeFeatures_2022_23`, `PlayerSeasonSkill`
+- **Key Table**: `PlayerLineupStats` (This is your source data for the supercluster script).
 
-### **Data Files**
-- **Archetypes**: `player_archetypes_k8_2022_23.csv`
-- **Stan Model**: `bayesian_model.stan` (needs modification)
-
-### **Scripts Created**
-- `populate_games.py` - Game data collection
-- `create_archetypes.py` - k=8 clustering
-- `analyze_archetypes.py` - Archetype validation
-
-## 🔧 Technical Details
-
-### **Data Schema**
-- **Possessions**: 574,404 records with complete lineup data
-- **Archetypes**: 8 clusters (0-7) validated against paper examples
-- **DARKO Ratings**: Offensive/defensive skills for 549 players
-- **Player Features**: 40/47 canonical metrics (97.6% success rate)
-
-### **Validation Results**
-- LeBron James correctly classified as "Offensive Juggernaut" (Archetype 4)
-- Nikola Jokic correctly classified as "Interior Big" (Archetype 2)
-- Russell Westbrook correctly classified as "Ball-Dominant Guard" (Archetype 6)
-- 3&D players correctly identified in Archetype 7
+### **Scripts to Modify**
+- `src/nba_stats/scripts/generate_lineup_superclusters.py` (or equivalent)
+- `src/nba_stats/scripts/bayesian_data_prep.py` (or equivalent)
 
 ## 🎯 Success Criteria
 
 The implementation will be successful when:
-1. **Data Preparation**: All possessions properly joined with archetypes and DARKO ratings
-2. **Stan Model**: Successfully runs with R-hat < 1.1 convergence
-3. **Validation**: Model produces results consistent with paper examples
-4. **Performance**: Model runs in reasonable time (< 24 hours)
+1.  The `test_full_pipeline_integrity` test in `tests/test_bayesian_pipeline_integrity.py` passes.
+2.  The test is no longer using any placeholder or dummy functions. It is calling the real, modified data pipeline scripts.
 
 ## 📚 Reference Materials
 
-- **Original Paper**: `source_paper.md` - Contains Equation 2.5 and methodology
-- **Current Status**: `CURRENT_STATUS.md` - Detailed implementation status
+- **Original Paper**: `source_paper.md` - Contains the methodology for superclustering.
+- **Current Status**: `CURRENT_STATUS.md` - Detailed implementation status.
 - **Data Status**: `PHASE_1_DATA_STATUS.md` - Complete data inventory
 
 ## 🚨 Important Notes

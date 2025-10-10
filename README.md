@@ -27,8 +27,8 @@ This project's documentation is curated to provide a clear path for any contribu
 ## Current Status (High-Level)
 
 **Date**: October 10, 2025
-**Status**: 🚀 **BAYESIAN MODEL IMPLEMENTATION** - Data Prep & Prototyping Complete
+**Status**: 🚀 **BAYESIAN MODEL IMPLEMENTATION** - Core Data Pipeline Repaired. Test Harness Built.
 
-The project has successfully completed its data collection and foundational modeling phases. The core logic for the Bayesian model has been prototyped and validated, de-risking the most complex parts of the project.
+A critical, silent bug in the core data pipeline has been fixed, and the `PlayerLineupStats` table is now correctly populated. We have pivoted to a test-driven approach for the final modeling phase to ensure data integrity.
 
-**Next Phase**: The immediate priorities are to implement the lineup supercluster mapping and build the final validation harness before training the full model. For a detailed breakdown, please see **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)**. 
+**Next Phase**: The immediate priority is to use the newly built integration test harness to drive the implementation of the lineup supercluster and Bayesian data preparation scripts. For a detailed breakdown, please see **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)**. 

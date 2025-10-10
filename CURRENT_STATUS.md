@@ -1,52 +1,67 @@
 # NBA Lineup Optimizer - Current Status
 
 **Date**: October 10, 2025
-**Status**: 🚀 **BAYESIAN MODEL IMPLEMENTATION** - Data Prep & Prototyping Complete
+**Status**: 🚀 **BAYESIAN MODEL IMPLEMENTATION** - Core Data Pipeline Repaired. Test Harness Built.
 
 ## Executive Summary
 
-**🚀 MAJOR BREAKTHROUGH: MODEL PROTOTYPE VALIDATED** - The foundational data preparation and statistical prototyping for the Bayesian model are complete. Using a "Prototype, Verify, Harden" methodology, we have successfully de-risked the most complex parts of the implementation. The project is now positioned to train the full model.
+**🚀 MAJOR BREAKTHROUGH: DATA PIPELINE VALIDATED & TEST HARNESS BUILT** - A critical, non-obvious bug in the `populate_lineup_stats.py` script has been identified and fixed, and the `PlayerLineupStats` table is now fully and correctly populated with 2022-23 season data. Furthermore, a "Feature Feasibility Study" has confirmed 100% of the required features for lineup superclustering are present.
+
+To prevent future data corruption, we have pivoted to a **test-driven development approach**. A full integration test harness (`tests/test_bayesian_pipeline_integrity.py`) has been built. This harness uses a hand-crafted micro-dataset and a corresponding "answer key" to validate the entire data transformation pipeline, from raw lineups to the final Stan model input.
 
 **Critical Achievements**:
-- ✅ **Data Pipeline Built**: A hardened script (`bayesian_data_prep.py`) now generates a clean, model-ready dataset (`possessions_k8_prepared.csv`) from the raw possession data.
-- ✅ **Statistical Profiled**: Full-scale verification (`verify_semantic_data.py`) has given us a clear picture of data completeness and statistical properties.
-- ✅ **Model Logic Validated**: A prototype Stan model (`bayesian_model_prototype.py`) successfully converges on a sample of the data, validating our core statistical approach.
-- ✅ **All Foundational Scripts Created**: `semantic_prototype.py`, `verify_semantic_data.py`, `bayesian_data_prep.py`, `bayesian_model_k8.stan`, and `bayesian_model_prototype.py` are complete.
+- ✅ **`populate_lineup_stats.py` Repaired**: A subtle bug in the `_to_snake_case` utility that caused silent data insertion failures has been fixed and validated with unit tests.
+- ✅ **`PlayerLineupStats` Populated**: The table now contains 4,968 records of complete lineup data for the 2022-23 season.
+- ✅ **Feature Feasibility Confirmed**: All 18 required features for superclustering are confirmed to exist in the populated table.
+- ✅ **Integration Test Harness Built**: `tests/test_bayesian_pipeline_integrity.py`, along with ground-truth data, provides a robust framework for validating the next implementation phase.
 
-**Next Phase**: Implement the lineup supercluster mapping, build the validation harness, and scale up the Stan model to train on the full dataset.
+**Next Phase**: Incrementally implement the lineup supercluster and Bayesian data preparation scripts, using the new integration test harness to drive development and ensure correctness at every step.
 
 ## 🚀 Current Implementation Status
 
-### ✅ **Phase 1: Data Collection - COMPLETE**
+### ✅ **Phase 0: Data Lineage & Feasibility - COMPLETE**
 
-**Data Components Successfully Collected:**
-- **Possession Data**: 574,404 possessions from 1,230 games (2022-23 season)
-- **Player Archetypes**: k=8 clustering with 540 player assignments
-- **DARKO Ratings**: 549 players with offensive/defensive skill ratings
-- **Salary Data**: 459 players with 2022-23 salary information
-- **Player Features**: 539 players with 40/47 canonical metrics (97.6% success rate)
+**Objective**: Repair the foundational data pipeline and de-risk the supercluster implementation.
 
-**Data Quality Verification:**
-- ✅ All possessions have complete lineup data (10 players per possession)
-- ✅ 1,245 unique players appear in possession data
-- ✅ Archetype assignments properly formatted and validated
-- ✅ Data integrity confirmed through comprehensive sanity checks
+**Tasks Completed:**
+- **`populate_lineup_stats.py` Debugging**:
+    - Identified and fixed a critical bug in the `_to_snake_case` header conversion function.
+    - Implemented a schema reconnaissance mode (`--recon`) to proactively identify API inconsistencies.
+    - Created and used a temporary unit test (`tests/test_utils.py`) to validate the fix in isolation.
+- **Data Population**:
+    - Successfully cleared and populated the `PlayerLineupStats` table for the `2022-23` season.
+    - Verified the final record count (4,968) to confirm a complete data load.
+- **Feature Feasibility Study**:
+    - Manually compared the 18 features required by the source paper against the schema of the populated `PlayerLineupStats` table.
+    - **Result**: Confirmed a 100% match. All necessary data is present.
 
-### 🎯 **Phase 2: Bayesian Model Implementation - IN PROGRESS**
+### 🎯 **Phase 1: Build Integration Test Harness - COMPLETE**
 
-**Current Task**: Foundational Data Prep and Prototyping COMPLETE. Ready to scale.
+**Objective**: Build a test-driven framework to prevent silent data corruption in the multi-step data transformation pipeline.
 
-**Methodology Used: "Prototype, Verify, Harden"**
-1.  **Prototype (`semantic_prototype.py`)**: Solved the highest-risk data transformations (like parsing possession outcomes) on a small scale.
-2.  **Verify (`verify_semantic_data.py`)**: Applied the prototype logic to the full dataset to identify all data quality issues (e.g., missing archetypes/DARKO ratings) and statistical pathologies *before* building the final pipeline.
-3.  **Harden (`bayesian_data_prep.py`)**: Built a robust data preparation script that explicitly handles the issues discovered during verification.
-4.  **Validate (`bayesian_model_prototype.py`)**: Proved the Stan model converges and produces sane results on a clean, stratified sample of the data.
+**Key Files Created**:
+- `tests/test_bayesian_pipeline_integrity.py`: The core integration test script. It loads a ground-truth input, runs it through the pipeline (currently using placeholder functions), and asserts the final output matches a pre-defined "answer key".
+- `tests/ground_truth_test_lineups.csv`: A hand-crafted micro-dataset of input lineups.
+- `tests/ground_truth_stan_input.csv`: A hand-crafted "answer key" representing the exact, correct output the pipeline should produce.
+
+**Current Status**: The test harness is **live and passing** using placeholder functions, confirming the test framework itself is sound.
+
+### ⏳ **Phase 2: Bayesian Model Implementation - IN PROGRESS**
+
+**Current Task**: Incrementally build the data processing pipeline using the test harness.
+
+**Methodology: "Make the Test Pass"**
+The next phase of development will be driven entirely by the integration test.
+1.  **Replace Dummy Functions**: One by one, the placeholder functions in `tests/test_bayesian_pipeline_integrity.py` will be replaced with calls to the *actual* data processing scripts.
+2.  **Run and Observe Failure**: The test will initially fail, highlighting the discrepancies between the script's output and the ground-truth "answer key".
+3.  **Debug and Refactor**: The script will be debugged and refactored specifically to make the test pass for the micro-dataset.
+4.  **Validate at Scale**: Only once the test is passing with the real script will that component be considered complete and ready for a full run.
 
 **Next Steps**:
-1.  **[PRIORITY]** Implement the real lineup supercluster mapping logic to replace the current placeholder.
-2.  Build the validation harness (`validate_model.py`) to test the final model's output against the paper's examples.
-3.  Create the final training script (`train_bayesian_model.py`) to scale the prototype to all matchups.
-4.  Run the full MCMC simulation and validate the results.
+1.  **[PRIORITY]** Implement `generate_lineup_superclusters.py` and integrate it into the test harness.
+2.  Implement `bayesian_data_prep.py` and integrate it into the test harness.
+3.  Build the validation harness (`validate_model.py`) to test the final model's output against the paper's examples.
+4.  Create the final training script (`train_bayesian_model.py`) to scale the prototype to all matchups.
 
 ### 📁 **Key Files Created**
 
