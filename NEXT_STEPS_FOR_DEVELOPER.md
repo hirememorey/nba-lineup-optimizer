@@ -1,11 +1,13 @@
 # Next Steps for Developer
 
 **Date**: October 10, 2025
-**Status**: Ready for Bayesian Model Training (Data Prep Complete)
+**Status**: 2022‑23 lineup stats repopulated; superclusters regenerated with fallback (awaiting scoring share fields)
 
 ## 🎯 Current State
 
-The supercluster generation pipeline has been regenerated after aligning column names. Due to missing advanced lineup fields in `PlayerLineupStats`, the generator automatically fell back to high‑coverage features (`w_pct`, `gp`, `w`, `l`, `min`) to ensure artifacts exist. Database sanity checks passed and Bayesian data prep has produced the model‑ready dataset.
+- Fixed `PlayerLineupStats` ingestion to union all fetched keys; re-populated 2022‑23 (4,968 rows).
+- Advanced fields now present: `off_rating`, `def_rating`, `ts_pct`, `pace`, `efg_pct`, `ast_pct`, `ast_to`, `oreb_pct`, `dreb_pct`, `reb_pct`, `tm_tov_pct`.
+- Still missing: `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` from insert column set; clustering fell back.
 
 The current state is:
 - ✅ Supercluster artifacts exist and are reproducible (`robust_scaler.joblib`, `kmeans_model.joblib`, `lineup_features_with_superclusters.csv`).
@@ -18,10 +20,12 @@ The current state is:
 
 Your entire focus is to use the prepared dataset to train and validate the Bayesian model. The project is unblocked for this final, critical phase.
 
-### **Step 1: Use Prepared Data**
+### **Step 1: Restore scoring share fields (recommended path)**
 
-1.  Confirm presence of `production_bayesian_data.csv` (627,969 rows) and `stratified_sample_10k.csv`.
-2.  If needed, regenerate superclusters only after restoring advanced lineup fields.
+1. Confirm the lineup Scoring measure headers (cache used): `src/nba_stats/.cache/643e51baf99fca47beec004f63212eb7.json`.
+2. Ensure `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` map to snake_case in aggregation (they should already); verify they appear across enough rows.
+3. Re-run lineup population for 2022‑23 and 2024‑25, check `nba_stats.log` for "Advanced present" and ensure the four pct_* fields are included.
+4. Re-run `generate_lineup_superclusters.py`; confirm validated 18 features are used without fallback.
 
 ### **Step 2: Train the Stan Model**
 
@@ -53,9 +57,8 @@ This is the final step to confirm the model's analytical integrity.
 - **Scaler**: `trained_models/robust_scaler.joblib`
 - **KMeans Model**: `trained_models/kmeans_model.joblib`
 
-### **Optional Quality Upgrade**
-- Repopulate advanced lineup/percentage fields in `PlayerLineupStats` (e.g., `off_rating`, `def_rating`, `ts_pct`, `pace`, `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt`, `pct_pts_fb`).
-- Rerun `generate_lineup_superclusters.py` to replace fallback features with richer signal.
+### **Alternate Path (if blocked on pct_*):**
+- Proceed with model training using fallback superclusters to unblock downstream validation, then backfill scoring shares and upgrade clustering.
 
 ## 🎯 Success Criteria
 
