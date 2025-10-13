@@ -48,6 +48,8 @@ The project is a modular Python application built around a core analytical engin
 3.  **Modeling**: The Stan model is trained on the prepared CSV to produce coefficients.
 4.  **Presentation**: The dashboards read from the database and use the model's outputs to provide analysis to the user.
 
+Note: Lineup ingestion now unions keys across all fetched measure types before insert, avoiding loss of advanced/percentage fields when the first record lacks them. If clustering falls back, verify coverage of scoring share fields (`pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt`).
+
 ---
 
 ## 3. Core Concepts (from the Source Paper)

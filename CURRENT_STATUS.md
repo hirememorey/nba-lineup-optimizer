@@ -5,7 +5,7 @@
 
 ## Executive Summary
 
-**Update** — We completed the hardened Bayesian data preparation and produced the model-ready dataset. Supercluster artifacts were regenerated after fixing column mappings; due to missing advanced lineup fields in `PlayerLineupStats`, the generator automatically fell back to high‑coverage features (e.g., `w_pct`, `gp`, `w`, `l`, `min`) to ensure end‑to‑end viability. A future improvement can repopulate advanced lineup stats and regenerate superclusters with richer features.
+**Update** — Fixed lineup ingestion to use the union of all fetched keys (instead of the first record’s keys) when inserting into `PlayerLineupStats`. Re-populated 2022‑23 lineup stats (4,968 rows). Advanced fields such as `off_rating`, `def_rating`, `ts_pct`, `pace`, `efg_pct`, `ast_pct`, `ast_to`, `oreb_pct`, `dreb_pct`, `reb_pct`, and `tm_tov_pct` are now present. Four scoring share fields are still absent from the final insert column set: `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt`. After regeneration, superclusters still fell back to high‑coverage features due to those share fields being incomplete across rows.
 
 **Critical Achievements**:
 - ✅ **Data Quality Disaster Averted**: A comprehensive profiling of the `PlayerLineupStats` table revealed that over 50% of columns were unusable due to `NULL` values. This discovery prevented a catastrophic model failure.
@@ -14,7 +14,7 @@
 - ✅ **Supercluster Pipeline Built**: The `generate_lineup_superclusters.py` script is now a production-ready, validated tool that automates the entire process from data loading to model saving.
 - ✅ **Test Harness Refactored**: The integration test is now a modular, two-step process that provides a clear validation contract for each part of the pipeline.
 
-**Next Phase**: With a high-integrity data pipeline now in place, the immediate next step is to train the Bayesian model using the newly generated supercluster data.
+**Next Phase**: Either (a) populate the remaining scoring share fields and regenerate superclusters with the full validated feature set, or (b) proceed to train the Bayesian model using the current fallback superclusters, then circle back to upgrade clustering quality.
 
 ## 🚀 Current Implementation Status
 
@@ -63,6 +63,7 @@
 - Output CSVs: required columns present, outcomes ∈ {0,1,2,3}, no NaNs/Inf
 
 **Next Steps**:
-1. Train the Stan model with `production_bayesian_data.csv` via `train_bayesian_model.py`.
-2. Validate coefficients against the paper’s examples using `validate_model.py` (Lakers, Pacers, Suns).
-3. Optional quality upgrade: repopulate `PlayerLineupStats` advanced/percentage fields (e.g., `off_rating`, `def_rating`, `ts_pct`, `pace`, shot/points shares) and re-run `generate_lineup_superclusters.py` to replace the fallback feature set.
+1. Fill missing scoring share fields in `PlayerLineupStats`: `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` (source: lineup Scoring split from the same API endpoint).
+2. Re-run `src/nba_stats/scripts/generate_lineup_superclusters.py` and confirm the 18 validated features are used without fallback.
+3. Train the Stan model with `production_bayesian_data.csv` via `train_bayesian_model.py`.
+4. Validate coefficients against the paper’s examples using `validate_model.py` (Lakers, Pacers, Suns).
