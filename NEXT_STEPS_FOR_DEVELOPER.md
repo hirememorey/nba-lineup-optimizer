@@ -1,13 +1,13 @@
 # Next Steps for Developer
 
 **Date**: October 10, 2025
-**Status**: 2022‑23 lineup stats repopulated; superclusters regenerated with fallback (awaiting scoring share fields)
+**Status**: 2022‑23 lineup stats repopulated; superclusters regenerated using full validated features (no fallback)
 
 ## 🎯 Current State
 
-- Fixed `PlayerLineupStats` ingestion to union all fetched keys; re-populated 2022‑23 (4,968 rows).
-- Advanced fields now present: `off_rating`, `def_rating`, `ts_pct`, `pace`, `efg_pct`, `ast_pct`, `ast_to`, `oreb_pct`, `dreb_pct`, `reb_pct`, `tm_tov_pct`.
-- Still missing: `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` from insert column set; clustering fell back.
+- Fixed `PlayerLineupStats` ingestion to union keys across measure types and corrected snake_case for Scoring headers (e.g., `PCT_FGA_2PT` -> `pct_fga_2pt`). Schema migration added for missing columns.
+- Re-populated 2022‑23 (4,968 rows). Coverage (non‑null counts): `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` ≈ 2,000 each.
+- Supercluster generation now uses the 18 validated features without fallback; 21 complete rows used for clustering output.
 
 The current state is:
 - ✅ Supercluster artifacts exist and are reproducible (`robust_scaler.joblib`, `kmeans_model.joblib`, `lineup_features_with_superclusters.csv`).
@@ -20,19 +20,15 @@ The current state is:
 
 Your entire focus is to use the prepared dataset to train and validate the Bayesian model. The project is unblocked for this final, critical phase.
 
-### **Step 1: Restore scoring share fields (recommended path)**
+### **Step 1: Train model**
 
-1. Confirm the lineup Scoring measure headers (cache used): `src/nba_stats/.cache/643e51baf99fca47beec004f63212eb7.json`.
-2. Ensure `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` map to snake_case in aggregation (they should already); verify they appear across enough rows.
-3. Re-run lineup population for 2022‑23 and 2024‑25, check `nba_stats.log` for "Advanced present" and ensure the four pct_* fields are included.
-4. Re-run `generate_lineup_superclusters.py`; confirm validated 18 features are used without fallback.
+1. Train the Stan model with `production_bayesian_data.csv` via `train_bayesian_model.py`.
+2. Validate coefficients vs paper examples with `validate_model.py` (Lakers, Pacers, Suns).
 
-### **Step 2: Train the Stan Model**
+### **Optional Step 2: Improve Scoring coverage**
 
-Once the data preparation script is complete, your next step is to train the model.
-
-1.  Use the output CSV from the previous step as the input for the `train_bayesian_model.py` script.
-2.  Execute the script to run the MCMC simulation and generate the model coefficients.
+1. Investigate season(s) and endpoints to improve non‑null coverage of `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt`.
+2. If coverage improves, re-run lineup population and regenerate superclusters to increase the validated‑features sample size.
 
 ### **Step 3: Validate the Model**
 
