@@ -1,0 +1,31 @@
+{
+  "seasons": {
+    "PlayerSeasonSkill": [
+      "2022-23",
+      "2023-24",
+      "2024-25"
+    ],
+    "PlayerSeasonArchetypes": [
+      "2024-25"
+    ],
+    "Games": [
+      "2022-23",
+      "2024-25"
+    ]
+  },
+  "target_season_used": "2024-25",
+  "players": {
+    "possession_unique": 721,
+    "skills_unique": 574,
+    "archetypes_unique": 565,
+    "overlap_possessions_skills": 565,
+    "overlap_possessions_archetypes": 565,
+    "missing_in_skills": 156,
+    "missing_in_archetypes": 156
+  },
+  "sample_lineup_mapping": {
+    "sampled_possessions": 2000,
+    "with_all_archetypes_present": 2000,
+    "both_lineup_keys_present_in_mapping": 0
+  }
+}

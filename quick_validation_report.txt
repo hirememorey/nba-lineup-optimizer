@@ -4,23 +4,23 @@ Quick Scaling Validation Report
 Sample Results:
 
 quick_sample_10k.csv:
-  Sample size: 5,000
-  Runtime: 11.3s
-  Max R-hat: 1.0100
-  Min ESS: 234
+  Sample size: 10,000
+  Runtime: 15.6s
+  Max R-hat: 1.0074
+  Min ESS: 281
   Divergent transitions: 0
 
 quick_sample_25k.csv:
-  Sample size: 10,000
-  Runtime: 23.2s
-  Max R-hat: 1.0100
-  Min ESS: 225
+  Sample size: 20,000
+  Runtime: 27.3s
+  Max R-hat: 1.0129
+  Min ESS: 270
   Divergent transitions: 0
 
 Overall Assessment:
   Convergence: ❌ POOR
   Effective sample size: ✅ GOOD
-  Coefficient stability: ✅ GOOD
+  Coefficient stability: ❌ POOR
 
 Recommendation:
   ⚠️  CONSIDER model simplification before full training

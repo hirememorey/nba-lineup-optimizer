@@ -1,0 +1,19 @@
+{
+  "counts": {
+    "poss_unique_players": 482,
+    "archetype_unique_players": 590,
+    "skill_unique_players": 712
+  },
+  "overlaps": {
+    "poss_and_arch": 376,
+    "poss_and_skill": 472,
+    "arch_and_skill": 583,
+    "all_three": 374
+  },
+  "gaps": {
+    "in_poss_not_arch": 106,
+    "in_poss_not_skill": 10,
+    "in_arch_not_skill": 7,
+    "in_skill_not_arch": 129
+  }
+}

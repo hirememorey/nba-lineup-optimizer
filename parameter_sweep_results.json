@@ -1,0 +1,582 @@
+[
+  {
+    "top_n": 5,
+    "pass_threshold": 1,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 4,
+          "top_n_total": 5,
+          "preferred_ratio": 0.8
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        }
+      },
+      "top_n": 5,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 5,
+    "pass_threshold": 2,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 4,
+          "top_n_total": 5,
+          "preferred_ratio": 0.8
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        }
+      },
+      "top_n": 5,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 5,
+    "pass_threshold": 3,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 4,
+          "top_n_total": 5,
+          "preferred_ratio": 0.8
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        }
+      },
+      "top_n": 5,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 5,
+    "pass_threshold": 4,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 4,
+          "top_n_total": 5,
+          "preferred_ratio": 0.8
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        }
+      },
+      "top_n": 5,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 5,
+    "pass_threshold": 5,
+    "result": {
+      "all_passed": false,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": false,
+          "preferred_in_top_n": 4,
+          "top_n_total": 5,
+          "preferred_ratio": 0.8
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 5,
+          "top_n_total": 5,
+          "preferred_ratio": 1.0
+        }
+      },
+      "top_n": 5,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 10,
+    "pass_threshold": 1,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 10,
+          "top_n_total": 10,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        }
+      },
+      "top_n": 10,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 10,
+    "pass_threshold": 2,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 10,
+          "top_n_total": 10,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        }
+      },
+      "top_n": 10,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 10,
+    "pass_threshold": 3,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 10,
+          "top_n_total": 10,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        }
+      },
+      "top_n": 10,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 10,
+    "pass_threshold": 4,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 10,
+          "top_n_total": 10,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        }
+      },
+      "top_n": 10,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 10,
+    "pass_threshold": 5,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 10,
+          "top_n_total": 10,
+          "preferred_ratio": 1.0
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 9,
+          "top_n_total": 10,
+          "preferred_ratio": 0.9
+        }
+      },
+      "top_n": 10,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 15,
+    "pass_threshold": 1,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 11,
+          "top_n_total": 15,
+          "preferred_ratio": 0.7333333333333333
+        }
+      },
+      "top_n": 15,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 15,
+    "pass_threshold": 2,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 11,
+          "top_n_total": 15,
+          "preferred_ratio": 0.7333333333333333
+        }
+      },
+      "top_n": 15,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 15,
+    "pass_threshold": 3,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 11,
+          "top_n_total": 15,
+          "preferred_ratio": 0.7333333333333333
+        }
+      },
+      "top_n": 15,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 15,
+    "pass_threshold": 4,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 11,
+          "top_n_total": 15,
+          "preferred_ratio": 0.7333333333333333
+        }
+      },
+      "top_n": 15,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 15,
+    "pass_threshold": 5,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 13,
+          "top_n_total": 15,
+          "preferred_ratio": 0.8666666666666667
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 11,
+          "top_n_total": 15,
+          "preferred_ratio": 0.7333333333333333
+        }
+      },
+      "top_n": 15,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 20,
+    "pass_threshold": 1,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 17,
+          "top_n_total": 20,
+          "preferred_ratio": 0.85
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 18,
+          "top_n_total": 20,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 14,
+          "top_n_total": 20,
+          "preferred_ratio": 0.7
+        }
+      },
+      "top_n": 20,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 20,
+    "pass_threshold": 2,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 17,
+          "top_n_total": 20,
+          "preferred_ratio": 0.85
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 18,
+          "top_n_total": 20,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 14,
+          "top_n_total": 20,
+          "preferred_ratio": 0.7
+        }
+      },
+      "top_n": 20,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 20,
+    "pass_threshold": 3,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 17,
+          "top_n_total": 20,
+          "preferred_ratio": 0.85
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 18,
+          "top_n_total": 20,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 14,
+          "top_n_total": 20,
+          "preferred_ratio": 0.7
+        }
+      },
+      "top_n": 20,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 20,
+    "pass_threshold": 4,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 17,
+          "top_n_total": 20,
+          "preferred_ratio": 0.85
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 18,
+          "top_n_total": 20,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 14,
+          "top_n_total": 20,
+          "preferred_ratio": 0.7
+        }
+      },
+      "top_n": 20,
+      "season": "2022-23"
+    }
+  },
+  {
+    "top_n": 20,
+    "pass_threshold": 5,
+    "result": {
+      "all_passed": true,
+      "cases": {
+        "lakers": {
+          "passed": true,
+          "preferred_in_top_n": 17,
+          "top_n_total": 20,
+          "preferred_ratio": 0.85
+        },
+        "pacers": {
+          "passed": true,
+          "preferred_in_top_n": 18,
+          "top_n_total": 20,
+          "preferred_ratio": 0.9
+        },
+        "suns": {
+          "passed": true,
+          "preferred_in_top_n": 14,
+          "top_n_total": 20,
+          "preferred_ratio": 0.7
+        }
+      },
+      "top_n": 20,
+      "season": "2022-23"
+    }
+  }
+]

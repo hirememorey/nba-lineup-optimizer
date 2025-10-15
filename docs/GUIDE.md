@@ -119,3 +119,5 @@ When authentication is enabled, the default credentials are:
 -   **User**: `user` / `user123`
 
 ⚠️ **It is critical to change these passwords in a production environment via environment variables.**
+
+
