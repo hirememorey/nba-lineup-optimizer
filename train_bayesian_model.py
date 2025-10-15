@@ -17,6 +17,8 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Tuple
 import time
+import argparse
+import glob
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -25,8 +27,8 @@ logger = logging.getLogger(__name__)
 class StanBayesianModel:
     """Stan-based Bayesian model for possession-level analysis."""
     
-    def __init__(self, data_path: str = "bayesian_model_data.csv", 
-                 model_path: str = "bayesian_model.stan"):
+    def __init__(self, data_path: str = "production_bayesian_data.csv", 
+                 model_path: str = "bayesian_model_k8.stan"):
         self.data_path = data_path
         self.model_path = model_path
         self.data = None
@@ -42,7 +44,8 @@ class StanBayesianModel:
             logger.info(f"Loaded {len(self.data)} possessions")
             
             # Log data summary
-            logger.info(f"Unique matchups: {len(self.data['matchup'].unique())}")
+            if 'matchup_id' in self.data.columns:
+                logger.info(f"Unique matchups: {self.data['matchup_id'].nunique()}")
             logger.info(f"Outcome range: [{self.data['outcome'].min():.3f}, {self.data['outcome'].max():.3f}]")
             
             return True
@@ -55,28 +58,22 @@ class StanBayesianModel:
         """Prepare data in the format required by Stan."""
         logger.info("Preparing data for Stan...")
         
-        # Get unique matchups and create mapping
-        matchups = sorted(self.data['matchup'].unique())
-        matchup_to_idx = {m: i+1 for i, m in enumerate(matchups)}  # Stan uses 1-based indexing
-        
-        # Create matchup indices
-        matchup_idx = np.array([matchup_to_idx[m] for m in self.data['matchup']])
-        
-        # Prepare Stan data dictionary
+        # Ensure required columns exist
+        z_off_cols = [f"z_off_{i}" for i in range(8)]
+        z_def_cols = [f"z_def_{i}" for i in range(8)]
+        missing = [c for c in ['outcome'] + z_off_cols + z_def_cols if c not in self.data.columns]
+        if missing:
+            raise ValueError(f"Missing required columns for Stan model: {missing}")
+
+        # Prepare Stan data dictionary matching bayesian_model_k8.stan
         stan_data = {
-            'N': len(self.data),
-            'M': len(matchups),
-            'matchup': matchup_idx,
-            'outcome': self.data['outcome'].values,
-            'z_off_0': self.data['z_off_0'].values,
-            'z_off_1': self.data['z_off_1'].values,
-            'z_off_2': self.data['z_off_2'].values,
-            'z_def_0': self.data['z_def_0'].values,
-            'z_def_1': self.data['z_def_1'].values,
-            'z_def_2': self.data['z_def_2'].values
+            'N': int(len(self.data)),
+            'y': self.data['outcome'].values.astype(float),
+            'z_off': self.data[z_off_cols].values,
+            'z_def': self.data[z_def_cols].values,
         }
         
-        logger.info(f"Prepared data: {len(self.data)} possessions, {len(matchups)} matchups")
+        logger.info(f"Prepared data: {len(self.data)} possessions")
         return stan_data
     
     def compile_model(self) -> bool:
@@ -183,8 +180,8 @@ class StanBayesianModel:
             # Get coefficient summaries
             summary = self.fit.summary()
             
-            # Filter for coefficient parameters
-            coeff_summary = summary[summary.index.str.contains('β_')]
+            # Filter for coefficient parameters in Stan naming
+            coeff_summary = summary[summary.index.str.contains('^beta_', regex=True)]
             
             # Add interpretation
             coeff_summary['interpretation'] = self._interpret_coefficients(coeff_summary)
@@ -200,11 +197,11 @@ class StanBayesianModel:
         interpretations = []
         
         for idx in summary.index:
-            if 'β_0' in idx:
+            if 'beta_0' in idx:
                 interpretations.append("Matchup intercept")
-            elif 'β_off' in idx:
+            elif 'beta_off' in idx:
                 interpretations.append("Offensive skill coefficient")
-            elif 'β_def' in idx:
+            elif 'beta_def' in idx:
                 interpretations.append("Defensive skill coefficient")
             else:
                 interpretations.append("Unknown parameter")
@@ -244,11 +241,69 @@ class StanBayesianModel:
         except Exception as e:
             logger.error(f"Failed to save results: {e}")
             return False
+
+    def save_coefficients_csv(self, output_path: str = "model_coefficients.csv") -> bool:
+        """Save posterior means of key coefficients to a flat CSV for downstream use."""
+        if self.fit is None:
+            raise ValueError("Must sample before saving coefficients")
+        try:
+            draws_df = self.fit.draws_pd()
+            # Parameter columns we care about
+            params = [
+                'beta_0',
+                *[f'beta_off[{i}]' for i in range(1, 9)],
+                *[f'beta_def[{i}]' for i in range(1, 9)],
+            ]
+            available = [p for p in params if p in draws_df.columns]
+            if not available:
+                logger.error("Expected coefficient columns not found in posterior draws; cannot save coefficients.")
+                return False
+            means = {p: float(draws_df[p].mean()) for p in available}
+            coeff_df = pd.DataFrame(
+                [
+                    {'parameter': 'beta_0', 'mean': means.get('beta_0', float('nan'))}
+                ] +
+                [
+                    {'parameter': f'beta_off[{i}]', 'mean': means.get(f'beta_off[{i}]', float('nan'))}
+                    for i in range(1, 9)
+                ] +
+                [
+                    {'parameter': f'beta_def[{i}]', 'mean': means.get(f'beta_def[{i}]', float('nan'))}
+                    for i in range(1, 9)
+                ]
+            )
+            coeff_df.to_csv(output_path, index=False)
+            logger.info(f"Saved posterior means to '{output_path}'")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to save coefficients CSV: {e}")
+            return False
     
     def generate_report(self, output_path: str = "stan_model_report.txt"):
         """Generate a comprehensive model report."""
+        # Allow generating a report from saved CSVs if fit is not in memory
         if self.fit is None:
-            raise ValueError("Must sample before generating report")
+            logger.info("No in-memory fit; attempting to load latest fit from 'stan_model_results'...")
+            try:
+                csv_files = sorted(glob.glob("stan_model_results/bayesian_model_k8-*.csv"))
+                if not csv_files:
+                    raise FileNotFoundError("No saved Stan CSVs found in 'stan_model_results'")
+                # Group by run id (the segment between last '-' and '_' in filename)
+                groups: Dict[str, List[str]] = {}
+                for p in csv_files:
+                    base = Path(p).name
+                    # e.g., bayesian_model_k8-20251015090742_1.csv
+                    run_id = base.split("-")[-1].split("_")[0]
+                    groups.setdefault(run_id, []).append(p)
+                latest_run_id = sorted(groups.keys())[-1]
+                latest_csvs = sorted(groups[latest_run_id])
+                logger.info(f"Loading fit from {len(latest_csvs)} CSVs (run {latest_run_id})")
+                # Lazy import to avoid hard dependency upfront
+                import cmdstanpy as _csp
+                self.fit = _csp.from_csv(latest_csvs)
+            except Exception as e:
+                logger.error(f"Failed to load saved fit: {e}")
+                raise
         
         logger.info("Generating model report...")
         
@@ -259,11 +314,20 @@ class StanBayesianModel:
                 
                 # Data summary
                 f.write("Data Summary:\n")
-                f.write(f"  Total possessions: {len(self.data)}\n")
-                f.write(f"  Unique matchups: {len(self.data['matchup'].unique())}\n")
-                f.write(f"  Outcome statistics:\n")
-                f.write(f"    Mean: {self.data['outcome'].mean():.4f}\n")
-                f.write(f"    Std: {self.data['outcome'].std():.4f}\n\n")
+                if self.data is not None:
+                    f.write(f"  Total possessions: {len(self.data)}\n")
+                    # Support either 'matchup' or 'matchup_id'
+                    matchup_col = 'matchup' if 'matchup' in self.data.columns else ('matchup_id' if 'matchup_id' in self.data.columns else None)
+                    if matchup_col:
+                        f.write(f"  Unique matchups: {self.data[matchup_col].nunique()}\n")
+                    else:
+                        f.write("  Unique matchups: N/A (column not found)\n")
+                    f.write(f"  Outcome statistics:\n")
+                    f.write(f"    Mean: {self.data['outcome'].mean():.4f}\n")
+                    f.write(f"    Std: {self.data['outcome'].std():.4f}\n\n")
+                else:
+                    f.write("  Total possessions: N/A (training data not loaded)\n")
+                    f.write("  Unique matchups: N/A (training data not loaded)\n\n")
                 
                 # Convergence diagnostics
                 convergence = self.check_convergence()
@@ -289,7 +353,7 @@ class StanBayesianModel:
         except Exception as e:
             logger.error(f"Failed to generate report: {e}")
     
-    def run_training(self, draws: int = 1000, tune: int = 500, chains: int = 2) -> bool:
+    def run_training(self, draws: int = 1000, tune: int = 500, chains: int = 2, adapt_delta: float = 0.8, coefficients_path: str = "model_coefficients.csv") -> bool:
         """Run the complete training process."""
         logger.info("Starting Stan Bayesian model training...")
         
@@ -303,7 +367,7 @@ class StanBayesianModel:
                 return False
             
             # Sample from posterior
-            if not self.sample(draws=draws, tune=tune, chains=chains):
+            if not self.sample(draws=draws, tune=tune, chains=chains, adapt_delta=adapt_delta):
                 return False
             
             # Check convergence
@@ -311,6 +375,8 @@ class StanBayesianModel:
             
             # Save results
             self.save_results()
+            # Save coefficients CSV for downstream validator
+            self.save_coefficients_csv(coefficients_path)
             
             # Generate report
             self.generate_report()
@@ -324,8 +390,18 @@ class StanBayesianModel:
 
 def main():
     """Main function."""
-    model = StanBayesianModel()
-    success = model.run_training(draws=1000, tune=500, chains=2)
+    parser = argparse.ArgumentParser(description="Train Stan Bayesian model")
+    parser.add_argument("--data", default="production_bayesian_data.csv", help="Path to prepared training CSV")
+    parser.add_argument("--stan", default="bayesian_model_k8.stan", help="Path to Stan model file")
+    parser.add_argument("--draws", type=int, default=1000, help="Posterior samples per chain")
+    parser.add_argument("--tune", type=int, default=500, help="Warmup iterations per chain")
+    parser.add_argument("--chains", type=int, default=2, help="Number of chains")
+    parser.add_argument("--adapt-delta", type=float, default=0.8, dest="adapt_delta", help="Target acceptance rate")
+    parser.add_argument("--coefficients", default="model_coefficients.csv", help="Output CSV for coefficient means")
+    args = parser.parse_args()
+
+    model = StanBayesianModel(data_path=args.data, model_path=args.stan)
+    success = model.run_training(draws=args.draws, tune=args.tune, chains=args.chains, adapt_delta=args.adapt_delta, coefficients_path=args.coefficients)
     
     if success:
         print("✅ Stan Bayesian model training completed successfully!")

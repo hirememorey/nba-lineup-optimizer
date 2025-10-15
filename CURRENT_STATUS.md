@@ -1,13 +1,13 @@
 # NBA Lineup Optimizer - Current Status
 
 **Date**: October 15, 2025
-**Status**: ✅ **DATA FULLY VALIDATED; READY FOR MODEL TRAINING** — All data preparation is complete and artifacts have been rigorously sanity-checked and corrected.
+**Status**: ✅ **MODEL TRAINED; READY FOR PAPER VALIDATION** — Training completed successfully with strong convergence. Proceed to validate against the paper's case studies.
 
 ## Executive Summary
 
 **Latest Update**: A first-principles sanity check of the `production_bayesian_data.csv` file revealed a critical data anomaly: the outcome variable for possessions was missing the value `1`. A deep-dive investigation traced the root cause to a bug in the `bayesian_data_prep.py` script, where made free throws were not being correctly identified. This logic has been **fixed and verified**. The production dataset has been regenerated and now accurately represents all possession outcomes {0, 1, 2, 3}.
 
-**The project is now fully unblocked and ready for the final modeling phase.** All data artifacts have been validated and are considered the ground truth for training.
+**The project is now fully unblocked and ready for the final validation phase.** Data artifacts were validated, the Stan model has been trained, and coefficients are available for downstream validation.
 
 **Critical Achievements**:
 - ✅ **Production Data Corrected**: Fixed a critical bug in outcome calculation, ensuring the training data accurately reflects real basketball events.
@@ -16,7 +16,7 @@
 - ✅ **Evidence-Based Feature Set**: A new, reliable set of 18 features for clustering has been constructed from columns that were verified to be 100% complete.
 - ✅ **Robust Scaling Implemented**: Statistical analysis confirmed the presence of significant outliers, and `RobustScaler` was chosen and implemented to create a more reliable clustering foundation.
 
-**Next Phase**: Proceed immediately to train the Bayesian Stan model.
+**Next Phase**: Implement and run the paper-case validation (Lakers, Pacers, Suns) using the trained coefficients.
 
 ## 🚀 Current Implementation Status
 
@@ -50,20 +50,30 @@
 - **`bayesian_data_prep.py`**: A placeholder script was created to satisfy the test harness for the final data preparation step.
 - **Final Validation**: The full, refactored test suite was run successfully, providing end-to-end confirmation that the pipeline is working as expected.
 
-### ✅ **Phase 4: Bayesian Model Training — DATA PREP COMPLETE & VALIDATED**
+### ✅ **Phase 4: Bayesian Model Training — COMPLETE**
 
-**Artifacts Produced & Validated**:
-- `production_bayesian_data.csv` (627,969 rows) - **Corrected and Verified**
-- `stratified_sample_10k.csv` (10,000 rows) - **Corrected and Verified**
-- `trained_models/robust_scaler.joblib` (regenerated)
-- `trained_models/kmeans_model.joblib` (regenerated)
-- `lineup_supercluster_results/lineup_features_with_superclusters.csv` (regenerated)
-- `lineup_supercluster_results/supercluster_assignments.json` (present)
+**Artifacts Produced**:
+- `production_bayesian_data.csv` (627,969 rows)
+- `stratified_sample_10k.csv` (10,000 rows)
+- `model_coefficients.csv` (posterior means)
+- `stan_model_report.txt` (training summary)
+- `stan_model_results/` (per-chain CSVs and summaries)
+- `trained_models/robust_scaler.joblib`
+- `trained_models/kmeans_model.joblib`
+- `lineup_supercluster_results/lineup_features_with_superclusters.csv`
+- `lineup_supercluster_results/supercluster_assignments.json`
 
-**Sanity Checks**:
-- Database verification: PASS (all layers)
-- Output CSVs: required columns present, outcomes ∈ {0,1,2,3}, no NaNs/Inf - **VERIFIED**
+**Training Diagnostics**:
+- Max R-hat: 1.00099
+- Min ESS: 2,689.94
+- Divergent transitions: 0
 
 **Next Steps**:
-1.  **Train the Stan model** with the validated `production_bayesian_data.csv` via `train_bayesian_model.py`.
-2.  **Validate coefficients** against the paper’s examples using `validate_model.py` (Lakers, Pacers, Suns).
+1.  Implement `validate_paper_cases.py` (or extend `validate_model.py`) to load `model_coefficients.csv` and evaluate the three paper case studies.
+2.  Produce a short `model_validation_report.json` indicating PASS/FAIL for Lakers, Pacers, Suns and brief notes.
+
+Suggested skeleton:
+```
+python3 validate_model.py --coefficients model_coefficients.csv --season 2022-23 \
+  --cases lakers pacers suns --output model_validation_report.json
+```

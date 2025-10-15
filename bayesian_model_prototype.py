@@ -45,16 +45,20 @@ def run_bayesian_prototype():
         logging.error("Please run 'bayesian_data_prep.py' first.")
         return
 
-    # Filter for the most common (default) matchup: 0_vs_0
-    matchup_to_prototype = "0_vs_0"
-    df_matchup = df[df['matchup_id'] == matchup_to_prototype].copy()
-    
-    if len(df_matchup) == 0:
-        logging.error(f"No data found for the prototype matchup '{matchup_to_prototype}'.")
-        logging.error("This may be because the mock supercluster map is too sparse.")
+    # Filter for the most frequent matchup to ensure sufficient rows
+    if 'matchup_id' not in df.columns:
+        logging.error("Column 'matchup_id' not found in sample data.")
         return
-        
-    logging.info(f"Found {len(df_matchup)} possessions for matchup '{matchup_to_prototype}'.")
+
+    matchup_to_prototype = (
+        df['matchup_id'].value_counts().idxmax() if not df.empty else None
+    )
+    if matchup_to_prototype is None:
+        logging.error("Sample data is empty; cannot select a matchup.")
+        return
+
+    df_matchup = df[df['matchup_id'] == matchup_to_prototype].copy()
+    logging.info(f"Selected prototype matchup '{matchup_to_prototype}' with {len(df_matchup)} possessions.")
 
     # Prepare data for Stan
     z_off_cols = [f"z_off_{i}" for i in range(8)]
