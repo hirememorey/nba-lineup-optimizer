@@ -67,7 +67,7 @@ def _calc_outcome(description: str) -> int:
     t = description.lower()
     if '(3 pts)' in t: return 3
     if '(2 pts)' in t: return 2
-    if 'free throw' in t and 'makes' in t: return 1
+    if 'free throw' in t and 'miss' not in t: return 1
     if 'turnover' in t or 'miss' in t: return 0
     return 0
 

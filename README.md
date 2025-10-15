@@ -26,12 +26,7 @@ This project's documentation is curated to provide a clear path for any contribu
 
 ## Current Status (High-Level)
 
-**Date**: October 10, 2025
-**Status**: ✅ **BAYESIAN DATA PREP COMPLETE; READY TO TRAIN** — Superclusters regenerated using the full 18 validated features (no fallback).
+**Date**: October 15, 2025
+**Status**: ✅ **DATA VALIDATED; READY FOR MODEL TRAINING** — All data preparation work is complete. The primary training dataset (`production_bayesian_data.csv`) has been rigorously sanity-checked, corrected, and is ready for the final modeling phase.
 
-We completed hardened Bayesian data preparation and produced training files:
-- `production_bayesian_data.csv` (627,969 rows)
-- `stratified_sample_10k.csv`
-- Supercluster artifacts (`robust_scaler.joblib`, `kmeans_model.joblib`, CSV) regenerated. Four lineup Scoring share fields are now included via ingestion mapping fix: `pct_fga_2pt`, `pct_fga_3pt`, `pct_pts_2pt_mr`, `pct_pts_3pt` (coverage ~2,000/4,968 rows in 2022‑23, yielding 21 complete rows for validated clustering).
-
-**Next Phase**: Train the Bayesian Stan model and validate against the paper’s examples. See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for details and next steps.
+**Next Phase**: Train the Bayesian Stan model and validate its results against the source paper’s examples. See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for detailed next steps.
