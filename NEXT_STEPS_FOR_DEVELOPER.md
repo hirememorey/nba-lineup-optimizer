@@ -1,7 +1,7 @@
 # Next Steps for Developer
 
 **Date**: October 15, 2025
-**Status**: ✅ **DATA VALIDATED & CORRECTED** — All data preparation and validation is complete. The project is ready for the final modeling phase.
+**Status**: ✅ **MODEL TRAINED; READY FOR PAPER VALIDATION** — Training completed with strong convergence; proceed to implement case-study validation.
 
 ## 🎯 Current State
 
@@ -9,20 +9,34 @@
 - ✅ **Critical Bug Fixed**: A bug in the outcome calculation logic within `bayesian_data_prep.py` has been resolved, and the data has been regenerated.
 - ✅ **Project Unblocked**: All data-related tasks are complete. The sole focus is now on training and validating the Bayesian model.
 
-## 🚀 Next Implementation Phase: Train and Validate the Bayesian Model
+## 🚀 Next Implementation Phase: Validate Against the Paper
 
 Your entire focus is to use the prepared and validated dataset to train the Bayesian model and verify its correctness against the source paper.
 
-### **Step 1: Train the Stan Model**
+### **Step 1: Use Trained Coefficients**
 
-1.  Use the `train_bayesian_model.py` script to train the Stan model on the `production_bayesian_data.csv` dataset.
-2.  This is a computationally intensive step and may take several hours. Monitor the script for convergence messages (`R-hat < 1.1`).
+1. Ensure `model_coefficients.csv` exists in the project root. If missing, re-run training:
+   ```bash
+   python3 train_bayesian_model.py --data production_bayesian_data.csv --stan bayesian_model_k8.stan \
+     --draws 2500 --tune 1500 --chains 4 --adapt-delta 0.9 --coefficients model_coefficients.csv
+   ```
 
-### **Step 2: Validate the Model Against the Paper**
+### **Step 2: Implement Paper-Case Validator**
 
-1.  Once the model is trained and the coefficients are generated, run the `validate_model.py` script.
-2.  This script will test the model's predictions against the specific team case studies (Lakers, Pacers, and Suns) published in the original research paper.
-3.  **Success is achieved** when our model's outputs align with the paper's findings, proving that our implementation is a faithful and correct reproduction of the source methodology.
+Create or extend `validate_model.py` to:
+1. Load `model_coefficients.csv`.
+2. Initialize the shared `ModelEvaluator` with these coefficients.
+3. Implement three checks from the paper (2022-23):
+   - Lakers: 3&D/defensive guards rank above ball-handlers with LeBron+AD core.
+   - Pacers: defensive archetypes rank above positional need at PF.
+   - Suns: defensive bigs rank above offensive bigs alongside Booker/Durant/Beal.
+4. Output `model_validation_report.json` with PASS/FAIL per case and brief notes.
+
+Example CLI:
+```bash
+python3 validate_model.py --coefficients model_coefficients.csv --season 2022-23 \
+  --cases lakers pacers suns --output model_validation_report.json
+```
 
 ## 📁 Key Files and Locations
 
@@ -32,15 +46,14 @@ Your entire focus is to use the prepared and validated dataset to train the Baye
 - **Database (Source of Truth)**: `src/nba_stats/db/nba_stats.db`
 
 ### **Scripts to Run**
-- `train_bayesian_model.py` (Run this first)
-- `validate_model.py` (Run this second)
+- `validate_model.py` (Implement and run this next)
 
 ### **Key Scripts (Already Implemented)**
 - `src/nba_stats/scripts/bayesian_data_prep.py` (Data generation - **Complete**)
 - `generate_lineup_superclusters.py` (Supercluster generation - **Complete**)
+ - `train_bayesian_model.py` (Training - **Complete**)
 
 ## 🎯 Success Criteria
 
 The project will be successfully validated when:
-1.  The Stan model trains successfully using `production_bayesian_data.csv`.
-2.  The `validate_model.py` script confirms that our model's predictions for the Lakers, Pacers, and Suns cases match the outcomes reported in the source paper.
+1.  The `validate_model.py` script confirms that our model's predictions for the Lakers, Pacers, and Suns cases match the outcomes reported in the source paper.

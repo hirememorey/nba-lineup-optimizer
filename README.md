@@ -27,6 +27,6 @@ This project's documentation is curated to provide a clear path for any contribu
 ## Current Status (High-Level)
 
 **Date**: October 15, 2025
-**Status**: ✅ **DATA VALIDATED; READY FOR MODEL TRAINING** — All data preparation work is complete. The primary training dataset (`production_bayesian_data.csv`) has been rigorously sanity-checked, corrected, and is ready for the final modeling phase.
+**Status**: ✅ **MODEL TRAINED; READY FOR PAPER VALIDATION** — Training completed with strong convergence. Coefficients saved to `model_coefficients.csv` and a summary report is available in `stan_model_report.txt`.
 
-**Next Phase**: Train the Bayesian Stan model and validate its results against the source paper’s examples. See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for detailed next steps.
+**Next Phase**: Implement the paper-case validator (Lakers, Pacers, Suns) using `model_coefficients.csv`. See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for artifacts and **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for the exact steps/CLI.

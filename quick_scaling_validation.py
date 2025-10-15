@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 from typing import Dict, List
 import logging
 import time
-from bayesian_data_prep import BayesianDataPreparer
-from bayesian_model_prototype import BayesianModelPrototype
+from pathlib import Path
+from train_bayesian_model import StanBayesianModel
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,8 +26,11 @@ def create_quick_samples():
     """Create quick samples for validation."""
     logger.info("Creating quick validation samples...")
     
-    # Load the existing 10k sample
-    sample_10k = pd.read_csv("bayesian_model_data.csv")
+    # Load the existing 10k sample produced by data prep
+    sample_path_10k = Path("stratified_sample_10k.csv")
+    if not sample_path_10k.exists():
+        raise FileNotFoundError("stratified_sample_10k.csv not found. Run bayesian_data_prep.py first.")
+    sample_10k = pd.read_csv(sample_path_10k)
     logger.info(f"Loaded 10k sample with {len(sample_10k)} possessions")
     
     # Create a 25k sample by duplicating and adding noise
@@ -60,22 +63,21 @@ def run_quick_validation(sample_files):
         start_time = time.time()
         
         try:
-            # Run the model
-            model = BayesianModelPrototype(filename)
-            
+            # Run the Stan model with reduced iterations for speed
+            model = StanBayesianModel(data_path=filename, model_path="bayesian_model_k8.stan")
             if not model.load_data():
                 logger.error(f"Failed to load {filename}")
                 continue
-            
-            model.create_model()
-            
+            if not model.compile_model():
+                logger.error("Failed to compile Stan model")
+                continue
             # Use fewer samples for speed
-            model.sample(draws=500, tune=250, chains=2)
+            ok = model.sample(draws=500, tune=250, chains=2, adapt_delta=0.8)
+            if not ok:
+                logger.error("Sampling failed")
+                continue
             convergence = model.check_convergence()
-            coeff_summary = model.analyze_coefficients()
-            
             runtime = time.time() - start_time
-            
             # Extract key statistics
             key_stats = {
                 'runtime': runtime,
@@ -84,18 +86,8 @@ def run_quick_validation(sample_files):
                 'divergent_transitions': convergence['divergent_transitions'],
                 'sample_size': len(model.data)
             }
-            
-            # Extract coefficient means and stds
-            key_coeffs = ['β_off[0, 0]', 'β_off[0, 1]', 'β_def[0, 0]', 'β_def[0, 1]']
-            for param in key_coeffs:
-                if param in coeff_summary.index:
-                    row = coeff_summary.loc[param]
-                    key_stats[f'{param}_mean'] = float(row['mean'])
-                    key_stats[f'{param}_std'] = float(row['sd'])
-            
             results[filename] = key_stats
             logger.info(f"Completed {filename} in {runtime:.1f}s")
-            
         except Exception as e:
             logger.error(f"Failed to run {filename}: {e}")
             results[filename] = {'error': str(e)}
