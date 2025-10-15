@@ -29,4 +29,9 @@ This project's documentation is curated to provide a clear path for any contribu
 **Date**: October 15, 2025
 **Status**: ✅ **MODEL TRAINED; READY FOR PAPER VALIDATION** — Training completed with strong convergence. Coefficients saved to `model_coefficients.csv` and a summary report is available in `stan_model_report.txt`.
 
-**Next Phase**: Implement the paper-case validator (Lakers, Pacers, Suns) using `model_coefficients.csv`. See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for artifacts and **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for the exact steps/CLI.
+**Next Phase**: Paper-case validator implemented; tuning in progress. Run:
+```
+python3 validate_model.py --season 2022-23 --cases lakers pacers suns \
+  --top-n 5 --output model_validation_report.json --mode cases
+```
+See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results and **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks.
