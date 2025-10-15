@@ -1,8 +1,66 @@
 {
-  "overall_quality_score": 0.8571428571428571,
-  "total_tests": 7,
-  "passed_tests": 6,
-  "test_results": {
-    "coefficient_sanity_check": true,
-    "diminishing_returns_test": false,
-    "synergy_test": 
+  "season": "2022-23",
+  "top_n": 5,
+  "cases": {
+    "lakers": {
+      "core_resolved_ids": [
+        2544,
+        203076,
+        1630559,
+        1629060
+      ],
+      "preferred_keywords": [
+        "3&d",
+        "defensive minded guard",
+        "defensive guard"
+      ],
+      "composition": {
+        "preferred_in_top_n": 0,
+        "top_n_total": 5,
+        "preferred_ratio": 0.0
+      },
+      "passed": false
+    },
+    "pacers": {
+      "core_resolved_ids": [
+        1630169,
+        1631097,
+        1627741,
+        1626167
+      ],
+      "preferred_keywords": [
+        "defensive",
+        "3&d",
+        "defensive big",
+        "defensive minded"
+      ],
+      "composition": {
+        "preferred_in_top_n": 4,
+        "top_n_total": 5,
+        "preferred_ratio": 0.8
+      },
+      "passed": true
+    },
+    "suns": {
+      "core_resolved_ids": [
+        1626164,
+        201142,
+        203078,
+        1628960
+      ],
+      "preferred_keywords": [
+        "defensive big",
+        "defensive minded big",
+        "rim",
+        "protect"
+      ],
+      "composition": {
+        "preferred_in_top_n": 0,
+        "top_n_total": 5,
+        "preferred_ratio": 0.0
+      },
+      "passed": false
+    }
+  },
+  "all_passed": false
+}

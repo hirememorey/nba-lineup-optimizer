@@ -16,7 +16,7 @@
 - ✅ **Evidence-Based Feature Set**: A new, reliable set of 18 features for clustering has been constructed from columns that were verified to be 100% complete.
 - ✅ **Robust Scaling Implemented**: Statistical analysis confirmed the presence of significant outliers, and `RobustScaler` was chosen and implemented to create a more reliable clustering foundation.
 
-**Next Phase**: Implement and run the paper-case validation (Lakers, Pacers, Suns) using the trained coefficients.
+**Next Phase**: Paper-case validation (Lakers, Pacers, Suns) using the trained coefficients — initial run completed; tuning in progress.
 
 ## 🚀 Current Implementation Status
 
@@ -69,11 +69,27 @@
 - Divergent transitions: 0
 
 **Next Steps**:
-1.  Implement `validate_paper_cases.py` (or extend `validate_model.py`) to load `model_coefficients.csv` and evaluate the three paper case studies.
-2.  Produce a short `model_validation_report.json` indicating PASS/FAIL for Lakers, Pacers, Suns and brief notes.
+1.  Adjust case-study validator keyword matching and parameters; integrate matchup context if available.
+2.  Re-run validator to target PASS on Lakers and Suns, maintain PASS on Pacers.
 
 Suggested skeleton:
 ```
-python3 validate_model.py --coefficients model_coefficients.csv --season 2022-23 \
-  --cases lakers pacers suns --output model_validation_report.json
+python3 validate_model.py --season 2022-23 --cases lakers pacers suns \
+  --top-n 5 --output model_validation_report.json --mode cases
 ```
+
+### 🧪 Case-Study Validation (2022-23) — Initial Results
+
+- Command used: `python3 validate_model.py --season 2022-23 --cases lakers pacers suns --top-n 5 --output model_validation_report.json --mode cases`
+- Database adjustments made:
+  - Backfilled `PlayerSeasonArchetypes` for 2022-23 from `player_archetypes_k8_2022_23.csv` (539 rows)
+  - Normalized `Archetypes` table to k=8 names used by the paper
+- Outcome (Top-5 criterion):
+  - Lakers: ❌ (preferred_in_top_n = 0/5)
+  - Pacers: ✅ (preferred_in_top_n = 4/5)
+  - Suns: ❌ (preferred_in_top_n = 0/5)
+- Report: `model_validation_report.json`
+
+Follow-ups planned:
+- Refine preferred-archetype matching (exact k=8 labels, synonyms)
+- Consider Top-10 to reduce sensitivity; optionally integrate supercluster/matchup context
