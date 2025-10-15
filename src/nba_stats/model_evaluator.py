@@ -17,6 +17,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Any
+import csv
 from dataclasses import dataclass
 try:
     from .db_mapping import db_mapping
@@ -86,6 +87,7 @@ class ModelEvaluator:
         self.model_path = model_path
         self._blessed_players: Dict[int, Player] = {}
         self._model_coefficients: Optional[Dict[str, float]] = None
+        self._trained_betas: Optional[Dict[str, Any]] = None  # {'beta0': float, 'beta_off': [8], 'beta_def': [8]}
         
         # Database path
         self.db_path = Path("src/nba_stats/db/nba_stats.db")
@@ -139,23 +141,40 @@ class ModelEvaluator:
     
     def _load_model_coefficients(self) -> None:
         """
-        Load model coefficients (placeholder implementation).
+        Load model coefficients from trained CSV if available; otherwise, use placeholders.
         
-        For now, we'll use placeholder coefficients that make basketball sense.
-        In production, this would load from the trained model file.
+        Expected CSV schema: parameter,mean with rows like beta_0, beta_off[1..8], beta_def[1..8]
         """
-        # Placeholder coefficients that make basketball sense
+        # Try to locate model coefficients
+        csv_path = None
+        if self.model_path and Path(self.model_path).exists():
+            csv_path = Path(self.model_path)
+        else:
+            default_path = Path("model_coefficients.csv")
+            if default_path.exists():
+                csv_path = default_path
+        
+        if csv_path is not None:
+            try:
+                df = pd.read_csv(csv_path)
+                params = dict(zip(df['parameter'], df['mean']))
+                beta0 = float(params.get('beta_0', 0.0))
+                beta_off = [0.0]*8
+                beta_def = [0.0]*8
+                for i in range(1, 9):
+                    beta_off[i-1] = float(params.get(f'beta_off[{i}]', 0.0))
+                    beta_def[i-1] = float(params.get(f'beta_def[{i}]', 0.0))
+                self._trained_betas = {'beta0': beta0, 'beta_off': beta_off, 'beta_def': beta_def}
+            except Exception:
+                # Fall back to placeholder if CSV unreadable
+                self._trained_betas = None
+        
+        # Always keep placeholder coefficients for auxiliary effects and as fallback
         self._model_coefficients = {
-            # Base skill impacts (should be positive for offensive, negative for defensive)
             'offensive_skill_impact': 0.1,
             'defensive_skill_impact': -0.08,
-            
-            # Archetype interaction coefficients (8 archetypes x 8 archetypes = 64 combinations)
-            # We'll use a simplified approach: some archetypes work well together
             'archetype_synergy_base': 0.05,
             'archetype_anti_synergy_base': -0.03,
-            
-            # Lineup composition effects
             'lineup_balance_bonus': 0.02,
             'skill_variance_penalty': -0.01,
         }
@@ -235,14 +254,28 @@ class ModelEvaluator:
         if not self._model_coefficients:
             raise ValueError("Model coefficients not loaded")
         
-        # Base skill contributions
-        offensive_skill = np.mean([p.offensive_darko for p in players])
-        defensive_skill = np.mean([p.defensive_darko for p in players])
-        
-        skill_contribution = (
-            offensive_skill * self._model_coefficients['offensive_skill_impact'] +
-            defensive_skill * self._model_coefficients['defensive_skill_impact']
-        )
+        # If trained betas are available, use them to weight skills by archetype
+        if self._trained_betas is not None:
+            beta0 = self._trained_betas['beta0']
+            beta_off = self._trained_betas['beta_off']
+            beta_def = self._trained_betas['beta_def']
+            off_sum = 0.0
+            def_sum = 0.0
+            for p in players:
+                idx = int(p.archetype_id)
+                if 0 <= idx < 8:
+                    off_sum += beta_off[idx] * float(p.offensive_darko)
+                    def_sum += beta_def[idx] * float(p.defensive_darko)
+            # Average to stabilize scale across 5 players
+            skill_contribution = beta0 + (off_sum / 5.0) - (def_sum / 5.0)
+        else:
+            # Placeholder base skill contributions
+            offensive_skill = np.mean([p.offensive_darko for p in players])
+            defensive_skill = np.mean([p.defensive_darko for p in players])
+            skill_contribution = (
+                offensive_skill * self._model_coefficients['offensive_skill_impact'] +
+                defensive_skill * self._model_coefficients['defensive_skill_impact']
+            )
         
         # Archetype synergy effects
         archetype_ids = [p.archetype_id for p in players]

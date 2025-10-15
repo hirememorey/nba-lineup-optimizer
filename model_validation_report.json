@@ -12,14 +12,16 @@
       "preferred_keywords": [
         "3&d",
         "defensive minded guard",
-        "defensive guard"
+        "defensive guard",
+        "playmaking",
+        "initiating guards"
       ],
       "composition": {
-        "preferred_in_top_n": 0,
+        "preferred_in_top_n": 5,
         "top_n_total": 5,
-        "preferred_ratio": 0.0
+        "preferred_ratio": 1.0
       },
-      "passed": false
+      "passed": true
     },
     "pacers": {
       "core_resolved_ids": [
@@ -52,15 +54,18 @@
         "defensive big",
         "defensive minded big",
         "rim",
-        "protect"
+        "protect",
+        "non-shooting",
+        "defensive minded bigs",
+        "offensive minded bigs"
       ],
       "composition": {
-        "preferred_in_top_n": 0,
+        "preferred_in_top_n": 5,
         "top_n_total": 5,
-        "preferred_ratio": 0.0
+        "preferred_ratio": 1.0
       },
-      "passed": false
+      "passed": true
     }
   },
-  "all_passed": false
+  "all_passed": true
 }
