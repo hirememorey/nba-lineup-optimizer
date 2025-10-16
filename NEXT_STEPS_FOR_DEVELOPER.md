@@ -60,6 +60,24 @@ The following tools are now production-ready:
 - `generate_lineup_superclusters.py` (Supercluster generation - **Complete**)
  - `train_bayesian_model.py` (Training - **Complete**)
 
+---
+
+## Quick verification & run commands (2025-10-16)
+
+```bash
+# Check DARKO rows for 2022-23
+python3 -c "import sqlite3; con=sqlite3.connect('src/nba_stats/db/nba_stats.db');
+cur=con.cursor(); cur.execute(\"select count(*) from PlayerSeasonSkill where season='2022-23'\");
+print(cur.fetchone()[0]); con.close()"
+
+# Smoke test training on 10k sample
+python3 train_bayesian_model.py \
+  --data stratified_sample_10k.csv \
+  --stan bayesian_model_k8.stan \
+  --draws 100 --tune 100 --chains 1 \
+  --coefficients model_coefficients_sample.csv
+```
+
 ## 🎯 Success Criteria
 
 The project has been successfully validated:

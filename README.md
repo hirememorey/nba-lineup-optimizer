@@ -36,3 +36,23 @@ This project's documentation is curated to provide a clear path for any contribu
 
 **Next Phase**: Production deployment and user interface development.
 See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results and **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks.
+
+---
+
+## Recent verification (2025-10-16)
+
+- 2022-23 DARKO ratings are present in `PlayerSeasonSkill` (549 rows).
+- `production_bayesian_data.csv` and `stratified_sample_10k.csv` include the required Z-matrix columns (`z_off_*`, `z_def_*`) aggregated by archetype.
+- A Stan smoke test on the 10k sample completed end-to-end and produced outputs in `stan_model_results/`, `model_coefficients_sample.csv`, and `stan_model_report.txt`.
+
+### Quick run (smoke test)
+
+```bash
+python3 train_bayesian_model.py \
+  --data stratified_sample_10k.csv \
+  --stan bayesian_model_k8.stan \
+  --draws 100 --tune 100 --chains 1 \
+  --coefficients model_coefficients_sample.csv
+```
+
+For a full run, switch to `--data production_bayesian_data.csv` and increase `--draws`, `--tune`, and `--chains`.

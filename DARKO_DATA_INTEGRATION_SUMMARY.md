@@ -145,3 +145,11 @@ The project can now proceed with:
 **Major Achievement**: The NBA Lineup Optimizer now has all the data needed to reproduce the groundbreaking research by Brill, Hughes, and Waldbaum, putting us on track to deliver real basketball intelligence rather than arbitrary assumptions.
 
 This represents a major milestone in the project's development and brings us significantly closer to having a fully functional NBA lineup optimization system.
+
+---
+
+## Follow-up verification (2025-10-16)
+
+- Reconfirmed 2022-23 load count in `PlayerSeasonSkill`: 549 rows
+- Validated presence of DARKO-aggregated Z-matrix features in modeling data
+- Executed Stan smoke test using `stratified_sample_10k.csv`; outputs saved to `stan_model_results/` and `stan_model_report.txt`
