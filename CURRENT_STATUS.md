@@ -96,3 +96,11 @@
 - Enhanced `validate_model.py` with seed control, debug output, and configurable thresholds
 - `parameter_sweep.py` for systematic parameter testing
 - Comprehensive debug output showing model recommendations and validation logic
+
+---
+
+## Verification note (2025-10-16)
+
+- Confirmed 2022-23 DARKO data loaded: `SELECT COUNT(*) FROM PlayerSeasonSkill WHERE season = '2022-23'` → 549.
+- Verified Z-matrix presence and non-zero sums in `production_bayesian_data.csv`.
+- Ran Stan smoke test on `stratified_sample_10k.csv`; artifacts written to `stan_model_results/`, `model_coefficients_sample.csv`, `stan_model_report.txt`.
