@@ -2,7 +2,7 @@
 
 This project implements the methodology from the research paper "Algorithmic NBA Player Acquisition" by Brill, Hughes, and Waldbaum. It uses a data-driven approach to NBA player acquisition and lineup optimization, prioritizing team **fit** over individual skill alone.
 
-**Vision**: A fan-friendly tool that helps NBA fans understand which players would fit best on their favorite teams.
+**Vision**: A fan-friendly tool that helps NBA fans understand which players would fit best on their favorite teams, with the ultimate goal of evolving into a predictive engine for General Managers to make data-driven roster decisions.
 
 ---
 
@@ -26,7 +26,7 @@ This project's documentation is curated to provide a clear path for any contribu
 
 ## Current Status (High-Level)
 
-**Date**: October 15, 2025
+**Date**: October 16, 2025
 **Status**: ✅ **VALIDATION COMPLETE; MODEL VALIDATED** — All three case studies (Lakers, Pacers, Suns) now pass validation. The model is working correctly and ready for production use.
 
 **Validation Results**: All three case studies now pass validation consistently:
@@ -34,8 +34,11 @@ This project's documentation is curated to provide a clear path for any contribu
 - **Pacers**: ✅ PASS (4/5 preferred, 80%) - Model recommends defensive players
 - **Suns**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Offensive Minded Bigs"
 
-**Next Phase**: Production deployment and user interface development.
-See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results and **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks.
+**Next Phase**: Evolving to a true predictive model using multi-season historical data to forecast future outcomes.
+
+**Predictive Vision**: The ultimate goal is to build a model that can predict the Russell Westbrook-Lakers failure *before* the 2022-23 season begins, transforming this from a historical analysis project into a true GM decision-making tool.
+
+See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results, **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks, and **[`PREDICTIVE_MODELING_SPEC.md`](./PREDICTIVE_MODELING_SPEC.md)** for the detailed predictive modeling implementation plan.
 
 ---
 

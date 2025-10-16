@@ -11,9 +11,11 @@
 - ✅ **Validation Complete**: All three case studies (Lakers, Pacers, Suns) now pass validation consistently.
 - ✅ **Model Validated**: The model correctly identifies player fit patterns and provides basketball-intelligent recommendations.
 
-## 🚀 Next Implementation Phase: Production Deployment
+## 🚀 Next Implementation Phase: Predictive Model Evolution
 
-The model has been successfully validated and is ready for production use. The focus now shifts to deployment and operational considerations.
+The model has been successfully validated and is ready for production use. However, the current model is **explanatory** (trained on 2022-23 data) rather than **predictive**. The next critical phase is evolving it into a true predictive engine that can forecast future season outcomes using only historical data.
+
+**Key Insight**: A model that can predict the Russell Westbrook-Lakers failure *before* the 2022-23 season begins would be a true GM tool, not just a historical analysis project.
 
 ### **Step 1: Validation Results Summary**
 
@@ -39,11 +41,32 @@ The following tools are now production-ready:
 
 ### **Step 3: Next Development Priorities**
 
-1. **Production Dashboard**: Enhance `production_dashboard.py` with validated model integration
-2. **API Endpoints**: Implement REST API for lineup recommendations
-3. **Real-time Updates**: Integrate with live NBA data feeds
-4. **Performance Optimization**: Scale model for high-frequency recommendations
-5. **User Interface**: Build web interface for lineup optimization
+**Primary Focus: Predictive Model Evolution**
+
+1. **Multi-Season Data Pipeline**: Extend data collection to historical seasons (2018-19, 2020-21, 2021-22)
+   - Parameterize all data collection scripts for historical seasons
+   - Modify database schema for multi-season storage
+   - Execute historical data ingestion
+
+2. **Historical Model Training**: Train archetypes and Bayesian model on pooled multi-season data
+   - Re-engineer archetype generation for multi-season data
+   - Re-engineer supercluster generation for multi-season data
+   - Train predictive Bayesian model on historical dataset
+
+3. **Predictive Validation**: Test ability to predict 2022-23 outcomes using only pre-season data
+   - Create `validate_predictive_model.py` script
+   - Test primary case: Russell Westbrook-Lakers failure prediction
+   - Validate against additional case studies (Clippers, Mavs, Kings, Nets)
+
+**Secondary Focus: Production Features**
+
+4. **Production Dashboard**: Enhance `production_dashboard.py` with validated model integration
+5. **API Endpoints**: Implement REST API for lineup recommendations
+6. **Real-time Updates**: Integrate with live NBA data feeds
+7. **Performance Optimization**: Scale model for high-frequency recommendations
+8. **User Interface**: Build web interface for lineup optimization
+
+**Specification**: See `PREDICTIVE_MODELING_SPEC.md` for detailed implementation plan.
 
 ## 📁 Key Files and Locations
 
