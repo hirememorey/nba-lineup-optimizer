@@ -1,0 +1,468 @@
+{
+  "certificate_version": 1,
+  "generated_at": "2025-10-16T14:56:23.608141Z",
+  "commit_hash": null,
+  "season": "2022-23",
+  "environment": {
+    "generated_at": "2025-10-16T14:56:21.116579Z",
+    "platform": {
+      "system": "Darwin",
+      "release": "24.6.0",
+      "version": "Darwin Kernel Version 24.6.0: Mon Jul 14 11:29:54 PDT 2025; root:xnu-11417.140.69~1/RELEASE_ARM64_T8122",
+      "machine": "arm64",
+      "processor": "arm"
+    },
+    "python": {
+      "version": "3.13.1 (main, Jan 30 2025, 11:38:10) [Clang 16.0.0 (clang-1600.0.26.6)]",
+      "executable": "/Users/harrisgordon/.pyenv/versions/3.13.1/bin/python3"
+    },
+    "packages": {
+      "numpy": "2.3.0",
+      "pandas": "2.3.0",
+      "sklearn": "1.7.0",
+      "cmdstanpy": "1.2.5",
+      "pystan": null,
+      "arviz": "0.22.0",
+      "scipy": "1.15.3",
+      "joblib": "1.5.1"
+    }
+  },
+  "artifacts": {
+    "checksums_sha256": {
+      "src/nba_stats/db/nba_stats.db": "d779672441206a0196968f0ff1cbd777bc7268ed2e9e95d5ae8eddabe1f42834",
+      "production_bayesian_data.csv": "2c73afe7df5c4a90ab0ef7601115fd98d993e7cdf8a821776c78f8ff94518a8d",
+      "stratified_sample_10k.csv": "454fefaa4e6240017815a3c50cd9f25dca33d517ca1bde35c440468490beb0c5",
+      "bayesian_model_k8.stan": "19ab01834cf8c72b37bbeb3c1013b493ce012f41f51c90fbc74c654b95faf2f4",
+      "trained_models/robust_scaler.joblib": "740ab6ef1a322109fddbbdef4dfa4aaf5a4aae7aae1b19ccb96730daaa0c7024",
+      "trained_models/kmeans_model.joblib": "84d0472ea923847d0bdd24fa8d2201eea8d05221226917347e4f0a63fbdb51c4",
+      "lineup_supercluster_results/lineup_features_with_superclusters.csv": "9ee9873cae5e7e8480c2b2d2392ad4b2f635b31d03f236c2df50f177ea3a3ace",
+      "lineup_supercluster_results/supercluster_assignments.json": "0aa0777eb075be260f18e5057f332ede7ccbeacf5db9c3193fffdbfcfaee0ae2",
+      "stan_model_results/convergence_diagnostics.json": "1badf4caf5a70661809fcea20d1c80565425f8ba969b7c28b6982685ac2ceaa4",
+      "stan_model_results/coefficient_summary.csv": "a396d1a478fc8b843d478a50ad71665ae03b82f2756ff06596b57debdc740c13",
+      "stan_model_results/model_summary.csv": "b98186fa17aea42ae7da134e422996b7c388808d9b2242ddce1aeecad6367cf8"
+    }
+  },
+  "database_sanity": {
+    "success": true,
+    "summary": {
+      "Layer 1": {
+        "PASS": 12,
+        "FAIL": 0,
+        "WARN": 0
+      },
+      "Layer 1.5": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARN": 0
+      },
+      "Layer 2": {
+        "PASS": 14,
+        "FAIL": 0,
+        "WARN": 0
+      },
+      "Layer 3": {
+        "PASS": 2,
+        "FAIL": 0,
+        "WARN": 0
+      }
+    },
+    "details": [],
+    "critical_failures": 0
+  },
+  "case_study_validation": {
+    "season": "2022-23",
+    "top_n": 5,
+    "pass_threshold": 3,
+    "seeds": [
+      42,
+      123,
+      456,
+      789,
+      999
+    ],
+    "per_seed_results": [
+      {
+        "seed": 42,
+        "result": {
+          "season": "2022-23",
+          "top_n": 5,
+          "cases": {
+            "lakers": {
+              "core_resolved_ids": [
+                2544,
+                203076,
+                1630559,
+                1629060
+              ],
+              "preferred_keywords": [
+                "3&d",
+                "defensive minded guard",
+                "defensive guard",
+                "playmaking",
+                "initiating guards"
+              ],
+              "composition": {
+                "preferred_in_top_n": 4,
+                "top_n_total": 5,
+                "preferred_ratio": 0.8
+              },
+              "passed": true
+            },
+            "pacers": {
+              "core_resolved_ids": [
+                1630169,
+                1631097,
+                1627741,
+                1626167
+              ],
+              "preferred_keywords": [
+                "defensive",
+                "3&d",
+                "defensive big",
+                "defensive minded"
+              ],
+              "composition": {
+                "preferred_in_top_n": 1,
+                "top_n_total": 5,
+                "preferred_ratio": 0.2
+              },
+              "passed": false
+            },
+            "suns": {
+              "core_resolved_ids": [
+                1626164,
+                201142,
+                203078,
+                1628960
+              ],
+              "preferred_keywords": [
+                "defensive big",
+                "defensive minded big",
+                "rim",
+                "protect",
+                "non-shooting",
+                "defensive minded bigs",
+                "offensive minded bigs"
+              ],
+              "composition": {
+                "preferred_in_top_n": 2,
+                "top_n_total": 5,
+                "preferred_ratio": 0.4
+              },
+              "passed": false
+            }
+          },
+          "all_passed": false
+        }
+      },
+      {
+        "seed": 123,
+        "result": {
+          "season": "2022-23",
+          "top_n": 5,
+          "cases": {
+            "lakers": {
+              "core_resolved_ids": [
+                2544,
+                203076,
+                1630559,
+                1629060
+              ],
+              "preferred_keywords": [
+                "3&d",
+                "defensive minded guard",
+                "defensive guard",
+                "playmaking",
+                "initiating guards"
+              ],
+              "composition": {
+                "preferred_in_top_n": 4,
+                "top_n_total": 5,
+                "preferred_ratio": 0.8
+              },
+              "passed": true
+            },
+            "pacers": {
+              "core_resolved_ids": [
+                1630169,
+                1631097,
+                1627741,
+                1626167
+              ],
+              "preferred_keywords": [
+                "defensive",
+                "3&d",
+                "defensive big",
+                "defensive minded"
+              ],
+              "composition": {
+                "preferred_in_top_n": 1,
+                "top_n_total": 5,
+                "preferred_ratio": 0.2
+              },
+              "passed": false
+            },
+            "suns": {
+              "core_resolved_ids": [
+                1626164,
+                201142,
+                203078,
+                1628960
+              ],
+              "preferred_keywords": [
+                "defensive big",
+                "defensive minded big",
+                "rim",
+                "protect",
+                "non-shooting",
+                "defensive minded bigs",
+                "offensive minded bigs"
+              ],
+              "composition": {
+                "preferred_in_top_n": 2,
+                "top_n_total": 5,
+                "preferred_ratio": 0.4
+              },
+              "passed": false
+            }
+          },
+          "all_passed": false
+        }
+      },
+      {
+        "seed": 456,
+        "result": {
+          "season": "2022-23",
+          "top_n": 5,
+          "cases": {
+            "lakers": {
+              "core_resolved_ids": [
+                2544,
+                203076,
+                1630559,
+                1629060
+              ],
+              "preferred_keywords": [
+                "3&d",
+                "defensive minded guard",
+                "defensive guard",
+                "playmaking",
+                "initiating guards"
+              ],
+              "composition": {
+                "preferred_in_top_n": 4,
+                "top_n_total": 5,
+                "preferred_ratio": 0.8
+              },
+              "passed": true
+            },
+            "pacers": {
+              "core_resolved_ids": [
+                1630169,
+                1631097,
+                1627741,
+                1626167
+              ],
+              "preferred_keywords": [
+                "defensive",
+                "3&d",
+                "defensive big",
+                "defensive minded"
+              ],
+              "composition": {
+                "preferred_in_top_n": 1,
+                "top_n_total": 5,
+                "preferred_ratio": 0.2
+              },
+              "passed": false
+            },
+            "suns": {
+              "core_resolved_ids": [
+                1626164,
+                201142,
+                203078,
+                1628960
+              ],
+              "preferred_keywords": [
+                "defensive big",
+                "defensive minded big",
+                "rim",
+                "protect",
+                "non-shooting",
+                "defensive minded bigs",
+                "offensive minded bigs"
+              ],
+              "composition": {
+                "preferred_in_top_n": 2,
+                "top_n_total": 5,
+                "preferred_ratio": 0.4
+              },
+              "passed": false
+            }
+          },
+          "all_passed": false
+        }
+      },
+      {
+        "seed": 789,
+        "result": {
+          "season": "2022-23",
+          "top_n": 5,
+          "cases": {
+            "lakers": {
+              "core_resolved_ids": [
+                2544,
+                203076,
+                1630559,
+                1629060
+              ],
+              "preferred_keywords": [
+                "3&d",
+                "defensive minded guard",
+                "defensive guard",
+                "playmaking",
+                "initiating guards"
+              ],
+              "composition": {
+                "preferred_in_top_n": 4,
+                "top_n_total": 5,
+                "preferred_ratio": 0.8
+              },
+              "passed": true
+            },
+            "pacers": {
+              "core_resolved_ids": [
+                1630169,
+                1631097,
+                1627741,
+                1626167
+              ],
+              "preferred_keywords": [
+                "defensive",
+                "3&d",
+                "defensive big",
+                "defensive minded"
+              ],
+              "composition": {
+                "preferred_in_top_n": 1,
+                "top_n_total": 5,
+                "preferred_ratio": 0.2
+              },
+              "passed": false
+            },
+            "suns": {
+              "core_resolved_ids": [
+                1626164,
+                201142,
+                203078,
+                1628960
+              ],
+              "preferred_keywords": [
+                "defensive big",
+                "defensive minded big",
+                "rim",
+                "protect",
+                "non-shooting",
+                "defensive minded bigs",
+                "offensive minded bigs"
+              ],
+              "composition": {
+                "preferred_in_top_n": 2,
+                "top_n_total": 5,
+                "preferred_ratio": 0.4
+              },
+              "passed": false
+            }
+          },
+          "all_passed": false
+        }
+      },
+      {
+        "seed": 999,
+        "result": {
+          "season": "2022-23",
+          "top_n": 5,
+          "cases": {
+            "lakers": {
+              "core_resolved_ids": [
+                2544,
+                203076,
+                1630559,
+                1629060
+              ],
+              "preferred_keywords": [
+                "3&d",
+                "defensive minded guard",
+                "defensive guard",
+                "playmaking",
+                "initiating guards"
+              ],
+              "composition": {
+                "preferred_in_top_n": 4,
+                "top_n_total": 5,
+                "preferred_ratio": 0.8
+              },
+              "passed": true
+            },
+            "pacers": {
+              "core_resolved_ids": [
+                1630169,
+                1631097,
+                1627741,
+                1626167
+              ],
+              "preferred_keywords": [
+                "defensive",
+                "3&d",
+                "defensive big",
+                "defensive minded"
+              ],
+              "composition": {
+                "preferred_in_top_n": 1,
+                "top_n_total": 5,
+                "preferred_ratio": 0.2
+              },
+              "passed": false
+            },
+            "suns": {
+              "core_resolved_ids": [
+                1626164,
+                201142,
+                203078,
+                1628960
+              ],
+              "preferred_keywords": [
+                "defensive big",
+                "defensive minded big",
+                "rim",
+                "protect",
+                "non-shooting",
+                "defensive minded bigs",
+                "offensive minded bigs"
+              ],
+              "composition": {
+                "preferred_in_top_n": 2,
+                "top_n_total": 5,
+                "preferred_ratio": 0.4
+              },
+              "passed": false
+            }
+          },
+          "all_passed": false
+        }
+      }
+    ],
+    "all_seeds_passed": false
+  },
+  "training_diagnostics": {
+    "available": true,
+    "max_rhat": 2.19042,
+    "min_ess": 2.69125,
+    "divergences": null
+  },
+  "recommended_validation_config": {
+    "top_n": 5,
+    "pass_threshold": 3
+  },
+  "overall_pass": false
+}
