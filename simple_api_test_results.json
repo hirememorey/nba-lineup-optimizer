@@ -1,0 +1,88 @@
+{
+  "2018-19": {
+    "commonallplayers": {
+      "success": true,
+      "season": "2018-19",
+      "endpoint": "commonallplayers",
+      "result_set_name": "CommonAllPlayers",
+      "headers_count": 16,
+      "rows_count": 5127,
+      "headers": [
+        "PERSON_ID",
+        "DISPLAY_LAST_COMMA_FIRST",
+        "DISPLAY_FIRST_LAST",
+        "ROSTERSTATUS",
+        "FROM_YEAR",
+        "TO_YEAR",
+        "PLAYERCODE",
+        "PLAYER_SLUG",
+        "TEAM_ID",
+        "TEAM_CITY"
+      ],
+      "sample_row": [
+        76001,
+        "Abdelnaby, Alaa",
+        "Alaa Abdelnaby",
+        0,
+        "1990",
+        "1994",
+        "HISTADD_alaa_abdelnaby",
+        "alaa_abdelnaby",
+        0,
+        "",
+        "",
+        "",
+        "",
+        null,
+        "Y",
+        "00"
+      ]
+    },
+    "leaguedashplayerstats": {
+      "error": "No response received"
+    }
+  },
+  "2022-23": {
+    "commonallplayers": {
+      "success": true,
+      "season": "2022-23",
+      "endpoint": "commonallplayers",
+      "result_set_name": "CommonAllPlayers",
+      "headers_count": 16,
+      "rows_count": 5127,
+      "headers": [
+        "PERSON_ID",
+        "DISPLAY_LAST_COMMA_FIRST",
+        "DISPLAY_FIRST_LAST",
+        "ROSTERSTATUS",
+        "FROM_YEAR",
+        "TO_YEAR",
+        "PLAYERCODE",
+        "PLAYER_SLUG",
+        "TEAM_ID",
+        "TEAM_CITY"
+      ],
+      "sample_row": [
+        76001,
+        "Abdelnaby, Alaa",
+        "Alaa Abdelnaby",
+        0,
+        "1990",
+        "1994",
+        "HISTADD_alaa_abdelnaby",
+        "alaa_abdelnaby",
+        0,
+        "",
+        "",
+        "",
+        "",
+        null,
+        "Y",
+        "00"
+      ]
+    },
+    "leaguedashplayerstats": {
+      "error": "No response received"
+    }
+  }
+}
