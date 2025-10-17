@@ -17,11 +17,11 @@
         "initiating guards"
       ],
       "composition": {
-        "preferred_in_top_n": 5,
+        "preferred_in_top_n": 0,
         "top_n_total": 5,
-        "preferred_ratio": 1.0
+        "preferred_ratio": 0.0
       },
-      "passed": true
+      "passed": false
     },
     "pacers": {
       "core_resolved_ids": [
@@ -37,11 +37,11 @@
         "defensive minded"
       ],
       "composition": {
-        "preferred_in_top_n": 4,
+        "preferred_in_top_n": 0,
         "top_n_total": 5,
-        "preferred_ratio": 0.8
+        "preferred_ratio": 0.0
       },
-      "passed": true
+      "passed": false
     },
     "suns": {
       "core_resolved_ids": [
@@ -60,12 +60,12 @@
         "offensive minded bigs"
       ],
       "composition": {
-        "preferred_in_top_n": 5,
+        "preferred_in_top_n": 0,
         "top_n_total": 5,
-        "preferred_ratio": 1.0
+        "preferred_ratio": 0.0
       },
-      "passed": true
+      "passed": false
     }
   },
-  "all_passed": true
+  "all_passed": false
 }

@@ -1,7 +1,7 @@
 # Specification: Evolving to a Predictive Model
 
-**Date**: October 16, 2025
-**Status**: SPECIFICATION
+**Date**: October 17, 2025
+**Status**: PHASE 1 COMPLETE; PHASE 1.4 IN PROGRESS
 **Author**: Gemini
 
 ## 1. Vision & Goal
@@ -27,32 +27,76 @@ The refined plan involves three core phases:
 2.  **Phase 2: Multi-Season Model Training.** The archetype generation and Bayesian model training processes will be re-engineered to operate on a pooled, multi-season dataset.
 3.  **Phase 3: Predictive Validation.** The newly trained, historically-informed model will be used to predict the outcomes of key case studies from the held-out 2022-23 season.
 
+## 3.1. Phase 1 Completion Status ✅
+
+**Phase 1 has been successfully completed** with the following achievements:
+
+### Phase 1.1: Script Archaeology & Compatibility Assessment ✅
+- **Script Discovery**: Audited 120+ Python scripts, identified 20+ with argparse support, 20+ with hardcoded seasons
+- **Database Schema Verification**: Confirmed mixed state - PlayerSeasonRawStats, PlayerSeasonSkill, Games are multi-season ready
+- **API Compatibility Test**: Validated NBA Stats API consistency between 2018-19 and 2022-23
+
+### Phase 1.2: Single-Script Refactoring ✅
+- **Tested `populate_games.py`**: Already multi-season compatible
+- **Successfully populated**: 2018-19 (1,312 games), 2020-21 (1,165 games), 2022-23 (1,314 games), 2024-25 (1,230 games)
+
+### Phase 1.3: End-to-End Single-Season Validation ✅
+- **Critical Discovery**: Games data exists for 2018-19 but **no player data** (PlayerSeasonRawStats, DARKO ratings, archetype features)
+- **Analytical Scripts Status**: 2 succeeded, 1 timed out (due to missing data)
+- **Validation Result**: FAIL - due to missing player data for historical seasons
+
+### Key Insight
+The post-mortem was 100% accurate. The critical blocker is **data availability, not script compatibility**. The next phase must focus on populating player data before attempting analytical script refactoring.
+
 ---
 
 ## 4. Detailed Implementation Plan
 
-### Phase 1: Historical Data Expansion
+### Phase 1.4: Historical Data Collection (CURRENT PHASE)
 
-The goal of this phase is to make our data infrastructure multi-season aware.
+**Status**: Phase 1.1-1.3 complete. Phase 1.4 is the next critical phase.
 
-**Task 1.1: Parameterize All Data Collection Scripts**
+The goal of this phase is to populate player data for historical seasons before attempting analytical script refactoring.
 
-*   **Action:** Audit every script in `src/nba_stats/scripts/` (e.g., `populate_games.py`, `populate_darko_data.py`, etc.).
-*   **Requirement:** Ensure every script can be run for a specific historical season via a command-line argument (e.g., `--season 2021-22`). Remove any hardcoded season values.
-*   **Target Seasons:** The initial historical data pool will consist of the **2018-19, 2020-21, and 2021-22** seasons.
-    *   *Note: We will exclude the 2019-20 "bubble" season as its unique circumstances make it a statistical outlier.*
+**Task 1.4.1: Refactor Data Collection Scripts**
 
-**Task 1.2: Modify Database Schema for Multi-Season Storage**
+*   **Action:** Refactor populate_* scripts to support historical seasons via `--season` parameter.
+*   **Priority Scripts:**
+    - `populate_player_season_stats.py` - PlayerSeasonRawStats table
+    - `populate_player_advanced_stats.py` - PlayerSeasonAdvancedStats table
+    - `populate_player_drive_stats.py` - PlayerSeasonDriveStats table
+    - `populate_player_hustle_stats.py` - PlayerSeasonHustleStats table
+    - `populate_player_passing_stats.py` - PlayerSeasonPassingStats table
+    - `populate_player_post_up_stats.py` - PlayerSeasonPostUpStats table
+    - `populate_player_rebounding_stats.py` - PlayerSeasonReboundingStats table
+    - `populate_player_shooting_stats.py` - PlayerSeasonShootingStats table
+    - `populate_possessions.py` - Possessions table
+*   **Target Seasons:** 2018-19, 2020-21, 2021-22
+*   **Note:** `populate_games.py` and `populate_darko_data.py` are already multi-season compatible.
 
-*   **Action:** Review all relevant database tables in `src/nba_stats/db/nba_stats.db`.
-*   **Requirement:** Ensure that every table has a `season` column and that it is part of the primary key for all player-season and lineup-season data. This is critical for preventing data collisions.
-*   **Verification:** Write a script that confirms all relevant tables have the `season` column properly indexed.
+**Task 1.4.2: Execute Historical Data Ingestion**
 
-**Task 1.3: Execute Historical Data Ingestion**
+*   **Action:** Run the refactored data collection scripts for each historical season.
+*   **Requirement:** Process must be resumable and idempotent. Use `run_historical_data_collection.py` for orchestration.
+*   **Verification:** Confirm database contains expected data volume for each season.
 
-*   **Action:** Run the parameterized data collection scripts for each of the target historical seasons (2018-19, 2020-21, 2021-22).
-*   **Requirement:** This is a significant data engineering task. The process must be resumable and idempotent.
-*   **Verification:** After completion, run queries to confirm that the database contains the expected volume of data for each of the three historical seasons.
+**Task 1.4.3: Data Quality Verification**
+
+*   **Action:** Verify data completeness and integrity across all seasons.
+*   **Requirements:**
+    - Check row counts for each season
+    - Verify data integrity
+    - Spot-check known players
+    - Compare statistical distributions across seasons
+
+**Task 1.4.4: Analytical Script Refactoring**
+
+*   **Action:** Refactor analytical scripts to be season-agnostic.
+*   **Priority Scripts:**
+    - `create_archetypes.py` - Remove hardcoded season references
+    - `generate_lineup_superclusters.py` - Make season-agnostic
+    - `bayesian_data_prep.py` - Handle multi-season data
+*   **Testing:** End-to-end pipeline test on 2018-19 data
 
 ### Phase 2: Multi-Season Model Training
 

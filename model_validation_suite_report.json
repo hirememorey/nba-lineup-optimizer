@@ -1,0 +1,8 @@
+{
+  "overall_quality_score": 0.7142857142857143,
+  "total_tests": 7,
+  "passed_tests": 5,
+  "test_results": {
+    "coefficient_sanity_check": true,
+    "diminishing_returns_test": false,
+    "synergy_test": 

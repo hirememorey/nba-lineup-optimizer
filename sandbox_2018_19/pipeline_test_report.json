@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-10-17T08:50:09.200799",
+  "season": "2018-19",
+  "sandbox_directory": "sandbox_2018_19",
+  "data_collection_results": {
+    "populate_games.py": "SUCCESS",
+    "populate_player_season_stats.py": "FAILED: /Users/harrisgordon/.pyenv/versions/3.13.1/lib/python3.13/site-packages/pydantic/_internal/_config.py:345: UserWarning: Valid config keys have changed in V2:\n* 'anystr_strip_whitespace' has been renam",
+    "populate_darko_data.py": "FAILED: ",
+    "populate_salaries.py": "SUCCESS",
+    "archetype_generation": "SUCCESS",
+    "supercluster_generation": "SUCCESS",
+    "bayesian_data_prep": "SUCCESS"
+  },
+  "validation_results": {
+    "player_archetypes_k8_2018_19.csv": "NOT_FOUND",
+    "lineup_features_with_superclusters.csv": "NOT_FOUND",
+    "bayesian_data_2018_19.csv": "NOT_FOUND",
+    "table_Players": "EXISTS (5,025 rows)",
+    "table_Games": "EXISTS (3,856 rows)",
+    "table_PlayerSeasonRawStats": "EXISTS (710 rows)",
+    "table_PlayerSeasonSkill": "EXISTS (1,710 rows)"
+  },
+  "overall_status": "FAIL"
+}

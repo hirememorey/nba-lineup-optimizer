@@ -1,0 +1,119 @@
+# Script Audit Report
+# Generated: $(date)
+# Phase 1.1.1: Script Discovery & Classification
+
+## Summary
+- Total Python scripts found: 120+
+- Scripts with argparse support: 20+
+- Scripts with hardcoded seasons: 20+
+- Scripts with relative imports: 20+
+
+## Scripts with Command-Line Argument Support (argparse/ArgumentParser)
+./test_api_connection.py
+./populate_games.py
+./data_verification_tool.py
+./test_resumability.py
+./data_imputation_tool.py
+./generate_validation_certificate.py
+./verify_semantic_data_corrected.py
+./populate_darko_data.py
+./master_data_pipeline.py
+./train_bayesian_model.py
+./parameter_sweep.py
+./validate_model.py
+./src/nba_stats/scripts/run_population.py
+./src/nba_stats/scripts/populate_player_post_up_stats.py
+./src/nba_stats/scripts/populate_games.py
+./src/nba_stats/scripts/populate_opponent_shooting_stats.py
+./src/nba_stats/scripts/populate_players.py
+./src/nba_stats/scripts/verify_archetype_features.py
+./src/nba_stats/scripts/populate_player_wingspan.py
+./src/nba_stats/scripts/generate_archetype_features.py
+
+## Scripts with Hardcoded Season References (2022-23 or 2024-25)
+./test_api_connection.py
+./collect_2022_23_missing_data.py
+./api_reconnaissance.py
+./validate_clustering.py
+./demo_database_writer.py
+./populate_games.py
+./bayesian_data_prep.py
+./model_interrogation_tool.py
+./comprehensive_data_sanity_check.py
+./validate_archetype_lineups.py
+./warm_cache.py
+./populate_2022_23_salaries.py
+./test_resumability.py
+./model_governance_dashboard.py
+./verify_database_sanity.py
+./possession_modeling_pipeline.py
+./generate_optimal_archetypes.py
+./verify_100_percent.py
+./comprehensive_data_audit.py
+./fan_friendly_mapping.py
+
+## Scripts with Relative Import Patterns (from .)
+./src/nba_stats/__init__.py
+./src/nba_stats/utils/common_utils.py
+./src/nba_stats/model_evaluator.py
+./src/nba_stats/scripts/run_population.py
+./src/nba_stats/scripts/populate_player_post_up_stats.py
+./src/nba_stats/scripts/populate_games.py
+./src/nba_stats/scripts/populate_opponent_shooting_stats.py
+./src/nba_stats/scripts/verify_data_integrity.py
+./src/nba_stats/scripts/populate_players.py
+./src/nba_stats/scripts/populate_player_wingspan.py
+./src/nba_stats/scripts/fix_player_ids.py
+./src/nba_stats/scripts/repair_shotchart_fk.py
+./src/nba_stats/scripts/populate_player_hustle_stats.py
+./src/nba_stats/scripts/populate_player_average_shot_distance.py
+./src/nba_stats/scripts/populate_player_catch_shoot_stats.py
+./src/nba_stats/scripts/populate_player_tracking_touches_stats.py
+./src/nba_stats/scripts/repair_players_fk.py
+./src/nba_stats/scripts/populate_player_drive_stats.py
+./src/nba_stats/scripts/populate_player_rebounding_stats.py
+./src/nba_stats/scripts/populate_player_pull_up_stats.py
+
+## Key Findings
+
+### 1. Script Architecture Reality
+- Most scripts are NOT parameterized for multi-season use
+- Many scripts have hardcoded season references
+- Scripts are scattered across root directory and src/nba_stats/scripts/
+
+### 2. Import Path Issues
+- Many scripts in src/nba_stats/scripts/ use relative imports
+- These will break when run directly with python script.py
+- Need to run as modules: python -m src.nba_stats.scripts.script_name
+
+### 3. Critical Scripts Needing Refactoring
+- populate_games.py (root and src versions)
+- bayesian_data_prep.py
+- create_archetypes.py (likely hardcoded)
+- generate_lineup_superclusters.py (likely hardcoded)
+
+### 4. Scripts Already Parameterized
+- populate_darko_data.py
+- master_data_pipeline.py
+- train_bayesian_model.py
+- validate_model.py
+
+## Recommendations
+
+### Phase 1.2: Start with Simplest Script
+Recommended candidate: populate_games.py (root version)
+- Has argparse support
+- Likely simpler than other scripts
+- Critical for data pipeline
+
+### Phase 1.3: Test Import Patterns
+Before refactoring, test how scripts should be run:
+- Direct execution: python script.py
+- Module execution: python -m module.script
+- Import execution: from module import script; script.main()
+
+### Phase 1.4: Identify Analytical Scripts
+Need to check these critical analytical scripts for hardcoded assumptions:
+- create_archetypes.py
+- generate_lineup_superclusters.py
+- bayesian_data_prep.py
