@@ -1,0 +1,46 @@
+2025-10-17 11:54:42,043 - INFO - Checking existing data...
+2025-10-17 11:54:42,051 - INFO - 2018-19: {'games': 1312, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:54:42,052 - INFO - 2020-21: {'games': 1165, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:54:42,053 - INFO - 2021-22: {'games': 0, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:54:47,619 - INFO - Starting data collection for 2018-19
+2025-10-17 11:54:47,626 - INFO - Existing data for 2018-19: {'games': 1312, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:54:47,626 - INFO - Games data already exists for 2018-19, skipping
+2025-10-17 11:54:47,626 - INFO - Players data already exists for 2018-19, skipping
+2025-10-17 11:54:47,626 - INFO - Populating player stats for 2018-19
+2025-10-17 11:54:47,626 - WARNING - Player stats population for 2018-19 not yet implemented
+2025-10-17 11:54:47,626 - WARNING - This requires refactoring the existing populate_player_season_stats.py script
+2025-10-17 11:54:47,626 - WARNING - Player stats collection failed for 2018-19
+2025-10-17 11:54:47,626 - INFO - Populating DARKO data for 2018-19
+2025-10-17 11:54:47,652 - ERROR - ❌ Failed to populate DARKO for 2018-19: 
+2025-10-17 11:54:47,653 - INFO - Final data for 2018-19: {'games': 1312, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:56:38,439 - INFO - Checking existing data...
+2025-10-17 11:56:38,447 - INFO - 2018-19: {'games': 1312, 'players': 5, 'stats': 0, 'darko': 541}
+2025-10-17 11:56:38,448 - INFO - 2020-21: {'games': 1165, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:56:38,449 - INFO - 2021-22: {'games': 0, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:56:43,740 - INFO - Starting data collection for 2020-21
+2025-10-17 11:56:43,746 - INFO - Existing data for 2020-21: {'games': 1165, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:56:43,746 - INFO - Games data already exists for 2020-21, skipping
+2025-10-17 11:56:43,746 - INFO - Players data already exists for 2020-21, skipping
+2025-10-17 11:56:43,747 - INFO - Populating player stats for 2020-21
+2025-10-17 11:56:43,747 - WARNING - Player stats population for 2020-21 not yet implemented
+2025-10-17 11:56:43,747 - WARNING - This requires refactoring the existing populate_player_season_stats.py script
+2025-10-17 11:56:43,747 - WARNING - Player stats collection failed for 2020-21
+2025-10-17 11:56:43,747 - INFO - Populating DARKO data for 2020-21
+2025-10-17 11:56:43,821 - INFO - ✅ DARKO data populated for 2020-21
+2025-10-17 11:56:43,822 - INFO - Final data for 2020-21: {'games': 1165, 'players': 5, 'stats': 0, 'darko': 539}
+2025-10-17 11:56:48,268 - INFO - Starting data collection for 2021-22
+2025-10-17 11:56:48,269 - INFO - Existing data for 2021-22: {'games': 0, 'players': 5, 'stats': 0, 'darko': 0}
+2025-10-17 11:56:48,269 - INFO - Populating games data for 2021-22
+2025-10-17 11:56:51,171 - INFO - ✅ Games data populated for 2021-22
+2025-10-17 11:56:51,172 - INFO - Players data already exists for 2021-22, skipping
+2025-10-17 11:56:51,172 - INFO - Populating player stats for 2021-22
+2025-10-17 11:56:51,172 - WARNING - Player stats population for 2021-22 not yet implemented
+2025-10-17 11:56:51,172 - WARNING - This requires refactoring the existing populate_player_season_stats.py script
+2025-10-17 11:56:51,172 - WARNING - Player stats collection failed for 2021-22
+2025-10-17 11:56:51,172 - INFO - Populating DARKO data for 2021-22
+2025-10-17 11:56:51,242 - INFO - ✅ DARKO data populated for 2021-22
+2025-10-17 11:56:51,243 - INFO - Final data for 2021-22: {'games': 1317, 'players': 5, 'stats': 0, 'darko': 619}
+2025-10-17 11:56:54,373 - INFO - Checking existing data...
+2025-10-17 11:56:54,374 - INFO - 2018-19: {'games': 1312, 'players': 5, 'stats': 0, 'darko': 541}
+2025-10-17 11:56:54,375 - INFO - 2020-21: {'games': 1165, 'players': 5, 'stats': 0, 'darko': 539}
+2025-10-17 11:56:54,376 - INFO - 2021-22: {'games': 1317, 'players': 5, 'stats': 0, 'darko': 619}
