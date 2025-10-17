@@ -38,7 +38,7 @@ This project's documentation is curated to provide a clear path for any contribu
 
 **Predictive Vision**: The ultimate goal is to build a model that can predict the Russell Westbrook-Lakers failure *before* the 2022-23 season begins, transforming this from a historical analysis project into a true GM decision-making tool.
 
-See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results, **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks, and **[`PREDICTIVE_MODELING_SPEC.md`](./PREDICTIVE_MODELING_SPEC.md)** for the detailed predictive modeling implementation plan.
+See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results, **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks, and the **Predictive Vision & Evolution Strategy** section in **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for the detailed predictive modeling implementation plan.
 
 ---
 

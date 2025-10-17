@@ -29,6 +29,35 @@
 
 **Current Status**: Phase 1.4 infrastructure complete. **Next Phase**: Execute data collection for historical seasons.
 
+## 🎯 Predictive Vision & Evolution Strategy
+
+**Current State**: The model is **explanatory** - trained on 2022-23 data to explain lineup dynamics within that single season.
+
+**Target State**: **Predictive Engine** - trained on multi-season historical data to forecast future outcomes before the season begins.
+
+**Ultimate Goal**: Build a model that could have predicted the Russell Westbrook-Lakers failure *before* the 2022-23 season began, transforming this from a historical analysis project into a true offseason decision-making tool for NBA General Managers.
+
+### **Guiding Principles for Predictive Evolution**
+
+1. **Past is Prologue**: A robust prediction of the future requires deep understanding of durable basketball patterns across multiple seasons
+2. **Stable Definitions**: Player archetypes must represent consistent roles, not statistical noise of single seasons
+3. **Isolate for Prediction**: Hold out 2022-23 completely for validation - no information from validation season during training
+4. **On-Court Performance is Ground Truth**: Validate against actual Net Rating outcomes, not theoretical predictions
+
+### **Predictive Evolution Architecture**
+
+**Phase 2: Multi-Season Model Training** (Next Phase):
+- Refactor analytical scripts to be season-agnostic and work with multi-season data
+- Pool data from 2018-19, 2020-21, 2021-22 seasons for training
+- Generate single, stable set of eight player archetypes across modern NBA
+- Train model on complete historical dataset to learn "durable rules of basketball"
+
+**Phase 3: Predictive Validation**:
+- Use historically-trained model to predict 2022-23 outcomes
+- Test against Russell Westbrook-Lakers case study and other known outcomes
+- Validate that model correctly predicts poor fit for redundant ball handlers
+- Success Criteria: Directionally aligned predictions with real-world outcomes
+
 ## 🚀 Current Implementation Status
 
 ### ✅ **Phase 0: "Validate the Validator" - COMPLETE**
@@ -166,4 +195,4 @@ Phase 1.4 infrastructure is complete. All necessary scripts exist and are ready 
 
 **After Phase 1.4**: Proceed to Phase 2 (Multi-Season Model Training) with complete historical data.
 
-**Specification**: See `PREDICTIVE_MODELING_SPEC.md` for detailed implementation plan.
+**Specification**: See the "Predictive Vision & Evolution Strategy" section above for the detailed implementation plan.

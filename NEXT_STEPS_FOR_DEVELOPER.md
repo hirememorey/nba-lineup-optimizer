@@ -119,7 +119,7 @@ The following data is available for historical seasons (2018-19, 2020-21, 2021-2
 7. **Performance Optimization**: Scale model for high-frequency recommendations
 8. **User Interface**: Build web interface for lineup optimization
 
-**Specification**: See `PREDICTIVE_MODELING_SPEC.md` for detailed implementation plan.
+**Specification**: See `CURRENT_STATUS.md` "Predictive Vision & Evolution Strategy" section for detailed implementation plan.
 
 ## 📁 Key Files and Locations
 

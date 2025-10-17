@@ -45,11 +45,10 @@
 - **Pattern Recognition**: Look for correlations across historical cases, not single causes
 
 ### **Next Steps**
-1. Read **[CASE_STUDY_ARCHIVE_IMPLEMENTATION.md](CASE_STUDY_ARCHIVE_IMPLEMENTATION.md)** for the new basketball-first approach
-2. Review **[CURRENT_STATUS.md](CURRENT_STATUS.md)** for updated project status and post-mortem insights
-3. Start with Phase 1: Historical database construction (2017-2025 cases)
-4. Implement betting market analysis for Hype Score calculation
-5. Build pattern recognition engine for correlation analysis
+1. Read **[CURRENT_STATUS.md](../CURRENT_STATUS.md)** for the latest project status and basketball-first approach
+2. Start with Phase 1: Historical database construction (2017-2025 cases)
+3. Implement betting market analysis for Hype Score calculation
+4. Build pattern recognition engine for correlation analysis
 
 ## Files Removed (Outdated)
 - `IMPLEMENTATION_GUIDE.md` - Redundant with DATA_DRIVEN_APPROACH.md
