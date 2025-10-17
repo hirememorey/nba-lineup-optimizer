@@ -1,33 +1,36 @@
 # Next Steps for Developer
 
 **Date**: October 17, 2025
-**Status**: ✅ **PHASE 1.4 COMPLETE; READY FOR PHASE 2** — Historical data collection has been successfully completed. All historical seasons now have the required data for predictive model training.
+**Status**: ⚠️ **PHASE 1.4 INFRASTRUCTURE COMPLETE; EXECUTION PENDING** — Historical data collection infrastructure is ready, but data collection needs to be executed for historical seasons.
 
 ## 🎯 Current State
 
-- ✅ **Phase 1.4 Complete**: Historical data collection successfully completed for all target seasons
-- ✅ **Data Availability Resolved**: All necessary historical data has been collected
+- ✅ **Phase 1.4 Infrastructure Complete**: All necessary scripts exist and are season-agnostic
+- ✅ **API Client Robust**: Rate limiting, retry logic, and error handling implemented
+- ✅ **Database Schema Ready**: All tables support multi-season data
 - ✅ **Games Data Available**: Historical seasons (2018-19, 2020-21, 2021-22) have complete games data
 - ✅ **DARKO Data Available**: 1,699 players with skill ratings across historical seasons
-- ✅ **Orchestration Script Built**: Robust data collection system with resumable execution
+- ⚠️ **Data Collection Pending**: Player stats, possessions, and archetype features need to be collected
 
-## 🚀 Next Implementation Phase: Phase 2 - Multi-Season Model Training
+## 🚀 Next Implementation Phase: Phase 1.4 Execution - Historical Data Collection
 
-Phase 1.4 has successfully collected all necessary historical data. The system now has complete data for 2018-19, 2020-21, and 2021-22 seasons. The next phase must focus on refactoring analytical scripts and training the model on pooled historical data.
+Phase 1.4 infrastructure is complete. All necessary scripts exist and are ready to collect historical data. The next phase is to execute the existing scripts for historical seasons.
 
-**Key Insight**: The post-mortem was 100% accurate. The solution was simpler than anticipated - scripts already worked, we just needed to collect the data and fix a few mapping issues.
+**Key Insight**: The post-mortem was 100% accurate. The solution is simpler than anticipated - scripts already work, we just need to run them for historical seasons.
 
-### **Step 1: Phase 1.4 Results Summary**
+### **Step 1: Phase 1.4 Infrastructure Summary**
 
-Phase 1.4 has successfully completed historical data collection:
+Phase 1.4 infrastructure is complete and ready for execution:
 - **API Validation**: Confirmed NBA Stats API works consistently across all historical seasons
+- **Population Scripts**: All necessary scripts exist and are season-agnostic
+- **API Client**: Robust rate limiting, retry logic, and error handling implemented
+- **Database Schema**: All tables support multi-season data
 - **Games Data**: Successfully collected for 2018-19 (1,312), 2020-21 (1,165), 2021-22 (1,317)
 - **DARKO Data**: Successfully collected for 1,699 players across historical seasons
-- **Orchestration**: Built robust `run_historical_data_collection.py` with resumable execution
 
-### **Step 2: Data Now Available**
+### **Step 2: Data Status**
 
-The following data is now available for historical seasons (2018-19, 2020-21, 2021-22):
+The following data is available for historical seasons (2018-19, 2020-21, 2021-22):
 
 1. **Games Data** ✅
    - Complete game schedules and results
@@ -44,48 +47,69 @@ The following data is now available for historical seasons (2018-19, 2020-21, 20
    - Required for player identification and matching
    - Status: Available for all seasons
 
-4. **Ground Truth Data** ✅
-   - 2022-23 season data for validation
-   - 1,314 games and 549 DARKO records
-   - Status: Ready for predictive validation
+4. **Player Stats** ❌
+   - Season statistics for players
+   - Required for archetype generation
+   - Status: **NEEDS TO BE COLLECTED** using `populate_player_season_stats.py`
 
-### **Step 3: Phase 2 Implementation Plan**
+5. **Possessions Data** ❌
+   - Play-by-play possession data
+   - Required for Bayesian model training
+   - Status: **NEEDS TO BE COLLECTED** using `populate_possessions.py`
 
-**Priority 1: Analytical Script Refactoring**
+6. **Archetype Features** ❌
+   - Player archetype features for clustering
+   - Required for analytical pipeline
+   - Status: **NEEDS TO BE GENERATED** after player stats collection
 
-1. **Refactor Core Scripts**:
-   - `create_archetypes.py` - Remove hardcoded season references, make season-agnostic
-   - `generate_lineup_superclusters.py` - Make season-agnostic for multi-season data
-   - `bayesian_data_prep.py` - Handle multi-season data pooling
+### **Step 3: Phase 1.4 Execution Plan**
 
-2. **Test Scripts Individually**:
-   - Start with `create_archetypes.py` using historical seasons
-   - Test with 2018-19 data first, then scale to all seasons
-   - Verify archetype generation works across seasons
+**Priority 1: Historical Data Collection**
 
-**Priority 2: Multi-Season Model Training**
+1. **Collect Player Stats**:
+   ```bash
+   python src/nba_stats/scripts/populate_player_season_stats.py --season 2018-19
+   python src/nba_stats/scripts/populate_player_season_stats.py --season 2020-21
+   python src/nba_stats/scripts/populate_player_season_stats.py --season 2021-22
+   ```
 
-1. **Pool Historical Data**:
-   - Combine data from 2018-19, 2020-21, 2021-22 seasons
-   - Ensure consistent player mapping across seasons
-   - Validate data quality and completeness
+2. **Collect Possessions Data**:
+   ```bash
+   python src/nba_stats/scripts/populate_possessions.py --season 2018-19
+   python src/nba_stats/scripts/populate_possessions.py --season 2020-21
+   python src/nba_stats/scripts/populate_possessions.py --season 2021-22
+   ```
 
-2. **Train Predictive Model**:
-   - Use pooled historical data for training
-   - Hold out 2022-23 for validation
-   - Generate model coefficients for predictive use
+3. **Generate Archetype Features**:
+   ```bash
+   python create_archetypes.py --season 2018-19
+   python create_archetypes.py --season 2020-21
+   python create_archetypes.py --season 2021-22
+   ```
 
-**Priority 3: Predictive Validation**
+**Priority 2: Data Validation**
 
-1. **Russell Westbrook Case Study**:
-   - Test model's ability to predict Lakers' struggles
-   - Validate against known 2022-23 outcomes
-   - Compare with other case studies from the paper
+1. **Verify Data Completeness**:
+   - Check player stats collection for all seasons
+   - Verify possessions data for all seasons
+   - Validate archetype features generation
 
-2. **End-to-End Testing**:
-   - Test complete predictive pipeline
-   - Verify model can forecast future outcomes
-   - Document predictive accuracy and limitations
+2. **Cross-Season Consistency**:
+   - Ensure player mapping consistency across seasons
+   - Validate data quality thresholds
+   - Check for missing or corrupted data
+
+**Priority 3: Multi-Season Model Training (After Data Collection)**
+
+1. **Refactor Analytical Scripts**:
+   - Make `bayesian_data_prep.py` season-agnostic
+   - Update to pool data from multiple seasons
+   - Train model on historical data
+
+2. **Predictive Validation**:
+   - Test model's ability to predict 2022-23 outcomes
+   - Validate Russell Westbrook-Lakers case study
+   - Compare with other known outcomes
 
 **Secondary Focus: Production Features**
 
