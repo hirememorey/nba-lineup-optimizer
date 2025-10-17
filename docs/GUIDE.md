@@ -120,4 +120,94 @@ When authentication is enabled, the default credentials are:
 
 ⚠️ **It is critical to change these passwords in a production environment via environment variables.**
 
+---
+
+## 4. For the Developer: Validation and Testing
+
+This section covers validating the model and running tests to ensure the system works correctly.
+
+### Ground Truth Validation
+
+Before making changes or running analysis, validate that the core basketball principles are working correctly:
+
+```bash
+# Run comprehensive ground truth validation
+python3 ground_truth_validation.py
+```
+
+**Expected Output**:
+- ✅ Westbrook Cases (PASS): Lakers improve without Westbrook
+- ✅ Skill Balance (PASS): Balanced lineups outperform imbalanced
+- ❌ Archetype Diversity (FAIL): Redundancy penalty needs refinement
+
+### Model Validation
+
+Test the trained model's recommendations against known case studies:
+
+```bash
+# Basic validation (recommended settings)
+python3 validate_model.py --season 2022-23 --cases lakers pacers suns --top-n 5 --pass-threshold 3
+
+# Debug mode for detailed output
+python3 validate_model.py --season 2022-23 --cases lakers pacers suns --top-n 5 --pass-threshold 3 --debug
+
+# Parameter sweep to test robustness
+python3 parameter_sweep.py
+```
+
+**Expected Results**:
+- **Lakers**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Playmaking, Initiating Guards"
+- **Pacers**: ✅ PASS (4/5 preferred, 80%) - Model recommends defensive players
+- **Suns**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Offensive Minded Bigs"
+
+### Testing Individual Components
+
+```bash
+# Test the custom 2022-23 evaluator directly
+python3 simple_2022_23_evaluator.py
+
+# Run the full test suite
+python3 -m pytest
+
+# Run specific test categories
+python3 -m pytest tests/ -k "validation"  # Validation tests only
+python3 -m pytest tests/ -k "pipeline"    # Pipeline tests only
+```
+
+### Troubleshooting Validation Issues
+
+1. **Database Not Found**:
+   ```bash
+   # Ensure database exists
+   ls -la src/nba_stats/db/nba_stats.db
+   ```
+
+2. **Missing Players**:
+   ```bash
+   # Check if 2022-23 data is loaded
+   python3 -c "
+   import sqlite3
+   conn = sqlite3.connect('src/nba_stats/db/nba_stats.db')
+   cursor = conn.cursor()
+   cursor.execute('SELECT COUNT(*) FROM PlayerArchetypeFeatures_2022_23')
+   print(f'2022-23 players: {cursor.fetchone()[0]}')
+   conn.close()
+   "
+   ```
+
+3. **Import Errors**:
+   ```bash
+   # Ensure you're in the project root directory
+   pwd
+   # Should show: /path/to/lineupOptimizer
+   ```
+
+### Success Criteria
+
+The system is properly validated when:
+- ✅ Westbrook cases pass (Lakers improve without Westbrook)
+- ✅ Skill balance test passes (balanced > imbalanced)
+- ✅ Custom evaluator initializes with 534+ players
+- ✅ Key players found (LeBron, AD, Westbrook, Kawhi)
+- ✅ All three case studies pass validation consistently
 
