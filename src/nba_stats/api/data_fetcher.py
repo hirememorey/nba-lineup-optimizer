@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from .nba_stats_client import NBAStatsClient
-from ..scripts.common_utils import logger
+from ..utils.common_utils import logger
 from .response_models import api_validator
 
 # Add progress bar support

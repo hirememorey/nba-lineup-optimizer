@@ -5,7 +5,7 @@ leaguedashplayershotlocations with MeasureType=Opponent.
 """
 
 import sqlite3
-from .common_utils import get_db_connection, get_nba_stats_client, logger
+from ..utils.common_utils import get_db_connection, get_nba_stats_client, logger
 from typing import Dict, List, Optional, Tuple
 
 

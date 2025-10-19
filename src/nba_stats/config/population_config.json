@@ -72,7 +72,7 @@
     {
         "step_num": 8,
         "description": "Populate Player Opponent Shooting Stats",
-        "module_name": ".populate_opponent_shooting_stats_fixed",
+        "module_name": ".populate_opponent_shooting_stats_v2",
         "function_name": "populate_opponent_shooting_stats",
         "table_name": "PlayerSeasonOpponentShootingStats",
         "check_season_data": true,
