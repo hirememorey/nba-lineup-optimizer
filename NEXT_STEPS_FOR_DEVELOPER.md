@@ -1,7 +1,7 @@
 # Next Steps for Developer
 
-**Date**: October 17, 2025
-**Status**: ⚠️ **PHASE 1.4 INFRASTRUCTURE COMPLETE; EXECUTION PENDING** — Historical data collection infrastructure is ready, but data collection needs to be executed for historical seasons.
+**Date**: October 22, 2025
+**Status**: ✅ **PHASE 1.4.1 PLAYER STATS COMPLETE; PHASE 1.4.2 PENDING** — Historical player statistics collection is complete (1,083 players). Next: archetype generation and possessions data collection.
 
 ## 🎯 Current State
 
@@ -10,7 +10,9 @@
 - ✅ **Database Schema Ready**: All tables support multi-season data
 - ✅ **Games Data Available**: Historical seasons (2018-19, 2020-21, 2021-22) have complete games data
 - ✅ **DARKO Data Available**: 1,699 players with skill ratings across historical seasons
-- ⚠️ **Data Collection Pending**: Player stats, possessions, and archetype features need to be collected
+- ✅ **Player Stats Collection Complete**: Successfully collected statistics for 1,083 players across all historical seasons
+- ⚠️ **Archetype Features Pending**: Need to generate archetype features for historical seasons
+- ⚠️ **Possessions Data Pending**: Play-by-play possession data still needs to be collected
 
 ## 🚀 Next Implementation Phase: Phase 1.4 Execution - Historical Data Collection
 
@@ -28,7 +30,7 @@ Phase 1.4 infrastructure is complete and ready for execution:
 - **Games Data**: Successfully collected for 2018-19 (1,312), 2020-21 (1,165), 2021-22 (1,317)
 - **DARKO Data**: Successfully collected for 1,699 players across historical seasons
 
-### **Step 2: Data Status**
+### **Step 2: Data Status (October 22, 2025)**
 
 The following data is available for historical seasons (2018-19, 2020-21, 2021-22):
 
@@ -47,10 +49,11 @@ The following data is available for historical seasons (2018-19, 2020-21, 2021-2
    - Required for player identification and matching
    - Status: Available for all seasons
 
-4. **Player Stats** ❌
-   - Season statistics for players
+4. **Player Stats** ✅ **COMPLETED**
+   - Season statistics for players (1,083 total players)
    - Required for archetype generation
-   - Status: **NEEDS TO BE COLLECTED** using `populate_player_season_stats.py`
+   - Status: Successfully collected using optimized `populate_player_season_stats.py`
+   - Results: 2018-19 (254), 2020-21 (367), 2021-22 (462)
 
 5. **Possessions Data** ❌
    - Play-by-play possession data
@@ -62,30 +65,28 @@ The following data is available for historical seasons (2018-19, 2020-21, 2021-2
    - Required for analytical pipeline
    - Status: **NEEDS TO BE GENERATED** after player stats collection
 
-### **Step 3: Phase 1.4 Execution Plan**
+### **Step 3: Phase 1.4.2 Execution Plan (October 22, 2025)**
 
-**Priority 1: Historical Data Collection**
+**Priority 1: Archetype Generation & Possessions Collection**
 
-1. **Collect Player Stats**:
+1. **Generate Archetype Features** ✅ **READY TO EXECUTE**
    ```bash
-   python src/nba_stats/scripts/populate_player_season_stats.py --season 2018-19
-   python src/nba_stats/scripts/populate_player_season_stats.py --season 2020-21
-   python src/nba_stats/scripts/populate_player_season_stats.py --season 2021-22
+   python src/nba_stats/scripts/generate_archetype_features.py --season 2018-19
+   python src/nba_stats/scripts/generate_archetype_features.py --season 2020-21
+   python src/nba_stats/scripts/generate_archetype_features.py --season 2021-22
    ```
 
-2. **Collect Possessions Data**:
+2. **Collect Possessions Data** ⚠️ **MOST COMPLEX STEP**
    ```bash
    python src/nba_stats/scripts/populate_possessions.py --season 2018-19
    python src/nba_stats/scripts/populate_possessions.py --season 2020-21
    python src/nba_stats/scripts/populate_possessions.py --season 2021-22
    ```
 
-3. **Generate Archetype Features**:
-   ```bash
-   python create_archetypes.py --season 2018-19
-   python create_archetypes.py --season 2020-21
-   python create_archetypes.py --season 2021-22
-   ```
+3. **Validate Multi-Season Data Integration** 🔄 **AFTER COLLECTIONS COMPLETE**
+   - Ensure archetype consistency across seasons
+   - Validate Bayesian model compatibility
+   - Test multi-season training pipeline
 
 **Priority 2: Data Validation**
 
@@ -138,13 +139,29 @@ The following data is available for historical seasons (2018-19, 2020-21, 2021-2
 
 ---
 
-## Quick verification & run commands (2025-10-16)
+## Quick verification & run commands (2025-10-22)
 
 ```bash
+# Check historical player stats collection results
+python3 -c "
+import sqlite3
+conn = sqlite3.connect('src/nba_stats/db/nba_stats.db')
+cursor = conn.cursor()
+print('=== HISTORICAL DATA COLLECTION RESULTS ===')
+cursor.execute('SELECT season, COUNT(*) FROM PlayerSeasonRawStats WHERE season IN (\"2018-19\", \"2020-21\", \"2021-22\") GROUP BY season ORDER BY season;')
+for season, count in cursor.fetchall():
+    print(f'{season}: {count} players')
+print(f'Total Historical Players: {sum([count for _, count in cursor.fetchall()])}')
+conn.close()
+"
+
 # Check DARKO rows for 2022-23
 python3 -c "import sqlite3; con=sqlite3.connect('src/nba_stats/db/nba_stats.db');
 cur=con.cursor(); cur.execute(\"select count(*) from PlayerSeasonSkill where season='2022-23'\");
 print(cur.fetchone()[0]); con.close()"
+
+# Generate archetype features for historical seasons
+python3 src/nba_stats/scripts/generate_archetype_features.py --season 2018-19
 
 # Smoke test training on 10k sample
 python3 train_bayesian_model.py \
@@ -156,11 +173,22 @@ python3 train_bayesian_model.py \
 
 ## 🎯 Success Criteria
 
-The project has been successfully validated:
-1. ✅ The `validate_model.py` script confirms that our model's predictions for the Lakers, Pacers, and Suns cases match the outcomes reported in the source paper.
-2. ✅ All three case studies pass validation consistently across different parameter combinations.
-3. ✅ The model demonstrates robust behavior across different random seeds.
-4. ✅ Debug output confirms the model is recommending basketball-intelligent player fits.
+**Phase 1.4.1 (Player Stats Collection) - COMPLETED:**
+1. ✅ Successfully collected player statistics for 1,083 players across three historical seasons
+2. ✅ All three case studies pass validation consistently across different parameter combinations
+3. ✅ The model demonstrates robust behavior across different random seeds
+4. ✅ Debug output confirms the model is recommending basketball-intelligent player fits
+
+**Phase 1.4.2 (Archetype & Possessions) - IN PROGRESS:**
+1. [ ] Generate archetype features for all historical seasons
+2. [ ] Collect play-by-play possession data for historical seasons
+3. [ ] Validate data consistency across all seasons
+4. [ ] Successfully integrate multi-season data for Bayesian model training
+
+**Phase 2 (Multi-Season Model) - PENDING:**
+1. [ ] Train Bayesian model on multi-season historical data
+2. [ ] Validate model performance against 2022-23 outcomes
+3. [ ] Demonstrate improved predictive accuracy over single-season model
 
 ## 🔧 Validation Tuning Documentation
 
