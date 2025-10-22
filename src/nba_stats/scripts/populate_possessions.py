@@ -5,7 +5,7 @@ import sqlite3
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from nba_api.stats.endpoints import playbyplayv2, boxscoretraditionalv2
-from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
+from ..utils.common_utils import get_db_connection, get_nba_stats_client, logger
 import time
 import random
 

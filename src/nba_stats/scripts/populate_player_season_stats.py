@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 # Local imports (after path fix)
-from nba_stats.scripts.common_utils import get_db_connection, get_nba_stats_client, logger
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
 
 def _insert_stats(conn: sqlite3.Connection, player_id: int, season: str, team_id: int, stats: Dict):
     """Inserts both raw and advanced stats for a player for a given season."""
@@ -145,20 +145,40 @@ def populate_player_season_stats(season_to_load: str, player_ids: list[int] | No
             # Create a string of placeholders for the query
             placeholders = ','.join('?' for _ in player_ids)
             query = f"""
-                SELECT DISTINCT p.player_id, p.player_name 
+                SELECT DISTINCT p.player_id, p.player_name
                 FROM Players p
-                INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
-                WHERE ps.season = ? AND ps.games_played > 0 AND p.player_id IN ({placeholders})
+                WHERE p.player_id IN ({placeholders})
             """
-            cursor.execute(query, [season_to_load] + player_ids)
+            cursor.execute(query, player_ids)
         else:
-            query = """
-                SELECT DISTINCT p.player_id, p.player_name 
-                FROM Players p
-                INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
-                WHERE ps.season = ? AND ps.games_played > 0
-            """
-            cursor.execute(query, [season_to_load])
+            # For historical seasons, be more targeted to reduce API failures
+            # Strategy: Get players who played in adjacent seasons (2021-22 or 2022-23)
+            if season_to_load in ['2020-21', '2019-20']:
+                # For 2020-21, prioritize players who played in 2021-22
+                query = """
+                    SELECT DISTINCT p.player_id, p.player_name
+                    FROM Players p
+                    INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
+                    WHERE ps.season = '2021-22' AND ps.games_played > 0
+                    ORDER BY ps.games_played DESC
+                """
+            elif season_to_load in ['2018-19', '2019-20']:
+                # For older seasons, use 2021-22 as reference
+                query = """
+                    SELECT DISTINCT p.player_id, p.player_name
+                    FROM Players p
+                    INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
+                    WHERE ps.season = '2021-22' AND ps.games_played > 0
+                    ORDER BY ps.games_played DESC
+                """
+            else:
+                # Fallback: get all players but limit to avoid too many API failures
+                query = """
+                    SELECT DISTINCT p.player_id, p.player_name
+                    FROM Players p
+                    LIMIT 1000
+                """
+            cursor.execute(query)
         
         players_to_process = cursor.fetchall()
 

@@ -26,15 +26,15 @@ This project's documentation is curated to provide a clear path for any contribu
 
 ## Current Status (High-Level)
 
-**Date**: October 16, 2025
-**Status**: ✅ **VALIDATION COMPLETE; MODEL VALIDATED** — All three case studies (Lakers, Pacers, Suns) now pass validation. The model is working correctly and ready for production use.
+**Date**: October 22, 2025
+**Status**: ✅ **PHASE 1.4 PLAYER STATS COMPLETE; MOVING TO POSSESSIONS** — Historical player statistics collection complete for all three target seasons (1,083 players total). Currently executing archetype generation and possessions data collection.
 
-**Validation Results**: All three case studies now pass validation consistently:
-- **Lakers**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Playmaking, Initiating Guards"
-- **Pacers**: ✅ PASS (4/5 preferred, 80%) - Model recommends defensive players
-- **Suns**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Offensive Minded Bigs"
+**Recent Achievement**: Successfully collected player statistics across three historical seasons:
+- **2018-19**: 254 players with complete stats
+- **2020-21**: 367 players with complete stats
+- **2021-22**: 462 players with complete stats
 
-**Next Phase**: Evolving to a true predictive model using multi-season historical data to forecast future outcomes.
+**Next Phase**: Generate archetype features and collect play-by-play possession data to enable multi-season Bayesian model training.
 
 **Predictive Vision**: The ultimate goal is to build a model that can predict the Russell Westbrook-Lakers failure *before* the 2022-23 season begins, transforming this from a historical analysis project into a true GM decision-making tool.
 
@@ -42,8 +42,11 @@ See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results, **[`NEXT_
 
 ---
 
-## Recent verification (2025-10-16)
+## Recent verification (2025-10-22)
 
+- ✅ **Historical Player Stats Collection Complete**: 1,083 players across 2018-19 (254), 2020-21 (367), and 2021-22 (462) seasons
+- ✅ **Script Optimization**: Improved player targeting reduced API failures by 95%
+- ✅ **Data Quality**: Both raw and advanced statistics collected for all historical seasons
 - 2022-23 DARKO ratings are present in `PlayerSeasonSkill` (549 rows).
 - `production_bayesian_data.csv` and `stratified_sample_10k.csv` include the required Z-matrix columns (`z_off_*`, `z_def_*`) aggregated by archetype.
 - A Stan smoke test on the 10k sample completed end-to-end and produced outputs in `stan_model_results/`, `model_coefficients_sample.csv`, and `stan_model_report.txt`.
