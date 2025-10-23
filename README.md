@@ -27,15 +27,16 @@ This project's documentation is curated to provide a clear path for any contribu
 ## Current Status (High-Level)
 
 **Date**: October 23, 2025
-**Status**: ✅ **PHASE 1.4 PLAYER STATS COMPLETE; POSSESSIONS PENDING** — Historical player statistics collection complete for all three target seasons using corrected methodology (1,281 players total). All seasons now have complete, consistent datasets with realistic team distributions.
+**Status**: ✅ **PHASE 1.4.4 ARCHETYPES COMPLETE; POSSESSIONS 45.9% DONE** — Historical archetype features generation complete for all three target seasons (717 players). Possessions collection 45.9% complete for 2018-19 season using robust, resumable pipeline.
 
-**Recent Achievement**: Successfully corrected data collection methodology and collected comprehensive player statistics:
-- **2018-19**: 395 players with complete stats (was 254, +55% improvement)
-- **2020-21**: 424 players with complete stats (was 423, complete dataset)
-- **2021-22**: 462 players with complete stats (maintained quality)
+**Recent Achievement**: Successfully generated historical archetype features and started possessions collection:
+- **Archetype Features**: 717 players across 2018-19 (234), 2020-21 (229), 2021-22 (254) seasons
+- **Possessions Collection**: 45.9% complete for 2018-19 (602/1,312 games = 286,012 possessions)
+- **Script Enhancement**: Modified archetype generation to create season-specific tables
+- **Cache System**: Built 93 MB API response cache for efficient data collection
 - **Team Distribution**: All seasons now have realistic 8-22 players per team (was 4-15 for 2018-19)
 
-**Next Phase**: Generate archetype features and collect play-by-play possession data to enable multi-season Bayesian model training.
+**Next Phase**: Complete possessions collection for all historical seasons and integrate multi-season data for Bayesian model training.
 
 **Predictive Vision**: The ultimate goal is to build a model that can predict the Russell Westbrook-Lakers failure *before* the 2022-23 season begins, transforming this from a historical analysis project into a true GM decision-making tool.
 
@@ -45,13 +46,37 @@ See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results, **[`NEXT_
 
 ## Recent verification (2025-10-23)
 
-- ✅ **Historical Player Stats Collection Corrected**: 1,281 players across 2018-19 (395), 2020-21 (424), and 2021-22 (462) seasons using proper API-based methodology
-- ✅ **Critical Bug Fixed**: Replaced flawed "reference season" logic with direct API calls using 15-minute threshold (matching original paper approach)
-- ✅ **Data Quality Improved**: All seasons now have realistic team distributions (8-22 players per team vs previous 4-15 range) and consistent methodology
-- ✅ **Complete Coverage**: All 30 NBA teams represented in each season with proper roster sizes
+- ✅ **Historical Archetype Features Generated**: 717 players across 2018-19 (234), 2020-21 (229), and 2021-22 (254) seasons using season-specific tables
+- ✅ **Script Enhancement**: Modified `generate_archetype_features.py` to handle historical data with proper missing value imputation
+- ✅ **Possessions Collection Started**: 45.9% complete for 2018-19 season (602/1,312 games = 286,012 possessions)
+- ✅ **Cache System Operational**: 93 MB API response cache built (9,726 files) for efficient data collection
+- ✅ **Data Quality Maintained**: All generated data passes validation checks and consistency requirements
 - 2022-23 DARKO ratings are present in `PlayerSeasonSkill` (549 rows).
 - `production_bayesian_data.csv` and `stratified_sample_10k.csv` include the required Z-matrix columns (`z_off_*`, `z_def_*`) aggregated by archetype.
 - A Stan smoke test on the 10k sample completed end-to-end and produced outputs in `stan_model_results/`, `model_coefficients_sample.csv`, and `stan_model_report.txt`.
+
+### Quick verification (current progress)
+
+```bash
+# Check historical possessions collection progress
+python3 -c "
+import sqlite3
+conn = sqlite3.connect('src/nba_stats/db/nba_stats.db')
+cursor = conn.cursor()
+print('=== CURRENT POSSESSIONS PROGRESS ===')
+cursor.execute('''
+    SELECT g.season, COUNT(DISTINCT p.game_id) as games, COUNT(p.game_id) as possessions
+    FROM Possessions p
+    JOIN Games g ON p.game_id = g.game_id
+    WHERE g.season IN (\"2018-19\", \"2020-21\", \"2021-22\")
+    GROUP BY g.season
+    ORDER BY g.season
+''')
+for season, games, possessions in cursor.fetchall():
+    print(f'{season}: {games} games, {possessions:,} possessions')
+conn.close()
+"
+```
 
 ### Quick run (smoke test)
 

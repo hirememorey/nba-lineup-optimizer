@@ -221,8 +221,13 @@ def generate_features(season: str):
                 final_features_df[col] = final_features_df[col].fillna(0)
 
         # --- Save to Database ---
-        final_features_df.to_sql('PlayerArchetypeFeatures', conn, if_exists='replace', index=False)
-        logger.info(f"Successfully generated and saved archetype features for {len(final_features_df)} players.")
+        # Use season-specific table name for historical seasons to avoid overwriting current data
+        table_name = 'PlayerArchetypeFeatures'
+        if season != settings.SEASON_ID:  # If not current season, use season-specific table
+            table_name = f'PlayerArchetypeFeatures_{season.replace("-", "_")}'
+
+        final_features_df.to_sql(table_name, conn, if_exists='replace', index=False)
+        logger.info(f"Successfully generated and saved archetype features for {len(final_features_df)} players to {table_name}.")
 
 def main():
     """Main function to run the script."""
