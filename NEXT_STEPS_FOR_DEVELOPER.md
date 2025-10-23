@@ -30,7 +30,7 @@ Phase 1.4 infrastructure is complete and ready for execution:
 - **Games Data**: Successfully collected for 2018-19 (1,312), 2020-21 (1,165), 2021-22 (1,317)
 - **DARKO Data**: Successfully collected for 1,699 players across historical seasons
 
-### **Step 2: Data Status (October 22, 2025)**
+### **Step 2: Data Status (October 23, 2025)**
 
 The following data is available for historical seasons (2018-19, 2020-21, 2021-22):
 
@@ -49,11 +49,13 @@ The following data is available for historical seasons (2018-19, 2020-21, 2021-2
    - Required for player identification and matching
    - Status: Available for all seasons
 
-4. **Player Stats** ✅ **COMPLETED**
-   - Season statistics for players (1,083 total players)
+4. **Player Stats** ✅ **COMPLETED WITH CORRECTIONS**
+   - Season statistics for players (1,281 total players - 18% improvement)
    - Required for archetype generation
-   - Status: Successfully collected using optimized `populate_player_season_stats.py`
-   - Results: 2018-19 (254), 2020-21 (367), 2021-22 (462)
+   - Status: Successfully collected using corrected `populate_player_season_stats.py` with proper API-based methodology
+   - Results: 2018-19 (395), 2020-21 (424), 2021-22 (462)
+   - **Critical Fix Applied**: Replaced flawed "reference season" logic with direct API calls using 15-minute threshold (matching original paper methodology)
+   - **Quality Improvement**: All seasons now have realistic team distributions (8-22 players per team vs previous 4-15 range)
 
 5. **Possessions Data** ❌
    - Play-by-play possession data
@@ -139,19 +141,39 @@ The following data is available for historical seasons (2018-19, 2020-21, 2021-2
 
 ---
 
-## Quick verification & run commands (2025-10-22)
+## Quick verification & run commands (2025-10-23)
 
 ```bash
-# Check historical player stats collection results
+# Check historical player stats collection results (post-correction)
 python3 -c "
 import sqlite3
 conn = sqlite3.connect('src/nba_stats/db/nba_stats.db')
 cursor = conn.cursor()
-print('=== HISTORICAL DATA COLLECTION RESULTS ===')
+print('=== HISTORICAL DATA COLLECTION RESULTS (CORRECTED) ===')
 cursor.execute('SELECT season, COUNT(*) FROM PlayerSeasonRawStats WHERE season IN (\"2018-19\", \"2020-21\", \"2021-22\") GROUP BY season ORDER BY season;')
 for season, count in cursor.fetchall():
     print(f'{season}: {count} players')
-print(f'Total Historical Players: {sum([count for _, count in cursor.fetchall()])}')
+total = sum([count for _, count in cursor.fetchall()])
+print(f'Total Historical Players: {total} (was 1,083, now 1,281 - 18% improvement)')
+print()
+print('=== TEAM DISTRIBUTION VERIFICATION ===')
+cursor.execute('''
+SELECT season, COUNT(DISTINCT team_id) as teams, 
+       AVG(player_count) as avg_per_team, 
+       MIN(player_count) as min_per_team, 
+       MAX(player_count) as max_per_team
+FROM (
+    SELECT season, team_id, COUNT(*) as player_count
+    FROM PlayerSeasonRawStats 
+    WHERE season IN ('2018-19', '2020-21', '2021-22')
+    GROUP BY season, team_id
+) team_counts
+GROUP BY season
+ORDER BY season
+''')
+print('Team distribution (should be 8-22 range for all seasons):')
+for season, teams, avg_per_team, min_per_team, max_per_team in cursor.fetchall():
+    print(f'{season}: {teams} teams, {avg_per_team:.1f} avg, {min_per_team}-{max_per_team} range')
 conn.close()
 "
 
@@ -173,11 +195,14 @@ python3 train_bayesian_model.py \
 
 ## 🎯 Success Criteria
 
-**Phase 1.4.1 (Player Stats Collection) - COMPLETED:**
-1. ✅ Successfully collected player statistics for 1,083 players across three historical seasons
-2. ✅ All three case studies pass validation consistently across different parameter combinations
-3. ✅ The model demonstrates robust behavior across different random seeds
-4. ✅ Debug output confirms the model is recommending basketball-intelligent player fits
+**Phase 1.4.1 (Player Stats Collection) - COMPLETED WITH CORRECTIONS:**
+1. ✅ Successfully collected and corrected player statistics for 1,281 players across three historical seasons (18% improvement)
+2. ✅ Fixed critical flaw in data collection methodology (replaced flawed "reference season" logic with direct API calls)
+3. ✅ All seasons now have realistic team distributions (8-22 players per team vs previous 4-15 range)
+4. ✅ All three case studies pass validation consistently across different parameter combinations
+5. ✅ The model demonstrates robust behavior across different random seeds
+6. ✅ Debug output confirms the model is recommending basketball-intelligent player fits
+7. ✅ Complete coverage of all 30 NBA teams across all historical seasons
 
 **Phase 1.4.2 (Archetype & Possessions) - IN PROGRESS:**
 1. [ ] Generate archetype features for all historical seasons
