@@ -11,7 +11,7 @@ This project implements the methodology from the research paper "Algorithmic NBA
 This project's documentation is curated to provide a clear path for any contributor.
 
 *   **To understand the current work and next steps:**
-    *   **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)**: The "Captain's Log" with detailed, up-to-the-minute status.
+    *   **[`STATUS.md`](./STATUS.md)**: The "Captain's Log" with detailed, up-to-the-minute status and critical decisions.
 
 *   **To run the software:**
     *   **[`docs/GUIDE.md`](./docs/GUIDE.md)**: The complete "how-to" manual for fans, developers, and administrators.
@@ -42,7 +42,7 @@ This project's documentation is curated to provide a clear path for any contribu
 
 **Phase 3 Status**: ✅ **COMPLETED**. Full validation pipeline operational with interpretable results and working archetype redundancy detection.
 
-See **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for latest results, **[`NEXT_STEPS_FOR_DEVELOPER.md`](./NEXT_STEPS_FOR_DEVELOPER.md)** for hand-off tasks, and the **Predictive Vision & Evolution Strategy** section in **[`CURRENT_STATUS.md`](./CURRENT_STATUS.md)** for the detailed predictive modeling implementation plan.
+See **[`STATUS.md`](./STATUS.md)** for latest results, critical decisions, and next steps. **Debugging investigations**: See `ARCHETYPE_0_ROOT_CAUSE_ANALYSIS.md`, `DATA_COVERAGE_SHORTFALL_INVESTIGATION.md`, and `ARCHETYPE_ASSIGNMENT_ELIGIBILITY_ANALYSIS.md` for detailed debugging methodologies.
 
 ---
 
