@@ -1,5 +1,5 @@
 {
-  "max_rhat": 2.19042,
-  "min_ess": 2.69125,
+  "max_rhat": 1.00682,
+  "min_ess": 650.204,
   "divergent_transitions": 0
 }

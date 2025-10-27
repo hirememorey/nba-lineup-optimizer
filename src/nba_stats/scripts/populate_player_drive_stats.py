@@ -6,7 +6,14 @@ import random
 from typing import Dict, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
+# Ensure project root is on sys.path so that relative imports work
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+# Local imports (after path fix)
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
+from nba_stats.config import settings
 
 def _insert_drive_stats(conn: sqlite3.Connection, player_id: int, season: str, stats: Dict):
     """Inserts drive stats for a single player-season."""
@@ -59,7 +66,13 @@ def populate_player_drive_stats(season_to_load: str):
 
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT player_id, player_name FROM Players")
+        # Only fetch players who were active during the target season
+        cursor.execute("""
+            SELECT DISTINCT p.player_id, p.player_name
+            FROM Players p
+            INNER JOIN PlayerSeasonRawStats rs ON p.player_id = rs.player_id
+            WHERE rs.season = ? AND rs.minutes_played >= 100
+        """, (season_to_load,))
         players_to_process = cursor.fetchall()
 
         if not players_to_process:

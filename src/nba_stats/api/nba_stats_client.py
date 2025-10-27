@@ -78,6 +78,12 @@ class NBAStatsClient:
         self.last_request_time = 0.0
         self.min_request_interval = 5.0  # Minimum time between requests in seconds
 
+        # Adaptive rate limiting state
+        self.consecutive_failures = 0
+        self.consecutive_rate_limits = 0
+        self.last_successful_request = time.time()
+        self.adaptive_mode = False
+
         # Global timeout for all requests
         self.timeout = 60 # Sensible default timeout
 
@@ -122,14 +128,23 @@ class NBAStatsClient:
         """Ensure we don't exceed rate limits by waiting between requests."""
         current_time = time.time()
         time_since_last_request = current_time - self.last_request_time
-        
-        if time_since_last_request < self.min_request_interval:
-            sleep_time = self.min_request_interval - time_since_last_request
+
+        # Adaptive rate limiting based on recent failures
+        if self.adaptive_mode:
+            adaptive_interval = self.min_request_interval * (2 ** min(self.consecutive_failures, 3))
+            min_interval = max(adaptive_interval, self.min_request_interval)
+        else:
+            min_interval = self.min_request_interval
+
+        if time_since_last_request < min_interval:
+            sleep_time = min_interval - time_since_last_request
+            logger.debug(f"Adaptive rate limiting: waiting {sleep_time:.1f}s (consecutive failures: {self.consecutive_failures})")
             time.sleep(sleep_time)
-        
+
         # Add a random jitter to the request interval
-        time.sleep(random.uniform(0.5, 1.5))
-        
+        jitter = random.uniform(0.5, 1.5)
+        time.sleep(jitter)
+
         self.last_request_time = time.time()
     
     def _get_headers(self) -> Dict[str, str]:
@@ -156,8 +171,34 @@ class NBAStatsClient:
         """Handle rate limiting by waiting for the specified time."""
         if response.status_code == 429:  # Too Many Requests
             retry_after = int(response.headers.get("Retry-After", 30))
-            logging.warning(f"Rate limited. Waiting {retry_after} seconds...")
+            self.consecutive_rate_limits += 1
+            self.consecutive_failures += 1
+
+            # Enable adaptive mode after multiple rate limits
+            if self.consecutive_rate_limits >= 3:
+                self.adaptive_mode = True
+                logger.warning(f"Multiple rate limits detected ({self.consecutive_rate_limits}). Enabling adaptive mode.")
+
+            logging.warning(f"Rate limited (429). Waiting {retry_after} seconds...")
             time.sleep(retry_after)
+        elif response.status_code >= 500:  # Server errors
+            self.consecutive_failures += 1
+            if self.consecutive_failures >= 5:
+                self.adaptive_mode = True
+                logger.warning(f"Multiple server errors detected ({self.consecutive_failures}). Enabling adaptive mode.")
+        else:
+            # Reset counters on successful request
+            self.consecutive_failures = 0
+            self.consecutive_rate_limits = 0
+            self.adaptive_mode = False
+            self.last_successful_request = time.time()
+
+    def _update_request_success(self):
+        """Update state after a successful request."""
+        self.consecutive_failures = 0
+        self.consecutive_rate_limits = 0
+        self.adaptive_mode = False
+        self.last_successful_request = time.time()
     
     def _calculate_backoff(self, attempt: int) -> float:
         """Calculate exponential backoff time."""
@@ -244,18 +285,36 @@ class NBAStatsClient:
             
             logger.info(f"Received response with status code: {response.status_code}")
             logger.debug(f"Response headers: {response.headers}")
-            
+
+            # Handle rate limiting and server errors
+            self._handle_rate_limit(response)
+
             response.raise_for_status()
-            
+
             data = response.json()
-            
+
             # Post-fetch assertion layer: detect silent API failures
             self._assert_response_has_data(data, endpoint)
-            
+
+            # Update success state
+            self._update_request_success()
+
             self._write_to_cache(cache_path, data)
             return data
             
         except requests.exceptions.RequestException as e:
+            # Update failure state
+            self.consecutive_failures += 1
+            if "429" in str(e) or "rate limit" in str(e).lower():
+                self.consecutive_rate_limits += 1
+                if self.consecutive_rate_limits >= 3:
+                    self.adaptive_mode = True
+                    logger.warning(f"Multiple rate limits detected ({self.consecutive_rate_limits}). Enabling adaptive mode.")
+            elif e.response and e.response.status_code >= 500:
+                if self.consecutive_failures >= 5:
+                    self.adaptive_mode = True
+                    logger.warning(f"Multiple server errors detected ({self.consecutive_failures}). Enabling adaptive mode.")
+
             logger.error(f"Failed to make request to {endpoint} after multiple retries: {e}")
             return None
     

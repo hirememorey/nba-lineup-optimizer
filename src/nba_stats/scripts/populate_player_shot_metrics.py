@@ -22,7 +22,7 @@ from datetime import datetime
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from nba_stats.scripts.common_utils import get_db_connection, logger
+from nba_stats.utils.common_utils import get_db_connection, logger
 from nba_stats.api.nba_stats_client import UpstreamDataMissingError
 
 # Configure logging

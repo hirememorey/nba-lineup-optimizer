@@ -1,0 +1,26 @@
+{
+  "total_lineups": 449,
+  "total_possessions": 512775,
+  "avg_possessions_per_lineup": 1142.0378619153676,
+  "features_used": [
+    "w_pct",
+    "plus_minus",
+    "off_rating",
+    "pace",
+    "ast_pct",
+    "ast_to",
+    "pct_fga_2pt",
+    "pct_fga_3pt",
+    "pct_pts_2pt",
+    "pct_pts_2pt_mr",
+    "pct_pts_3pt",
+    "pct_pts_ft",
+    "pct_pts_off_tov",
+    "pct_pts_paint"
+  ],
+  "seasons": [
+    "2018-19",
+    "2020-21",
+    "2021-22"
+  ]
+}

@@ -4,7 +4,6 @@ Fetches and stores play-by-play data for all games in a given season, including 
 import sqlite3
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from nba_api.stats.endpoints import playbyplayv2, boxscoretraditionalv2
 from ..utils.common_utils import get_db_connection, get_nba_stats_client, logger
 import time
 import random
@@ -66,14 +65,40 @@ def _get_lineups_from_pbp(pbp_df: pd.DataFrame, home_team_id: int, away_team_id:
     return home_players, away_players
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=4, max=10))
+@retry(
+    stop=stop_after_attempt(8),
+    wait=wait_exponential(multiplier=1, min=2, max=60, exp_base=2),
+    retry=lambda retry_state: retry_state.outcome is None or retry_state.outcome.failed,
+    before_sleep=lambda retry_state: logger.warning(f"Retry {retry_state.attempt_number} for game {game_id} after {retry_state.outcome.exception() if retry_state.outcome else 'unknown error'}")
+)
 def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> pd.DataFrame:
     """Fetches play-by-play data for a single game and enriches it with lineup information."""
     logger.info(f"Fetching play-by-play for game_id: {game_id}")
     try:
-        # Increase the timeout to 180 seconds for the API call to handle slow responses
-        pbp = playbyplayv2.PlayByPlayV2(game_id=game_id, timeout=180)
-        pbp_df = pbp.get_data_frames()[0]
+        # Use NBAStatsClient instead of direct API call for built-in rate limiting and retry logic
+        client = get_nba_stats_client()
+        pbp_response = client.get_play_by_play(game_id)
+
+        if not pbp_response or 'resultSets' not in pbp_response:
+            logger.warning(f"No data in response for game {game_id}")
+            return pd.DataFrame()
+
+        # Extract the play-by-play data from the response
+        result_sets = pbp_response['resultSets']
+        if not result_sets or not isinstance(result_sets, list) or len(result_sets) == 0:
+            logger.warning(f"Empty resultSets for game {game_id}")
+            return pd.DataFrame()
+
+        # Get the first result set (play-by-play data)
+        pbp_result_set = result_sets[0]
+        if 'rowSet' not in pbp_result_set or not pbp_result_set['rowSet']:
+            logger.warning(f"Empty rowSet for game {game_id}")
+            return pd.DataFrame()
+
+        # Convert to DataFrame
+        headers = pbp_result_set['headers']
+        row_set = pbp_result_set['rowSet']
+        pbp_df = pd.DataFrame(row_set, columns=headers)
 
         if pbp_df.empty:
             logger.warning(f"PlayByPlay data for game {game_id} is empty. Skipping.")
@@ -87,14 +112,14 @@ def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> p
             return pd.DataFrame()
 
         enriched_rows = []
-        
+
         for _, row in pbp_df.iterrows():
             # Determine offensive team. Simplified logic, may need refinement.
             # Assumes the team of PLAYER1_ID is the offensive team.
             offensive_team_id = row.get('PLAYER1_TEAM_ID')
-            if pd.isna(offensive_team_id) and row['HOMEDESCRIPTION'] is not None:
+            if pd.isna(offensive_team_id) and row.get('HOMEDESCRIPTION') is not None:
                  offensive_team_id = home_team_id
-            elif pd.isna(offensive_team_id) and row['VISITORDESCRIPTION'] is not None:
+            elif pd.isna(offensive_team_id) and row.get('VISITORDESCRIPTION') is not None:
                 offensive_team_id = away_team_id
 
             defensive_team_id = home_team_id if offensive_team_id != home_team_id else away_team_id
@@ -108,27 +133,27 @@ def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> p
             enriched_rows.append(row_data)
 
             # Handle substitutions
-            if row['EVENTMSGTYPE'] == 8: # 8 is substitution
-                player_out_id = row['PLAYER1_ID']
-                player_in_id = row['PLAYER2_ID']
-                
+            if row.get('EVENTMSGTYPE') == 8: # 8 is substitution
+                player_out_id = row.get('PLAYER1_ID')
+                player_in_id = row.get('PLAYER2_ID')
+
                 # --- START FIX V2: Defend against anomalous substitution data ---
-                sub_team_id = row['PLAYER1_TEAM_ID']
+                sub_team_id = row.get('PLAYER1_TEAM_ID')
 
                 if sub_team_id == home_team_id:
                     # ANOMALY CHECK: If the player subbing in is already on the court,
                     # do nothing to prevent corrupting the player set to 4 members.
                     if player_in_id in home_players:
-                        logger.warning(f"ANOMALY in Game {row['GAME_ID']} Event {row['EVENTNUM']}: Player {player_in_id} subbing in is already on court. Skipping substitution to maintain state integrity.")
+                        logger.warning(f"ANOMALY in Game {row.get('GAME_ID')} Event {row.get('EVENTNUM')}: Player {player_in_id} subbing in is already on court. Skipping substitution to maintain state integrity.")
                     elif player_out_id in home_players:
                         home_players.remove(player_out_id)
                         home_players.add(player_in_id)
-                
+
                 elif sub_team_id == away_team_id:
                     # ANOMALY CHECK: If the player subbing in is already on the court,
                     # do nothing to prevent corrupting the player set to 4 members.
                     if player_in_id in away_players:
-                        logger.warning(f"ANOMALY in Game {row['GAME_ID']} Event {row['EVENTNUM']}: Player {player_in_id} subbing in is already on court. Skipping substitution to maintain state integrity.")
+                        logger.warning(f"ANOMALY in Game {row.get('GAME_ID')} Event {row.get('EVENTNUM')}: Player {player_in_id} subbing in is already on court. Skipping substitution to maintain state integrity.")
                     elif player_out_id in away_players:
                         away_players.remove(player_out_id)
                         away_players.add(player_in_id)
@@ -137,7 +162,7 @@ def _fetch_pbp_for_game(game_id: str, home_team_id: int, away_team_id: int) -> p
         return pd.DataFrame(enriched_rows)
 
     except Exception as e:
-        logger.error(f"Error processing PBP for game {game_id}: {e}", exc_info=False) # exc_info=False to avoid noisy tracebacks on retry
+        logger.error(f"Error processing PBP for game {game_id}: {e}")
         raise # Reraise the exception to trigger the retry mechanism
 
 
@@ -242,7 +267,21 @@ def populate_possessions(season_to_load: str) -> None:
 
             except RetryError as e:
                 logger.error(f"Failed to fetch PBP for game {game['game_id']} after multiple retries: {e}")
-            time.sleep(random.uniform(0.6, 1.0)) # Be respectful of the API
+                # If we hit rate limits, wait longer before next attempt
+                if "429" in str(e) or "rate limit" in str(e).lower():
+                    logger.warning("Rate limit detected, increasing wait time for next game")
+                    time.sleep(random.uniform(10, 15))
+                else:
+                    time.sleep(random.uniform(2, 4))
+            except Exception as e:
+                logger.error(f"Unexpected error for game {game['game_id']}: {e}")
+                time.sleep(random.uniform(1, 2))
+
+            # Adaptive sleep between games - NBAStatsClient handles rate limiting, but we add extra buffer
+            # for the intensive possession data processing
+            sleep_time = random.uniform(1.5, 3.0)
+            logger.debug(f"Waiting {sleep_time:.1f}s before next game")
+            time.sleep(sleep_time)
         
         logger.info("Finished processing all new games for the season.")
         
