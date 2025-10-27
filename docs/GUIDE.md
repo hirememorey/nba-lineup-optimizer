@@ -140,25 +140,32 @@ python3 ground_truth_validation.py
 - ✅ Skill Balance (PASS): Balanced lineups outperform imbalanced
 - ❌ Archetype Diversity (FAIL): Redundancy penalty needs refinement
 
-### Model Validation
+### Multi-Season Model Validation
 
-Test the trained model's recommendations against known case studies:
+The system now includes a trained multi-season Bayesian model. Test the model's predictive capabilities:
 
 ```bash
-# Basic validation (recommended settings)
-python3 validate_model.py --season 2022-23 --cases lakers pacers suns --top-n 5 --pass-threshold 3
+# Phase 3: Generate 2022-23 validation Z-matrix
+python3 generate_2022_23_validation.py
 
-# Debug mode for detailed output
-python3 validate_model.py --season 2022-23 --cases lakers pacers suns --top-n 5 --pass-threshold 3 --debug
+# Phase 3: Test multi-season model predictions
+python3 validate_multi_season_model.py --season 2022-23 --cases lakers pacers suns
 
-# Parameter sweep to test robustness
-python3 parameter_sweep.py
+# Phase 3: Russell Westbrook case study validation
+python3 validate_westbrook_case.py
 ```
 
-**Expected Results**:
-- **Lakers**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Playmaking, Initiating Guards"
-- **Pacers**: ✅ PASS (4/5 preferred, 80%) - Model recommends defensive players
-- **Suns**: ✅ PASS (5/5 preferred, 100%) - Model recommends "Offensive Minded Bigs"
+**Current Model Status** (Phase 2 Complete):
+- ✅ **103,047 training possessions** across 2018-19, 2020-21, 2021-22
+- ✅ **All 8 archetypes** validated with non-zero aggregations
+- ✅ **36 unique matchups** operational (6×6 supercluster system)
+- ✅ **Model convergence**: R-hat < 1.01, 0 divergent transitions
+- ⚠️ **Simplified model**: Archetype × skill effects (no matchup-specific parameters)
+
+**Phase 3 Validation Targets**:
+- **Lakers**: Test prediction of Westbrook redundancy issues
+- **Pacers**: Validate defensive archetype recommendations
+- **Suns**: Assess offensive juggernaut balance recommendations
 
 ### Testing Individual Components
 
@@ -204,10 +211,22 @@ python3 -m pytest tests/ -k "pipeline"    # Pipeline tests only
 
 ### Success Criteria
 
+**Phase 2 (Multi-Season Model) - ✅ COMPLETED:**
+- ✅ Multi-season Bayesian model trained with R-hat < 1.01 convergence
+- ✅ All 8 archetypes validated with non-zero aggregations
+- ✅ 36 unique matchups operational (6×6 supercluster system)
+- ✅ 103,047 training possessions processed successfully
+- ✅ Archetype index bug resolved (1-8 IDs → 0-7 indices)
+
+**Phase 3 (Predictive Validation) - In Progress:**
+- [ ] 2022-23 validation Z-matrix generated successfully
+- [ ] Model predictions evaluated against holdout outcomes
+- [ ] Russell Westbrook-Lakers case study validated
+- [ ] Predictive performance documented and assessed
+
 The system is properly validated when:
-- ✅ Westbrook cases pass (Lakers improve without Westbrook)
-- ✅ Skill balance test passes (balanced > imbalanced)
-- ✅ Custom evaluator initializes with 534+ players
-- ✅ Key players found (LeBron, AD, Westbrook, Kawhi)
-- ✅ All three case studies pass validation consistently
+- ✅ Multi-season model predicts 2022-23 outcomes with reasonable accuracy
+- ✅ Westbrook redundancy case identified correctly
+- ✅ Model generalizes across different seasons
+- ✅ All archetype effects have basketball-intelligent interpretations
 
