@@ -150,37 +150,45 @@ def populate_player_season_stats(season_to_load: str, player_ids: list[int] | No
                 WHERE p.player_id IN ({placeholders})
             """
             cursor.execute(query, player_ids)
+            players_to_process = cursor.fetchall()
         else:
-            # For historical seasons, be more targeted to reduce API failures
-            # Strategy: Get players who played in adjacent seasons (2021-22 or 2022-23)
-            if season_to_load in ['2020-21', '2019-20']:
-                # For 2020-21, prioritize players who played in 2021-22
-                query = """
-                    SELECT DISTINCT p.player_id, p.player_name
-                    FROM Players p
-                    INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
-                    WHERE ps.season = '2021-22' AND ps.games_played > 0
-                    ORDER BY ps.games_played DESC
-                """
-            elif season_to_load in ['2018-19', '2019-20']:
-                # For older seasons, use 2021-22 as reference
-                query = """
-                    SELECT DISTINCT p.player_id, p.player_name
-                    FROM Players p
-                    INNER JOIN PlayerSeasonRawStats ps ON p.player_id = ps.player_id
-                    WHERE ps.season = '2021-22' AND ps.games_played > 0
-                    ORDER BY ps.games_played DESC
-                """
-            else:
-                # Fallback: get all players but limit to avoid too many API failures
-                query = """
-                    SELECT DISTINCT p.player_id, p.player_name
-                    FROM Players p
-                    LIMIT 1000
-                """
-            cursor.execute(query)
-        
-        players_to_process = cursor.fetchall()
+            # Get all players for the specific season directly from the API
+            # This is the CORRECT approach - use leaguedashplayerstats which includes minutes data
+            logger.info(f"Fetching all players for season {season_to_load} from NBA Stats API")
+
+            client = get_nba_stats_client()
+            all_players_raw = client.get_league_player_base_stats(season=season_to_load)
+
+            if not all_players_raw or 'resultSets' not in all_players_raw or not all_players_raw['resultSets']:
+                logger.error(f"No player data found for season {season_to_load}")
+                return
+
+            player_data = all_players_raw['resultSets'][0]
+            headers = [header.upper() for header in player_data['headers']]
+            player_rows = player_data['rowSet']
+
+            # Convert API response to the format expected by the rest of the script
+            # Note: API returns minutes per game, need to multiply by games played for total minutes
+            players_to_process = []
+            gp_idx = headers.index('GP')  # Games played index
+
+            for player_row in player_rows:
+                player_dict = dict(zip(headers, player_row))
+                # Only include players who meet the minimum minutes threshold
+                # Using the same low threshold as the current archetype analysis (15+ minutes)
+                try:
+                    gp = float(player_row[gp_idx]) if player_row[gp_idx] else 0
+                    min_per_game = float(player_row[headers.index('MIN')]) if player_row[headers.index('MIN')] else 0
+                    total_minutes = gp * min_per_game
+
+                    if total_minutes >= 15:  # Using the same threshold as current archetype analysis
+                        players_to_process.append((player_dict['PLAYER_ID'], player_dict['PLAYER_NAME']))
+                except (ValueError, IndexError):
+                    # If we can't get minutes data, include the player anyway
+                    # This matches the original paper's approach
+                    players_to_process.append((player_dict['PLAYER_ID'], player_dict['PLAYER_NAME']))
+
+            logger.info(f"API returned {len(player_rows)} total players, {len(players_to_process)} meet 15+ total minutes threshold for season {season_to_load}")
 
         if not players_to_process:
             logger.warning("No players found in DB to process for season stats.")

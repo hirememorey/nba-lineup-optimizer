@@ -1,7 +1,11 @@
 """Fetch and store player rebounding stats for a given season."""
 
 import sqlite3
-from .common_utils import get_db_connection, get_nba_stats_client, logger
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
 
 def populate_player_rebounding_stats(season: str):
     """

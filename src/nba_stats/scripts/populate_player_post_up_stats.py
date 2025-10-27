@@ -9,7 +9,7 @@ import sys
 # Add project root to sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from .common_utils import get_db_connection, get_nba_stats_client, logger
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
 
 def populate_player_post_up_stats(season_to_load: str):
     """

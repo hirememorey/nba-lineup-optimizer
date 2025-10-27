@@ -4,7 +4,12 @@ import sqlite3
 import time
 import random
 from typing import Dict, List, Any
-from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
+from nba_stats.config import settings
 
 PT_MEASURE_TYPES = ["Possessions", "ElbowTouch", "PaintTouch", "PostTouch"]
 

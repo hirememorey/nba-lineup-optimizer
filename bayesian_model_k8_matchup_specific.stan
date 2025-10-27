@@ -1,70 +1,71 @@
-// Stan model for Bayesian regression of NBA possession outcomes WITH matchup-specific coefficients
-// Equation 2.5 from Brill, Hughes, and Waldbaum - FULL VERSION
+// Stan model for Bayesian regression of NBA possession outcomes
+// Enhanced version with matchup-specific parameters (Equation 2.5 from Brill, Hughes, and Waldbaum)
+// This implements the full paper methodology with 36×16 parameter architecture
 
 data {
     int<lower=0> N; // number of observations
-    int<lower=0> M; // number of unique matchups
-    
     vector[N] y;    // outcome variable (net points)
-    
-    // Matchup indices for each observation
-    array[N] int<lower=1, upper=M> matchup;
-    
+
+    // Matchup information
+    array[N] int<lower=0, upper=35> matchup_id; // matchup index (0-35 for 6×6 superclusters)
+
     // Z-scores: aggregated skill ratings by archetype
+    // We have 8 archetypes (0-7) for each side (offense/defense)
     matrix[N, 8] z_off;
     matrix[N, 8] z_def;
 }
 
 parameters {
-    // Intercept per matchup (β₀,m)
-    vector[M] beta_0_matchup;
-    
-    // Coefficients for offensive Z-scores per archetype per matchup (β_off_a,mi)
-    // Matrix [archetype, matchup]
-    matrix<lower=0>[8, M] beta_off_matchup;
-    
-    // Coefficients for defensive Z-scores per archetype per matchup (β_def_a,mi)
-    matrix<lower=0>[8, M] beta_def_matchup;
-    
+    // Matchup-specific intercepts (36 matchups)
+    vector[36] beta_0;
+
+    // Matchup-specific coefficients for offensive and defensive Z-scores
+    // 36 matchups × 8 archetypes = 288 parameters each
+    matrix<lower=0>[36, 8] beta_off;  // Constrained to be positive (offensive skill should increase outcome)
+    matrix<lower=0>[36, 8] beta_def;  // Constrained to be positive (defensive skill should decrease outcome)
+
     // Error term
     real<lower=0> sigma;
 }
 
 model {
     // Priors (weakly-informative as described in the paper)
-    beta_0_matchup ~ normal(0, 5);
-    to_vector(beta_off_matchup) ~ normal(0, 5);
-    to_vector(beta_def_matchup) ~ normal(0, 5);
-    sigma ~ cauchy(0, 2.5);
-    
-    // Likelihood with matchup-specific coefficients
-    for (n in 1:N) {
-        int m = matchup[n];
-        real pred = beta_0_matchup[m];
-        
-        // Sum over archetypes with matchup-specific coefficients
-        for (a in 1:8) {
-            pred += beta_off_matchup[a, m] * z_off[n, a];
-            pred += -beta_def_matchup[a, m] * z_def[n, a];
-        }
-        
-        y[n] ~ normal(pred, sigma);
+    beta_0 ~ normal(0, 5);           // Intercepts
+    for (m in 1:36) {
+        beta_off[m] ~ normal(0, 5);  // Offensive coefficients for each matchup
+        beta_def[m] ~ normal(0, 5);  // Defensive coefficients for each matchup
+    }
+    sigma ~ cauchy(0, 2.5);          // Error term
+
+    // Likelihood: matchup-specific model
+    // For each possession i, use the coefficients for matchup_id[i]
+    for (i in 1:N) {
+        int m = matchup_id[i] + 1;  // Convert 0-based to 1-based indexing for Stan
+
+        // Predicted outcome: intercept + offensive contribution - defensive contribution
+        real pred = beta_0[m] +
+                   sum(z_off[i] .* beta_off[m]) -
+                   sum(z_def[i] .* beta_def[m]);
+
+        // Likelihood
+        y[i] ~ normal(pred, sigma);
     }
 }
 
+// Generated quantities for model diagnostics and posterior predictive checks
 generated quantities {
-    // Posterior predictions for new data
-    vector[N] y_pred;
-    
-    for (n in 1:N) {
-        int m = matchup[n];
-        real pred = beta_0_matchup[m];
-        
-        for (a in 1:8) {
-            pred += beta_off_matchup[a, m] * z_off[n, a];
-            pred += -beta_def_matchup[a, m] * z_def[n, a];
-        }
-        
-        y_pred[n] = pred;
+    vector[N] y_pred;      // Posterior predictive samples
+    vector[N] log_lik;     // Log likelihood for model comparison
+
+    for (i in 1:N) {
+        int m = matchup_id[i] + 1;
+
+        // Posterior predictive
+        real pred = beta_0[m] +
+                   sum(z_off[i] .* beta_off[m]) -
+                   sum(z_def[i] .* beta_def[m]);
+
+        y_pred[i] = normal_rng(pred, sigma);
+        log_lik[i] = normal_lpdf(y[i] | pred, sigma);
     }
 }

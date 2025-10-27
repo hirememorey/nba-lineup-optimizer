@@ -1,7 +1,7 @@
 # Data Dictionary
 
-**Date**: October 6, 2025  
-**Status**: ✅ **CRITICAL REFERENCE DOCUMENT**
+**Date**: October 26, 2025
+**Status**: ✅ **CRITICAL REFERENCE DOCUMENT** — Updated with data quality assessment
 
 ## Overview
 
@@ -19,7 +19,14 @@ This is the main database containing processed, analysis-ready data. It includes
 - **`Games`**: 1,230 games (full 82-game regular season)
 
 #### Advanced Statistics Tables
-The 41+ metrics required for archetype analysis are distributed across specialized tables:
+The 48 metrics required for archetype analysis are distributed across specialized tables. **⚠️ Data Quality Note**: Tracking stats have mixed quality - see Data Quality section below.
+
+**Historical Seasons Data Quality (Updated October 26, 2025)**:
+- **Drive Stats**: ⚠️ All players have identical values (data collection issue)
+- **Other Tracking Stats**: ✅ Show proper variation (touch stats, paint touches, etc.)
+- **2020-21 Drive Stats**: ❌ Collection failed entirely (0 rows)
+- **Impact**: 47 canonical metrics available, but only ~36-40 have real variation
+- **Archetype clustering**: ✅ Functional but with reduced discriminatory power
 
 - **`PlayerSeasonDriveStats`**: Driving to the basket statistics
   - Key columns: `drives`, `drive_fgm`, `drive_fga`, `drive_fg_pct`, `drive_passes`, `drive_ast`
@@ -83,6 +90,52 @@ Contains lineup-specific data:
 - `PlayerSeasonDriveStats`
 - `PlayerSeasonHustleStats`
 - `PlayerSeasonRawStats`
+
+## Data Quality Assessment
+
+**Updated October 26, 2025**
+
+### Tracking Stats Quality Issues
+
+The NBA Stats API has limitations for historical tracking data:
+
+#### Drive Statistics (`PlayerSeasonDriveStats`)
+- **2018-19**: ⚠️ 364 rows, 1 unique value (all players show 6.1 drives)
+- **2020-21**: ❌ 0 rows (collection failed)
+- **2021-22**: ⚠️ 418 rows, 1 unique value (all players show 3.5 drives)
+- **Current Season**: ✅ Proper variation (individual player values)
+- **Root Cause**: NBA API may return league averages instead of individual stats for historical seasons
+
+#### Other Tracking Statistics
+- **Touch Stats**: ✅ 273-276 unique values per season (good data)
+- **Paint Touch Stats**: ✅ 78-80 unique values per season (good data)
+- **Post-Up Stats**: ✅ 57 unique values in 2018-19 (good data)
+- **Catch & Shoot Stats**: ✅ Proper variation (good data)
+
+### Impact on Archetype Analysis
+
+- **Available Metrics**: 47/48 canonical features populated
+- **Effective Metrics**: ~36-40 features with real variation
+- **Clustering Impact**: ✅ Functional but with reduced discriminatory power
+- **Recommendation**: Proceed with current data; clustering works but may have lower precision
+
+### Verification Commands
+
+```bash
+# Check drive stats variation
+sqlite3 src/nba_stats/db/nba_stats.db "
+SELECT season, COUNT(DISTINCT drives) as unique_values
+FROM PlayerSeasonDriveStats
+WHERE season IN ('2018-19', '2020-21', '2021-22')
+GROUP BY season;"
+
+# Check other tracking stats
+sqlite3 src/nba_stats/db/nba_stats.db "
+SELECT season, COUNT(DISTINCT front_ct_touches) as touch_variation
+FROM PlayerSeasonTrackingTouchesStats
+WHERE season IN ('2018-19', '2020-21', '2021-22')
+GROUP BY season;"
+```
 
 ## Data Access Patterns
 

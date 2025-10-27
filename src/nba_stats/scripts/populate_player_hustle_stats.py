@@ -1,7 +1,11 @@
 """Script to populate the PlayerSeasonHustleStats table with league-wide hustle stats."""
 
 import sqlite3
-from .common_utils import get_db_connection, get_nba_stats_client, logger
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
 
 def _insert_hustle_stats(conn: sqlite3.Connection, season: str, stats_data: dict):
     """Inserts a single player's hustle stats for a season."""

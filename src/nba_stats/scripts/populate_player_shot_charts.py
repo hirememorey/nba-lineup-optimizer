@@ -4,7 +4,13 @@ This script populates the PlayerShotChart table with granular shot data for each
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
-from .common_utils import get_db_connection, get_nba_stats_client, logger, settings
+import random
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+from nba_stats.utils.common_utils import get_db_connection, get_nba_stats_client, logger
+from nba_stats.config import settings
 
 def _fetch_shot_chart_task(player_info: tuple, season: str) -> list:
     """Task to fetch shot chart data for a single player."""
