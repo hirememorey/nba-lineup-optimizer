@@ -8,12 +8,19 @@ model for consistent semantic definitions across all seasons.
 
 This addresses the critical issue identified in the pre-mortem by using a semantically
 stable supercluster model trained on pooled historical data.
+
+Usage:
+    python generate_matchup_specific_bayesian_data.py
+    python generate_matchup_specific_bayesian_data.py --size 50000
+    python generate_matchup_specific_bayesian_data.py --size full
 """
 
 import os
+import sys
 import sqlite3
 import json
 import logging
+import argparse
 from collections import defaultdict
 import numpy as np
 import pandas as pd
@@ -149,24 +156,30 @@ def _extract_lineup_features(archetypes_list: list, season: str) -> dict:
 
     return features
 
-def _get_supercluster_from_features(features: dict, kmeans, scaler) -> int:
-    """Get supercluster assignment from lineup features."""
+def _get_supercluster_from_lineup(archetypes_list: list, assignment_map: dict) -> int:
+    """Get supercluster assignment from archetype lineup using pre-computed assignment map.
+    
+    Args:
+        archetypes_list: List of 5 archetypes (0-7) for the lineup
+        assignment_map: Pre-computed map from archetype combinations to superclusters
+        
+    Returns:
+        Supercluster ID (0-5)
+    """
     try:
-        # Convert features to array in the exact order expected by the multi-season model
-        feature_order = ['w_pct', 'plus_minus', 'off_rating', 'pace', 'ast_pct', 'ast_to',
-                        'pct_fga_2pt', 'pct_fga_3pt', 'pct_pts_2pt', 'pct_pts_2pt_mr',
-                        'pct_pts_3pt', 'pct_pts_ft', 'pct_pts_off_tov', 'pct_pts_paint']
-
-        feature_array = np.array([[features[f] for f in feature_order]])
-
-        # Scale features using the multi-season scaler
-        scaled_features = scaler.transform(feature_array)
-
-        # Get cluster assignment
-        cluster = kmeans.predict(scaled_features)[0]
-
-        return cluster
-
+        # Create lineup key from sorted archetypes (same format as multi-season training)
+        # Archetypes are already 0-7 from the fix
+        lineup_key = "_".join(map(str, sorted(archetypes_list)))
+        
+        # Look up in assignment map
+        if lineup_key in assignment_map:
+            return assignment_map[lineup_key]
+        else:
+            # Fallback: if lineup not in training data, try to infer
+            # For now, return 0 as default (should be rare)
+            logging.debug(f"Lineup {lineup_key} not found in assignment map")
+            return 0
+            
     except Exception as e:
         logging.warning(f"Error getting supercluster: {e}")
         return 0  # Default to supercluster 0
@@ -178,17 +191,35 @@ def _calculate_matchup_id(off_supercluster: int, def_supercluster: int) -> int:
     matchup_id = off_supercluster * 6 + def_supercluster
     return matchup_id
 
-def prepare_matchup_specific_bayesian_data():
-    """Generate matchup-specific Bayesian training data."""
+def prepare_matchup_specific_bayesian_data(size_limit=None):
+    """Generate matchup-specific Bayesian training data.
+    
+    Args:
+        size_limit: Maximum number of possessions per season to process. 
+                    If None, process all available possessions.
+    """
     logging.info("="*80)
     logging.info("PREPARING MATCHUP-SPECIFIC BAYESIAN DATASET")
+    if size_limit:
+        logging.info(f"Size limit: {size_limit:,} possessions per season")
+        output_path = f"matchup_specific_bayesian_data_{size_limit}.csv"
+    else:
+        logging.info("Size limit: FULL DATASET")
+        output_path = "matchup_specific_bayesian_data_full.csv"
     logging.info("="*80)
 
-    # Load models and mappings
+    # Load assignment map (we use direct lookup, not K-means prediction)
     try:
-        kmeans, scaler, assignment_map = _load_supercluster_models()
-    except FileNotFoundError as e:
-        logging.error(f"Required model files not found: {e}")
+        if not os.path.exists(ASSIGNMENT_MAP_PATH):
+            raise FileNotFoundError(f"Assignment map not found at {ASSIGNMENT_MAP_PATH}")
+        
+        with open(ASSIGNMENT_MAP_PATH, 'r') as f:
+            assignment_map_data = json.load(f)
+            assignment_map = assignment_map_data.get('lineup_assignments', {})
+            
+        logging.info(f"Loaded assignment map with {len(assignment_map)} lineup assignments")
+    except Exception as e:
+        logging.error(f"Failed to load assignment map: {e}")
         logging.error("Please run train_multi_season_supercluster_model.py first")
         return
 
@@ -229,20 +260,32 @@ def prepare_matchup_specific_bayesian_data():
             archetypes = archetype_maps[season]
             darko = darko_maps[season]
 
-            # Query possessions for this season (limit for prototype)
-            query = """
-                SELECT p.*, g.season
-                FROM Possessions p
-                JOIN Games g ON p.game_id = g.game_id
-                WHERE g.season = ?
-                AND p.home_player_1_id IS NOT NULL
-                AND p.away_player_1_id IS NOT NULL
-                AND p.offensive_team_id IS NOT NULL
-                AND p.offensive_team_id != ''
-                LIMIT 10000  -- Limit for prototype testing
-            """
-
-            df = pd.read_sql_query(query, conn, params=(season,))
+            # Query possessions for this season
+            if size_limit:
+                query = """
+                    SELECT p.*, g.season
+                    FROM Possessions p
+                    JOIN Games g ON p.game_id = g.game_id
+                    WHERE g.season = ?
+                    AND p.home_player_1_id IS NOT NULL
+                    AND p.away_player_1_id IS NOT NULL
+                    AND p.offensive_team_id IS NOT NULL
+                    AND p.offensive_team_id != ''
+                    LIMIT ?
+                """
+                df = pd.read_sql_query(query, conn, params=(season, size_limit))
+            else:
+                query = """
+                    SELECT p.*, g.season
+                    FROM Possessions p
+                    JOIN Games g ON p.game_id = g.game_id
+                    WHERE g.season = ?
+                    AND p.home_player_1_id IS NOT NULL
+                    AND p.away_player_1_id IS NOT NULL
+                    AND p.offensive_team_id IS NOT NULL
+                    AND p.offensive_team_id != ''
+                """
+                df = pd.read_sql_query(query, conn, params=(season,))
             logging.info(f"  Loaded {len(df)} possessions")
 
             season_rows = 0
@@ -279,13 +322,9 @@ def prepare_matchup_specific_bayesian_data():
                     off_archetypes = [int(archetypes[p]) for p in off_players]
                     def_archetypes = [int(archetypes[p]) for p in def_players]
 
-                    # Get lineup features for supercluster assignment
-                    off_features = _extract_lineup_features(off_archetypes, season)
-                    def_features = _extract_lineup_features(def_archetypes, season)
-
-                    # Get superclusters using the multi-season model
-                    off_sc = _get_supercluster_from_features(off_features, kmeans, scaler)
-                    def_sc = _get_supercluster_from_features(def_features, kmeans, scaler)
+                    # Get superclusters using the multi-season assignment map (FAST - no placeholder features!)
+                    off_sc = _get_supercluster_from_lineup(off_archetypes, assignment_map)
+                    def_sc = _get_supercluster_from_lineup(def_archetypes, assignment_map)
 
                     # Calculate matchup_id (0-35)
                     matchup_id = _calculate_matchup_id(off_sc, def_sc)
@@ -355,8 +394,8 @@ def prepare_matchup_specific_bayesian_data():
         logging.warning("Low matchup diversity - may indicate issues with supercluster assignment")
 
     # Write output
-    df.to_csv(OUTPUT_CSV_PATH, index=False)
-    logging.info(f"\n✅ Wrote matchup-specific dataset to {OUTPUT_CSV_PATH} ({len(df):,} rows)")
+    df.to_csv(output_path, index=False)
+    logging.info(f"\n✅ Wrote matchup-specific dataset to {output_path} ({len(df):,} rows)")
 
     # Generate summary
     logging.info(f"\nDataset Summary:")
@@ -384,4 +423,26 @@ def prepare_matchup_specific_bayesian_data():
             logging.info(f"  Matchup {matchup_id}: {count} possessions")
 
 if __name__ == '__main__':
-    prepare_matchup_specific_bayesian_data()
+    parser = argparse.ArgumentParser(
+        description="Generate matchup-specific Bayesian training data with optional size limit"
+    )
+    parser.add_argument(
+        '--size',
+        type=str,
+        default='10000',
+        help='Number of possessions per season to process, or "full" for all data. Default: 10000'
+    )
+    
+    args = parser.parse_args()
+    
+    # Parse size argument
+    if args.size.lower() == 'full':
+        size_limit = None
+    else:
+        try:
+            size_limit = int(args.size)
+        except ValueError:
+            logging.error(f"Invalid size argument: {args.size}. Must be an integer or 'full'")
+            sys.exit(1)
+    
+    prepare_matchup_specific_bayesian_data(size_limit=size_limit)
