@@ -26,8 +26,8 @@ This project's documentation is curated to provide a clear path for any contribu
 
 ## Current Status (High-Level)
 
-**Date**: October 28, 2025  
-**Status**: ⚡ **READY FOR RUNPOD DEPLOYMENT** — Matchup-specific data generation complete (96K possessions, 32 matchups). Subsample training failed due to overparameterization. Full dataset training ready for RunPod (30-40 hours, $50-100). Read `DEVELOPER_HANDOFF.md` for complete context.
+**Date**: October 30, 2025  
+**Status**: ✅ **PRODUCTION READY** — Simplified model validated and working. Matchup-specific model evaluated but shows convergence issues (52.5% divergences). Recommendation: Use simplified model for production. Read `DEVELOPER_HANDOFF.md` and `MATCHUP_MODEL_EVALUATION_SUMMARY.md` for complete context.
 
 **Major Achievement**: ✅ **1,770,051 POSSESSIONS ACROSS 3,794 GAMES** — Complete historical dataset ready for multi-season Bayesian model training!
 - **2018-19**: 1,312/1,312 games (621,523 possessions) ✅ 100% Complete
@@ -59,11 +59,10 @@ See **[`STATUS.md`](./STATUS.md)** for latest results, critical decisions, and n
 - Multi-season training data: 103,047 possessions across 2018-19, 2020-21, 2021-22
 - 2022-23 validation data: 551,612 possessions with complete archetype assignments
 
-**⚠️ Model Limitations Identified (2025-10-27)**:
-- **Simplified Architecture**: Current model (archetype × skill only) has limited predictive power
-- **Data Quality Impact**: DARKO ratings don't capture all fit dynamics (usage, chemistry, coaching)
-- **Matchup Effects Missing**: No matchup-specific parameters (36×16 architecture needed for full accuracy)
-- **Status**: Core validation complete, ready for enhanced matchup-specific model implementation
+**Model Status (2025-10-30)**:
+- ✅ **Simplified Model**: Production-ready, validated, correctly identifies archetype redundancy
+- ⚠️ **Matchup-Specific Model**: Evaluated but shows convergence issues (52.5% divergences). Architecture too complex for available data. See `MATCHUP_MODEL_EVALUATION_SUMMARY.md` for details
+- **Recommendation**: Use simplified model for production. Future work needed for matchup-specific enhancements
 
 ### Quick verification (final completion status)
 

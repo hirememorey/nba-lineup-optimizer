@@ -1,24 +1,32 @@
 # NBA Lineup Optimizer - Current Status
 
-**Date**: October 28, 2025  
-**Status**: ⚡ **READY FOR RUNPOD DEPLOYMENT** — Matchup-specific model data generation complete and validated. Waiting for cloud training deployment.
+**Date**: October 30, 2025  
+**Status**: ✅ **PRODUCTION READY** — Simplified model validated and working. Matchup-specific model attempted locally but shows fundamental convergence issues.
 
-**Major Achievement**: ✅ **96,837 MATCHUP-SPECIFIC POSSESSIONS READY** — Complete dataset with 32 unique matchups ready for RunPod deployment
+**Major Achievement**: ✅ **MATCHUP-SPECIFIC MODEL EVALUATED** — Completed local training attempts revealing model complexity issues. Simplified model recommended for production.
 
 ## 🎯 Current Status for New Developer
 
-**Date**: October 28, 2025  
-**What Just Happened**: Attempted matchup-specific model training failed due to overparameterization
+**Date**: October 30, 2025  
+**What Just Happened**: Attempted local training of matchup-specific model (612 parameters) revealed fundamental convergence problems despite sufficient data
 
 **What Works**:
-- ✅ Simplified model (17 params) - `model_coefficients.csv` - PRODUCTION READY
+- ✅ Simplified model (17 params) - `model_coefficients.csv` - **PRODUCTION READY AND VALIDATED**
 - ✅ Data generation pipeline - 96K matchup-specific dataset ready
-- ✅ Pre-mortem validation caught bugs before wasting weeks
+- ✅ Deep validation scripts - `deep_validate_matchup_data.py` catches issues early
+- ✅ Pilot testing methodology - Fast validation before long runs
 
-**What Needs Doing**:
-- ⏳ Train matchup-specific model on RunPod (96K data, 612 params, 30-40 hours, $50-100)
-- ⏳ Compare models and choose production deployment
-- ⏳ Handle sparse matchups (7 out of 36 have insufficient data)
+**What We Learned**:
+- ⚠️ Matchup-specific model (612 params) has 52.5% divergent transitions with standard settings
+- ⚠️ Stricter settings (adapt_delta=0.999, max_treedepth=15) make sampling impractically slow (8+ hours just for warmup)
+- ⚠️ Full 41-hour training run completed but had errors (retcodes=1) - files not saved properly
+- ✅ Simplified model (17 params) already works and is production-ready
+- ✅ Pilot testing saved weeks - discovered convergence issues quickly
+
+**Recommendation**:
+- **Use simplified model for production** (`model_coefficients.csv`)
+- Matchup-specific model appears too complex for available data (96,837 possessions, 32 matchups)
+- Future work: Consider hierarchical/shrinkage priors or reduced parameterization
 
 **Read This First**: `DEVELOPER_HANDOFF.md` for complete context
 
@@ -26,7 +34,7 @@
 
 ## Executive Summary
 
-**Latest Update**: **DATA GENERATION COMPLETE, TRAINING READY FOR RUNPOD** — Fixed critical bug in matchup-specific data generation (all possessions → matchup 35). Generated complete dataset (96,837 possessions, 32 matchups). Subsample training failed (91% divergence) due to overparameterization (612 params ÷ 25K data = insufficient). **Next**: Deploy full dataset training on RunPod (96K ÷ 612 = 158 obs/param should converge).
+**Latest Update**: **MATCHUP-SPECIFIC MODEL EVALUATION COMPLETE** — Completed local training attempts on full dataset (96,837 possessions). Discovered fundamental convergence issues: 52.5% divergent transitions with standard settings; stricter settings make sampling impractically slow. **Conclusion**: Simplified model recommended for production. Matchup-specific approach requires different architecture or significantly more data.
 
 **Critical Achievements**:
 - ✅ **Production Data Corrected**: Fixed a critical bug in outcome calculation, ensuring the training data accurately reflects real basketball events.
