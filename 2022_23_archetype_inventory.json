@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "season": "2022-23",
+    "description": "Complete inventory of archetype combinations from 2022-23 season",
+    "validation_passed": true,
+    "generated_at": "2025-10-31 10:26:36.364549"
+  },
+  "inventory": {
+    "total_possessions_processed": 612620,
+    "valid_combinations": 612262,
+    "unique_lineup_combinations": 347,
+    "unique_matchup_combinations": 15289
+  },
+  "analysis": {
+    "lineup_diversity": {
+      "3": 154,
+      "4": 117,
+      "5": 31,
+      "2": 42,
+      "1": 3
+    },
+    "frequency_stats": {
+      "max": 1687,
+      "min": 1,
+      "mean": 40.04591536398718,
+      "median": 13
+    }
+  },
+  "lineup_combinations": [
+    [
+      

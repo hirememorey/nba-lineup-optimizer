@@ -1,0 +1,148 @@
+2025-10-27 15:12:49,218 - INFO - ================================================================================
+2025-10-27 15:12:49,218 - INFO - TRAINING MATCHUP-SPECIFIC BAYESIAN MODEL
+2025-10-27 15:12:49,218 - INFO - ================================================================================
+2025-10-27 15:12:49,218 - INFO - Loading matchup-specific data from matchup_specific_bayesian_data_full.csv
+2025-10-27 15:12:49,338 - INFO - Loaded 96,837 possessions
+2025-10-27 15:12:49,341 - INFO - Unique matchups: 32
+2025-10-27 15:12:49,345 - INFO - Prepared Stan data:
+2025-10-27 15:12:49,345 - INFO -   Observations: 96,837
+2025-10-27 15:12:49,345 - INFO -   Unique matchups: 32/36
+2025-10-27 15:12:49,345 - INFO -   Z-off shape: (96837, 8)
+2025-10-27 15:12:49,345 - INFO -   Z-def shape: (96837, 8)
+2025-10-27 15:12:49,345 - INFO - 
+Compiling Stan model: bayesian_model_k8_matchup_specific.stan
+2025-10-27 15:12:49,393 - DEBUG - Removing /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+15:12:49 - cmdstanpy - INFO - compiling stan file /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.stan to exe file /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+2025-10-27 15:12:49,393 - INFO - compiling stan file /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.stan to exe file /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+2025-10-27 15:12:49,393 - DEBUG - cmd: make STANCFLAGS+=--filename-in-msg=bayesian_model_k8_matchup_specific.stan /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+cwd: /Users/harrisgordon/.cmdstan/cmdstan-2.37.0
+2025-10-27 15:12:56,374 - DEBUG - Console output:
+
+--- Translating Stan model to C++ code ---
+bin/stanc --filename-in-msg=bayesian_model_k8_matchup_specific.stan --o=/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.hpp /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.stan
+
+--- Compiling C++ code ---
+clang++ -std=c++17 -Wno-unknown-warning-option -Wno-tautological-compare -Wno-sign-compare -D_REENTRANT -ffp-contract=off -Wno-ignored-attributes      -I stan/lib/stan_math/lib/tbb_2020.3/include    -O3 -I src -I stan/src -I stan/lib/rapidjson_1.1.0/ -I lib/CLI11-1.9.1/ -I stan/lib/stan_math/ -I stan/lib/stan_math/lib/eigen_3.4.0 -I stan/lib/stan_math/lib/boost_1.87.0 -I stan/lib/stan_math/lib/sundials_6.1.1/include -I stan/lib/stan_math/lib/sundials_6.1.1/src/sundials    -DBOOST_DISABLE_ASSERTS          -c -include-pch stan/src/stan/model/model_header.hpp.gch/model_header_17_0.hpp.gch -x c++ -o /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.o /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.hpp
+
+--- Linking model ---
+clang++ -std=c++17 -Wno-unknown-warning-option -Wno-tautological-compare -Wno-sign-compare -D_REENTRANT -ffp-contract=off -Wno-ignored-attributes      -I stan/lib/stan_math/lib/tbb_2020.3/include    -O3 -I src -I stan/src -I stan/lib/rapidjson_1.1.0/ -I lib/CLI11-1.9.1/ -I stan/lib/stan_math/ -I stan/lib/stan_math/lib/eigen_3.4.0 -I stan/lib/stan_math/lib/boost_1.87.0 -I stan/lib/stan_math/lib/sundials_6.1.1/include -I stan/lib/stan_math/lib/sundials_6.1.1/src/sundials    -DBOOST_DISABLE_ASSERTS               -Wl,-L,"/Users/harrisgordon/.cmdstan/cmdstan-2.37.0/stan/lib/stan_math/lib/tbb"   -Wl,-rpath,"/Users/harrisgordon/.cmdstan/cmdstan-2.37.0/stan/lib/stan_math/lib/tbb"      /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.o src/cmdstan/main.o       -ltbb   stan/lib/stan_math/lib/sundials_6.1.1/lib/libsundials_nvecserial.a stan/lib/stan_math/lib/sundials_6.1.1/lib/libsundials_cvodes.a stan/lib/stan_math/lib/sundials_6.1.1/lib/libsundials_idas.a stan/lib/stan_math/lib/sundials_6.1.1/lib/libsundials_kinsol.a  stan/lib/stan_math/lib/tbb/libtbb.dylib stan/lib/stan_math/lib/tbb/libtbbmalloc.dylib stan/lib/stan_math/lib/tbb/libtbbmalloc_proxy.dylib -o /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+rm /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.hpp /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific.o
+
+15:12:56 - cmdstanpy - INFO - compiled model executable: /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+2025-10-27 15:12:56,375 - INFO - compiled model executable: /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific
+2025-10-27 15:12:56,376 - INFO - ✅ Model compiled successfully
+2025-10-27 15:12:56,376 - INFO - 
+Starting MCMC sampling:
+2025-10-27 15:12:56,376 - INFO -   Chains: 4
+2025-10-27 15:12:56,376 - INFO -   Warmup iterations: 500
+2025-10-27 15:12:56,376 - INFO -   Posterior samples: 1000
+2025-10-27 15:12:56,376 - INFO -   Total iterations per chain: 1500
+2025-10-27 15:12:56,377 - INFO -   Adapt delta: 0.95
+2025-10-27 15:12:56,377 - DEBUG - cmd: /Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific info
+cwd: None
+2025-10-27 15:12:56,405 - DEBUG - input tempfile: /var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/2_mxqfwt.json
+15:12:57 - cmdstanpy - INFO - CmdStan start processing
+2025-10-27 15:12:57,269 - INFO - CmdStan start processing
+chain 1 |[33m          [0m| 00:00 Status
+chain 2 |[33m          [0m| 00:00 Status[A
+
+chain 3 |[33m          [0m| 00:00 Status[A[A
+
+
+chain 4 |[33m          [0m| 00:00 Status[A[A[A2025-10-27 15:12:57,290 - DEBUG - idx 0
+2025-10-27 15:12:57,290 - DEBUG - running CmdStan, num_threads: 1
+2025-10-27 15:12:57,290 - DEBUG - CmdStan args: ['/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific', 'id=1', 'random', 'seed=42', 'data', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/2_mxqfwt.json', 'output', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/bayesian_model_k8_matchup_specific9_qzp86t/bayesian_model_k8_matchup_specific-20251027151257_1.csv', 'method=sample', 'num_samples=1000', 'num_warmup=500', 'algorithm=hmc', 'adapt', 'engaged=1', 'delta=0.95']
+2025-10-27 15:12:57,290 - DEBUG - idx 1
+2025-10-27 15:12:57,290 - DEBUG - idx 2
+2025-10-27 15:12:57,290 - DEBUG - running CmdStan, num_threads: 1
+2025-10-27 15:12:57,290 - DEBUG - idx 3
+2025-10-27 15:12:57,292 - DEBUG - running CmdStan, num_threads: 1
+2025-10-27 15:12:57,292 - DEBUG - CmdStan args: ['/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific', 'id=2', 'random', 'seed=42', 'data', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/2_mxqfwt.json', 'output', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/bayesian_model_k8_matchup_specific9_qzp86t/bayesian_model_k8_matchup_specific-20251027151257_2.csv', 'method=sample', 'num_samples=1000', 'num_warmup=500', 'algorithm=hmc', 'adapt', 'engaged=1', 'delta=0.95']
+2025-10-27 15:12:57,292 - DEBUG - running CmdStan, num_threads: 1
+2025-10-27 15:12:57,292 - DEBUG - CmdStan args: ['/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific', 'id=3', 'random', 'seed=42', 'data', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/2_mxqfwt.json', 'output', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/bayesian_model_k8_matchup_specific9_qzp86t/bayesian_model_k8_matchup_specific-20251027151257_3.csv', 'method=sample', 'num_samples=1000', 'num_warmup=500', 'algorithm=hmc', 'adapt', 'engaged=1', 'delta=0.95']
+2025-10-27 15:12:57,292 - DEBUG - CmdStan args: ['/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/bayesian_model_k8_matchup_specific', 'id=4', 'random', 'seed=42', 'data', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/2_mxqfwt.json', 'output', 'file=/var/folders/pg/h43qtx4x58lgfqw9x7205wvc0000gn/T/tmp_6ue4a_9/bayesian_model_k8_matchup_specific9_qzp86t/bayesian_model_k8_matchup_specific-20251027151257_4.csv', 'method=sample', 'num_samples=1000', 'num_warmup=500', 'algorithm=hmc', 'adapt', 'engaged=1', 'delta=0.95']
+
+chain 2 |[33m▌         [0m| 00:02 Status[Achain 1 |[33m▌         [0m| 00:02 Status
+
+
+chain 4 |[33m▌         [0m| 00:03 Status[A[A[A
+
+chain 3 |[33m▌         [0m| 00:03 Status[A[A
+
+chain 3 |[33m█▏        [0m| 12:42 Iteration:    1 / 1500 [  0%]  (Warmup)[A[A
+
+
+chain 4 |[33m█▏        [0m| 12:50 Iteration:    1 / 1500 [  0%]  (Warmup)[A[A[A
+chain 2 |[33m█▏        [0m| 16:42 Iteration:    1 / 1500 [  0%]  (Warmup)[Achain 1 |[33m█▏        [0m| 38:41 Iteration:    1 / 1500 [  0%]  (Warmup)
+
+
+chain 4 |[33m█▊        [0m| 55:33 Iteration:  100 / 1500 [  6%]  (Warmup)[A[A[A
+chain 2 |[33m█▊        [0m| 1:05:51 Iteration:  100 / 1500 [  6%]  (Warmup)[A
+
+chain 3 |[33m█▊        [0m| 1:09:02 Iteration:  100 / 1500 [  6%]  (Warmup)[A[Achain 1 |[33m█▊        [0m| 2:01:07 Iteration:  100 / 1500 [  6%]  (Warmup)
+
+
+chain 4 |[33m██▎       [0m| 2:36:42 Iteration:  200 / 1500 [ 13%]  (Warmup)[A[A[A
+chain 2 |[33m██▎       [0m| 2:46:42 Iteration:  200 / 1500 [ 13%]  (Warmup)[A
+
+chain 3 |[33m██▎       [0m| 2:49:50 Iteration:  200 / 1500 [ 13%]  (Warmup)[A[Achain 1 |[33m██▎       [0m| 3:39:35 Iteration:  200 / 1500 [ 13%]  (Warmup)
+
+
+chain 4 |[33m██▉       [0m| 4:17:01 Iteration:  300 / 1500 [ 20%]  (Warmup)[A[A[A
+chain 2 |[33m██▉       [0m| 4:27:23 Iteration:  300 / 1500 [ 20%]  (Warmup)[A
+
+chain 3 |[33m██▉       [0m| 4:30:34 Iteration:  300 / 1500 [ 20%]  (Warmup)[A[Achain 1 |[33m██▉       [0m| 5:22:48 Iteration:  300 / 1500 [ 20%]  (Warmup)
+
+
+chain 4 |[33m███▌      [0m| 5:58:03 Iteration:  400 / 1500 [ 26%]  (Warmup)[A[A[A
+
+
+chain 4 |[34m████      [0m| 5:59:05 Iteration:  500 / 1500 [ 33%]  (Warmup)[A[A[A
+chain 2 |[33m███▌      [0m| 6:08:44 Iteration:  400 / 1500 [ 26%]  (Warmup)[A
+chain 2 |[34m████      [0m| 6:09:50 Iteration:  500 / 1500 [ 33%]  (Warmup)[A
+
+chain 3 |[33m███▌      [0m| 6:11:41 Iteration:  400 / 1500 [ 26%]  (Warmup)[A[A
+
+chain 3 |[34m████      [0m| 6:12:41 Iteration:  500 / 1500 [ 33%]  (Warmup)[A[Achain 1 |[33m███▌      [0m| 7:03:26 Iteration:  400 / 1500 [ 26%]  (Warmup)chain 1 |[34m████      [0m| 7:04:32 Iteration:  500 / 1500 [ 33%]  (Warmup)
+
+
+chain 4 |[34m████▋     [0m| 7:48:09 Iteration:  501 / 1500 [ 33%]  (Sampling)[A[A[A
+chain 2 |[34m████▋     [0m| 7:59:00 Iteration:  501 / 1500 [ 33%]  (Sampling)[A
+
+chain 3 |[34m████▋     [0m| 8:02:04 Iteration:  501 / 1500 [ 33%]  (Sampling)[A[Achain 1 |[34m████▋     [0m| 8:57:52 Iteration:  501 / 1500 [ 33%]  (Sampling)
+
+
+chain 4 |[34m█████▎    [0m| 9:34:09 Iteration:  600 / 1500 [ 40%]  (Sampling)[A[A[A
+chain 2 |[34m█████▎    [0m| 9:44:17 Iteration:  600 / 1500 [ 40%]  (Sampling)[A
+
+chain 3 |[34m█████▎    [0m| 9:47:00 Iteration:  600 / 1500 [ 40%]  (Sampling)[A[Achain 1 |[34m█████▎    [0m| 10:36:43 Iteration:  600 / 1500 [ 40%]  (Sampling)
+
+
+chain 4 |[34m█████▉    [0m| 11:10:29 Iteration:  700 / 1500 [ 46%]  (Sampling)[A[A[A
+chain 2 |[34m█████▉    [0m| 11:20:00 Iteration:  700 / 1500 [ 46%]  (Sampling)[A
+
+chain 3 |[34m█████▉    [0m| 11:22:23 Iteration:  700 / 1500 [ 46%]  (Sampling)[A[Achain 1 |[34m█████▉    [0m| 12:11:38 Iteration:  700 / 1500 [ 46%]  (Sampling)
+
+
+chain 4 |[34m██████▍   [0m| 12:44:44 Iteration:  800 / 1500 [ 53%]  (Sampling)[A[A[A
+chain 2 |[34m██████▍   [0m| 12:54:18 Iteration:  800 / 1500 [ 53%]  (Sampling)[A
+
+chain 3 |[34m██████▍   [0m| 12:56:27 Iteration:  800 / 1500 [ 53%]  (Sampling)[A[Achain 1 |[34m██████▍   [0m| 13:45:38 Iteration:  800 / 1500 [ 53%]  (Sampling)
+
+
+chain 4 |[34m███████   [0m| 14:18:11 Iteration:  900 / 1500 [ 60%]  (Sampling)[A[A[A
+chain 2 |[34m███████   [0m| 14:28:03 Iteration:  900 / 1500 [ 60%]  (Sampling)[A
+
+chain 3 |[34m███████   [0m| 14:30:06 Iteration:  900 / 1500 [ 60%]  (Sampling)[A[Achain 1 |[34m███████   [0m| 15:20:44 Iteration:  900 / 1500 [ 60%]  (Sampling)
+
+
+chain 4 |[34m███████▋  [0m| 15:53:37 Iteration: 1000 / 1500 [ 66%]  (Sampling)[A[A[A
+chain 2 |[34m███████▋  [0m| 16:03:27 Iteration: 1000 / 1500 [ 66%]  (Sampling)[A
+
+chain 3 |[34m███████▋  [0m| 16:05:28 Iteration: 1000 / 1500 [ 66%]  (Sampling)[A[Achain 1 |[34m███████▋  [0m| 16:57:07 Iteration: 1000 / 1500 [ 66%]  (Sampling)
+
+
+chain 4 |[34m████████▏ [0m| 17:34:45 Iteration: 1100 / 1500 [ 73%]  (Sampling)[A[A[A
+chain 2 |[34m████████▏ [0m| 17:47:29 Iteration: 1100 / 1500 [ 73%]  (Sampling)[A
+
+chain 3 |[34m████████▏ [0m| 17:49:40 Iteration: 1100 / 1500 [ 73%]  (Sampling)[A[A

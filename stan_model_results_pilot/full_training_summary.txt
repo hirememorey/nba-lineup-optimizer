@@ -1,0 +1,12 @@
+FULL MATCHUP-SPECIFIC MODEL TRAINING SUMMARY
+================================================================================
+
+Dataset: matchup_specific_bayesian_data_full.csv
+Observations: 96,837
+Unique Matchups: 32/36
+Parameters: 612 (36 × 16)
+Training Time: 3.4 hours
+
+Outputs:
+  Coefficients: stan_model_results_pilot/matchup_specific_coefficients_full.csv
+  Samples: stan_model_results_pilot/

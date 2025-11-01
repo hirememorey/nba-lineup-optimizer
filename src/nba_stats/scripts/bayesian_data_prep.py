@@ -8,7 +8,7 @@ import pandas as pd
 
 DB_PATH = "src/nba_stats/db/nba_stats.db"
 ARCHETYPES_CSV = "player_archetypes_k8_2022_23.csv"
-SUPERCLUSTER_MAP_PATH = "lineup_supercluster_results/supercluster_assignments.json"
+SUPERCLUSTER_MAP_PATH = "bootstrap_superclusters/supercluster_assignments_bootstrap.json"
 OUTPUT_CSV_PATH = "production_bayesian_data.csv"
 SAMPLE_CSV_PATH = "stratified_sample_10k.csv"
 BATCH_SIZE = 50000

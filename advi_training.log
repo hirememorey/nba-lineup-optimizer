@@ -1,0 +1,26 @@
+2025-10-28 09:58:55,447 - INFO - ================================================================================
+2025-10-28 09:58:55,447 - INFO - TRAINING WITH VARIATIONAL INFERENCE (ADVI)
+2025-10-28 09:58:55,447 - INFO - ================================================================================
+2025-10-28 09:58:55,447 - INFO - Loading data from matchup_specific_bayesian_data_full.csv
+2025-10-28 09:58:55,541 - INFO - Subsampling to 25,000 possessions for faster training
+2025-10-28 09:58:55,550 - INFO - Data prepared: 25,000 possessions, 31 unique matchups
+2025-10-28 09:58:55,550 - INFO - Compiling Stan model...
+2025-10-28 09:58:55,595 - DEBUG - found newer exe file, not recompiling
+2025-10-28 09:58:55,595 - INFO - ✅ Model compiled
+2025-10-28 09:58:55,595 - INFO - 
+Running ADVI (Automatic Differentiation Variational Inference)...
+2025-10-28 09:58:55,595 - INFO - This will be MUCH faster than MCMC (~5-15 minutes vs 18+ hours)
+Traceback (most recent call last):
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/resume_training.py", line 132, in <module>
+    main()
+    ~~~~^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/resume_training.py", line 122, in main
+    train_with_advi(args.data, args.stan, args.size, args.output)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/harrisgordon/Documents/Development/Python/sports/Basketball/lineupOptimizer/resume_training.py", line 63, in train_with_advi
+    fit = model.variational(
+        data=stan_data,
+    ...<4 lines>...
+        tol_obj=0.0001
+    )
+TypeError: CmdStanModel.variational() got an unexpected keyword argument 'tol_obj'
