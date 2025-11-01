@@ -1,13 +1,13 @@
 # Matchup-Specific Model Evaluation Summary
 
-**Date**: October 31, 2025
-**Status**: Bootstrap breakthrough achieved - Matchup-specific model foundation complete
+**Date**: October 30, 2025  
+**Status**: Evaluation complete - Simplified model recommended for production
 
 ## Executive Summary
 
-The bootstrap supercluster approach has solved the core data coverage issues that plagued previous matchup-specific attempts. We now have 982K training examples with 100% matchup coverage, providing an excellent foundation for training a robust matchup-specific model.
+We attempted to train the matchup-specific model (612 parameters) on the full dataset (96,837 possessions, 32 matchups) to capture skill-context interactions. Despite sufficient data (158 obs/param), the model shows fundamental convergence issues that make it impractical for production use.
 
-## Bootstrap Breakthrough Solution
+## What We Attempted
 
 ### 1. Full Dataset Training (41 hours)
 - **Date**: October 28-30, 2025
@@ -131,30 +131,4 @@ If you want to revisit matchup-specific modeling:
 5. **Use simplified model for now** - it works and is validated
 
 The matchup-specific dream isn't dead, but it needs a different architecture or significantly more data.
-
----
-
-## 🚀 Bootstrap Breakthrough Update (October 31, 2025)
-
-The issues described above have been **completely resolved** through the bootstrap supercluster approach:
-
-### Problems Solved
-- ✅ **Sample Size Delusion**: Now using complete 347 lineup combinations (not 10K samples)
-- ✅ **Data Coverage**: 100% matchup coverage (no filtering losses)
-- ✅ **Training Data**: 982K examples (9.5x improvement over previous 103K)
-- ✅ **Statistical Power**: 1860 obs/param (excellent ratio)
-
-### Current Status
-- **Data Pipeline**: Complete and validated
-- **Superclusters**: Generated with 100% coverage
-- **Stan Model**: Ready for training (minor syntax fix needed)
-- **Training**: Ready to run (~18-24 hours expected)
-
-### Next Steps
-1. Fix Stan array syntax: `int<lower=1,upper=M> matchup_id[N]` → `array[N] int<lower=1,upper=M> matchup_id`
-2. Run `train_bootstrap_matchup_model.py` for full training
-3. Validate performance against simplified model
-4. Deploy enhanced matchup-specific model
-
-The matchup-specific model is now ready for successful training!
 
