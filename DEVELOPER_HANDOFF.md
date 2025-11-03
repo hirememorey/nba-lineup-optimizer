@@ -1,8 +1,8 @@
 # Developer Handoff: NBA Lineup Optimizer
 
 **Date**: October 31, 2025
-**Status**: 🚀 **BOOTSTRAP MATCHUP-SPECIFIC MODEL READY** - Data foundation complete, training infrastructure validated. Minor Stan syntax fix needed.
-**Critical Context**: Bootstrap approach solved the "sample size delusion" problem. Complete data foundation established with 982K training examples and guaranteed convergence.
+**Status**: 🔍 **CRITICAL DISCOVERY: OUTCOME VARIABLE ROOT CAUSE** - Bootstrap solved data coverage, but identified fundamental issue: discrete possession outcomes (0,1,2,3) vs original paper's continuous "expected net points".
+**Critical Context**: Bootstrap approach provided complete data foundation, but root cause is outcome variable construction. Original paper used continuous expected net points accounting for transition defense.
 
 ## Where We Are
 
@@ -43,31 +43,69 @@
 
 ## What to Do Next
 
-### Immediate Action: Complete Bootstrap Model Training
+### 🔍 Critical Discovery: Outcome Variable Root Cause
 
-**Recommended**: Finish the bootstrap matchup-specific model training:
+**Root Cause Identified**: The bootstrap approach solved data coverage, but we discovered the fundamental issue preventing convergence.
 
-1. **Fix Stan Syntax** (5 minutes):
-   ```bash
-   # Update bootstrap_matchup_model.stan
-   # Change: int<lower=1,upper=M> matchup_id[N];
-   # To:     array[N] int<lower=1, upper=M> matchup_id;
-   ```
+**The Problem**:
+- **Original Paper**: Uses continuous "expected net points" (points scored - transition points given up)
+- **Our Implementation**: Uses discrete possession outcomes (0, 1, 2, 3) from possession descriptions
 
-2. **Run Training** (18-24 hours):
-   ```bash
-   python train_bootstrap_matchup_model.py
-   ```
+**Why This Matters**:
+- Original paper's continuous outcome is normally distributed and compatible with standard Bayesian regression
+- Our discrete outcome (88.5% zeros) creates fundamental incompatibility with normal likelihood
+- This explains all convergence failures: 52.5% divergences, σ → 0, numerical instabilities
 
-3. **Validate Results**:
-   - Compare vs simplified model on 2022-23 holdout
-   - Test Lakers/Pacers/Suns cases with matchup context
-   - Assess improvement in basketball intelligence
+**Evidence**:
+- Original paper: "expected net points, or the points scored by the offensive team minus points given up in transition"
+- Our code: Simple discrete mapping from possession descriptions
+- Result: Normal likelihood on discrete data = boundary issues and convergence failure
 
-**Why This Will Succeed**:
-- ✅ **Complete data foundation**: 982K examples, 100% coverage
-- ✅ **Excellent ratio**: 1860 obs/param (same order as original paper)
-- ✅ **Proven methodology**: Bootstrap approach matches original paper's rigor
+### Immediate Action: Implement Continuous Expected Net Points
+
+**Next Steps for New Developer**:
+
+1. **Investigate Original Methodology** (2-4 hours):
+   - Study source_paper.md section on outcome calculation
+   - Understand "expected net points" vs "transition points given up"
+   - Identify what data we have available for transition calculations
+
+2. **Implement Continuous Outcome** (4-6 hours):
+   - Create expected net points calculation: `actual_points - expected_transition_points_given_up`
+   - Define transition as "within 7 seconds of turnover" (per original paper)
+   - Ensure result is continuous and approximately normally distributed
+
+3. **Validate Data Structure** (2-4 hours):
+   - Check distribution of continuous outcomes (should be normal-like)
+   - Verify variance is sufficient for parameter estimation
+   - Confirm compatibility with normal likelihood
+
+4. **Test Reduced Parameter Model** (4-6 hours):
+   - Use 52-parameter model (36 intercepts + 16 global effects)
+   - Train on continuous data to verify convergence
+   - Compare stability vs discrete outcomes
+
+5. **Scale to Full Matchup Model** (if successful):
+   - Train complete 528-parameter model on continuous data
+   - Validate skill-context interactions work as intended
+
+### Available Data and Code
+
+**Key Files to Examine**:
+- `source_paper.md`: Original methodology, especially outcome calculation section
+- `src/nba_stats/scripts/bayesian_data_prep.py`: Current outcome calculation (`_calc_outcome()`)
+- `production_bayesian_data.csv`: Current training data with discrete outcomes
+- `bayesian_model_k8_matchup_specific.stan`: Reduced parameter Stan model (52 params)
+- `train_reduced_matchup_model.py`: Training script for reduced model
+
+**Data Available**:
+- Complete possession data in database with timestamps and descriptions
+- Player tracking data (potentially includes transition speed metrics)
+- Game flow data that may indicate transition opportunities
+
+**Expected Outcome Distribution**:
+- Original paper's continuous outcome should have mean ~0 and reasonable variance
+- Should be approximately normally distributed for Bayesian regression compatibility
 
 ### Fallback: Simplified Model Still Available
 

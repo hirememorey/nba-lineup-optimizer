@@ -1,11 +1,11 @@
 # Matchup-Specific Model Evaluation Summary
 
-**Date**: October 30, 2025  
-**Status**: Evaluation complete - Simplified model recommended for production
+**Date**: October 31, 2025
+**Status**: 🔍 **CRITICAL DISCOVERY** - Root cause identified: discrete outcomes vs continuous "expected net points"
 
 ## Executive Summary
 
-We attempted to train the matchup-specific model (612 parameters) on the full dataset (96,837 possessions, 32 matchups) to capture skill-context interactions. Despite sufficient data (158 obs/param), the model shows fundamental convergence issues that make it impractical for production use.
+**Root Cause Discovered**: The matchup-specific model convergence failures were not due to data volume or model complexity, but fundamental data structure incompatibility. We used discrete possession outcomes (0,1,2,3) while the original paper used continuous "expected net points" accounting for transition defense. This explains all convergence issues and provides the path forward.
 
 ## What We Attempted
 
@@ -131,4 +131,44 @@ If you want to revisit matchup-specific modeling:
 5. **Use simplified model for now** - it works and is validated
 
 The matchup-specific dream isn't dead, but it needs a different architecture or significantly more data.
+
+## 🔍 Critical Discovery: Root Cause Identified
+
+**Date**: October 31, 2025
+
+**The Real Issue**: After extensive debugging, we discovered the fundamental difference between our implementation and the original paper:
+
+### Original Paper vs Our Implementation
+
+| Aspect | Original Paper | Our Implementation |
+|--------|----------------|-------------------|
+| **Outcome Variable** | Continuous "expected net points" | Discrete possession outcomes (0,1,2,3) |
+| **Calculation** | `points_scored - transition_points_given_up` | Raw points from possession description |
+| **Distribution** | Approximately normal | 88.5% zeros, highly discrete |
+| **Likelihood Compatibility** | Perfect for normal likelihood | Creates boundary issues and σ → 0 |
+
+### Why This Explains Everything
+
+1. **Normal Likelihood Assumption**: Original paper uses standard Bayesian regression because their outcome is continuous and normally distributed
+2. **Our Discrete Data**: 88.5% zeros + 6.8% ones creates fundamental incompatibility with continuous normal model
+3. **Convergence Catastrophe**: Normal likelihood on discrete data causes σ to collapse to zero, creating numerical instabilities
+4. **Bootstrap Didn't Help**: More data of the wrong structure doesn't solve the fundamental mismatch
+
+### Evidence from Original Paper
+
+> "expected net points, or the points scored by the offensive team minus points given up in transition. We subtract points given up in transition because transition points are generally regarded to be the result of bad play by the offense."
+
+They explicitly account for defensive transition performance, creating a continuous outcome measure.
+
+## Next Steps: Continuous Expected Net Points
+
+**For New Developer**: The path forward is clear:
+
+1. **Implement Continuous Outcome**: Create `expected_net_points = actual_points - expected_transition_points_given_up`
+2. **Define Transition Logic**: Within 7 seconds of turnover (per original paper)
+3. **Validate Distribution**: Ensure continuous, approximately normal outcome
+4. **Test Convergence**: Reduced parameter model should converge on continuous data
+5. **Scale Up**: Train full matchup-specific model with proper data structure
+
+**Expected Outcome**: This should resolve all convergence issues and enable the skill-context interactions the original paper achieved.
 

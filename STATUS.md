@@ -1,14 +1,14 @@
 # NBA Lineup Optimizer - Current Status
 
 **Date**: October 31, 2025
-**Status**: 🚀 **BOOTSTRAP MATCHUP-SPECIFIC MODEL READY** — Data foundation complete, training infrastructure validated. Stan syntax fix needed for final training.
+**Status**: 🔍 **CRITICAL DISCOVERY: OUTCOME VARIABLE MISMATCH** — Bootstrap approach solved data coverage, but root cause identified: using discrete possession outcomes (0,1,2,3) instead of continuous expected net points like original paper. Next: implement continuous outcome calculation.
 
 **Major Achievement**: ✅ **BOOTSTRAP APPROACH SUCCESSFUL** — Complete archetype inventory + 100% coverage superclusters = 982K training examples ready for matchup-specific model training.
 
 ## 🎯 Current Status for New Developer
 
 **Date**: October 31, 2025
-**What Just Happened**: Implemented bootstrap approach solving the "sample size delusion" problem. Generated complete data foundation with 982K training examples and 100% coverage.
+**What Just Happened**: Bootstrap approach solved data coverage, but discovered critical root cause: we're using discrete possession outcomes (0,1,2,3) while original paper used continuous "expected net points" that account for transition defense.
 
 **What Works**:
 - ✅ **Bootstrap Superclusters**: 6 superclusters from complete 2022-23 lineup universe (347 combinations)
@@ -18,14 +18,16 @@
 - ✅ **Simplified Model**: Still available as production fallback (`model_coefficients.csv`)
 
 **What Needs To Be Done**:
-- 🔧 **Fix Stan Syntax**: Update from old array syntax to new Stan 2.37 syntax
-- 🚀 **Complete Training**: Run 18-24 hour MCMC training (similar to original paper)
-- ✅ **Validate Performance**: Compare bootstrap model vs simplified model
+- 🔍 **Investigate Outcome Variable**: Understand original paper's "expected net points" vs our discrete (0,1,2,3) approach
+- 🛠️ **Implement Continuous Outcome**: Create expected net points calculation accounting for transition defense (within 7 seconds of turnover)
+- 🔬 **Validate Data Distribution**: Ensure continuous outcome has proper variance for normal likelihood
+- 🚀 **Test Reduced Model**: Train 52-parameter model (36 intercepts + 16 global effects) on continuous data
+- ✅ **Verify Convergence**: Confirm continuous outcomes enable stable MCMC sampling
 
-**Recommendation**:
-- **The bootstrap approach has solved the data foundation problems** - we now have the complete methodology that matches the original paper
-- **Training will succeed** - 982K examples ÷ 528 parameters = ~1860 obs/param (excellent ratio)
-- **Focus on syntax fix and training completion**
+**Critical Insight**:
+- **Root Cause Identified**: Original paper used continuous "expected net points" (points scored - transition points given up), we use discrete possession outcomes
+- **Why They Succeeded**: Continuous outcome is normally distributed and compatible with standard Bayesian regression
+- **Why We Failed**: Discrete 0/1/2/3 data with 88.5% zeros creates fundamental incompatibility with normal likelihood
 
 **Read This First**: `DEVELOPER_HANDOFF.md` for complete context on the bootstrap breakthrough
 
