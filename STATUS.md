@@ -1,26 +1,33 @@
 # NBA Lineup Optimizer - Current Status
 
-**Date**: November 3, 2025
-**Status**: ✅ **CONTINUOUS OUTCOMES BREAKTHROUGH** — Successfully implemented continuous expected net points, created reduced matchup model (47 parameters), resolved data pipeline issues. Production-ready simplified model available as fallback.
+**Date**: November 4, 2025
+**Status**: ⚠️ **CRITICAL PERFORMANCE ISSUE DISCOVERED** — Reduced matchup model training will take weeks/months due to expensive generated quantities block. Must be fixed before training can complete.
 
 **Major Achievement**: ✅ **CONTINUOUS BAYESIAN PIPELINE** — Fixed root cause of convergence failures by implementing continuous outcomes compatible with Bayesian regression.
 
 ## 🎯 Current Status for New Developer
 
-**Date**: November 3, 2025
-**What Just Happened**: Solved the discrete vs continuous outcome problem that caused all convergence failures. Created a sophisticated reduced-parameter matchup model that captures skill-context interactions efficiently.
+**Date**: November 4, 2025
+**What Just Happened**: Attempted to train reduced matchup model but discovered critical performance issue - the `generated quantities` block in `reduced_matchup_model.stan` generates predictions for all 551,612 observations every iteration, making training impossibly slow (estimated weeks/months).
 
 **What Works**:
 - ✅ **Continuous Expected Net Points**: Implemented continuous outcomes instead of discrete possession results
 - ✅ **Pipeline Data Integrity**: Resolved coupling issues - 2022-23 season provides complete coverage (612K possessions, 539 players)
-- ✅ **Reduced Matchup Model**: 47 parameters (16 global archetype effects + 30 matchup intercepts + 1 sigma)
-- ✅ **Stan Compatibility**: Updated to Stan 2.37 syntax, model compiles and trains successfully
+- ✅ **Reduced Matchup Model Architecture**: 47 parameters (16 global archetype effects + 30 matchup intercepts + 1 sigma) - model structure is correct
+- ✅ **Stan Compatibility**: Updated to Stan 2.37 syntax, model compiles successfully
 - ✅ **Simplified Model**: Production-ready fallback (17 parameters, validated on 2022-23 holdout)
 
+**CRITICAL ISSUE - MUST FIX FIRST**:
+- ⚠️ **Performance Blocking Issue**: `reduced_matchup_model.stan` has expensive `generated quantities` block that generates `y_pred` for all 551,612 observations every iteration
+- ⚠️ **Current Training Time**: Estimated 20-40+ days at current rate (iteration 1 took ~40+ minutes)
+- ✅ **Solution**: Remove or drastically reduce generated quantities block - we don't need predictions during training, only coefficients
+- ✅ **Expected Speedup**: 10-100x faster after fix (should complete in 2-4 hours as originally estimated)
+
 **What Needs To Be Done**:
-- 🚀 **Complete Training**: Reduced matchup model was ~20% complete when stopped (2-4 hours to finish)
-- 🔬 **Performance Validation**: Compare reduced model vs simplified model on holdout predictions
-- 🎯 **Production Decision**: Choose best model for deployment based on empirical results
+1. **FIRST**: Fix `reduced_matchup_model.stan` - remove/drastically reduce `generated quantities` block
+2. **THEN**: Retrain reduced matchup model (should complete in 2-4 hours after fix)
+3. **THEN**: Performance Validation - Compare reduced model vs simplified model on holdout predictions
+4. **THEN**: Production Decision - Choose best model for deployment based on empirical results
 
 **Critical Insight**:
 - **Root Cause Solved**: Continuous outcomes (0.0, 1.0, 2.0, 3.0) are compatible with Bayesian regression vs discrete (0,1,2,3)
