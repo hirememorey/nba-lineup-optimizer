@@ -1,14 +1,14 @@
 # NBA Lineup Optimizer - Current Status
 
-**Date**: November 4, 2025
-**Status**: ⚠️ **CRITICAL PERFORMANCE ISSUE DISCOVERED** — Reduced matchup model training will take weeks/months due to expensive generated quantities block. Must be fixed before training can complete.
+**Date**: November 5, 2025
+**Status**: 🧠 **POST-MORTEM INSIGHTS INTEGRATED** — Refined complexity validation plan addresses fundamental model-data mismatch concerns. Ready for risk-balanced complexity escalation.
 
 **Major Achievement**: ✅ **CONTINUOUS BAYESIAN PIPELINE** — Fixed root cause of convergence failures by implementing continuous outcomes compatible with Bayesian regression.
 
 ## 🎯 Current Status for New Developer
 
-**Date**: November 4, 2025
-**What Just Happened**: Attempted to train reduced matchup model but discovered critical performance issue - the `generated quantities` block in `reduced_matchup_model.stan` generates predictions for all 551,612 observations every iteration, making training impossibly slow (estimated weeks/months).
+**Date**: November 5, 2025
+**What Just Happened**: Previous developer provided critical post-mortem insights revealing that our 47-parameter model may exceed data capacity limits. The expensive `generated quantities` block (551K predictions per iteration) is a symptom, not the root cause - we need fundamental complexity validation first.
 
 **What Works**:
 - ✅ **Continuous Expected Net Points**: Implemented continuous outcomes instead of discrete possession results
@@ -17,17 +17,19 @@
 - ✅ **Stan Compatibility**: Updated to Stan 2.37 syntax, model compiles successfully
 - ✅ **Simplified Model**: Production-ready fallback (17 parameters, validated on 2022-23 holdout)
 
-**CRITICAL ISSUE - MUST FIX FIRST**:
-- ⚠️ **Performance Blocking Issue**: `reduced_matchup_model.stan` has expensive `generated quantities` block that generates `y_pred` for all 551,612 observations every iteration
-- ⚠️ **Current Training Time**: Estimated 20-40+ days at current rate (iteration 1 took ~40+ minutes)
-- ✅ **Solution**: Remove or drastically reduce generated quantities block - we don't need predictions during training, only coefficients
-- ✅ **Expected Speedup**: 10-100x faster after fix (should complete in 2-4 hours as originally estimated)
+**CRITICAL INSIGHTS FROM POST-MORTEM**:
+- 🧠 **Model-Data Mismatch**: 47 parameters may exceed reliable limits for ~500K observations (need ~10 obs/parameter)
+- 🧠 **Complexity Validation First**: Should test if data supports model complexity before implementation
+- 🧠 **Simulation-Based Validation**: Generate synthetic data and verify parameter recovery works
+- 🧠 **Pivot Readiness**: Simplified model might be the best achievable result
+- 🧠 **Time Boxing**: Complex models can take days-weeks, need early failure detection
 
-**What Needs To Be Done**:
-1. **FIRST**: Fix `reduced_matchup_model.stan` - remove/drastically reduce `generated quantities` block
-2. **THEN**: Retrain reduced matchup model (should complete in 2-4 hours after fix)
-3. **THEN**: Performance Validation - Compare reduced model vs simplified model on holdout predictions
-4. **THEN**: Production Decision - Choose best model for deployment based on empirical results
+**What Needs To Be Done (Refined Plan)**:
+1. **FIRST**: Complexity validation - test if 47-parameter model is feasible for our data
+2. **THEN**: Fast reality check - parallel validation while testing simplified model enhancements
+3. **THEN**: Staged complexity escalation (17 → 32 → 47 parameters) with time limits and escape hatches
+4. **THEN**: Value-driven evaluation - measure basketball decision-making improvements
+5. **FALLBACK**: Ensemble approaches if single complex model fails
 
 **Critical Insight**:
 - **Root Cause Solved**: Continuous outcomes (0.0, 1.0, 2.0, 3.0) are compatible with Bayesian regression vs discrete (0,1,2,3)

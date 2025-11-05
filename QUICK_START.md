@@ -1,8 +1,8 @@
 # Quick Start: Where to Begin
 
-**Date**: October 28, 2025  
-**For**: New developer picking up this project  
-**Goal**: Deploy matchup-specific model training on RunPod
+**Date**: November 5, 2025
+**For**: New developer picking up this project
+**Goal**: Execute risk-balanced complexity validation and determine optimal model architecture
 
 ## Read These First (in order)
 
@@ -29,56 +29,73 @@
 
 ## What to Do Right Now
 
-### Option A: Deploy on RunPod (Recommended)
+### Start with Complexity Validation (Day 1 - 2-4 hours)
 
 ```bash
-# Review the deployment guide
-cat RUNPOD_DEPLOYMENT_GUIDE.md
-
-# Follow the manual deployment steps
-# This will take 30-40 hours and cost $50-100
+# First: Assess if our data can support complex models
+python -c "
+# Quick parameter capacity check
+n_obs = 500000  # approximate
+n_params_max = n_obs // 10  # 10:1 rule
+print(f'Max reliable parameters: {n_params_max}')
+print(f'Our target: 47 parameters')
+print(f'Feasibility: {'✅ Possible' if n_params_max >= 47 else '❌ Unlikely'}')
+"
 ```
 
-### Option B: Use Existing Simplified Model
+### Parallel: Enhance Simplified Model (Day 1 - 2 hours)
 
 ```bash
-# Already works! Use it for production
-# File: model_coefficients.csv
+# Test if we can improve the working 17-parameter model
+# While validating complexity limits
+python validate_model.py --model model_coefficients.csv --holdout 2022_23
+```
 
-# Limitations: Can't detect skill-context interactions
-# But works perfectly for redundancy detection
+### Execute Complexity Escalation (Days 2-3 - 6-10 hours)
+
+```bash
+# Staged approach: 17 → 32 → 47 parameters
+# With 1-2 hour time limits per level
+# Pivot to ensemble if convergence fails
+```
+
+### Evaluate Basketball Value (Day 4 - 4-6 hours)
+
+```bash
+# Test on real case studies - does complexity improve decisions?
+# Lakers redundancy, Pacers defense needs, Suns big fit
 ```
 
 ## Expected Outcomes
 
-**If RunPod training succeeds**:
-- 612 matchup-specific coefficients
-- 24/36 matchups should converge well
-- More insights than simplified model
-- Use for production
+**If Complexity Works**:
+- Skill-context interactions detected
+- Better roster recommendations than simplified model
+- Justified statistical complexity risks
 
-**If RunPod training fails**:
-- Use simplified model (already validated)
-- Consider reduced architecture (top 25 matchups only)
-- Or accept limitations of simplified model
+**If Complexity Fails**:
+- Ensemble of simpler models
+- Enhanced simplified model with better features
+- Clear understanding of complexity limits
 
 ## Key Context
 
 **Why this matters**:
-- Simplified model only detects redundancy ("same archetype")
-- Matchup-specific model would detect skill-context interactions
-- This addresses your critical insight about LeBron vs. Westbrook skill differences
+- Simplified model detects redundancy ("same archetype") - proven to work
+- Complex models promise skill-context interactions but may exceed data limits
+- Need to determine if complexity gains justify the statistical risks
 
-**What was discovered**:
-- Pre-mortem validation caught data generation bug
-- All possessions were being assigned to matchup 35 (fixed!)
-- Subsample training failed due to overparameterization
-- Full dataset (96K) has enough data to potentially work
+**Critical Post-Mortem Insights**:
+- 47-parameter model may exceed reliable limits for ~500K observations
+- Need ~10 observations per parameter; our data supports ~20-30 effective parameters
+- Should validate model feasibility with synthetic data before full training
+- Simpler models are more reliable; complexity is a liability, not an asset
+- Time boxing essential - complex models can take days-weeks
 
-**Next**: Deploy full training on RunPod and see if it converges
+**New Approach**: Risk-balanced complexity escalation with escape hatches and ensemble fallbacks
 
 ---
 
-**Status**: Ready for deployment 🚀
+**Status**: Ready for complexity validation 🧠
 
 
